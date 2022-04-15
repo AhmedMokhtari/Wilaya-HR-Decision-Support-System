@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'Accueil.apps.AccueilConfig',
+    'GestionPersonnel.apps.GestionpersonnelConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
