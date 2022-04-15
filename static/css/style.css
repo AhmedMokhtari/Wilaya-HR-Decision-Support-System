@@ -455,16 +455,11 @@ a:focus {
   margin-right: 10px;
 }
 
-.bg-1 {
-  background: url("../images/bg/22.jpg") no-repeat 50% 50%;
-  background-size: cover;
-  position: relative;
-}
+
 
 .banner {
   position: relative;
   overflow: hidden;
-  background: #fff;
   background: url("../images/banner.png") no-repeat;
   background-size: cover;
   min-height: 550px;
@@ -1490,4 +1485,25 @@ a:focus {
   opacity: 1;
 }
 
+.gradient-custom-2 {
+/* fallback for old browsers */
+background: #fccb90;
+
+/* Chrome 10-25, Safari 5.1-6 */
+background: -webkit-linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
+
+/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
+}
+@media (min-width: 768px) {
+.gradient-form {
+height: 100vh !important;
+}
+}
+@media (min-width: 769px) {
+.gradient-custom-2 {
+border-top-right-radius: .3rem;
+border-bottom-right-radius: .3rem;
+}
+}
 /*# sourceMappingURL=maps/style.css.map */
