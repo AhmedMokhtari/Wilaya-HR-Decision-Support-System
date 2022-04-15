@@ -23,24 +23,37 @@
                     style="width: 185px;" alt="logo">
                   <h4 class="mt-1 mb-5 pb-1"></h4>
                 </div>
+                  <form action="" method="post">
+                      {%  csrf_token %}
+                        <form class="shadow p-3 mb-5 bg-white rounded">
+                          <p id="txtp">تسجيل الدخول</p>
 
-                <form class="shadow p-3 mb-5 bg-white rounded">
-                  <p id="txtp">تسجيل الدخول</p>
+                          <div class="form-outline mb-4">
+                            <input type="text" id="form2Example11" class="form-control" name="username"
+                              placeholder="رقم البطاقة الوطنية" />
+                          </div>
 
-                  <div class="form-outline mb-4">
-                    <input type="email" id="form2Example11" class="form-control"
-                      placeholder="رقم البطاقة الوطنية" />
-                  </div>
+                          <div class="form-outline mb-4">
+                            <input type="password" id="form2Example22" class="form-control" placeholder="الرقم السري" name="password"/>
+                          </div>
+                            <div>
+                                {% if messages %}
+                                    {% for message in messages%}
+                                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                          {{ message }}
+                                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                          </button>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
 
-                  <div class="form-outline mb-4">
-                    <input type="password" id="form2Example22" class="form-control" placeholder="الرقم السري"/>
-                  </div>
-
-                  <div class="text-center pt-1 mb-5 pb-1">
-                    <button class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" type="button">الدخول</button>
-                  </div>
-                </form>
-
+                          <div class="text-center pt-1 mb-5 pb-1">
+                            <input type="submit"  value="الولوج" class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" >
+                          </div>
+                        </form>
+                    </form>
               </div>
             </div>
             <div class="col-lg-6 d-flex align-items-center gradient-custom-2" style="background: url('{% static 'images/banner.jpg' %}')">
