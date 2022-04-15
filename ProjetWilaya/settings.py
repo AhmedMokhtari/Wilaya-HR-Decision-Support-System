@@ -77,8 +77,15 @@ WSGI_APPLICATION = 'ProjetWilaya.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'mssql',
+        'NAME': 'ProjetWilaya',
+        'USER': 'zaka',
+        'PASSWORD': 'zaka',
+        'HOST': 'DESKTOP-J4H5HNC',
+        'PORT': '',
+        'OPTIONS': {
+            'driver': 'ODBC Driver 17 for SQL Server',
+        }
     }
 }
 
