@@ -59,7 +59,7 @@
 								<div class="main-search morphsearch-search">
 									<div class="input-group">
 										<span class="input-group-prepend search-close"><i class="feather icon-x input-group-text"></i></span>
-										<input type="text" class="form-control" placeholder="Enter Keyword">
+										<input type="text" class="form-control" placeholder="Rechercher">
 										<span class="input-group-append search-btn"><i class="feather icon-search input-group-text"></i></span>
 									</div>
 								</div>
@@ -306,25 +306,11 @@
 									Navigation
 								</div>
 								<ul class="pcoded-item pcoded-left-item">
-									<li class="pcoded-hasmenu active pcoded-trigger">
-										<a href="javascript:void(0)" class="waves-effect waves-dark">
+                                    <li class="">
+										<a href="admin" class="waves-effect waves-dark">
 											<span class="pcoded-micon"><i class="feather icon-home"></i></span>
-											<span class="pcoded-mtext">Dashboard</span>
+											<span class="pcoded-mtext">Tableau de bord</span>
 										</a>
-										<ul class="pcoded-submenu">
-											<li class="active">
-												<a href="index.html" class="waves-effect waves-dark"><span class="pcoded-mtext">Default</span></a>
-											</li>
-											<li class="">
-												<a href="dashboard-crm.html" class="waves-effect waves-dark"><span class="pcoded-mtext">CRM</span></a>
-											</li>
-											<li class="">
-												<a href="dashboard-analytics.html" class="waves-effect waves-dark">
-													<span class="pcoded-mtext">Analytics</span>
-													<span class="pcoded-badge label label-info ">NEW</span>
-												</a>
-											</li>
-										</ul>
 									</li>
 									<li class="">
 										<a href="admin" class="waves-effect waves-dark">
@@ -817,7 +803,8 @@
 				</nav>
 
 				<div class="pcoded-content">
-
+                    {% block content %}
+                    {% endblock content %}
 				</div>
 				<div id="styleSelector"></div>
 			</div>
