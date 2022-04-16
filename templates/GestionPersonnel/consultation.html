@@ -1,7 +1,5 @@
 {% extends 'menu.html' %}
 {% block content %}
-
-
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"/>
     <link rel="stylesheet" href="{% static 'css/all.min.css' %}"/>
@@ -17,17 +15,15 @@
             </div>   
         </div>
         <hr>
-        
         <div class="row my-3">
-          <div class="col-6 puple ">
-            <input type="text" class="form-control"  id="searchby"/>
-         </div> 
+            <div class="col-6 puple ">
+                <input type="text" class="form-control"  id="searchby"/>
+            </div>
             <div class="col-6 pull-right">
                 <button class="btn btn-success m-1" id="newemp"><i class="fa-solid fa-plus mx-2" ></i></button>
                 <button class="btn btn-danger delete m-1 " id="deleteall"><i class="fa-solid fa-trash-can mx-2" ></i></button>
                 <button class="btn btn-primary  m-1" id="export"><i class="fa-solid fa-file-excel fa-lg mx-2" ></i></i>  </button>
-            </div>    
-           
+            </div>
         </div>
         <table id="example"class="table table-striped">
             <thead>
