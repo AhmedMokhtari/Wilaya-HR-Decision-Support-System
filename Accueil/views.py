@@ -20,3 +20,8 @@ def connexion(request):
       return redirect('connexion')
   else:
     return render(request, 'Accueil/connexion.html')
+
+
+
+def test(request):
+    return render(request, 'Accueil/test.html')
