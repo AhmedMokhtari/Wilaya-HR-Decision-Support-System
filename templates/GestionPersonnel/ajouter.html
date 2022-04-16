@@ -1,0 +1,180 @@
+{% extends 'menu.html' %}
+{% block content %}
+    {% load static %}
+
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/all.min.css' %}"/>
+    <link rel="stylesheet" href="{% static 'css/styleperso.css' %}"/>
+
+
+     <div class="container">
+        <form class="p-5">
+            <div class="row">
+                <h2>Personnel Information</h2>
+               </div>
+            <div class="form-group p-2 row">
+                <div class="col">
+                  <label for="ex1">Cin</label>
+                  <input class="form-control my-2" id="ex1" type="text">
+                </div>
+
+            </div>
+            <div class="form-group p-2 row">
+                <div class="col">
+                  <label for="ex1">Nom Ar</label>
+                  <input class="form-control my-2" id="ex1" type="text">
+                </div>
+                <div class="col">
+                  <label for="ex2">Nom Fr</label>
+                  <input class="form-control my-2" id="ex2" type="text">
+                </div>
+            </div>
+            <div class="form-group p-2 row">
+                <div class="col">
+                  <label for="ex1">Prenom Ar</label>
+                  <input class="form-control my-2" id="ex1" type="text">
+                </div>
+                <div class="col">
+                  <label for="ex2">Prenom Fr</label>
+                  <input class="form-control my-2" id="ex2" type="text">
+                </div>
+            </div>
+            <div class="form-group p-2 row">
+                <div class="col">
+                  <label for="ex1">Adress Ar</label>
+                  <input class="form-control  my-2" id="ex1" type="text">
+                </div>
+                <div class="col">
+                  <label for="ex2">Adress Fr</label>
+                  <input class="form-control my-2 " id="ex2" type="text">
+                </div>
+            </div>
+            <div class="form-group p-2 row">
+                <div class="col">
+                  <label for="ex1">Lieu de Naissence Ar</label>
+                  <input class="form-control  my-2" id="ex1" type="text">
+                </div>
+                <div class="col">
+                  <label for="ex2">Lieu de Naissence Fr</label>
+                  <input class="form-control  my-2" id="ex2" type="text">
+                </div>
+            </div>
+            <div class="form-group p-3 row">
+                <div class="col">
+                  <label for="ex1">Date de Naissence</label>
+                  <input class="form-control my-2 " id="ex1" type="date">
+                </div>
+            </div>
+            <div class="form-group p-2 row">
+                <div class="col">
+                  <label for="ex1">Email</label>
+                  <input class="form-control my-2 " id="ex1" type="text">
+                </div>
+                <div class="col">
+                  <label for="ex2">Tel</label>
+                  <input class="form-control my-2 " id="ex2" type="text">
+                </div>
+            </div>
+            <div class="form-group p-2 row">
+                <div class="col">
+                  <label for="ex1">Situation Fam</label>
+                  <select  class="form-control  my-2" id="exampleFormControlSelect2">
+                    <option>Celebatair</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                  </select>
+                </div>
+
+            </div>
+              <div class="row">
+                  <h2>Professionl Info</h2>
+              </div>
+              <div class="form-group p-2 row">
+                <div class="col">
+                  <label for="ex1">NumeroLocation</label>
+                  <input class="form-control  my-2" id="ex1" type="text">
+                </div>
+                <div class="col">
+                  <label for="ex2">NumeroFinancier</label>
+                  <input class="form-control  my-2" id="ex2" type="text">
+                </div>
+            </div>
+            <div class="form-group p-2 row">
+                <div class="col">
+                  <label for="ex1">DateRecrutement</label>
+                  <input class="form-control  my-2" id="ex1" type="date">
+                </div>
+                <div class="col">
+                  <label for="ex2">DateDmarcation</label>
+                  <input class="form-control  my-2" id="ex2" type="date">
+                </div>
+            </div>
+            <div class="form-group p-2 row">
+                <div class="col">
+                  <label for="ex1">DateParrainageRetraite</label>
+                  <input class="form-control  my-2" id="ex1" type="date">
+                </div>
+                <div class="col">
+                  <label for="ex2">Cmr</label>
+                  <input class="form-control  my-2" id="ex2" type="text">
+                </div>
+            </div>
+            <div class="form-group p-2 row">
+                <div class="col">
+                  <label for="ex1">PosteEmploy�</label>
+                  <input class="form-control  my-2" id="ex1" type="text">
+                </div>
+                <div class="col">
+                  <label for="ex2">Metier</label>
+                  <input class="form-control my-2 " id="ex2" type="text">
+                </div>
+            </div>
+            <div class="form-group p-2 row">
+                <div class="col">
+                  <label for="ex1">TypeEmploye</label>
+                  <input class="form-control  my-2" id="ex1" type="text">
+                </div>
+                <div class="col">
+                  <label for="ex2">TachesPrecedentes</label>
+                  <input class="form-control my-2 " id="ex2" type="text">
+                </div>
+            </div>
+            <div class="form-group p-2 row">
+                <div class="col">
+                  <label for="ex1">Rib</label>
+                  <input class="form-control my-2 " id="ex1" type="text">
+                </div>
+                <div class="col">
+                  <label for="ex2">ancienneteAdmi</label>
+                  <input class="form-control my-2 " id="ex2" type="text">
+                </div>
+            </div>
+            <div class="form-group p-2 row">
+                <div class="col">
+                  <label for="ex1">NumCnopsAf</label>
+                  <input class="form-control my-2 " id="ex1" type="text">
+                </div>
+                <div class="col">
+                  <label for="ex2">NumCnopsIm</label>
+                  <input class="form-control my-2 " id="ex2" type="text">
+                </div>
+            </div>
+            <div class="form-group p-2 row">
+                <div class="col">
+                  <label for="ex1">AdministrationApp</label>
+                  <input class="form-control  my-2" id="ex1" type="text">
+                </div>
+            </div>
+            <button class="btn btn-success">Ajouter</button>
+            <button class="btn btn-danger">cancel</button>
+
+        </form>
+    </div>
+    <script type="text/javascript" src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/all.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/scriptperso.js'%}"></script>
+
+{% endblock %}

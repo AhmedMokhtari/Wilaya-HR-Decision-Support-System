@@ -5,3 +5,6 @@ from .models import Personnel
 def consultation(request):
     personnels = { 'personnels' : Personnel.objects.all()}
     return render(request, 'GestionPersonnel/consultation.html', personnels)
+
+def ajouter_aff(request):
+    return render(request, 'GestionPersonnel/ajouter.html')
