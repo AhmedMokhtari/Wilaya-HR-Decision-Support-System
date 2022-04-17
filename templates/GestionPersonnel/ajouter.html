@@ -2,6 +2,9 @@
 {% block content %}
     {% load static %}
 
+<link rel="stylesheet" type="text/css" href="{% static 'css/styleajouter.css' %}">
+<script type="d2d1d6e2f87cbebdf4013b26-text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+
 <div class="page-header card">
 	<div class="row align-items-end">
 		<div class="col-lg-8">
@@ -9,23 +12,13 @@
 				<i class="feather icon-clipboard bg-c-blue"></i>
 				<div class="d-inline">
 					<h5>
-						Group Add-Ons
+						Personnel
 					</h5>
-					<span>lorem ipsum dolor sit amet, consectetur adipisicing elit</span>
+					<span>Ajouter ou Modifier les information des personnels</span>
 				</div>
 			</div>
 		</div>
-		<div class="col-lg-4">
-			<div class="page-header-breadcrumb">
-				<ul class=" breadcrumb breadcrumb-title">
-					<li class="breadcrumb-item">
-						<a href="index.html"><i class="feather icon-home"></i></a>
-					</li>
-					<li class="breadcrumb-item"><a href="#!">Form Components</a></li>
-					<li class="breadcrumb-item"><a href="#!">Group Add-Ons</a></li>
-				</ul>
-			</div>
-		</div>
+
 	</div>
 </div>
 <div class="pcoded-inner-content">
@@ -35,7 +28,11 @@
 				<div class="card">
 					<div class="card-header">
 						<h5>
-							Input Group
+							Données personnelles
+						</h5>
+
+                        <h5 style="float: right; text-align: right">
+							معلومات شخصية
 						</h5>
 						<span>
 							Add class of
@@ -51,93 +48,204 @@
 					</div>
 					<div class="card-block">
 						<div class="m-b-20">
-							<h4 class="sub-title">Basic Group Add-ons</h4>
 							<div class="row">
-								<label class="col-sm-4 col-lg-2 col-form-label">Simple Add-on</label>
-								<div class="col-sm-8 col-lg-10">
+								<label class="col-sm-4 col-lg-2 col-form-label">Nom  :</label>
+								<div class="col-sm-8 col-lg-4">
 									<div class="input-group">
-										<span class="input-group-prepend"><label class="input-group-text">@</label></span>
+										<input type="text" class="form-control">
+									</div>
+								</div>
+
+                                <label class="col-sm-4 col-lg-2 col-form-label textarab">الاسم الشخصي :</label>
+								<div class="col-sm-8 col-lg-4">
+									<div class="input-group">
+										<input type="text" class="form-control">
+									</div>
+								</div>
+
+							</div>
+
+							<div class="row">
+								<label class="col-sm-4 col-lg-2 col-form-label">Prénom :</label>
+								<div class="col-sm-8 col-lg-4">
+									<div class="input-group">
+										<input type="text" class="form-control">
+									</div>
+								</div>
+
+
+                                <label class="col-sm-4 col-lg-2 col-form-label textarab">الاسم العائلي :</label>
+								<div class="col-sm-8 col-lg-4">
+									<div class="input-group">
 										<input type="text" class="form-control">
 									</div>
 								</div>
 							</div>
-							<div class="row">
-								<label class="col-sm-4 col-lg-2 col-form-label">Placeholder</label>
-								<div class="col-sm-8 col-lg-10">
+
+                            <div class="row">
+								<label class="col-sm-4 col-lg-2 col-form-label">lieu de naissance :</label>
+								<div class="col-sm-8 col-lg-4">
 									<div class="input-group">
-										<span class="input-group-prepend" id="basic-addon2"><label class="input-group-text">%</label></span>
-										<input type="text" class="form-control" placeholder="Left addon">
+										<input type="text" class="form-control">
+									</div>
+								</div>
+
+                                <label class="col-sm-4 col-lg-2 col-form-label textarab">مكان الازدياد :</label>
+								<div class="col-sm-8 col-lg-4">
+									<div class="input-group">
+										<input type="text" class="form-control">
 									</div>
 								</div>
 							</div>
-							<div class="row">
-								<label class="col-sm-4 col-lg-2 col-form-label">Right Add-on</label>
-								<div class="col-sm-8 col-lg-10">
+
+
+
+                            <div class="row">
+								<label class="col-sm-4 col-lg-2 col-form-label">Adresse :</label>
+								<div class="col-sm-8 col-lg-4">
 									<div class="input-group">
-										<input type="text" class="form-control" placeholder="Right addon">
-										<span class="input-group-append" id="basic-addon3"><label class="input-group-text">$</label></span>
+										<input type="text" class="form-control">
+									</div>
+								</div>
+
+                                <label class="col-sm-4 col-lg-2 col-form-label textarab">العنوان :</label>
+								<div class="col-sm-8 col-lg-4">
+									<div class="input-group">
+										<input type="text" class="form-control">
 									</div>
 								</div>
 							</div>
-							<div class="row">
-								<label class="col-sm-4 col-lg-2 col-form-label">Both-side Add-on</label>
-								<div class="col-sm-8 col-lg-10">
+
+                             <div class="row">
+								<label class="col-sm-4 col-lg-2 col-form-label">Situation familiale :</label>
+								<div class="col-sm-8 col-lg-4">
 									<div class="input-group">
-										<span class="input-group-prepend"><label class="input-group-text">$</label></span>
-										<input type="text" class="form-control" placeholder="Both-side addon">
-										<span class="input-group-append"><label class="input-group-text">.20</label></span>
+                                        <select class="form-control">
+                                            <option>marié</option>
+                                            <option>divorcé</option>
+                                            <option>célibataire</option>
+                                        </select>
+									</div>
+								</div>
+
+                                <label class="col-sm-4 col-lg-2 col-form-label textarab">الوضع العائلي :</label>
+								<div class="col-sm-8 col-lg-4">
+									<div class="input-group">
+										<select class="form-control">
+                                            <option>متزوج</option>
+                                            <option>مطلق</option>
+                                            <option>بدون</option>
+                                        </select>
 									</div>
 								</div>
 							</div>
-							<div class="row">
-								<label class="col-sm-4 col-lg-2 col-form-label">Muliple Add-ons</label>
-								<div class="col-sm-8 col-lg-10">
+
+                            <div class="row">
+								<label class="col-sm-4 col-lg-2 col-form-label">CIN :</label>
+								<div class="col-sm-8 col-lg-4">
 									<div class="input-group">
-										<span class="input-group-prepend"><label class="input-group-text">$</label></span>
-										<span class="input-group-prepend"><label class="input-group-text">.20</label></span>
-										<input type="text" class="form-control" placeholder="Multiple addons">
+										<input type="text" name="cin" class="form-control" >
 									</div>
 								</div>
+                                <label class="col-sm-4 col-lg-2 col-form-label textarab">: ر.ب.و </label>
+							</div>
+
+							<div class="row">
+                                <label class="col-sm-4 col-lg-2 col-form-label ">Date de naissance :</label>
+								<div class="col-sm-8 col-lg-4">
+									<div class="input-group">
+										<input type="date" class="form-control">
+									</div>
+								</div>
+                                <label class="col-sm-4 col-lg-2 col-form-label textarab">: تاريخ الازدياد</label>
+							</div>
+
+                            <div class="row">
+                                <label class="col-sm-4 col-lg-2 col-form-label ">Tele :</label>
+								<div class="col-sm-8 col-lg-4">
+									<div class="input-group">
+										<input type="text" class="form-control">
+									</div>
+								</div>
+                                <label class="col-sm-4 col-lg-2 col-form-label textarab">: الهاتف</label>
+							</div>
+
+                            <div class="row">
+                                <label class="col-sm-4 col-lg-2 col-form-label ">Email :</label>
+								<div class="col-sm-8 col-lg-4">
+									<div class="input-group">
+										<input type="text" class="form-control">
+									</div>
+								</div>
+                                <label class="col-sm-4 col-lg-2 col-form-label textarab">: البريد الالكتروني</label>
 							</div>
 						</div>
 						<div>
-							<h4 class="sub-title">Icon Group Addons</h4>
+                            <hr>
 							<div class="row">
-								<label class="col-sm-4 col-lg-2 col-form-label">Left Icon</label>
-								<div class="col-sm-8 col-lg-10">
-									<div class="input-group">
-										<span class="input-group-prepend">
-											<label class="input-group-text"><i class="icofont icofont-ui-volume"></i></label>
-										</span>
-										<input type="text" class="form-control" placeholder="Left addon">
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<label class="col-sm-4 col-lg-2 col-form-label">Right Icon</label>
-								<div class="col-sm-8 col-lg-10">
-									<div class="input-group">
-										<input type="text" class="form-control" placeholder="Right addon">
-										<span class="input-group-append">
-											<label class="input-group-text"><i class="icofont icofont-ui-wifi"></i></label>
-										</span>
-									</div>
-								</div>
-							</div>
-							<div class="row">
-								<label class="col-sm-4 col-lg-2 col-form-label">Both-side Icons Addon</label>
-								<div class="col-sm-8 col-lg-10">
-									<div class="input-group">
-										<span class="input-group-prepend">
-											<label class="input-group-text"><i class="icofont icofont-rounded-left"></i></label>
-										</span>
-										<input type="text" class="form-control" placeholder="Right add-on">
-										<span class="input-group-append">
-											<label class="input-group-text"><i class="icofont icofont-rounded-right"></i></label>
-										</span>
-									</div>
-								</div>
-							</div>
+                                <div class="table-responsive col-lg-6">
+                                    <div class="card-header">
+                                        <h5>femme</h5>
+                                        <h5 style="float: right; text-align: right">الزوجة</h5>
+                                        <span>Example of small table, Add <code>.table-sm</code> class to the <code>.table</code> to create a table with small spacing. Small table all rows have <code>0.6rem</code> height.</span>
+                                    </div>
+                                    <br>
+                                        <div class="col-sm-8 col-lg-12">
+                                            <div class="table-responsive">
+                                                <table class="table table-sm">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Nom Complet</th>
+                                                            <th class="textarab">الاسم الكامل</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {%  for femme in femmes %}
+                                                        <tr>
+                                                            <td></td>
+                                                            <td class="textarab"></td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="col-sm-2 col-lg-2" >
+                                                <a class="btn btn-success" onclick="red()" id="addfe">+</a>
+                                            </div>
+                                        </div>
+                                </div>
+                                <div class="table-responsive col-lg-6">
+                                    <div class="card-header">
+                                        <h5>enfants</h5>
+                                        <h5 style="float: right; text-align: right">الاطفال</h5>
+                                        <span>Example of small table, Add <code>.table-sm</code> class to the <code>.table</code> to create a table with small spacing. Small table all rows have <code>0.6rem</code> height.</span>
+                                    </div>
+                                    <br>
+                                    <div class="col-sm-8 col-lg-12">
+                                          <div class="table-responsive">
+                                                <table class="table table-sm">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Nom Complet</th>
+                                                            <th class="textarab">الاسم الكامل</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {%  for enfant in enfants %}
+                                                        <tr>
+                                                            <td></td>
+                                                            <td class="textarab"></td>
+                                                        </tr>
+                                                    {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="col-sm-2 col-lg-2" >
+                                                <button type="button" id="adden" class="btn btn-success" data-toggle="modal" data-target="#exampleModal2">+</button>
+                                            </div>
+                                    </div>
+                                </div>
+                            </div>
 						</div>
 					</div>
 				</div>
@@ -547,6 +655,44 @@
 				</div>
 			</div>
 		</div>
+    </div>
+</div>
+
+
+<!-- Modal Enfants -->
+<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabelfr">Enfant</h5>
+          <span> | </span>
+          <h5 class="modal-title textarab" id="exampleModalLabelar">الطفل</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+    <script type="text/javascript">
+        window.onload = function ()
+        {
+            document.getElementById("addfe").addEventListener("click",red );
+        }
+            function red ()
+            {
+                var val = document.getElementsByName('cin')[0].value;
+                var data = "conjoint?personnel="+val;
+                window.open(data,'conjoint','width=500,height=650');
+            }
+    </script>
 
 
 {% endblock %}

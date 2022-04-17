@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Conjoint - </title>
+    {% load static  %}
+    <style>
+    body {width:500px!important;height:500px!important;}
+    </style>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+    <script type="d2d1d6e2f87cbebdf4013b26-text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+</head>
+<body>
+
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Femme</h5>
+         <h5 class="modal-title textarab" id="exampleModalLabel">الزوجة</h5>
+      </div>
+            <form action="" method="POST">
+                  <div class="modal-body">
+                            {% csrf_token %}
+
+                             <p>
+                                 <label class="col-form-label" for="prenomfr">Prénom :</label><input type="text" name="prenomfr" class="form-control">
+                             </p>
+
+                              <p>
+                                 <label class="col-form-label float-right" for="prenomar" >: الاسم الشخصي</label><input type="text" name="prenomar" class="form-control">
+                             </p>
+
+                              <p>
+                                 <label class="col-form-label" for="nomfr">Nom :</label><input type="text" name="nomfr" class="form-control">
+                             </p>
+
+                              <p>
+                                 <label class="col-form-label float-right" for="nomar" >: الاسم العائلي</label><input type="text" name="nomar" class="form-control">
+                              </p>
+
+                              <p>
+                                 <label class="col-form-label" for="cin">Cin :</label> <label class="col-form-label float-right" >: ر.ب.و</label><input type="text" name="cin" class="form-control">
+                              </p>
+
+                              <p>
+                                 <label class="col-form-label" for="daten">Date de naissance :</label> <label class="col-form-label float-right" for="daten" >: تاريخ الازدياد</label><input type="date" name="daten" class="form-control">
+                             </p>
+
+                              <p>
+                                 <label class="col-form-label" for="lieun">lieu de naissance :</label> <label class="col-form-label float-right" for="lieun">: مكان الازدياد</label><input type="text" name="lieun" class="form-control">
+                             </p>
+
+                              <p>
+                                 <label class="col-form-label" for="prenomfr">Personnel Cin :</label><input type="text"  name="personnelcin" readonly class="form-control" value="{{ personnel }}">
+                             </p>
+
+                  </div>
+                  <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Ajouter | اضافة</button>
+                  </div>
+            </form>
+      </div>
+    </div>
+  </body>
+</html>
