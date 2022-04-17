@@ -14,7 +14,7 @@ def connexion(request):
     user = authenticate(request, username=username, password=password)
     if user is not None:
       login(request, user)
-      return redirect('index')
+      return redirect('personnel/ajouter')
     else:
       messages.success(request,('معلومات خاطئة'))
       return redirect('connexion')
