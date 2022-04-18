@@ -1,14 +1,16 @@
 from django.shortcuts import render,redirect
 from .models import Personnel,Conjoint, Conjointpersonnel
+from django.contrib.auth.decorators import login_required
 
 #personnel -------------------------------.
+@login_required(login_url='/connexion')
 def consultation(request):
     personnels = { 'personnels' : Personnel.objects.all()}
     return render(request, 'GestionPersonnel/consultation.html', personnels)
 
 
-
-def gestion(request):
+@login_required(login_url='/connexion')
+def ajouter(request):
     if(request.method == 'POST'):
         nomfr = request.POST["nomfr"]
         nomar = request.POST["nomar"]
@@ -28,14 +30,24 @@ def gestion(request):
         objperso.save()
         conjoints = Conjointpersonnel.objects.filter(idpersonnel_field=objperso.idpersonnel).all()
     else:
-        return render(request, 'GestionPersonnel/gestion.html')
+        return render(request, 'GestionPersonnel/ajouter.html')
     if (objperso):
-        return render(request, 'GestionPersonnel/gestion.html', {'personnel': objperso, 'conjoints': conjoints})
+        return render(request, 'GestionPersonnel/ajouter.html', {'personnel': objperso, 'conjoints': conjoints})
     else:
-        return render(request, 'GestionPersonnel/gestion.html')
+        return render(request, 'GestionPersonnel/ajouter.html')
+
+
+@login_required(login_url='/connexion')
+def modifier(request, id):
+    perso = Personnel.objects.get(idpersonnel= id)
+    conjointsinperso = Conjointpersonnel.objects.filter(idpersonnel_field=id)
+    conjoints = Conjoint.objects.filter(idconjoint__in= conjointsinperso.values_list('idconjoint_field', flat=True))
+    return render(request, 'GestionPersonnel/modifier.html', {'personnel': perso, 'conjoints': conjoints})
+
 
 
 #conjoint -----------------------------------
+@login_required(login_url='/connexion')
 def conjoint(request):
     if request.method == 'POST':
         nomfr = request.POST["nomfr"]
