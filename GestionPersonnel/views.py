@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from .models import Personnel,Conjoint, Conjointpersonnel
+from .models import Personnel,Conjoint, Conjointpersonnel, Service, Servicepersonnel, Grade, Gradepersonnel
 from django.contrib.auth.decorators import login_required
 
 #personnel -------------------------------.
@@ -42,7 +42,9 @@ def modifier(request, id):
     perso = Personnel.objects.get(idpersonnel= id)
     conjointsinperso = Conjointpersonnel.objects.filter(idpersonnel_field=id)
     conjoints = Conjoint.objects.filter(idconjoint__in= conjointsinperso.values_list('idconjoint_field', flat=True))
-    return render(request, 'GestionPersonnel/modifier.html', {'personnel': perso, 'conjoints': conjoints})
+    services = Service.objects.all()
+    grades = Grade.objects.all()
+    return render(request, 'GestionPersonnel/modifier.html', {'personnel': perso, 'conjoints': conjoints, 'services': services, 'grades': grades })
 
 
 

@@ -100,12 +100,27 @@ class Grade(models.Model):
     idgrade = models.AutoField(db_column='IdGrade', primary_key=True)  # Field name made lowercase.
     gradear = models.CharField(db_column='GradeAr', max_length=30, db_collation='French_CI_AS', blank=True, null=True)  # Field name made lowercase.
     gradefr = models.CharField(db_column='GradeFr', max_length=30, db_collation='French_CI_AS', blank=True, null=True)  # Field name made lowercase.
-    dategrade = models.DateTimeField(db_column='DateGrade', blank=True, null=True)  # Field name made lowercase.
+    class Meta:
+        managed = False
+        db_table = 'Grade'
+
+# -------------------------------------------------------
+class Echelle(models.Model):
+    idechelle = models.AutoField(db_column='IdEchelle', primary_key=True)  # Field name made lowercase.
+    echelle = models.IntegerField(db_column='Echelle', blank=True, null=True)  # Field name made lowercase.
+    class Meta:
+        managed = False
+        db_table = 'Echelle'
+
+# -------------------------------------------------------
+class Echellon(models.Model):
+    idechellon = models.AutoField(db_column='IdEchellon', primary_key=True)  # Field name made lowercase.
+    echellon = models.CharField(db_column='Echellon', max_length=30, db_collation='French_CI_AS', blank=True, null=True)  # Field name made lowercase.
     idechelle_field = models.ForeignKey(Echelle, models.DO_NOTHING, db_column='IdEchelle#', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
 
     class Meta:
         managed = False
-        db_table = 'Grade'
+        db_table = 'Echellon'
 
 # -------------------------------------------------------
 class Gradepersonnel(models.Model):
@@ -114,12 +129,13 @@ class Gradepersonnel(models.Model):
     dategrade = models.DateTimeField(db_column='DateGrade', blank=True, null=True)  # Field name made lowercase.
     changementdegrade = models.CharField(db_column='ChangementDeGrade', max_length=100, db_collation='French_CI_AS', blank=True, null=True)  # Field name made lowercase.
     idconcours_field = models.ForeignKey(Concours, models.DO_NOTHING, db_column='IdConcours#', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
-
+    idechellon_field = models.ForeignKey(Echellon, models.DO_NOTHING, db_column='IdEchellon#', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
     class Meta:
         managed = False
         db_table = 'GradePersonnel'
         unique_together = (('idgrade_field', 'idpersonnel_field'),)
 
+# -------------------------------------------------------
 class Conjoint(models.Model):
     idconjoint = models.AutoField(db_column='IdConjoint', primary_key=True)  # Field name made lowercase.
     cin = models.CharField(db_column='Cin', max_length=20, db_collation='French_CI_AS', blank=True, null=True)  # Field name made lowercase.
@@ -134,7 +150,7 @@ class Conjoint(models.Model):
         managed = False
         db_table = 'Conjoint'
 
-
+# -------------------------------------------------------
 class Conjointpersonnel(models.Model):
     idconjoint_field = models.OneToOneField(Conjoint, models.DO_NOTHING, db_column='IdConjoint#', primary_key=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
     idpersonnel_field = models.ForeignKey('Personnel', models.DO_NOTHING, db_column='IdPersonnel#')  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
@@ -143,4 +159,38 @@ class Conjointpersonnel(models.Model):
         managed = False
         db_table = 'ConjointPersonnel'
         unique_together = (('idconjoint_field', 'idpersonnel_field'),)
+
+# -------------------------------------------------------
+class Division(models.Model):
+    iddivision = models.AutoField(db_column='IdDivision', primary_key=True)  # Field name made lowercase.
+    libelledivisionar = models.CharField(db_column='LibelleDivisionAr', max_length=100, db_collation='French_CI_AS', blank=True, null=True)  # Field name made lowercase.
+    libelledivisionfr = models.CharField(db_column='LibelleDivisionFr', max_length=100, db_collation='French_CI_AS', blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'Division'
+
+
+# -------------------------------------------------------
+class Service(models.Model):
+    idservice = models.AutoField(db_column='IdService', primary_key=True)  # Field name made lowercase.
+    libelleservicear = models.CharField(db_column='LibelleServiceAr', max_length=20, db_collation='French_CI_AS', blank=True, null=True)  # Field name made lowercase.
+    libelleservicefr = models.CharField(db_column='LibelleServiceFr', max_length=20, db_collation='French_CI_AS', blank=True, null=True)  # Field name made lowercase.
+    iddivision_field = models.ForeignKey(Division, models.DO_NOTHING, db_column='IdDivision#', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
+
+    class Meta:
+        managed = False
+        db_table = 'Service'
+
+# -------------------------------------------------------
+class Servicepersonnel(models.Model):
+    idservice_field = models.OneToOneField(Service, models.DO_NOTHING, db_column='IdService#', primary_key=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
+    idpersonnel_field = models.ForeignKey(Personnel, models.DO_NOTHING, db_column='IdPersonnel#')  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
+    dateaffectation = models.DateTimeField(db_column='DateAffectation', blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'ServicePersonnel'
+        unique_together = (('idservice_field', 'idpersonnel_field'),)
+
 
