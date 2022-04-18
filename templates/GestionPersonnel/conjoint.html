@@ -23,31 +23,31 @@
                             {% csrf_token %}
 
                              <p>
-                                 <label class="col-form-label" for="prenomfr">Prénom :</label><input type="text" name="prenomfr" class="form-control">
+                                 <label class="col-form-label" for="prenomfr">Prénom :</label><input type="text" value="{{ conjoint.prenomfr }}" name="prenomfr" class="form-control">
                              </p>
 
                               <p>
-                                 <label class="col-form-label float-right" for="prenomar" >: الاسم الشخصي</label><input type="text" name="prenomar" class="form-control">
+                                 <label class="col-form-label float-right" for="prenomar" >: الاسم الشخصي</label><input type="text" value="{{ conjoint.prenomar }}" name="prenomar" class="form-control">
                              </p>
 
                               <p>
-                                 <label class="col-form-label" for="nomfr">Nom :</label><input type="text" name="nomfr" class="form-control">
+                                 <label class="col-form-label" for="nomfr">Nom :</label><input type="text" name="nomfr" value="{{ conjoint.nomfr }}" class="form-control">
                              </p>
 
                               <p>
-                                 <label class="col-form-label float-right" for="nomar" >: الاسم العائلي</label><input type="text" name="nomar" class="form-control">
+                                 <label class="col-form-label float-right" for="nomar" >: الاسم العائلي</label><input type="text" name="nomar" value="{{ conjoint.nomar }}" class="form-control">
                               </p>
 
                               <p>
-                                 <label class="col-form-label" for="cin">Cin :</label> <label class="col-form-label float-right" >: ر.ب.و</label><input type="text" name="cin" class="form-control">
+                                 <label class="col-form-label" for="cin">Cin :</label> <label class="col-form-label float-right" >: ر.ب.و</label><input type="text" value="{{ conjoint.cin }}" name="cin" class="form-control">
                               </p>
 
                               <p>
-                                 <label class="col-form-label" for="daten">Date de naissance :</label> <label class="col-form-label float-right" for="daten" >: تاريخ الازدياد</label><input type="date" name="daten" class="form-control">
+                                 <label class="col-form-label" for="daten">Date de naissance :</label> <label class="col-form-label float-right" for="daten" >: تاريخ الازدياد</label><input type="date" value="{{ conjoint.datenaissance }}" name="daten" class="form-control">
                              </p>
 
                               <p>
-                                 <label class="col-form-label" for="lieun">lieu de naissance :</label> <label class="col-form-label float-right" for="lieun">: مكان الازدياد</label><input type="text" name="lieun" class="form-control">
+                                 <label class="col-form-label" for="lieun">lieu de naissance :</label> <label class="col-form-label float-right" for="lieun">: مكان الازدياد</label><input type="text"  value="{{ conjoint.lieunaissance }}" name="lieun" class="form-control">
                              </p>
 
                               <p>

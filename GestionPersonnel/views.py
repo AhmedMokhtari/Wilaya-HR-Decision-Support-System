@@ -1,16 +1,43 @@
 from django.shortcuts import render,redirect
 from .models import Personnel,Conjoint, Conjointpersonnel
 
-# Create your views here.
+#personnel -------------------------------.
 def consultation(request):
     personnels = { 'personnels' : Personnel.objects.all()}
     return render(request, 'GestionPersonnel/consultation.html', personnels)
 
-def ajouter_aff(request):
-    return render(request, 'GestionPersonnel/ajouter.html',)
 
+
+def gestion(request):
+    if(request.method == 'POST'):
+        nomfr = request.POST["nomfr"]
+        nomar = request.POST["nomar"]
+        prenomfr = request.POST["prenomfr"]
+        prenomar = request.POST["prenomar"]
+        cin = request.POST["cin"]
+        daten = request.POST["daten"]
+        lieunar = request.POST["lieunar"]
+        lieunfr = request.POST["lieunfr"]
+        tele = request.POST["tele"]
+        email = request.POST["email"]
+        situatfr = request.POST["situationffr"]
+        situatar = request.POST["situationfar"]
+        adressear= request.POST["adressear"]
+        adressefr = request.POST["adressefr"]
+        objperso= Personnel(nomar=nomar, nomfr=nomfr, cin=cin, prenomar=prenomar, prenomfr=prenomfr, lieunaissancear=lieunar, lieunaissancefr=lieunfr, datenaissance=daten, tele=tele, email = email, situationfamilialear=situatar,situationfamilialefr=situatfr,adressear=adressear, adressefr=adressefr)
+        objperso.save()
+        conjoints = Conjointpersonnel.objects.filter(idpersonnel_field=objperso.idpersonnel).all()
+    else:
+        return render(request, 'GestionPersonnel/gestion.html')
+    if (objperso):
+        return render(request, 'GestionPersonnel/gestion.html', {'personnel': objperso, 'conjoints': conjoints})
+    else:
+        return render(request, 'GestionPersonnel/gestion.html')
+
+
+#conjoint -----------------------------------
 def conjoint(request):
-    if request == 'POST':
+    if request.method == 'POST':
         nomfr = request.POST["nomfr"]
         nomar = request.POST["nomar"]
         prenomfr = request.POST["prenomfr"]
@@ -24,13 +51,18 @@ def conjoint(request):
 
         pers = Personnel.objects.filter(cin= personnelcin).first()
         con = Conjoint.objects.filter(cin=cin).first()
-        obj2 = Conjointpersonnel(idconjoint_field=con.idconjoint, idpersonnel_field=pers.idpersonnel)
+        obj2 = Conjointpersonnel(idconjoint_field=con, idpersonnel_field=pers)
         obj2.save()
+
     else:
         cinpersonnel = request.GET.get('personnel', None)
         if(cinpersonnel) :
             return render(request, 'GestionPersonnel/conjoint.html', {'personnel': cinpersonnel})
         else:
             return render(request, 'GestionPersonnel/conjoint.html')
+    if(obj1)  :
+        return render(request, 'GestionPersonnel/conjoint.html', {'conjoint' : obj1 ,'personnel': pers.cin})
+    else:
+        return render(request, 'GestionPersonnel/conjoint.html')
 
 
