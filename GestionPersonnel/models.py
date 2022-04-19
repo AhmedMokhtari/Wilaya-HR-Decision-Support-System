@@ -194,3 +194,13 @@ class Servicepersonnel(models.Model):
         unique_together = (('idservice_field', 'idpersonnel_field'),)
 
 
+class Congeset(models.Model):
+    idconge = models.AutoField(db_column='IdConge', primary_key=True)  # Field name made lowercase.
+    type_conge = models.CharField(max_length=30, db_collation='French_CI_AS', blank=True, null=True)
+    datedebut = models.DateTimeField(db_column='dateDebut', blank=True, null=True)  # Field name made lowercase.
+    nbjour = models.IntegerField(db_column='nbJour', blank=True, null=True)  # Field name made lowercase.
+    idpersonnel_field = models.ForeignKey('Personnel', models.DO_NOTHING, db_column='IdPersonnel#', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
+
+    class Meta:
+        managed = False
+        db_table = 'CongeSet'
