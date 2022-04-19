@@ -119,35 +119,22 @@
 										<input type="text" class="form-control" name="adressear" value="{{ personnel.adressear }}" {% if personnel.adressear %} readonly {% endif %}  required>
 									</div>
 								</div>
-
 							</div>
 
                              <div class="row">
-								<div class="col-sm-8 col-lg-6">
-                                    <label class="col-form-label">Situation familiale :</label>
-									<div class="input-group">
-                                        <select class="form-control" name="situationffr" {% if personnel.situationfamilialefr %} disabled {% endif %}  required>
-                                            <option>marié</option>
-                                            <option>divorcé</option>
-                                            <option>célibataire</option>
-                                            <option selected>{{ personnel.situationfamilialefr }}</option>
-                                        </select>
-									</div>
-								</div>
-
-
-								<div class="col-sm-8 col-lg-6">
-                                    <label class="col-form-label float-right">: الوضع العائلي</label>
-									<div class="input-group">
-										<select class="form-control" name="situationfar" {% if personnel.situationfamilialear %} disabled {% endif %}  required>
-                                            <option>متزوج</option>
-                                            <option>مطلق</option>
-                                            <option>بدون</option>
-                                            <option selected>{{ personnel.situationfamilialear }}</option>
-                                        </select>
-									</div>
-								</div>
-							</div>
+                                    <div class="col-sm-8 col-lg-12">
+                                        <label class="col-form-label">Situation familiale :</label>
+                                        <label class="col-form-label float-right">: الوضع العائلي</label>
+                                        <div class="input-group">
+                                            <select class="form-control  text-center" name="situationffr"  {% if personnel.situationfamilialefr %} disabled {% endif %}  required>
+                                                <option>marié(e) - متزوج(ة)</option>
+                                                <option>divorcé(e) - مطلق(ة)</option>
+                                                <option>célibataire(e) - بدون</option>
+                                                <option selected>{{ personnel.situationfamilialefr }} - {{ personnel.situationfamilialear }}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                             </div>
 
                             <div class="row">
 								<div class="col-sm-8 col-lg-12">
@@ -212,10 +199,7 @@
                                 </p>
                             </center>
 						</div>
-
-						<div>
-                            <br>
-							<div class="row">
+                        <div class="row">
                                 <div class="table-responsive col-lg-6">
                                     <div>
                                         <center>
