@@ -23,7 +23,25 @@
   <!-- Main Stylesheet -->
   <link rel="stylesheet" href="{% static 'css/style2.css' %}">
     <link rel="stylesheet" href="{% static 'css/accueil.css' %}">
+<style>
+    .op-c {
+        background: black;
+        opacity: 0.5;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+    }
+    .banner {
+        position: relative;
+    }
+    .textfont{color: #fff8f8 !important;}
+    .shadow {
+        box-shadow: 0 4px 7px 0 rgb(0 0 0 / 20%);
+    }
 
+</style>
 </head>
 
 <body id="top">
@@ -50,7 +68,7 @@
 		  	<button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarmain" aria-controls="navbarmain" aria-expanded="false" aria-label="Toggle navigation">
 			<span class="icofont-navigation-menu"></span>
 		  </button>
-	  
+
 		  <div class="collapse navbar-collapse " id="navbarmain" >
 			<ul class="navbar-nav ml-auto" id="ulstyle">
 			    <li class="nav-item active"><a class="nav-link" href="#">الصفحة الرئيسية</a></li>
@@ -61,61 +79,56 @@
 		</div>
 	</nav>
 </header>
-	
+
 
 
 
 <!-- Slider Start -->
+<div class="bg-black">
+    <section class="banner" >
+        <div class="op-c"></div>
+        <div class="container" >
+            <div class="row" >
+                <div class="col-lg-10 col-md-12 col-xl-12">
+                    <div class="block" id="blocktext" >
+                        <div class="divider mb-3"></div>
+                        <span class="text-uppercase text-sm letter-spacing textfont" id="slogan">قسم الموارد البشرية</span>
+                        <h1 class="mb-3 mt-3 textfont" >ولاية الجهة الشرقية</h1>
 
-<section class="banner" >
+                        <!--<p class="mb-4 pr-5" style="color: white">تطبيق خاص بادارة قسم الموارد البشرية بولاية الشرق - عمالة وجدة انجاد</p>-->
+                        <div class="btn-container ">
+                            <a href="connexion" target="_blank" class="btn btn-main-2 btn-round-full gradient-custom-2 textfont">الدخول</a>
+                        </div>
+                    </div>
 
-	<div class="container" >
-		<div class="row" >
-			<div class="col-lg-10 col-md-12 col-xl-12">
-				<div class="block" id="blocktext" >
-					<div class="divider mb-3"></div>
-					<span class="text-uppercase text-sm letter-spacing textfont" id="slogan">قسم الموارد البشرية</span>
-					<h1 class="mb-3 mt-3 textfont" >ولاية الجهة الشرقية</h1>
-					
-					<!--<p class="mb-4 pr-5" style="color: white">تطبيق خاص بادارة قسم الموارد البشرية بولاية الشرق - عمالة وجدة انجاد</p>-->
-					<div class="btn-container ">
-						<a href="connexion" target="_blank" class="btn btn-main-2 btn-round-full gradient-custom-2 textfont">الدخول</a>
-					</div>
-				</div>
-
-			</div>
-		</div>
-	</div>
-</section>
-
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
 
 
 <section class="section about" style="background: #F4F9FC">
 	<div class="container" >
-		<div class="row align-items-center shadow p-3 mb-5 bg-white rounded">
-			<div class="col-sm-10">
-				<div class="about-content" style="text-align: right">
-					<h4 class="title-color">1.كيفية تشغيل الموقع</h4>
-					<p>
-                        -  تسجيل الدخول بالمعلومات الخاصة بكل مستخدم المقدمة من طرف  قسم الموارد البشرية
-                    </p>
-
-                    <p>
-                        -  بعد تسجيل الدخول
-              yes      </p>
-
-                    <p>
-                        -  كل مستخدم له خدماته الخاصة على حسب نوع الوظيفته
-
-                    </p>
-
-                    <p>
-                        -  الموقع يخول للمستخدمين تدبير شامل لوضائفهم
-
-                    </p>
-				</div>
-			</div>
+        <div class="d-flex justify-content-center mb-4">
+            <h4  style="color: #e12454;font-size: 30px">كيفية تشغيل الموقع</h4>
+        </div>
+		<div class="row  shadow p-4 mb-4 bg-white rounded  d-flex justify-content-start ">
+           -  تسجيل الدخول بالمعلومات الخاصة بكل مستخدم المقدمة من طرف  قسم الموارد البشرية
 		</div>
+       <div class="row  shadow p-3 mb-4 bg-white rounded  d-flex justify-content-start ">
+           -  تسجيل الدخول بالمعلومات الخاصة بكل مستخدم المقدمة من طرف  قسم الموارد البشرية
+		</div>
+        <div class="row  shadow p-3 mb-4 bg-white rounded  d-flex justify-content-start ">
+           -  تسجيل الدخول بالمعلومات الخاصة بكل مستخدم المقدمة من طرف  قسم الموارد البشرية
+		</div>
+        <div class="row  shadow p-3 mb-4 bg-white rounded  d-flex justify-content-start ">
+           -  تسجيل الدخول بالمعلومات الخاصة بكل مستخدم المقدمة من طرف  قسم الموارد البشرية
+		</div>
+        <div class="row  shadow p-3 mb-4 bg-white rounded  d-flex justify-content-start ">
+           -  تسجيل الدخول بالمعلومات الخاصة بكل مستخدم المقدمة من طرف  قسم الموارد البشرية
+		</div>
+
 	</div>
 </section>
 

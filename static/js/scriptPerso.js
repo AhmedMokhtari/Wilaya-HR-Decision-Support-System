@@ -1,15 +1,18 @@
 defaultCheck=document.getElementById("defaultCheck");
 checkboxes = document.getElementsByName('check');
 defaultCheck.onclick=function(){
-    for(var i=0, n=checkboxes.length;i<n;i++) {
+    for(let i=0, n=checkboxes.length;i<n;i++) {
       checkboxes[i].checked = defaultCheck.checked;
-    }   
+    }
 }
-for(var i=0, n=checkboxes.length;i<n;i++) {
+document.getElementById("btn-quitter").onclick=function (){
+    document.getElementById("quitter").style.display="block";
+}
+for(let i=0, n=checkboxes.length;i<n;i++) {
     checkboxes[i].onclick = function(){
         defaultCheck.checked=false;
     };
-  } 
+  }
 $((function(){
     let modal = `
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
@@ -30,8 +33,10 @@ $((function(){
             $('body').append(modal);
             //Delete Action
             $(".delete").on('click',(e)=>{
-              
                 $("#deleteModal").modal('show');
+            });
+            $(".print").on('click',(e)=>{
+                $("#printModal").modal('show');
             });
             $("#confirm-delete").on('click',()=>{
                 $("#deleteModal").modal('hide');
@@ -39,5 +44,9 @@ $((function(){
             $("#cancel-delete").on('click',()=>{
                 $("#deleteModal").modal('hide');
             });
-            
+            $("#printcancel").on('click',()=>{
+                $("#printModal").modal('hide');
+                document.getElementById("quitter").style.display="none";
+            });
+
         }()));
