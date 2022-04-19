@@ -5,19 +5,14 @@
 <!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
 <head>
     {% load static %}
-
-
-    <title></title>
-    	<meta charset="utf-8">
+    <meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	<meta name="description" content="Responsive Bootstrap 4 Admin &amp; Dashboard Template">
-	<meta name="author" content="Bootlab">
-
-	<title>AppStack - Admin &amp; Dashboard Template</title>
-
+	<meta name="description" content="">
+	<meta name="author" content="Zakariae Mrabet, Ahmed Mokhtari">
+    <title>Wilaya de l'oriental - ولاية الشرق {{ title }}</title>
 	<link rel="preconnect" href="//fonts.gstatic.com/" crossorigin="">
-
+    <link rel="stylesheet" type="text/css" href="{% static 'css/font-awesome-n.min.css' %}">
 	<!-- PICK ONE OF THE STYLES BELOW -->
 	 <link href="{% static 'css/classic.css' %}" rel="stylesheet">
 	<!-- <link href="{% static 'css/corporate.css' %}" rel="stylesheet"> -->
@@ -50,202 +45,56 @@
 <div class="wrapper">
 		<nav id="sidebar" class="sidebar">
 			<div class="sidebar-content ">
-				<a class="sidebar-brand" href="index.html">
-          <i class="align-middle" data-feather="box"></i>
-          <span class="align-middle">AppStack</span>
-        </a>
+				<a class="sidebar-brand" href="#">
+                  <img class="align-middle" src="{% static 'images/logo2.png' %}" width="50"/>
+                  <span class="align-middle">Wilaya</span>
+                </a>
 				<ul class="sidebar-nav">
 					<li class="sidebar-header">
-						Main
+						Principal
 					</li>
 					<li class="sidebar-item active">
 						<a href="#dashboards" data-toggle="collapse" class="sidebar-link">
                           <i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Dashboard</span>
                         </a>
 						<ul id="dashboards" class="sidebar-dropdown list-unstyled collapse show" data-parent="#sidebar">
-							<li class="sidebar-item"><a class="sidebar-link" href="dashboard-default.html">Default</a></li>
-							<li class="sidebar-item active"><a class="sidebar-link" href="dashboard-analytics-1.html">Analytics</a></li>
-							<li class="sidebar-item"><a class="sidebar-link" href="dashboard-e-commerce.html">E-commerce</a></li>
-							<li class="sidebar-item"><a class="sidebar-link" href="dashboard-social.html">Social</a></li>
-							<li class="sidebar-item"><a class="sidebar-link" href="dashboard-crypto.html">Crypto <span class="sidebar-badge badge badge-primary">New</span></a></li>
+							<li class="sidebar-item"><a class="sidebar-link" href="{% url 'taboard' %}">Personnel</a></li>
+							<li class="sidebar-item active"><a class="sidebar-link" href="#">Service</a></li>
 						</ul>
 					</li>
 					<li class="sidebar-item">
 						<a href="#pages" data-toggle="collapse" class="sidebar-link collapsed">
-                          <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Pages</span>
+                          <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Gestion</span>
                         </a>
 						<ul id="pages" class="sidebar-dropdown list-unstyled collapse " data-parent="#sidebar">
-							<li class="sidebar-item"><a class="sidebar-link" href="pages-profile.html">Profile</a></li>
-							<li class="sidebar-item"><a class="sidebar-link" href="pages-settings.html">Settings</a></li>
-							<li class="sidebar-item"><a class="sidebar-link" href="pages-clients.html">Clients</a></li>
-							<li class="sidebar-item"><a class="sidebar-link" href="pages-projects.html">Projects <span class="sidebar-badge badge badge-primary">New</span></a></li>
-							<li class="sidebar-item"><a class="sidebar-link" href="pages-invoice.html">Invoice</a></li>
-							<li class="sidebar-item"><a class="sidebar-link" href="pages-pricing.html">Pricing</a></li>
-							<li class="sidebar-item"><a class="sidebar-link" href="pages-tasks.html">Tasks <span class="sidebar-badge badge badge-primary">New</span></a></li>
-							<li class="sidebar-item"><a class="sidebar-link" href="pages-blank.html">Blank Page</a></li>
+							<li class="sidebar-item"><a class="sidebar-link" href="pages-profile.html">Personnel</a></li>
+							<li class="sidebar-item"><a class="sidebar-link" href="pages-settings.html">Congés</a></li>
+							<li class="sidebar-item"><a class="sidebar-link" href="pages-clients.html">Absence</a></li>
+							<li class="sidebar-item"><a class="sidebar-link" href="pages-projects.html">Formations</a></li>
 						</ul>
 					</li>
 					<li class="sidebar-item">
 						<a href="#auth" data-toggle="collapse" class="sidebar-link collapsed">
-                          <i class="align-middle" data-feather="users"></i> <span class="align-middle">Auth</span>
-                          <span class="sidebar-badge badge badge-secondary">12/24</span>
+                          <i class="align-middle" data-feather="users"></i> <span class="align-middle">Privilèges</span>
                         </a>
 						<ul id="auth" class="sidebar-dropdown list-unstyled collapse " data-parent="#sidebar">
-							<li class="sidebar-item"><a class="sidebar-link" href="pages-sign-in.html">Sign In</a></li>
-							<li class="sidebar-item"><a class="sidebar-link" href="pages-sign-up.html">Sign Up</a></li>
-							<li class="sidebar-item"><a class="sidebar-link" href="pages-reset-password.html">Reset Password</a></li>
-							<li class="sidebar-item"><a class="sidebar-link" href="pages-404.html">404 Page</a></li>
-							<li class="sidebar-item"><a class="sidebar-link" href="pages-500.html">500 Page</a></li>
+							<li class="sidebar-item"><a class="sidebar-link" href="pages-sign-in.html">Administration</a></li>
 						</ul>
 					</li>
-					<li class="sidebar-item">
-						<a href="#layouts" data-toggle="collapse" class="sidebar-link collapsed">
-              <i class="align-middle" data-feather="monitor"></i> <span class="align-middle">Layouts</span>
-            </a>
-						<ul id="layouts" class="sidebar-dropdown list-unstyled collapse " data-parent="#sidebar">
-							<li class="sidebar-item"><a class="sidebar-link" href="layouts-sidebar-sticky.html">Sticky Sidebar</a></li>
-							<li class="sidebar-item"><a class="sidebar-link" href="layouts-sidebar-collapsed.html">Collapsed Sidebar</a></li>
-							<li class="sidebar-item"><a class="sidebar-link" href="layouts-boxed.html">Boxed Layout</a></li>
-							<li class="sidebar-item"><a class="sidebar-link" href="dashboard-analytics.html?theme=classic">Classic Theme</a></li>
-							<li class="sidebar-item"><a class="sidebar-link" href="dashboard-analytics-2.html?theme=corporate">Corporate Theme <span class="sidebar-badge badge badge-primary">New</span></a></li>
-							<li class="sidebar-item"><a class="sidebar-link" href="dashboard-analytics-3.html?theme=modern">Modern Theme <span class="sidebar-badge badge badge-primary">New</span></a></li>
-						</ul>
-					</li>
-					<li class="sidebar-item">
-						<a href="#documentation" data-toggle="collapse" class="sidebar-link collapsed">
-              <i class="align-middle" data-feather="book-open"></i> <span class="align-middle">Documentation</span>
-            </a>
-						<ul id="documentation" class="sidebar-dropdown list-unstyled collapse " data-parent="#sidebar">
-							<li class="sidebar-item"><a class="sidebar-link" href="docs-introduction.html">Introduction</a></li>
-							<li class="sidebar-item"><a class="sidebar-link" href="docs-installation.html">Getting Started</a></li>
-							<li class="sidebar-item"><a class="sidebar-link" href="docs-plugins.html">Plugins</a></li>
-							<li class="sidebar-item"><a class="sidebar-link" href="docs-changelog.html">Changelog</a></li>
-						</ul>
-					</li>
-
 					<li class="sidebar-header">
-						Components
-					</li>
-					<li class="sidebar-item">
-						<a href="#ui" data-toggle="collapse" class="sidebar-link collapsed">
-              <i class="align-middle" data-feather="grid"></i> <span class="align-middle">UI Elements</span>
-            </a>
-						<ul id="ui" class="sidebar-dropdown list-unstyled collapse " data-parent="#sidebar">
-							<li class="sidebar-item"><a class="sidebar-link" href="ui-alerts.html">Alerts</a></li>
-							<li class="sidebar-item"><a class="sidebar-link" href="ui-buttons.html">Buttons</a></li>
-							<li class="sidebar-item"><a class="sidebar-link" href="ui-cards.html">Cards</a></li>
-							<li class="sidebar-item"><a class="sidebar-link" href="ui-general.html">General</a></li>
-							<li class="sidebar-item"><a class="sidebar-link" href="ui-grid.html">Grid</a></li>
-							<li class="sidebar-item"><a class="sidebar-link" href="ui-modals.html">Modals</a></li>
-							<li class="sidebar-item"><a class="sidebar-link" href="ui-notifications.html">Notifications</a></li>
-							<li class="sidebar-item"><a class="sidebar-link" href="ui-tabs.html">Tabs</a></li>
-							<li class="sidebar-item"><a class="sidebar-link" href="ui-typography.html">Typography</a></li>
-						</ul>
-					</li>
-					<li class="sidebar-item">
-						<a href="#charts" data-toggle="collapse" class="sidebar-link collapsed">
-                          <i class="align-middle" data-feather="pie-chart"></i> <span class="align-middle">Charts</span>
-                          <span class="sidebar-badge badge badge-primary">New</span>
-                        </a>
-						<ul id="charts" class="sidebar-dropdown list-unstyled collapse " data-parent="#sidebar">
-							<li class="sidebar-item"><a class="sidebar-link" href="charts-chartjs.html">Chart.js</a></li>
-							<li class="sidebar-item"><a class="sidebar-link" href="charts-apexcharts.html">ApexCharts <span class="sidebar-badge badge badge-primary">New</span></a></li>
-						</ul>
-					</li>
-					<li class="sidebar-item">
-						<a href="#forms" data-toggle="collapse" class="sidebar-link collapsed">
-                          <i class="align-middle" data-feather="check-square"></i> <span class="align-middle">Forms</span>
-                        </a>
-						<ul id="forms" class="sidebar-dropdown list-unstyled collapse " data-parent="#sidebar">
-							<li class="sidebar-item"><a class="sidebar-link" href="forms-layouts.html">Layouts</a></li>
-							<li class="sidebar-item"><a class="sidebar-link" href="forms-basic-elements.html">Basic Elements</a></li>
-							<li class="sidebar-item"><a class="sidebar-link" href="forms-advanced-elements.html">Advanced Elements</a></li>
-							<li class="sidebar-item"><a class="sidebar-link" href="forms-input-groups.html">Input Groups</a></li>
-							<li class="sidebar-item"><a class="sidebar-link" href="forms-editors.html">Editors</a></li>
-							<li class="sidebar-item"><a class="sidebar-link" href="forms-validation.html">Validation</a></li>
-							<li class="sidebar-item"><a class="sidebar-link" href="forms-wizard.html">Wizard</a></li>
-						</ul>
-					</li>
-					<li class="sidebar-item">
-						<a href="#tables" data-toggle="collapse" class="sidebar-link collapsed">
-                          <i class="align-middle" data-feather="list"></i> <span class="align-middle">Tables</span>
-                        </a>
-						<ul id="tables" class="sidebar-dropdown list-unstyled collapse " data-parent="#sidebar">
-							<li class="sidebar-item"><a class="sidebar-link" href="tables-bootstrap.html">Bootstrap</a></li>
-							<li class="sidebar-item"><a class="sidebar-link" href="tables-datatables.html">DataTables</a></li>
-						</ul>
-					</li>
-					<li class="sidebar-item">
-						<a href="#icons" data-toggle="collapse" class="sidebar-link collapsed">
-                          <i class="align-middle" data-feather="heart"></i> <span class="align-middle">Icons</span>
-                          <span class="sidebar-badge badge badge-info">Special</span>
-                        </a>
-						<ul id="icons" class="sidebar-dropdown list-unstyled collapse " data-parent="#sidebar">
-							<li class="sidebar-item"><a class="sidebar-link" href="icons-feather.html">Feather</a></li>
-							<li class="sidebar-item"><a class="sidebar-link" href="icons-font-awesome.html">Font Awesome</a></li>
-						</ul>
+						Fonctionnalité
 					</li>
 					<li class="sidebar-item">
 						<a class="sidebar-link" href="calendar.html">
-                          <i class="align-middle" data-feather="calendar"></i> <span class="align-middle">Calendar</span>
-                          <span class="sidebar-badge badge badge-primary">New</span>
+                          <i class="align-middle" data-feather="calendar"></i> <span class="align-middle">Calendrier</span>
                         </a>
-					</li>
-					<li class="sidebar-item">
-						<a href="#maps" data-toggle="collapse" class="sidebar-link collapsed">
-                          <i class="align-middle" data-feather="map-pin"></i> <span class="align-middle">Maps</span>
-                        </a>
-						<ul id="maps" class="sidebar-dropdown list-unstyled collapse " data-parent="#sidebar">
-							<li class="sidebar-item"><a class="sidebar-link" href="maps-google.html">Google Maps</a></li>
-							<li class="sidebar-item"><a class="sidebar-link" href="maps-vector.html">Vector Maps</a></li>
-						</ul>
-					</li>
-					<li class="sidebar-item">
-						<a href="#multi" data-toggle="collapse" class="sidebar-link">
-                          <i class="align-middle" data-feather="share-2"></i> <span class="align-middle">Multi Level</span>
-                        </a>
-						<ul id="multi" class="sidebar-dropdown list-unstyled collapse" data-parent="#sidebar">
-							<li class="sidebar-item">
-								<a href="#multi-2" data-toggle="collapse" class="sidebar-link collapsed">
-                                  Two Levels
-                                </a>
-								<ul id="multi-2" class="sidebar-dropdown list-unstyled collapse">
-									<li class="sidebar-item">
-										<a class="sidebar-link" href="#">Item 1</a>
-										<a class="sidebar-link" href="#">Item 2</a>
-									</li>
-								</ul>
-							</li>
-							<li class="sidebar-item">
-								<a href="#multi-3" data-toggle="collapse" class="sidebar-link collapsed">
-                                  Three Levels
-                                </a>
-								<ul id="multi-3" class="sidebar-dropdown list-unstyled collapse">
-									<li class="sidebar-item">
-										<a href="#multi-3-1" data-toggle="collapse" class="sidebar-link collapsed">
-                                          Item 1
-                                        </a>
-										<ul id="multi-3-1" class="sidebar-dropdown list-unstyled collapse">
-											<li class="sidebar-item">
-												<a class="sidebar-link" href="#">Item 1</a>
-												<a class="sidebar-link" href="#">Item 2</a>
-											</li>
-										</ul>
-									</li>
-									<li class="sidebar-item">
-										<a class="sidebar-link" href="#">Item 2</a>
-									</li>
-								</ul>
-							</li>
-						</ul>
 					</li>
 				</ul>
 
 				<div class="sidebar-bottom d-none d-lg-block">
 					<div class="media">
-						<img class="rounded-circle mr-3" src="img\avatars\avatar.jpg" alt="Chris Wood" width="40" height="40">
 						<div class="media-body">
-							<h5 class="mb-1">Chris Wood</h5>
+							<h5 class="mb-1">{{ user.get_username }}</h5>
 							<div>
 								<i class="fas fa-circle text-success"></i> Online
 							</div>
@@ -268,74 +117,6 @@
 
 				<div class="navbar-collapse collapse">
 					<ul class="navbar-nav ml-auto">
-						<li class="nav-item dropdown">
-							<a class="nav-icon dropdown-toggle" href="#" id="messagesDropdown" data-toggle="dropdown">
-								<div class="position-relative">
-									<i class="align-middle" data-feather="message-circle"></i>
-									<span class="indicator">4</span>
-								</div>
-							</a>
-							<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right py-0" aria-labelledby="messagesDropdown">
-								<div class="dropdown-menu-header">
-									<div class="position-relative">
-										4 New Messages
-									</div>
-								</div>
-								<div class="list-group">
-									<a href="#" class="list-group-item">
-										<div class="row no-gutters align-items-center">
-											<div class="col-2">
-												<img src="img\avatars\avatar-5.jpg" class="avatar img-fluid rounded-circle" alt="Ashley Briggs">
-											</div>
-											<div class="col-10 pl-2">
-												<div class="text-dark">Ashley Briggs</div>
-												<div class="text-muted small mt-1">Nam pretium turpis et arcu. Duis arcu tortor.</div>
-												<div class="text-muted small mt-1">15m ago</div>
-											</div>
-										</div>
-									</a>
-									<a href="#" class="list-group-item">
-										<div class="row no-gutters align-items-center">
-											<div class="col-2">
-												<img src="img\avatars\avatar-2.jpg" class="avatar img-fluid rounded-circle" alt="Carl Jenkins">
-											</div>
-											<div class="col-10 pl-2">
-												<div class="text-dark">Carl Jenkins</div>
-												<div class="text-muted small mt-1">Curabitur ligula sapien euismod vitae.</div>
-												<div class="text-muted small mt-1">2h ago</div>
-											</div>
-										</div>
-									</a>
-									<a href="#" class="list-group-item">
-										<div class="row no-gutters align-items-center">
-											<div class="col-2">
-												<img src="img\avatars\avatar-4.jpg" class="avatar img-fluid rounded-circle" alt="Stacie Hall">
-											</div>
-											<div class="col-10 pl-2">
-												<div class="text-dark">Stacie Hall</div>
-												<div class="text-muted small mt-1">Pellentesque auctor neque nec urna.</div>
-												<div class="text-muted small mt-1">4h ago</div>
-											</div>
-										</div>
-									</a>
-									<a href="#" class="list-group-item">
-										<div class="row no-gutters align-items-center">
-											<div class="col-2">
-												<img src="img\avatars\avatar-3.jpg" class="avatar img-fluid rounded-circle" alt="Bertha Martin">
-											</div>
-											<div class="col-10 pl-2">
-												<div class="text-dark">Bertha Martin</div>
-												<div class="text-muted small mt-1">Aenean tellus metus, bibendum sed, posuere ac, mattis non.</div>
-												<div class="text-muted small mt-1">5h ago</div>
-											</div>
-										</div>
-									</a>
-								</div>
-								<div class="dropdown-menu-footer">
-									<a href="#" class="text-muted">Show all messages</a>
-								</div>
-							</div>
-						</li>
 						<li class="nav-item dropdown">
 							<a class="nav-icon dropdown-toggle" href="#" id="alertsDropdown" data-toggle="dropdown">
 								<div class="position-relative">
@@ -402,23 +183,23 @@
 						</li>
 						<li class="nav-item dropdown">
 							<a class="nav-flag dropdown-toggle" href="#" id="languageDropdown" data-toggle="dropdown">
-                            <img src="img\flags\us.png" alt="English">
+                            <img src="{% static 'images/flags/us.png' %}" alt="English">
                           </a>
 							<div class="dropdown-menu dropdown-menu-right" aria-labelledby="languageDropdown">
 								<a class="dropdown-item" href="#">
-                                  <img src="img\flags\us.png" alt="English" width="20" class="align-middle mr-1">
+                                  <img src="{% static 'images/flags/us.png' %}" alt="English" width="20" class="align-middle mr-1">
                                   <span class="align-middle">English</span>
                                 </a>
 								<a class="dropdown-item" href="#">
-                                  <img src="img\flags\es.png" alt="Spanish" width="20" class="align-middle mr-1">
+                                  <img src="{% static 'images/flags/es.png' %}" alt="Spanish" width="20" class="align-middle mr-1">
                                   <span class="align-middle">Spanish</span>
                                 </a>
 								<a class="dropdown-item" href="#">
-                                  <img src="img\flags\de.png" alt="German" width="20" class="align-middle mr-1">
+                                  <img src="{% static 'images/flags/de.png' %}" alt="German" width="20" class="align-middle mr-1">
                                   <span class="align-middle">German</span>
                                 </a>
 								<a class="dropdown-item" href="#">
-                                  <img src="img\flags\nl.png" alt="Dutch" width="20" class="align-middle mr-1">
+                                  <img src="{% static 'images/flags/nl.png' %}" alt="Dutch" width="20" class="align-middle mr-1">
                                   <span class="align-middle">Dutch</span>
                                 </a>
 							</div>
@@ -429,7 +210,7 @@
                             </a>
 
 							<a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#" data-toggle="dropdown">
-                                <img src="img\avatars\avatar.jpg" class="avatar img-fluid rounded-circle mr-1" alt="Chris Wood"> <span class="text-dark">Chris Wood</span>
+                                <span class="text-dark">{{ user.get_username }}</span>
                             </a>
 							<div class="dropdown-menu dropdown-menu-right">
 								<a class="dropdown-item" href="pages-profile.html"><i class="align-middle mr-1" data-feather="user"></i> Profile</a>
@@ -446,425 +227,8 @@
 
 			<main class="content">
 				<div class="container-fluid p-0">
-
-					<div class="row">
-						<div class="col-lg-6 col-xl-5 d-flex">
-							<div class="w-100">
-								<div class="row">
-									<div class="col-sm-6">
-										<div class="card flex-fill">
-											<div class="card-header">
-												<span class="badge badge-primary float-right">Today</span>
-												<h5 class="card-title mb-0">Visitors</h5>
-											</div>
-											<div class="card-body my-2">
-												<div class="row d-flex align-items-center mb-4">
-													<div class="col-8">
-														<h2 class="d-flex align-items-center mb-0 font-weight-light">
-															17.212
-														</h2>
-													</div>
-													<div class="col-4 text-right">
-														<span class="text-muted">57%</span>
-													</div>
-												</div>
-
-												<div class="progress progress-sm shadow-sm mb-1">
-													<div class="progress-bar bg-primary" role="progressbar" style="width: 57%"></div>
-												</div>
-											</div>
-										</div>
-										<div class="card flex-fill">
-											<div class="card-header">
-												<span class="badge badge-info float-right">Monthly</span>
-												<h5 class="card-title mb-0">Real-Time</h5>
-											</div>
-											<div class="card-body my-2">
-												<div class="row d-flex align-items-center mb-4">
-													<div class="col-8">
-														<h2 class="d-flex align-items-center mb-0 font-weight-light">
-															1.856
-														</h2>
-													</div>
-													<div class="col-4 text-right">
-														<span class="text-muted">64%</span>
-													</div>
-												</div>
-
-												<div class="progress progress-sm shadow-sm mb-1">
-													<div class="progress-bar bg-info" role="progressbar" style="width: 64%"></div>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="col-sm-6">
-										<div class="card flex-fill">
-											<div class="card-header">
-												<span class="badge badge-warning float-right">Annual</span>
-												<h5 class="card-title mb-0">Bounce</h5>
-											</div>
-											<div class="card-body my-2">
-												<div class="row d-flex align-items-center mb-4">
-													<div class="col-8">
-														<h2 class="d-flex align-items-center mb-0 font-weight-light">
-															2.364
-														</h2>
-													</div>
-													<div class="col-4 text-right">
-														<span class="text-muted">82%</span>
-													</div>
-												</div>
-
-												<div class="progress progress-sm shadow-sm mb-1">
-													<div class="progress-bar bg-warning" role="progressbar" style="width: 82%"></div>
-												</div>
-											</div>
-										</div>
-										<div class="card flex-fill">
-											<div class="card-header">
-												<span class="badge badge-success float-right">Yearly</span>
-												<h5 class="card-title mb-0">Activity</h5>
-											</div>
-											<div class="card-body my-2">
-												<div class="row d-flex align-items-center mb-4">
-													<div class="col-8">
-														<h2 class="d-flex align-items-center mb-0 font-weight-light">
-															57.300
-														</h2>
-													</div>
-													<div class="col-4 text-right">
-														<span class="text-muted">32%</span>
-													</div>
-												</div>
-
-												<div class="progress progress-sm shadow-sm mb-1">
-													<div class="progress-bar bg-success" role="progressbar" style="width: 32%"></div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<div class="col-lg-6 col-xl-7">
-							<div class="card flex-fill w-100">
-								<div class="card-header">
-									<div class="card-actions float-right">
-										<div class="dropdown show">
-											<a href="#" data-toggle="dropdown" data-display="static">
-              <i class="align-middle" data-feather="more-horizontal"></i>
-            </a>
-
-											<div class="dropdown-menu dropdown-menu-right">
-												<a class="dropdown-item" href="#">Action</a>
-												<a class="dropdown-item" href="#">Another action</a>
-												<a class="dropdown-item" href="#">Something else here</a>
-											</div>
-										</div>
-									</div>
-									<h5 class="card-title mb-0">Real-Time</h5>
-								</div>
-								<div class="card-body p-2">
-									<div id="world_map" style="height:304px;"></div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div class="row">
-						<div class="col-12 col-lg-4 d-flex">
-							<div class="card flex-fill w-100">
-								<div class="card-header">
-									<div class="card-actions float-right">
-										<div class="dropdown show">
-											<a href="#" data-toggle="dropdown" data-display="static">
-              <i class="align-middle" data-feather="more-horizontal"></i>
-            </a>
-
-											<div class="dropdown-menu dropdown-menu-right">
-												<a class="dropdown-item" href="#">Action</a>
-												<a class="dropdown-item" href="#">Another action</a>
-												<a class="dropdown-item" href="#">Something else here</a>
-											</div>
-										</div>
-									</div>
-									<h5 class="card-title mb-0">Languages</h5>
-								</div>
-								<table class="table table-striped my-0">
-									<thead>
-										<tr>
-											<th>Language</th>
-											<th class="text-right">Users</th>
-											<th class="d-none d-xl-table-cell w-75">% Users</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>en-us</td>
-											<td class="text-right">735</td>
-											<td class="d-none d-xl-table-cell">
-												<div class="progress">
-													<div class="progress-bar bg-info" role="progressbar" style="width: 43%;" aria-valuenow="43" aria-valuemin="0" aria-valuemax="100">43%</div>
-												</div>
-											</td>
-										</tr>
-										<tr>
-											<td>en-gb</td>
-											<td class="text-right">223</td>
-											<td class="d-none d-xl-table-cell">
-												<div class="progress">
-													<div class="progress-bar bg-info" role="progressbar" style="width: 27%;" aria-valuenow="27" aria-valuemin="0" aria-valuemax="100">27%</div>
-												</div>
-											</td>
-										</tr>
-										<tr>
-											<td>fr-fr</td>
-											<td class="text-right">181</td>
-											<td class="d-none d-xl-table-cell">
-												<div class="progress">
-													<div class="progress-bar bg-info" role="progressbar" style="width: 22%;" aria-valuenow="22" aria-valuemin="0" aria-valuemax="100">22%</div>
-												</div>
-											</td>
-										</tr>
-										<tr>
-											<td>es-es</td>
-											<td class="text-right">132</td>
-											<td class="d-none d-xl-table-cell">
-												<div class="progress">
-													<div class="progress-bar bg-info" role="progressbar" style="width: 16%;" aria-valuenow="16" aria-valuemin="0" aria-valuemax="100">16%</div>
-												</div>
-											</td>
-										</tr>
-										<tr>
-											<td>de-de</td>
-											<td class="text-right">118</td>
-											<td class="d-none d-xl-table-cell">
-												<div class="progress">
-													<div class="progress-bar bg-info" role="progressbar" style="width: 15%;" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100">15%</div>
-												</div>
-											</td>
-										</tr>
-										<tr>
-											<td>ru-ru</td>
-											<td class="text-right">98</td>
-											<td class="d-none d-xl-table-cell">
-												<div class="progress">
-													<div class="progress-bar bg-info" role="progressbar" style="width: 13%;" aria-valuenow="13" aria-valuemin="0" aria-valuemax="100">13%</div>
-												</div>
-											</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-						</div>
-
-						<div class="col-12 col-lg-4 d-flex">
-							<div class="card flex-fill w-100">
-								<div class="card-header">
-									<div class="card-actions float-right">
-										<div class="dropdown show">
-											<a href="#" data-toggle="dropdown" data-display="static">
-              <i class="align-middle" data-feather="more-horizontal"></i>
-            </a>
-
-											<div class="dropdown-menu dropdown-menu-right">
-												<a class="dropdown-item" href="#">Action</a>
-												<a class="dropdown-item" href="#">Another action</a>
-												<a class="dropdown-item" href="#">Something else here</a>
-											</div>
-										</div>
-									</div>
-									<h5 class="card-title mb-0">Mobile / Desktop</h5>
-								</div>
-								<div class="card-body d-flex w-100">
-									<div class="align-self-center chart">
-										<canvas id="chartjs-dashboard-bar-devices"></canvas>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<div class="col-12 col-lg-4 d-flex">
-							<div class="card flex-fill">
-								<div class="card-header">
-									<div class="card-actions float-right">
-										<div class="dropdown show">
-											<a href="#" data-toggle="dropdown" data-display="static">
-              <i class="align-middle" data-feather="more-horizontal"></i>
-            </a>
-
-											<div class="dropdown-menu dropdown-menu-right">
-												<a class="dropdown-item" href="#">Action</a>
-												<a class="dropdown-item" href="#">Another action</a>
-												<a class="dropdown-item" href="#">Something else here</a>
-											</div>
-										</div>
-									</div>
-									<h5 class="card-title mb-0">Interests</h5>
-								</div>
-								<div class="card-body">
-									<div class="chart">
-										<canvas id="chartjs-dashboard-radar"></canvas>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div class="row">
-						<div class="col-12 col-lg-5 col-xl-4 d-flex">
-							<div class="card flex-fill w-100">
-								<div class="card-header">
-									<div class="card-actions float-right">
-										<div class="dropdown show">
-											<a href="#" data-toggle="dropdown" data-display="static">
-              <i class="align-middle" data-feather="more-horizontal"></i>
-            </a>
-
-											<div class="dropdown-menu dropdown-menu-right">
-												<a class="dropdown-item" href="#">Action</a>
-												<a class="dropdown-item" href="#">Another action</a>
-												<a class="dropdown-item" href="#">Something else here</a>
-											</div>
-										</div>
-									</div>
-									<h5 class="card-title mb-0">Source / Medium</h5>
-								</div>
-								<div class="card-body d-flex">
-									<div class="align-self-center w-100">
-										<div class="py-3">
-											<div class="chart chart-xs">
-												<canvas id="chartjs-dashboard-pie"></canvas>
-											</div>
-										</div>
-
-										<table class="table mb-0">
-											<thead>
-												<tr>
-													<th>Source</th>
-													<th class="text-right">Revenue</th>
-													<th class="text-right">Value</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr>
-													<td><i class="fas fa-square-full text-primary"></i> Direct</td>
-													<td class="text-right">$ 2602</td>
-													<td class="text-right text-success">+43%</td>
-												</tr>
-												<tr>
-													<td><i class="fas fa-square-full text-warning"></i> Affiliate</td>
-													<td class="text-right">$ 1253</td>
-													<td class="text-right text-success">+13%</td>
-												</tr>
-												<tr>
-													<td><i class="fas fa-square-full text-danger"></i> E-mail</td>
-													<td class="text-right">$ 541</td>
-													<td class="text-right text-success">+24%</td>
-												</tr>
-												<tr>
-													<td><i class="fas fa-square-full text-dark"></i> Other</td>
-													<td class="text-right">$ 1465</td>
-													<td class="text-right text-success">+11%</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-12 col-lg-7 col-xl-8 d-flex">
-							<div class="card flex-fill">
-								<div class="card-header">
-									<div class="card-actions float-right">
-										<div class="dropdown show">
-											<a href="#" data-toggle="dropdown" data-display="static">
-              <i class="align-middle" data-feather="more-horizontal"></i>
-            </a>
-
-											<div class="dropdown-menu dropdown-menu-right">
-												<a class="dropdown-item" href="#">Action</a>
-												<a class="dropdown-item" href="#">Another action</a>
-												<a class="dropdown-item" href="#">Something else here</a>
-											</div>
-										</div>
-									</div>
-									<h5 class="card-title mb-0">Traffic</h5>
-								</div>
-								<table id="datatables-dashboard-traffic" class="table table-striped my-0">
-									<thead>
-										<tr>
-											<th>Source</th>
-											<th class="text-right">Users</th>
-											<th class="d-none d-xl-table-cell text-right">Sessions</th>
-											<th class="d-none d-xl-table-cell text-right">Bounce Rate</th>
-											<th class="d-none d-xl-table-cell text-right">Avg. Session Duration</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>Google</td>
-											<td class="text-right">1023</td>
-											<td class="d-none d-xl-table-cell text-right">1265</td>
-											<td class="d-none d-xl-table-cell text-right text-success">27.23%</td>
-											<td class="d-none d-xl-table-cell text-right">00:06:25</td>
-										</tr>
-										<tr>
-											<td>Bing</td>
-											<td class="text-right">504</td>
-											<td class="d-none d-xl-table-cell text-right">623</td>
-											<td class="d-none d-xl-table-cell text-right text-danger">66.76%</td>
-											<td class="d-none d-xl-table-cell text-right">00:04:42</td>
-										</tr>
-										<tr>
-											<td>Twitter</td>
-											<td class="text-right">462</td>
-											<td class="d-none d-xl-table-cell text-right">571</td>
-											<td class="d-none d-xl-table-cell text-right text-success">31.53%</td>
-											<td class="d-none d-xl-table-cell text-right">00:08:05</td>
-										</tr>
-										<tr>
-											<td>Pinterest</td>
-											<td class="text-right">623</td>
-											<td class="d-none d-xl-table-cell text-right">770</td>
-											<td class="d-none d-xl-table-cell text-right text-danger">52.81%</td>
-											<td class="d-none d-xl-table-cell text-right">00:03:10</td>
-										</tr>
-										<tr>
-											<td>Facebook</td>
-											<td class="text-right">812</td>
-											<td class="d-none d-xl-table-cell text-right">1003</td>
-											<td class="d-none d-xl-table-cell text-right text-success">24.83%</td>
-											<td class="d-none d-xl-table-cell text-right">00:05:56</td>
-										</tr>
-										<tr>
-											<td>DuckDuckGo</td>
-											<td class="text-right">693</td>
-											<td class="d-none d-xl-table-cell text-right">856</td>
-											<td class="d-none d-xl-table-cell text-right text-success">37.36%</td>
-											<td class="d-none d-xl-table-cell text-right">00:09:12</td>
-										</tr>
-										<tr>
-											<td>GitHub</td>
-											<td class="text-right">713</td>
-											<td class="d-none d-xl-table-cell text-right">881</td>
-											<td class="d-none d-xl-table-cell text-right text-success">38.09%</td>
-											<td class="d-none d-xl-table-cell text-right">00:06:19</td>
-										</tr>
-										<tr>
-											<td>Direct</td>
-											<td class="text-right">872</td>
-											<td class="d-none d-xl-table-cell text-right">1077</td>
-											<td class="d-none d-xl-table-cell text-right text-success">32.70%</td>
-											<td class="d-none d-xl-table-cell text-right">00:09:18</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-						</div>
-					</div>
-
+                    {% block content %}
+                    {% endblock content %}
 				</div>
 			</main>
 

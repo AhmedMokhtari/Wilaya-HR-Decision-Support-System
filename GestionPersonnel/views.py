@@ -99,6 +99,8 @@ def conjoint(request):
         return render(request, 'GestionPersonnel/conjoint.html')
 
 
+
+
 def printpdfquitter(req):
     empName = "Ahmed Mokhtari";
     cin = "FB129386"
@@ -161,6 +163,8 @@ def printpdfquitter(req):
     ##response.TransmitFile(pathtofile);
     return (response) ;
 
+
+
 def printpdf(req):
    empName="Ahmed Mokhtari";
    cin="FB129386"
@@ -201,6 +205,8 @@ def printpdf(req):
    ##response.TransmitFile(pathtofile);
    return (response)
 
-
-
+#taboard------------------------------------------------------
+@login_required(login_url='/connexion')
+def taboardpersonnel(request):
+    return render(request,'GestionPersonnel/tboardpersonnel.html',)
 
