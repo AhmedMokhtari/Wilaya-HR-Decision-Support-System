@@ -1,4 +1,4 @@
-window.onload=function(){
+/*window.onload=function(){
     if (localStorage.getItem("lang") === null) {
         langAR();
     } 
@@ -8,7 +8,7 @@ window.onload=function(){
     if (localStorage.getItem("lang") === "ar") {
         langAR();
     } 
-} 
+} */
 let ar = document.getElementById("ar");
 let fr = document.getElementById("fr");
 let myModalLabel = document.getElementById("myModalLabel");

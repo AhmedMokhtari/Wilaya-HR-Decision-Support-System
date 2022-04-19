@@ -67,10 +67,10 @@
                           <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Gestion</span>
                         </a>
 						<ul id="pages" class="sidebar-dropdown list-unstyled collapse " data-parent="#sidebar">
-							<li class="sidebar-item"><a class="sidebar-link" href="pages-profile.html">Personnel</a></li>
-							<li class="sidebar-item"><a class="sidebar-link" href="pages-settings.html">Congés</a></li>
-							<li class="sidebar-item"><a class="sidebar-link" href="pages-clients.html">Absence</a></li>
-							<li class="sidebar-item"><a class="sidebar-link" href="pages-projects.html">Formations</a></li>
+							<li class="sidebar-item"><a class="sidebar-link" href="{% url 'consultation' %}">Personnel</a></li>
+							<li class="sidebar-item"><a class="sidebar-link" href="{% url 'ajouterc' %}">Congés</a></li>
+							<li class="sidebar-item"><a class="sidebar-link" href="#">Absence</a></li>
+							<li class="sidebar-item"><a class="sidebar-link" href="#">Formations</a></li>
 						</ul>
 					</li>
 					<li class="sidebar-item">
@@ -112,7 +112,7 @@
                 </a>
 
 				<form class="form-inline d-none d-sm-inline-block">
-					<input class="form-control form-control-no-border mr-sm-2" type="text" placeholder="Search projects..." aria-label="Search">
+					<input class="form-control form-control-no-border mr-sm-2" type="text" placeholder="Rechercher..." aria-label="Search">
 				</form>
 
 				<div class="navbar-collapse collapse">
@@ -241,19 +241,13 @@
 									<a class="text-muted" href="#">Support</a>
 								</li>
 								<li class="list-inline-item">
-									<a class="text-muted" href="#">Help Center</a>
-								</li>
-								<li class="list-inline-item">
-									<a class="text-muted" href="#">Privacy</a>
-								</li>
-								<li class="list-inline-item">
-									<a class="text-muted" href="#">Terms of Service</a>
+									<a class="text-muted" href="#">Administration</a>
 								</li>
 							</ul>
 						</div>
 						<div class="col-6 text-right">
 							<p class="mb-0">
-								&copy; 2019 - <a href="index.html" class="text-muted">AppStack</a>
+								&copy; 2022 - <a href="index.html" class="text-muted">Wilaya de l'oriental</a>
 							</p>
 						</div>
 					</div>

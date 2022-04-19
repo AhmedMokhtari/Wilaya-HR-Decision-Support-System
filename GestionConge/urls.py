@@ -3,5 +3,5 @@ from django.urls import path, include
 from . import views
 
 urlpatterns = [
-    path('ajouter',views.conge, name='ajouter')
+    path('ajouterc', views.conge, name='ajouterc')
 ]

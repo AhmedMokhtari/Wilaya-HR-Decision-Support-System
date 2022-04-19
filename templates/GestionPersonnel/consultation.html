@@ -1,119 +1,53 @@
-
-{% extends 'menu.html' %}
+{% extends 'menu2.html' %}
 {% block content %}
-
-
     {% load static %}
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="{% static 'css/all.min.css' %}"/>
-<style>
-    .emp {
-        font-weight: bold;
-    }
-    .btn-tp button {
-        height: 30px;
-        width: 30px;
-        padding: 3px !important;
-    }
-    .pad-tab {
-        margin: 0 40px;
-    }
+    <form method="POST">
+    {% csrf_token %}
+            <div class="col-12 col-xl-12">
+							<div class="card">
+								<div class="card-header">
+									<h3 class="card-title"><strong>Personnel <span class="float-right">الموضفين</span></strong></h3>
+									<h6 class="card-subtitle text-muted">les informations des personnels <span class="float-right">معلومات الموضفين</span></h6>
+                                    <hr>
+                                    <div class="text-center">
+                                        <div class="col-sm-3 float-left">
+                                           <input class="form-control" placeholder="Recherche par Cin">
+                                        </div>
 
+                                        <div class="col-sm-2 float-right">
+                                           <a href="{% url 'ajouter' %}"> <button class="btn btn-success m-1" id="newemp"><i class="fa-solid fa-plus  " ></i></button></a>
+                                            <button class="btn btn-primary  m-1" id="export"><i class="fa-solid fa-file-excel  " ></i></i>  </button>
+                                        </div>
+                                    </div>
 
-
-    table tbody {
-        padding: 0 !important;
-        margin: 0 !important;
-    }
-    table tbody .btn-icon {
-        width: 30px !important;
-        height: 30px !important;
-        line-height: 1.5 !important;
-        font-weight: bold !important;
-        color: white !important;
-    }
-</style>
-  <button class="btn"  style="display: none" id="ar">ar</button>
-  <button class="btn" style="display: none" id="fr">fr</button>
-    <div class="container">
-    <div class="cont">
-        <div class="row mt-5">
-            <div class="col-12 font-weight-bold">
-                <i class="fa-solid fa-bars"></i> <span class="emp" id="empl" ></span>
-            </div>
-        </div>
-        <hr>
-
-        <div class="row my-3">
-          <div class="col-6  ">
-            <input type="text" class="form-control m-1"  id="searchby"/>
-         </div>
-            <div class="col-6 btn-tp ">
-               <a href="{% url 'ajouter' %}"> <button class="btn btn-success m-1" id="newemp"><i class="fa-solid fa-plus  " ></i></button></a>
-                <button class="btn btn-danger delete m-1 " id="deleteall"><i class="fa-solid fa-trash-can fa-sm " ></i></button>
-                <button class="btn btn-primary  m-1" id="export"><i class="fa-solid fa-file-excel  " ></i></i>  </button>
-            </div>
-
-        </div>
-        <div class="pad-tab" >
-        <table id="example"class="table  ">
-            <thead class="table-dark" >
-              <tr>
-                <th scope="col"><input  type="checkbox" value="" id="defaultCheck"></th>
-                <th scope="col" id="cin"></th>
-                <th scope="col" id="nom"></th>
-                <th scope="col" id="prenom"></th>
-                <th scope="col" id="action"></th>
-              </tr>
-            </thead>
-            <tbody>
-            {% for personnel in personnels %}
-              <tr class="tb-colon"  >
-                <td ><input  type="checkbox" name="check"></td>
-                <td>{{ personnel.cin }}</td>
-                <td>{{ personnel.nomfr }}</td>
-                <td>{{personnel.prenomfr}}</td>
-                <td><button class="btn btn-info btn-icon m-1 "><i class="fa-solid fa-eye fa-xs m-1 "></i></button><button class="btn btn-danger btn-icon delete m-1 "><i class="fa-solid fa-trash-can fa-xs mx-1"></i></button><a href><button class="btn btn-warning btn-icon  mx-1"><i class="fa-solid fa-pen fa-xs mx-1"></i></button></a><button class="btn btn-dark btn-icon print m-1 "><i class="fa-solid fa-file-pdf  fa-xs  mx-1"></i></button> </td>
-              </tr>
-            {% endfor %}
-            </tbody>
-          </table>
-        </div>
-            <nav aria-label="Page navigation ">
-                <ul class="pagination  justify-content-center">
-                <li class="page-item"><a class="page-link" id="prec" href="#"></a></li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item"><a class="page-link"  id="next" href="#"></a></li>
-                </ul>
-            </nav>
-    </div>
-    </div>
-<div class="modal fade" id="printModal" tabindex="-1" role="dialog" aria-labelledby="myModal">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header d-flex justify-content-end">
-                <button  class="btn btn-danger btn-icon mx-2 " style="height: 30px; width: 30px; line-height: 1.2" id="printcancel">X</button>
-            </div>
-            <div class="modal-body delete-modal-body" >
-                <a href="{% url 'export_pdf' %}" target="_blank"><button class="btn btn-info my-2 w-100">Attestation de Travail</button></a>
-              <button  id="btn-quitter" class="btn btn-info w-100">Autorisation de Quitter Le Territoire  National</button>
-                <div class="mt-2" id="quitter" style="display: none">
-                   <form method="post" class="post-form" action="{% url 'export_pdfquiter' %}">
-                       {% csrf_token %}
-                    <label for="de" class="my-1">De :</label>  <input id="de"  class="form-control" name="De" type="text "/>
-                    <label for="de" class="my-1">En ce compter du :</label>  <input id="da" name="Da" class="form-control mt-1" type="date"/>
-                     <label for="de" class="my-1">Année :</label>  <input id="an"  name="an" class="form-control mt-1" type="text "/>
-                     <button class="btn btn-info mt-2">Print</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-   <script type="text/javascript" src="{% static 'js/jquery-3.6.0.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/all.min.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/scriptperso.js' %}"></script>
-    <script type="text/javascript" src="{% static 'js/scriptlang.js' %}"></script>
-
-{% endblock content %}
+								</div>
+                                <div class="col-12 col-lg-12 col-xxl-12 d-flex">
+								<table class="table table-striped text-center">
+									<thead>
+										<tr>
+											<th>Cin - ر.ب.و</th>
+											<th>Nom Complet</th>
+                                            <th>الاسم الكامل</th>
+                                            <th>Tele - هاتف</th>
+											<th>Action</th>
+										</tr>
+									</thead>
+									<tbody>
+										{% for personnel in personnels %}
+                                          <tr class="tb-colon"  >
+                                            <td>{{ personnel.cin }}</td>
+                                            <td>{{ personnel.nomfr }} - {{personnel.prenomfr}}</td>
+                                            <td>{{personnel.nomar}} - {{ personnel.prenomar }}</td>
+                                            <td>{{ personnel.tele }}</td>
+                                            <td><button class="btn btn-info btn-icon m-1 "><i class="fa-solid fa-eye fa-xs m-1 "></i></button><a href><button class="btn btn-warning btn-icon  mx-1"><i class="fa-solid fa-pen fa-xs mx-1"></i></button></a> </td>
+                                          </tr>
+                                        {% endfor %}
+									</tbody>
+								</table>
+                                </div>
+							</div>
+						</div>
+    </form>
+{% endblock %}
