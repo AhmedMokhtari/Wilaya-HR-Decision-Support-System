@@ -33,6 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'Accueil.apps.AccueilConfig',
     'GestionPersonnel.apps.GestionpersonnelConfig',
+    'GestionConge.apps.GestioncongeConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -81,9 +82,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'mssql',
         'NAME': 'ProjetWilaya',
-        'USER': 'mokhta',
-        'PASSWORD': '123',
-        'HOST': 'DESKTOP-5ROL8PJ',
+        'USER': 'zaka',
+        'PASSWORD': 'zaka',
+        'HOST': 'DESKTOP-J4H5HNC',
         'PORT': '',
         'OPTIONS': {
             'driver': 'ODBC Driver 17 for SQL Server',

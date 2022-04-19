@@ -10,5 +10,5 @@ urlpatterns = [
     path('modifier/<int:id>', views.modifier),
     path('export_pdf', views.printpdf, name='export_pdf'),
     path('export_pdfquiter', views.printpdfquitter, name='export_pdfquiter'),
-    path('conge',views.conge, name='conge')
+
 ]

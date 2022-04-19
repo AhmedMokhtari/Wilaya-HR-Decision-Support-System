@@ -54,7 +54,7 @@
 									<div class="input-group">
                                         <select class="form-control text-center" name="perso">
                                             {% for personnel in personnels %}
-                                                <option>{{ personnel.cin }}</option>
+                                                <option value="{{ personnel.idpersonnel }}">{{ personnel.cin }}</option>
                                             {% endfor %}
                                         </select>
 									</div>
@@ -66,7 +66,7 @@
                                     <label class="col-form-label">Date de congé :</label>
                                     <label class="col-form-label float-right">: تاريخ بداية العطلة </label>
 									<div class="input-group">
-										<input type="date" name="datedecon" class="form-control" value=""    required>
+										<input type="date" name="datedecon" class="form-control"   required>
 									</div>
 								</div>
 							</div>
@@ -76,7 +76,7 @@
                                         <label class="col-form-label">Type Congé :</label>
                                         <label class="col-form-label float-right">: نوع العطلة </label>
                                         <div class="input-group">
-                                            <input type="text" name="typede" class="form-control" value=""   required>
+                                            <input type="text" name="typede" class="form-control"  required>
                                         </div>
                                     </div>
                                 </div>
@@ -87,7 +87,7 @@
                                         <label class="col-form-label">Nombre de jours :</label>
                                         <label class="col-form-label float-right">: عدد الايام </label>
                                         <div class="input-group">
-                                            <input type="number" name="nbjours" class="form-control" value=""   required>
+                                            <input type="number" name="nbjours" class="form-control" required>
                                         </div>
                                     </div>
                             </div>
@@ -97,7 +97,7 @@
                                         <label class="col-form-label">Date retour :</label>
                                         <label class="col-form-label float-right">: تاريخ العودة </label>
                                         <div class="input-group">
-                                            <input type="number" name="nbjours" class="form-control" readonly value="">
+                                            <input type="text" class="form-control" readonly value="">
                                         </div>
                                     </div>
                             </div>
@@ -107,7 +107,7 @@
                                 <p>
                                     <div class="col-sm-2 col-lg-2" >
                                         <p>
-                                             <button type="button" class="btn btn-success bg-white" onclick="ReturnDateCalc()"  style="color: lightseagreen"  >Enregistrer | حفظ</button>
+                                             <button type="submit" class="btn btn-success bg-white" style="color: lightseagreen"  >Enregistrer | حفظ</button>
                                         </p>
                                      </div>
                                 </p>
@@ -118,34 +118,6 @@
         </div>
     </div>
 </div>
-<script>
-function cptWeekend(date1, date2) {
-    var d1 = new Date(date1),
-        d2 = new Date(date2),
-        cpt = 0;
-    while (d1 < d2) {
-        d1.setDate(d1.getDate() + 1)
-        if (d1.getDay() === 0 || d1.getDay() === 6) {
-           cpt++;
-        }
-    }
-    return cpt;
-}
 
-function ReturnDateCalc() {
-    let da = document.getElementById("datedecon").value;
-    let nbj = document.getElementById("nbjours").value;
-    var inp = document.getElementById('datere');
-    var d1 = new Date(da),
-        d = new Date(d1);
-    d.setDate(d1.getDate() + parseInt(nbj));
-    d.setDate(d.getDate() + parseInt(cptWeekend(d1,d)) + 1);
-    inp.value = d.toISOString().split('T')[0];
-    console.log(d.toLocaleDateString());
-    return;
-}
-
-
-</script>
 
 {% endblock content %}

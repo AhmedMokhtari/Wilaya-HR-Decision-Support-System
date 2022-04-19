@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from .models import Personnel,Conjoint, Conjointpersonnel, Service, Servicepersonnel, Grade, Gradepersonnel, Congeset
+from .models import Personnel,Conjoint, Conjointpersonnel, Service, Servicepersonnel, Grade, Gradepersonnel
 from django.contrib.auth.decorators import login_required
 from fpdf import FPDF
 from django.http import HttpResponse
@@ -202,19 +202,5 @@ def printpdf(req):
    return (response)
 
 
-
-def conge (request):
-    if request.method == 'GET':
-        personnels = Personnel.objects.all()
-        return render(request,'GestionPersonnel/conge.html', {'personnels' : personnels})
-
-        """perso = Personnel.objects.get(cin = request.POST["perso"])
-        datedecom = request.POST["datedecon"]
-        typede = request.POST["typede"]
-        nbjours = request.POST["nbjours"]
-        conge = Congeset(type_conge = typede, datedebut = datedecom, nbjour = nbjours)
-        conge.save()
-        return  render (request, 'GestionPersonnel/conge.html')"""
-    return render(request, 'GestionPersonnel/conge.html')
 
 

@@ -21,4 +21,6 @@ urlpatterns = [
     path('', include('Accueil.urls')),
     path('personnel/', include('django.contrib.auth.urls')),
     path('personnel/', include('GestionPersonnel.urls')),
+    path('conge/', include('django.contrib.auth.urls')),
+    path('conge/', include('GestionConge.urls')),
 ]
