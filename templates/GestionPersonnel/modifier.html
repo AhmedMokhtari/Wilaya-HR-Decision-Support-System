@@ -22,7 +22,7 @@
 	<div class="main-body">
 		<div class="page-wrapper">
 			<div class="page-body">
-            <form method="post">
+            <form method="post" action="">
                     {% csrf_token %}
 				<div class="card">
 					<div class="card-header">
@@ -79,7 +79,7 @@
                                         <label class="col-form-label">Situation familiale :</label>
                                         <label class="col-form-label float-right">: الوضع العائلي</label>
                                         <div class="input-group">
-                                            <select class="form-control  text-center" name="situationffr"  required>
+                                            <select class="form-control  text-center" name="situationfar"  required>
                                                 <option>marié(e) - متزوج(ة)</option>
                                                 <option>divorcé(e) - مطلق(ة)</option>
                                                 <option>célibataire(e) - بدون</option>

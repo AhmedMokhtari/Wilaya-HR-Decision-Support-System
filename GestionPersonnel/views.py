@@ -39,13 +39,28 @@ def ajouter(request):
 
 @login_required(login_url='/connexion')
 def modifier(request, id):
-    if request.method == 'GET':
-        perso = Personnel.objects.get(idpersonnel= id)
-        conjointsinperso = Conjointpersonnel.objects.filter(idpersonnel_field=id)
-        conjoints = Conjoint.objects.filter(idconjoint__in= conjointsinperso.values_list('idconjoint_field', flat=True))
-        services = Service.objects.all()
-        grades = Grade.objects.all()
-        return render(request, 'GestionPersonnel/modifier.html', {'personnel': perso, 'conjoints': conjoints, 'services': services, 'grades': grades })
+    personnel = Personnel.objects.get(idpersonnel=id)
+    conjointsinperso = Conjointpersonnel.objects.filter(idpersonnel_field=id)
+    conjoints = Conjoint.objects.filter(idconjoint__in=conjointsinperso.values_list('idconjoint_field', flat=True))
+    services = Service.objects.all()
+    grades = Grade.objects.all()
+
+    if request.method == 'POST':
+        tele = request.POST["tele"]
+        email = request.POST["email"]
+        situatar = request.POST.get('situationfar', False)
+        adressear = request.POST["adressear"]
+        adressefr = request.POST["adressefr"]
+        nummatri = request.POST["nummatri"]
+        numiden = request.POST["numiden"]
+        personnel = Personnel.objects.get(idpersonnel=id)
+        personnel.save()
+        return render(request, 'GestionPersonnel/modifier.html',
+                      {'personnel': personnel, 'conjoints': conjoints, 'services': services, 'grades': grades})
+
+    else :
+        return render(request, 'GestionPersonnel/modifier.html',
+                      {'personnel': personnel, 'conjoints': conjoints, 'services': services, 'grades': grades})
 
 
 

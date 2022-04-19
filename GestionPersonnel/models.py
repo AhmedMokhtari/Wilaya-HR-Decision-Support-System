@@ -17,8 +17,8 @@ class Personnel(models.Model):
     adressefr = models.CharField(db_column='AdresseFr', max_length=100, db_collation='French_CI_AS', blank=True, null=True)  # Field name made lowercase.
     email = models.CharField(db_column='Email', max_length=40, db_collation='French_CI_AS', blank=True, null=True)  # Field name made lowercase.
     tele = models.IntegerField(db_column='Tele', blank=True, null=True)  # Field name made lowercase.
-    situationfamilialear = models.CharField(db_column='SituationFamilialeAr', max_length=40, db_collation='French_CI_AS', blank=True, null=True)  # Field name made lowercase.
-    situationfamilialefr = models.CharField(db_column='SituationFamilialeFr', max_length=40, db_collation='French_CI_AS', blank=True, null=True)  # Field name made lowercase.
+    situationfamilialear = models.CharField(db_column='SituationFamilialeAr', max_length=80, db_collation='French_CI_AS', blank=True, null=True)  # Field name made lowercase.
+    situationfamilialefr = models.CharField(db_column='SituationFamilialeFr', max_length=80, db_collation='French_CI_AS', blank=True, null=True)  # Field name made lowercase.
     sexe = models.CharField(db_column='Sexe', max_length=30, db_collation='French_CI_AS', blank=True, null=True)  # Field name made lowercase.
     vaccination = models.BooleanField(db_column='Vaccination', blank=True, null=True)  # Field name made lowercase.
     numerolocation = models.CharField(db_column='NumeroLocation', max_length=60, db_collation='French_CI_AS', blank=True, null=True)  # Field name made lowercase.
