@@ -31,11 +31,11 @@ def ajouter(request):
         objperso.save()
         conjoints = Conjointpersonnel.objects.filter(idpersonnel_field=objperso.idpersonnel).all()
     else:
-        return render(request, 'GestionPersonnel/ajouter.html')
+        return render(request, 'GestionPersonnel/ajouter1.html')
     if (objperso):
-        return render(request, 'GestionPersonnel/ajouter.html', {'personnel': objperso, 'conjoints': conjoints})
+        return render(request, 'GestionPersonnel/ajouter1.html', {'personnel': objperso, 'conjoints': conjoints})
     else:
-        return render(request, 'GestionPersonnel/ajouter.html')
+        return render(request, 'GestionPersonnel/ajouter1.html')
 
 
 @login_required(login_url='/connexion')

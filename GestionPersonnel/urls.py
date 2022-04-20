@@ -4,7 +4,7 @@ from . import views
 
 urlpatterns = [
     path('consultation', views.consultation, name='consultation'),
-    path('ajouterp', views.ajouter, name='ajouter'),
+    path('ajouterp', views.ajouter, name='ajouterp'),
     path('conjoint', views.conjoint, name='conjoint'),
     path('conjoint/personnel', views.conjoint, name='conjoint'),
     path('modifier/<int:id>', views.modifier),

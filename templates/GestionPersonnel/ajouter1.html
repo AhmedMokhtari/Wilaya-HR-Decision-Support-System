@@ -1,0 +1,284 @@
+{% extends 'menu2.html' %}
+{% block content %}
+
+
+
+ <form method="POST">
+    {% csrf_token %}
+
+    <!--<div class="row">
+        <div class="col-12 col-lg-6">
+            <div id="smartwizard-default-success" class="wizard wizard-success mb-4">
+                <ul>
+                    <li><a href="#default-success-step-1">First Step<br><small>Step description</small></a></li>
+                    <li><a href="#default-success-step-2">Second Step<br><small>Step description</small></a></li>
+                    <li><a href="#default-success-step-3">Third Step<br><small>Step description</small></a></li>
+                    <li><a href="#default-success-step-4">Fourth Step<br><small>Step description</small></a></li>
+                </ul>
+                <div>
+                    <div id="default-success-step-1" class="">
+                        Step Content 1
+                    </div>
+                    <div id="default-success-step-2" class="">
+                        Step Content 2
+                    </div>
+                    <div id="default-success-step-3" class="">
+                        Step Content 3
+                    </div>
+                    <div id="default-success-step-4" class="">
+                        Step Content 4
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+-->
+
+
+
+                <h1 class="h3 mb-3">Ajouter un Personnel <span class="float-right">اضافة موضف</span> </h1>
+					<div class="row">
+						<div class="col-12 col-lg-5 col-xxl-6 d-flex">
+							<div class="card flex-fill">
+								<div class="card-header">
+                                    <br>
+                                    <h4 class="text-center">
+                                        Données personnelles - معلومات شخصية
+                                    </h4>
+								</div>
+								<div class="card-body">
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title">Prénom :</h5>
+                                        <input type="text" class="form-control" name="prenomfr" value="{{ personnel.prenomfr }}" {% if personnel.prenomfr %} readonly {% endif %}  required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title"><span class="float-right">: الاسم الشخصي</span></h5>
+                                        <input type="text" class="form-control" name="prenomar" value="{{ personnel.prenomar }}" {% if personnel.prenomar %} readonly {% endif %}  required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title">Nom  :</h5>
+										<input type="text" class="form-control" name="nomfr" value="{{ personnel.nomfr }}" {% if personnel.nomfr %} readonly {% endif %}  required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title"><span class="float-right">: الاسم العائلي</span></h5>
+										<input type="text" class="form-control" name="nomar" value="{{ personnel.nomar }}" {% if personnel.nomfr %} readonly {% endif %}  required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title">lieu de naissance :</h5>
+										<input type="text" class="form-control" name="lieunfr" value="{{ personnel.lieunaissancefr }}" {% if personnel.lieunaissancefr %} readonly {% endif %}  required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title"><span class="float-right">: مكان الازدياد</span></h5>
+										<input type="text" class="form-control" name="lieunar" value="{{ personnel.lieunaissancear }}" {% if personnel.lieunaissancear %} readonly {% endif %}  required>
+                                    </div>
+
+                                     <div class="mb-3">
+                                        <h5 class="card-title">Adresse :</h5>
+										<input type="text" class="form-control" name="adressefr" value="{{ personnel.adressefr }}" {% if personnel.adressefr %} readonly {% endif %}  required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title"><span class="float-right">: العنوان</span></h5>
+										<input type="text" class="form-control" name="adressear" value="{{ personnel.adressear }}" {% if personnel.adressear %} readonly {% endif %}  required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title">Situation familiale :</h5>
+										<select class="form-control  text-center" name="situationffr"  {% if personnel.situationfamilialefr %} disabled {% endif %}  required>
+                                                <option>marié(e) - متزوج(ة)</option>
+                                                <option>divorcé(e) - مطلق(ة)</option>
+                                                <option>célibataire(e) - بدون</option>
+                                                <option selected>{{ personnel.situationfamilialefr }}</option>
+                                            </select>
+                                    </div>
+
+                                    <div class="mb-3">
+                                            <h5 class="card-title text-right">: الوضع العائلي</h5>
+                                            <select class="form-control  text-center" name="situationfar"  {% if personnel.situationfamilialefr %} disabled {% endif %}  required>
+                                                    <option>متزوج(ة)</option>
+                                                    <option>مطلق(ة)</option>
+                                                    <option>بدون</option>
+                                                    <option selected>{{ personnel.situationfamilialear }}</option>
+                                                </select>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title">Tele :<span class="float-right">: الهاتف</span></h5>
+										<input type="text" class="form-control" name="tele" value="{{ personnel.tele }}" {% if personnel.tele %} readonly {% endif %} required>
+                                    </div>
+
+                                     <div class="mb-3">
+                                        <h5 class="card-title">Email :<span class="float-right">:: البريد الالكتروني</span></h5>
+										<input type="text"  class="form-control" name="email" value="{{ personnel.email }}" {% if personnel.email %} readonly {% endif %} required>
+                                    </div>
+
+                                      {% if personnel.cin %}
+                                             <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                                 <center>ajouté avec succès | أضيف بنجاح.</center>
+                                              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                              </button>
+                                            </div>
+                                      {% endif %}
+
+							    </div>
+						    </div>
+                        </div>
+
+						<div class="col-12 col-lg-5 col-xxl-6 d-flex">
+							<div class="card flex-fill">
+								<div class="card-header">
+                                    <br>
+                                    <h4 class="text-center">
+                                        Données Professionnel - معلومات مهنية
+                                    </h4>
+								</div>
+								<div class="card-body">
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title">Numéro d'identification fiscale <span class="float-right">: الرقم المالي</span></h5>
+                                            <input type="text" class="form-control" name="numiden" value="" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title">Date de recrutement :<span class="float-right">: تاريخ التوظيف</span></h5>
+                                            <input type="date" class="form-control" name="daterec" value="" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title">Date de démarcation :<span class="float-right">: تاريخ الترسيم</span></h5>
+                                            <input type="date" class="form-control" name="datedec" value="" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title">Date de départ à la retraite :<span class="float-right">: تاريخ الإحالة على التقاعد</span></h5>
+                                            <input type="date" class="form-control" name="dateretr" value="" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title">Numéro cnopsAf :<span class="float-right">: رفم cnopsAf</span></h5>
+                                            <input type="text" class="form-control" name="numcnopsaf" value="" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title">Numéro cnopsLm :<span class="float-right">: رفم cnopsLm</span></h5>
+                                            <input type="text" class="form-control" name="numcnopslm" value="" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title">Rib :<span class="float-right">: ر.ي.ب</span></h5>
+                                            <input type="text" class="form-control" name="rib" value="" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title">Ancienneté administrative :<span class="float-right">: الأقدمية الإدارية</span></h5>
+                                            <input type="text" class="form-control" name="ancadmi" value="" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title">Administration App :<span class="float-right">: إدارة</span></h5>
+                                            <input type="text" class="form-control" name="adminiapp" value="" required>
+                                    </div>
+
+							    </div>
+						    </div>
+                        </div>
+
+                        <div class="col-12 col-lg-12 col-xxl-12">
+                            <div class="card flex-fill">
+								<div class="card-body">
+                                <center><button type="submit" class="btn btn-success" style="font-size: 130%">Ajouter - اضاقة</button></center>
+                                </div>
+                            </div>
+                        </div>
+					</div>
+    </form>
+
+<script>
+		$(function() {
+			$("#smartwizard-default-primary").smartWizard({
+				theme: "default",
+				showStepURLhash: false
+			});
+			$("#smartwizard-default-success").smartWizard({
+				theme: "default",
+				showStepURLhash: false
+			});
+			$("#smartwizard-default-danger").smartWizard({
+				theme: "default",
+				showStepURLhash: false
+			});
+			$("#smartwizard-default-warning").smartWizard({
+				theme: "default",
+				showStepURLhash: false
+			});
+			$("#smartwizard-arrows-primary").smartWizard({
+				theme: "arrows",
+				showStepURLhash: false
+			});
+			$("#smartwizard-arrows-success").smartWizard({
+				theme: "arrows",
+				showStepURLhash: false
+			});
+			$("#smartwizard-arrows-danger").smartWizard({
+				theme: "arrows",
+				showStepURLhash: false
+			});
+			$("#smartwizard-arrows-warning").smartWizard({
+				theme: "arrows",
+				showStepURLhash: false
+			});
+			// Validation
+			var $validationForm = $("#smartwizard-validation");
+			$validationForm.validate({
+				errorPlacement: function errorPlacement(error, element) {
+					$(element).parents(".form-group").append(
+						error.addClass("invalid-feedback small d-block")
+					)
+				},
+				highlight: function(element) {
+					$(element).addClass("is-invalid");
+				},
+				unhighlight: function(element) {
+					$(element).removeClass("is-invalid");
+				},
+				rules: {
+					"wizard-confirm": {
+						equalTo: "input[name=\"wizard-password\"]"
+					}
+				}
+			});
+			$validationForm
+				.smartWizard({
+					autoAdjustHeight: false,
+					backButtonSupport: false,
+					useURLhash: false,
+					showStepURLhash: false,
+					toolbarSettings: {
+						toolbarExtraButtons: [$("<button class=\"btn btn-submit btn-primary\" type=\"button\">Finish</button>")]
+					}
+				})
+				.on("leaveStep", function(e, anchorObject, stepNumber, stepDirection) {
+					if (stepDirection === "forward") {
+						return $validationForm.valid();
+					}
+					return true;
+				});
+			$validationForm.find(".btn-submit").on("click", function() {
+				if (!$validationForm.valid()) {
+					return;
+				}
+				alert("Great! The form is valid and ready to submit.");
+				return false;
+			});
+		});
+	</script>
+
+{% endblock %}
