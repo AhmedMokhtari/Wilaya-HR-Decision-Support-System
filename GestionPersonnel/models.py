@@ -73,13 +73,10 @@ class Concours(models.Model):
     class Meta:
         managed = False
         db_table = 'Concours'
-
 # -------------------------------------------------------
 class Echelle(models.Model):
     idechelle = models.AutoField(db_column='IdEchelle', primary_key=True)  # Field name made lowercase.
     echelle = models.IntegerField(db_column='Echelle', blank=True, null=True)  # Field name made lowercase.
-    dateechelle = models.DateTimeField(db_column='DateEchelle', blank=True, null=True)  # Field name made lowercase.
-
     class Meta:
         managed = False
         db_table = 'Echelle'
@@ -88,12 +85,12 @@ class Echelle(models.Model):
 class Echellon(models.Model):
     idechellon = models.AutoField(db_column='IdEchellon', primary_key=True)  # Field name made lowercase.
     echellon = models.CharField(db_column='Echellon', max_length=30, db_collation='French_CI_AS', blank=True, null=True)  # Field name made lowercase.
-    dateechellon = models.DateTimeField(db_column='DateEchellon', blank=True, null=True)  # Field name made lowercase.
     idechelle_field = models.ForeignKey(Echelle, models.DO_NOTHING, db_column='IdEchelle#', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
 
     class Meta:
         managed = False
         db_table = 'Echellon'
+
 
 # -------------------------------------------------------
 class Grade(models.Model):
@@ -104,23 +101,6 @@ class Grade(models.Model):
         managed = False
         db_table = 'Grade'
 
-# -------------------------------------------------------
-class Echelle(models.Model):
-    idechelle = models.AutoField(db_column='IdEchelle', primary_key=True)  # Field name made lowercase.
-    echelle = models.IntegerField(db_column='Echelle', blank=True, null=True)  # Field name made lowercase.
-    class Meta:
-        managed = False
-        db_table = 'Echelle'
-
-# -------------------------------------------------------
-class Echellon(models.Model):
-    idechellon = models.AutoField(db_column='IdEchellon', primary_key=True)  # Field name made lowercase.
-    echellon = models.CharField(db_column='Echellon', max_length=30, db_collation='French_CI_AS', blank=True, null=True)  # Field name made lowercase.
-    idechelle_field = models.ForeignKey(Echelle, models.DO_NOTHING, db_column='IdEchelle#', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
-
-    class Meta:
-        managed = False
-        db_table = 'Echellon'
 
 # -------------------------------------------------------
 class Gradepersonnel(models.Model):

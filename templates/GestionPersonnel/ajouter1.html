@@ -5,41 +5,9 @@
 
  <form method="POST">
     {% csrf_token %}
-
-    <!--<div class="row">
-        <div class="col-12 col-lg-6">
-            <div id="smartwizard-default-success" class="wizard wizard-success mb-4">
-                <ul>
-                    <li><a href="#default-success-step-1">First Step<br><small>Step description</small></a></li>
-                    <li><a href="#default-success-step-2">Second Step<br><small>Step description</small></a></li>
-                    <li><a href="#default-success-step-3">Third Step<br><small>Step description</small></a></li>
-                    <li><a href="#default-success-step-4">Fourth Step<br><small>Step description</small></a></li>
-                </ul>
-                <div>
-                    <div id="default-success-step-1" class="">
-                        Step Content 1
-                    </div>
-                    <div id="default-success-step-2" class="">
-                        Step Content 2
-                    </div>
-                    <div id="default-success-step-3" class="">
-                        Step Content 3
-                    </div>
-                    <div id="default-success-step-4" class="">
-                        Step Content 4
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
--->
-
-
-
                 <h1 class="h3 mb-3">Ajouter un Personnel <span class="float-right">اضافة موضف</span> </h1>
 					<div class="row">
-						<div class="col-12 col-lg-5 col-xxl-6 d-flex">
+						<div class="col-sm-8 col-lg-6 d-flex">
 							<div class="card flex-fill">
 								<div class="card-header">
                                     <br>
@@ -48,7 +16,6 @@
                                     </h4>
 								</div>
 								<div class="card-body">
-
                                     <div class="mb-3">
                                         <h5 class="card-title">Prénom :</h5>
                                         <input type="text" class="form-control" name="prenomfr" value="{{ personnel.prenomfr }}" {% if personnel.prenomfr %} readonly {% endif %}  required>
@@ -92,11 +59,11 @@
                                     <div class="mb-3">
                                         <h5 class="card-title">Situation familiale :</h5>
 										<select class="form-control  text-center" name="situationffr"  {% if personnel.situationfamilialefr %} disabled {% endif %}  required>
-                                                <option>marié(e) - متزوج(ة)</option>
-                                                <option>divorcé(e) - مطلق(ة)</option>
-                                                <option>célibataire(e) - بدون</option>
+                                                <option>marié(e)</option>
+                                                <option>divorcé(e)</option>
+                                                <option>célibataire(e)</option>
                                                 <option selected>{{ personnel.situationfamilialefr }}</option>
-                                            </select>
+                                        </select>
                                     </div>
 
                                     <div class="mb-3">
@@ -120,19 +87,18 @@
                                     </div>
 
                                       {% if personnel.cin %}
-                                             <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                                 <center>ajouté avec succès | أضيف بنجاح.</center>
+                                          <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                              <center>ajouté avec succès | أضيف بنجاح.</center>
                                               <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                               </button>
-                                            </div>
+                                          </div>
                                       {% endif %}
-
 							    </div>
 						    </div>
                         </div>
 
-						<div class="col-12 col-lg-5 col-xxl-6 d-flex">
+						<div class="col-sm-8 col-lg-6 d-flex">
 							<div class="card flex-fill">
 								<div class="card-header">
                                     <br>

@@ -84,7 +84,7 @@ DATABASES = {
         'NAME': 'ProjetWilaya',
         'USER': 'zaka',
         'PASSWORD': 'zaka',
-        'HOST': 'DESKTOP-J4H5HNC',
+        'HOST': 'DESKTOP-IRG7UCK',
         'PORT': '',
         'OPTIONS': {
             'driver': 'ODBC Driver 17 for SQL Server',
