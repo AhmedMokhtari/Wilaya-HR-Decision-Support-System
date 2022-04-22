@@ -25,9 +25,25 @@ def ajouter(request):
         tele = request.POST["tele"]
         email = request.POST["email"]
         situatfr = request.POST["situationffr"]
+        situatar = request.POST["situationfar"]
         adressear= request.POST["adressear"]
         adressefr = request.POST["adressefr"]
-        objperso= Personnel(nomar=nomar, nomfr=nomfr, cin=cin, prenomar=prenomar, prenomfr=prenomfr, lieunaissancear=lieunar, lieunaissancefr=lieunfr, datenaissance=daten, tele=tele, email = email,situationfamilialefr=situatfr,adressear=adressear, adressefr=adressefr)
+        numiden = request.POST["numiden"]
+        daterec = request.POST["daterec"]
+        datedec = request.POST["datedec"]
+        dateretr = request.POST["dateretr"]
+        numcnopsaf = request.POST["numcnopsaf"]
+        numcnopsim = request.POST["numcnopsim"]
+        rib = request.POST["rib"]
+        ancadmi = request.POST["ancadmi"]
+        adminiapp = request.POST["adminiapp"]
+
+        objperso= Personnel(nomar=nomar, nomfr=nomfr, cin=cin, prenomar=prenomar, prenomfr=prenomfr,
+                            lieunaissancear=lieunar, lieunaissancefr=lieunfr, datenaissance=daten,
+                            tele=tele, email=email, situationfamilialefr=situatfr, adressear=adressear,
+                            adressefr=adressefr, numerofinancier=numiden, daterecrutement=daterec,
+                            datedemarcation=datedec, dateparrainageretraite=dateretr, numcnopsaf=numcnopsaf,
+                            numcnopsim=numcnopsim, rib=rib, ancienneteadmi=ancadmi, administrationapp=adminiapp)
         objperso.save()
         conjoints = Conjointpersonnel.objects.filter(idpersonnel_field=objperso.idpersonnel).all()
     else:
