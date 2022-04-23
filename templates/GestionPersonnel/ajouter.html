@@ -24,16 +24,20 @@
 
                                     <div class="mb-3">
                                         <h5 class="card-title">Conjoint :<span class="float-right">: الزوج</span></h5>
-										<a class="btn btn-success  text-center" onclick="redF()" id="addfe">
+                                        <center>
+										<a class="btn btn-success  text-center" onclick="red('conjoint')" id="addfe">
                                             <i class="fa fa-plus"></i>
                                         </a>
+                                        </center>
                                     </div>
 
                                     <div class="mb-3">
                                         <h5 class="card-title">Enfants :<span class="float-right">: الاطفال</span></h5>
-										<a class="btn btn-success  text-center" onclick="redE()">
+                                        <center>
+										<a class="btn btn-success  text-center" onclick="red('enfant')">
                                             <i class="fa fa-plus"></i>
                                         </a>
+                                        </center>
                                     </div>
 							    </div>
 						    </div>
@@ -50,22 +54,12 @@
 								</div>
 								<div class="card-body">
                                     <div class="mb-3">
-                                        <h5 class="card-title">Cin :<span class="float-right">: ر.ب.و</span></h5>
-										<input type="text" class="form-control" name="cin" value="{{ personnel.cin }}" readonly  required>
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <h5 class="card-title">Conjoint :<span class="float-right">: الزوج</span></h5>
-										<a class="btn btn-success  text-center" onclick="red()" id="addfe">
+                                        <h5 class="card-title">Diplômes :<span class="float-right">: ديبلومات</span></h5>
+                                        <center>
+										<a class="btn btn-success  text-center" onclick="red('diplome')" id="addfe">
                                             <i class="fa fa-plus"></i>
                                         </a>
-                                    </div>
-
-                                    <div class="mb-3">
-                                        <h5 class="card-title">Enfants :<span class="float-right">: الاطفال</span></h5>
-										<a class="btn btn-success  text-center" onclick="rede">
-                                            <i class="fa fa-plus"></i>
-                                        </a>
+                                        </center>
                                     </div>
 							    </div>
 						    </div>
@@ -252,7 +246,7 @@
 
                                     <div class="mb-3">
                                         <h5 class="card-title">Grade :<span class="float-right">: المرتبة</span></h5>
-                                                 <select class="form-control text-center" name="grade"   required>
+                                                 <select class="form-control text-center" name="grade"  required>
                                                 {% for grade in grades %}
                                                     <option value="{{ grade.idgrade }}">{{ grade.gradefr }} - {{ grade.gradear }}</option>
                                                 {% endfor %}
@@ -261,8 +255,23 @@
 
                                      <div class="mb-3">
                                         <h5 class="card-title">Date d'affectation :<span class="float-right">: تاريخ التكليف</span></h5>
-                                                <input type="date" class="form-control" name="dategrade" value="" required>
+                                                <input type="date" class="form-control" name="dategrade" required>
                                     </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title">Fonction :<span class="float-right">: الوظيفة</span></h5>
+                                        <select class="form-control text-center" name="fonction"  required>
+                                            {% for fonction in fonctions %}
+                                                <option value="{{fonction.idfonction}}">{{ fonction.libellefonctionfr }} - {{ fonction.libellefontionar }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title">Date Fonction :<span class="float-right">: تاريخ الوظيفة</span></h5>
+                                                <input type="date" class="form-control" name="datefonction" required>
+                                    </div>
+
 							    </div>
 						    </div>
                         </div>
@@ -292,53 +301,6 @@
                                 </div>
                             </div>
                         </div>
-
-                        <div class="col-12 col-lg-12 col-xxl-12">
-                            <div class="card flex-fill">
-                               <div class="card-body">
-                                    <div class="row">
-                                        <div class="table-responsive col-lg-6">
-                                            <div>
-                                                <center>
-                                                    <hr>
-                                                    <h5>Conjoint - الزوج</h5>
-                                                    <hr>
-                                                </center>
-                                            </div>
-
-                                                <div class="col-sm-8 col-lg-12 ">
-                                                    <center>
-                                                        <div class="col-sm-2 col-lg-2">
-                                                                <a class="btn btn-success  text-center" onclick="red()" id="addfe">
-                                                                    <i class="fa fa-plus"></i>
-                                                                </a>
-                                                        </div>
-                                                    </center>
-                                                </div>
-                                        </div>
-                                        <div class="table-responsive col-lg-6">
-                                            <div>
-                                                <center>
-                                                    <hr>
-                                                    <h5>enfants - الاطفال</h5>
-                                                    <hr>
-                                                </center>
-                                            </div>
-
-                                            <div class="col-sm-8 col-lg-12">
-                                                <center>
-                                                    <div class="col-sm-2 col-lg-2" >
-                                                        <a class="btn btn-success  text-center">
-                                                                    <i class="fa fa-plus"></i>
-                                                        </a>
-                                                    </div>
-                                                </center>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-					    </div>
                     </div>
                  {% endif %}
     </form>
@@ -440,13 +402,13 @@
             }
         }
 
-            function redE ()
+            function red (link)
             {
-                var valE = document.getElementsByName('cin')[0].value;
-                if(valE != "")
+                var val = document.getElementsByName('cin')[0].value;
+                if(val != "")
                 {
-                    var data = "enfant?personnel="+valE;
-                     window.open(data,'enfant','width=500,height=900');
+                    var data = link+"?personnel="+val;
+                     window.open(data,link,'width=500,height=900');
                 }
                 else
                 {
@@ -455,20 +417,6 @@
             }
 
 
-        function redF ()
-            {
-                var valF = document.getElementsByName('cin')[0].value;
-                if(valF != "")
-                {
-                    var data = "conjoint?personnel="+valF;
-                     window.open(data,'conjoint','width=500,height=900');
-                }
-                else
-                {
-                    alert("il faut ajouter d'abord le personnel")
-                }
-
-            }
 	</script>
 
 {% endblock %}

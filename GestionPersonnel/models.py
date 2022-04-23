@@ -191,3 +191,19 @@ class Servicepersonnel(models.Model):
         db_table = 'ServicePersonnel'
         unique_together = (('idservice_field', 'idpersonnel_field'),)
 
+
+# -------------------------------------------------------
+class Diplome(models.Model):
+    iddiplome = models.AutoField(db_column='IdDiplome', primary_key=True)  # Field name made lowercase.
+    diplomefr = models.CharField(db_column='DiplomeFr', max_length=40, db_collation='French_CI_AS', blank=True, null=True)
+    diplomear = models.CharField(db_column='DiplomeAr', max_length=40, db_collation='French_CI_AS', blank=True, null=True)
+    etablissement = models.CharField(db_column='Etablissement', max_length=100, db_collation='French_CI_AS', blank=True, null=True)
+    specialitear = models.CharField(db_column='SpecialiteAr', max_length=100, db_collation='French_CI_AS', blank=True, null=True)
+    specialitefr = models.CharField(db_column='SpecialiteFr', max_length=100, db_collation='French_CI_AS', blank=True, null=True)
+    datediplome = models.DateTimeField(db_column='DateDiplome', blank=True, null=True)
+    idpersonnel_field = models.ForeignKey('Personnel', models.DO_NOTHING, db_column='IdPersonnel#')
+
+    class Meta:
+        managed = False
+        db_table = 'Diplome'
+

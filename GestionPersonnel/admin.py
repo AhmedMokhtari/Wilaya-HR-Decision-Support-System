@@ -4,7 +4,7 @@ from .models import Personnel, Fonction, \
     Grade, Gradepersonnel, Concours, \
     Conjoint, Conjointpersonnel, \
     Service, Servicepersonnel, \
-    Division, Echellon, Echelle, Enfant
+    Division, Enfant, Diplome
 
 # Register your models here.
 admin.site.register(Personnel)
@@ -17,6 +17,8 @@ admin.site.register(Conjointpersonnel)
 admin.site.register(Servicepersonnel)
 admin.site.register(Service)
 admin.site.register(Division)
+admin.site.register(Enfant)
+admin.site.register(Diplome)
+admin.site.register(Fonctionpersonnel)
 admin.site.register(Echelle)
 admin.site.register(Echellon)
-admin.site.register(Enfant)

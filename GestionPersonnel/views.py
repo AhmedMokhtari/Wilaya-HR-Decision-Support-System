@@ -1,9 +1,14 @@
 from django.shortcuts import render,redirect
-from .models import Personnel,Conjoint, Conjointpersonnel, Service, Servicepersonnel, Grade, Gradepersonnel, Enfant
+from .models import Personnel,Conjoint, Conjointpersonnel, \
+    Service, Servicepersonnel, Grade, \
+    Gradepersonnel, Enfant, Diplome, Fonction, Fonctionpersonnel
+
 from django.contrib.auth.decorators import login_required
 from fpdf import FPDF
 from django.http import HttpResponse
 import os
+
+
 #personnel -------------------------------.
 @login_required(login_url='/connexion')
 def consultation(request):
@@ -18,6 +23,7 @@ def ajouter(request):
 
     services = Service.objects.all()
     grades = Grade.objects.all()
+    fonctions = Fonction.objects.all()
     if(request.method == 'POST'):
         nomfr = request.POST["nomfr"]
         nomar = request.POST["nomar"]
@@ -47,7 +53,8 @@ def ajouter(request):
         dategrade = request.POST["dategrade"]
         service = request.POST["service"]
         grade = request.POST["grade"]
-
+        fonction = request.POST["fonction"]
+        datefonction = request.POST["datefonction"]
 
         objperso= Personnel(nomar=nomar, nomfr=nomfr, cin=cin, prenomar=prenomar, prenomfr=prenomfr,
                             lieunaissancear=lieunar, lieunaissancefr=lieunfr, datenaissance=daten,
@@ -57,10 +64,16 @@ def ajouter(request):
                             numcnopsim=numcnopsim, rib=rib, ancienneteadmi=ancadmi, administrationapp=adminiapp,
                             situationfamilialear=situatar, photo=photo)
         objperso.save()
+
         objservice = Service(idservice=service)
         objgrade = Grade(idgrade=grade)
+        objfonction = Fonction(idfonction=fonction)
+
+        objfonctionperso = Fonctionpersonnel(idpersonnel_field=objperso, idfonction_field=objfonction, datefonction=datefonction)
         objserviceperso = Servicepersonnel(idpersonnel_field=objperso, idservice_field=objservice, dateaffectation=dateservice)
         objgradeperso = Gradepersonnel(idpersonnel_field=objperso, idgrade_field=objgrade, dategrade=dategrade)
+
+        objfonctionperso.save()
         objserviceperso.save()
         objgradeperso.save()
 
@@ -68,7 +81,7 @@ def ajouter(request):
 
         return render(request, 'GestionPersonnel/ajouter.html', {'personnel': objperso})
     else:
-        return render(request, 'GestionPersonnel/ajouter.html', {'services': services, 'grades': grades})
+        return render(request, 'GestionPersonnel/ajouter.html', {'services': services, 'grades': grades ,'fonctions':fonctions})
 
 
 @login_required(login_url='/connexion')
@@ -159,6 +172,27 @@ def enfant(request):
 
     return render(request, 'GestionPersonnel/enfant.html', {'personnel': cinpersonnel, 'conjoints':conjoints})
 
+
+#diplome -----------------------------------
+@login_required(login_url='/connexion')
+def diplome(request):
+    cinpersonnel = request.GET.get('personnel', None)
+    personnel = Personnel.objects.filter(cin=cinpersonnel).first()
+
+    if request.method == 'POST':
+        diplomefr = request.POST["diplomefr"]
+        diplomear = request.POST["diplomear"]
+        etabfr = request.POST["etabfr"]
+        etabar = request.POST["etabar"]
+        spefr = request.POST["spefr"]
+        spear= request.POST["spear"]
+        datedip = request.POST["datedip"]
+        objdiplome=Diplome(diplomefr=diplomefr, diplomear=diplomear, etablissement=etabfr,
+                           specialitear=spear, specialitefr=spefr, datediplome=datedip,idpersonnel_field=personnel)
+        objdiplome.save()
+        return render(request, 'GestionPersonnel/diplome.html', {'personnel': cinpersonnel, 'diplome':objdiplome})
+
+    return render(request, 'GestionPersonnel/diplome.html', {'personnel': cinpersonnel})
 
 
 

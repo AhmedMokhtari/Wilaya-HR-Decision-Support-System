@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Conjoint - الزوج</title>
+    <title>Diplôme - ديبلومات</title>
     {% load static  %}
     <style>
     body {width:500px!important;height:500px!important;}
@@ -15,47 +15,47 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Conjoint</h5>
-         <h5 class="modal-title textarab" id="exampleModalLabel">الزوج</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Diplôme</h5>
+         <h5 class="modal-title textarab" id="exampleModalLabel">ديبلومات</h5>
       </div>
             <form action="" method="POST">
                   <div class="modal-body">
                             {% csrf_token %}
 
                              <p>
-                                 <label class="col-form-label" for="prenomfr">Prénom :</label><input type="text" name="prenomfr" class="form-control">
+                                 <label class="col-form-label" for="diplomefr">Diplôme :</label><input type="text" name="diplomefr" class="form-control">
                              </p>
 
                               <p>
-                                 <label class="col-form-label float-right" for="prenomar" >: الاسم الشخصي</label><input type="text"  name="prenomar" class="form-control">
+                                 <label class="col-form-label float-right" for="diplomear" >: ديبلوم</label><input type="text"  name="diplomear" class="form-control">
                              </p>
 
                               <p>
-                                 <label class="col-form-label" for="nomfr">Nom :</label><input type="text" name="nomfr"  class="form-control">
+                                 <label class="col-form-label" for="etabfr">Établissement :</label><input type="text" name="etabfr"  class="form-control">
                              </p>
 
                               <p>
-                                 <label class="col-form-label float-right" for="nomar" >: الاسم العائلي</label><input type="text" name="nomar" class="form-control">
+                                 <label class="col-form-label float-right" for="etabar" >: مؤسسة</label><input type="text" name="etabar" class="form-control">
                               </p>
 
                               <p>
-                                 <label class="col-form-label" for="cin">Cin :</label> <label class="col-form-label float-right" >: ر.ب.و</label><input type="text"  name="cin" class="form-control">
+                                 <label class="col-form-label" for="spefr">Spécialité :</label><input type="text" name="spefr"  class="form-control">
+                             </p>
+
+                              <p>
+                                 <label class="col-form-label float-right" for="spear" >: مؤسسة</label><input type="text" name="spear" class="form-control">
                               </p>
 
-                              <p>
-                                 <label class="col-form-label" for="daten">Date de naissance :</label> <label class="col-form-label float-right" for="daten" >: تاريخ الازدياد</label><input type="date" name="daten" class="form-control">
+                             <p>
+                                 <label class="col-form-label" for="datedip">Date de diplôme :</label> <label class="col-form-label float-right" for="datedip" >: تاريخ على الديبلوم</label><input type="date" name="datedip" class="form-control">
                              </p>
 
-                              <p>
-                                 <label class="col-form-label" for="lieun">lieu de naissance :</label> <label class="col-form-label float-right" for="lieun">: مكان الازدياد</label><input type="text"   name="lieun" class="form-control">
-                             </p>
-
-                              <p>
+                             <p>
                                  <label class="col-form-label" for="prenomfr">Personnel Cin :</label><input type="text"  name="personnelcin" readonly class="form-control" value="{{ personnel }}">
                              </p>
 
                   </div>
-                    {% if conjoint.cin %}
+                    {% if diplome %}
                         <div class="alert alert-success alert-dismissible fade show" role="alert">
                             <center>ajouté avec succès | أضيف بنجاح.</center>
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
