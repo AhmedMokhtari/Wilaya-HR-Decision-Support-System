@@ -65,7 +65,7 @@ def ajouter(request):
         objgradeperso.save()
         conjoints = Conjointpersonnel.objects.filter(idpersonnel_field=objperso.idpersonnel).all()
 
-        return render(request, 'GestionPersonnel/consultation.html',{'personnels': Personnel.objects.all()} )
+        return render(request, 'GestionPersonnel/ajouter.html', {'personnel': objperso})
     else:
         return render(request, 'GestionPersonnel/ajouter.html', {'services': services, 'grades': grades})
 
@@ -114,7 +114,7 @@ def conjoint(request):
         obj1 = Conjoint(nomar=nomar, nomfr=nomfr, cin=cin, prenomar=prenomar, prenomfr=prenomfr, lieunaissance=lieun, datenaissance=daten)
         obj1.save()
 
-        pers = Personnel.objects.filter(cin= personnelcin).first()
+        pers = Personnel.objects.filter(cin=personnelcin).first()
         con = Conjoint.objects.filter(cin=cin).first()
         obj2 = Conjointpersonnel(idconjoint_field=con, idpersonnel_field=pers)
         obj2.save()
