@@ -42,10 +42,12 @@ def ajouter(request):
         rib = request.POST["rib"]
         ancadmi = request.POST["ancadmi"]
         adminiapp = request.POST["adminiapp"]
+        photo = request.POST["photo"]
         dateservice = request.POST["dateservice"]
-        dategrade =  request.POST["dategrade"]
+        dategrade = request.POST["dategrade"]
         service = request.POST["service"]
         grade = request.POST["grade"]
+
 
         objperso= Personnel(nomar=nomar, nomfr=nomfr, cin=cin, prenomar=prenomar, prenomfr=prenomfr,
                             lieunaissancear=lieunar, lieunaissancefr=lieunfr, datenaissance=daten,
@@ -53,12 +55,19 @@ def ajouter(request):
                             adressefr=adressefr, numerofinancier=numiden, daterecrutement=daterec,
                             datedemarcation=datedec, dateparrainageretraite=dateretr, numcnopsaf=numcnopsaf,
                             numcnopsim=numcnopsim, rib=rib, ancienneteadmi=ancadmi, administrationapp=adminiapp,
-                            situationfamilialear=situatar)
+                            situationfamilialear=situatar, photo=photo)
         objperso.save()
+        objservice = Service(idservice=service)
+        objgrade = Grade(idgrade=grade)
+        objserviceperso = Servicepersonnel(idpersonnel_field=objperso, idservice_field=objservice, dateaffectation=dateservice)
+        objgradeperso = Gradepersonnel(idpersonnel_field=objperso, idgrade_field=objgrade, dategrade=dategrade)
+        objserviceperso.save()
+        objgradeperso.save()
         conjoints = Conjointpersonnel.objects.filter(idpersonnel_field=objperso.idpersonnel).all()
-        return render(request, 'GestionPersonnel/ajouter1.html', {'personnel': objperso, 'conjoints': conjoints})
+
+        return render(request, 'GestionPersonnel/consultation.html',{'personnels': Personnel.objects.all()} )
     else:
-        return render(request, 'GestionPersonnel/ajouter1.html',{'services': services, 'grades': grades})
+        return render(request, 'GestionPersonnel/ajouter.html', {'services': services, 'grades': grades})
 
 
 @login_required(login_url='/connexion')

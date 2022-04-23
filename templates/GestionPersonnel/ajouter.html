@@ -1,274 +1,404 @@
 {% extends 'menu2.html' %}
 {% block content %}
-    {% load static %}
-
-<link rel="stylesheet" type="text/css" href="{% static 'css/styleajouter.css' %}">
-<script type="d2d1d6e2f87cbebdf4013b26-text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
-
-<div class="page-header card">
-	<div class="row align-items-end">
-		<div class="col-lg-12">
-			<div class="page-header-title text-center">
-				<div class="d-inline">
-					<h5>
-						Personnel - العاملين
-					</h5>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
-<div class="pcoded-inner-content">
-	<div class="main-body">
-		<div class="page-wrapper">
-			<div class="page-body">
-				<div class="card">
-					<div class="card-header">
-						<h5>
-							Données personnelles
-						</h5>
-
-                        <h5 style="float: right; text-align: right">
-							معلومات شخصية
-						</h5>
-						<span>
-							Add class of
-							<code>
-								.form-control
-							</code>
-							 with
-							<code>
-								&lt;input&gt;
-							</code>
-							 tag
-						</span>
-					</div>
-                <form method="post">
-                    {% csrf_token %}
-					<div class="card-block">
-						<div class="m-b-20">
-							<div class="row">
-								<div class="col-sm-8 col-lg-6">
-                                    <label class="col-form-label">Prénom :</label>
-									<div class="input-group">
-										<input type="text" class="form-control" name="prenomfr" value="{{ personnel.prenomfr }}" {% if personnel.prenomfr %} readonly {% endif %}  required>
-									</div>
-								</div>
-
-								<div class="col-sm-8 col-lg-6">
-                                    <label class="col-form-label float-right">: الاسم الشخصي</label>
-									<div class="input-group">
-										<input type="text" class="form-control" name="prenomar" value="{{ personnel.prenomar }}" {% if personnel.prenomar %} readonly {% endif %}  required>
-									</div>
-								</div>
-
-							</div>
-
-							<div class="row">
-
-								<div class="col-sm-8 col-lg-6">
-                                    <label class="col-form-label">Nom  :</label>
-									<div class="input-group">
-										<input type="text" class="form-control" name="nomfr" value="{{ personnel.nomfr }}" {% if personnel.nomfr %} readonly {% endif %}  required>
-									</div>
-								</div>
+{% load static %}
 
 
-
-								<div class="col-sm-8 col-lg-6">
-                                    <label class="col-form-label float-right">: الاسم العائلي</label>
-									<div class="input-group">
-										<input type="text" class="form-control" name="nomar" value="{{ personnel.nomar }}" {% if personnel.nomfr %} readonly {% endif %}  required>
-									</div>
-								</div>
-							</div>
-
-                            <div class="row">
-								<div class="col-sm-8 col-lg-6">
-                                    <label class="col-form-label">lieu de naissance :</label>
-									<div class="input-group">
-										<input type="text" class="form-control" name="lieunfr" value="{{ personnel.lieunaissancefr }}" {% if personnel.lieunaissancefr %} readonly {% endif %}  required>
-									</div>
-								</div>
-
-								<div class="col-sm-8 col-lg-6">
-                                    <label class="col-form-label float-lg-right">: مكان الازدياد</label>
-									<div class="input-group">
-										<input type="text" class="form-control" name="lieunar" value="{{ personnel.lieunaissancear }}" {% if personnel.lieunaissancear %} readonly {% endif %}  required>
-									</div>
-								</div>
-							</div>
-
-
-
-                            <div class="row">
-								<div class="col-sm-8 col-lg-6">
-                                    <label class="col-form-label">Adresse :</label>
-									<div class="input-group">
-										<input type="text" class="form-control" name="adressefr" value="{{ personnel.adressefr }}" {% if personnel.adressefr %} readonly {% endif %}  required>
-									</div>
-								</div>
-
-
-								<div class="col-sm-8 col-lg-6">
-                                    <label class="col-form-label float-right">: العنوان</label>
-									<div class="input-group">
-										<input type="text" class="form-control" name="adressear" value="{{ personnel.adressear }}" {% if personnel.adressear %} readonly {% endif %}  required>
-									</div>
-								</div>
-							</div>
-
-                             <div class="row">
-                                    <div class="col-sm-8 col-lg-12">
-                                        <label class="col-form-label">Situation familiale :</label>
-                                        <label class="col-form-label float-right">: الوضع العائلي</label>
-                                        <div class="input-group">
-                                            <select class="form-control  text-center" name="situationffr"  {% if personnel.situationfamilialefr %} disabled {% endif %}  required>
-                                                <option>marié(e) - متزوج(ة)</option>
-                                                <option>divorcé(e) - مطلق(ة)</option>
-                                                <option>célibataire(e) - بدون</option>
-                                                <option selected>{{ personnel.situationfamilialefr }} - {{ personnel.situationfamilialear }}</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                             </div>
-
-                            <div class="row">
-								<div class="col-sm-8 col-lg-12">
-                                    <label class="col-form-label">CIN :</label>
-                                    <label class="col-form-label float-right">: ر.ب.و </label>
-									<div class="input-group">
-										<input type="text" name="cin" class="form-control" value="{{ personnel.cin }}" {% if personnel.cin %} readonly {% endif %}   required>
-									</div>
-								</div>
-
-							</div>
-
-							<div class="row">
-
-								<div class="col-sm-8 col-lg-12">
-                                    <label class="col-form-label ">Date de naissance :</label>
-                                    <label class="col-form-label float-right">: تاريخ الازدياد</label>
-									<div class="input-group">
-										<input type="date" class="form-control" name="daten" value="{{ personnel.datenaissance }}" {% if personnel.datenaissance %} readonly {% endif %} required>
-									</div>
-								</div>
-
-							</div>
-
-                            <div class="row">
-
-								<div class="col-sm-8 col-lg-12">
-                                    <label class="col-form-label ">Tele :</label>
-                                    <label class="col-form-label float-right">: الهاتف</label>
-									<div class="input-group">
-										<input type="text" class="form-control" name="tele" value="{{ personnel.tele }}" {% if personnel.tele %} readonly {% endif %} required>
-									</div>
-								</div>
-
-							</div>
-
-                            <div class="row">
-								<div class="col-sm-8 col-lg-12">
-                                    <label class="col-form-label ">Email :</label>
-                                    <label class="col-form-label float-right">: البريد الالكتروني</label>
-									<div class="input-group">
-										<input type="text"  class="form-control" name="email" value="{{ personnel.email }}" {% if personnel.email %} readonly {% endif %} required>
-									</div>
-								</div>
-							</div>
-                            {% if personnel.cin %}
-                                 <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                     <center>ajouté avec succès | أضيف بنجاح.</center>
-                                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                  </button>
-                                </div>
-                            {% endif %}
-                            <center>
-                                <p>
-                                    <div class="col-sm-2 col-lg-2" >
-                                        <p>
-                                             <button type="submit" class="btn btn-success bg-white"  {% if personnel.cin %} disabled style="cursor: not-allowed; color: lightseagreen"{% else %}style="color: lightseagreen" {% endif %} >Enregistrer | حفظ</button>
-                                        </p>
-                                     </div>
-
-                                </p>
-                            </center>
-						</div>
-                        <div class="row">
-                                <div class="table-responsive col-lg-6">
-                                    <div>
-                                        <center>
-                                            <hr>
-                                            <h5>Conjoint - الزوج</h5>
-                                            <hr>
-                                        </center>
-                                    </div>
+ <form method="POST">
+    {% csrf_token %}
+               <!-- <h1 class="h3 mb-3">Ajouter un Personnel <span class="float-right">اضافة موضف</span> </h1>-->
+					<div class="row">
+						<div class="col-sm-8 col-lg-6 d-flex">
+							<div class="card flex-fill">
+								<div class="card-header">
                                     <br>
-                                        <div class="col-sm-8 col-lg-12 ">
-                                            <center>
-                                                <div class="col-sm-2 col-lg-2">
-                                                        <a class="btn btn-success  text-center" onclick="red()" id="addfe">
-                                                            <i class="fa fa-plus"></i>
-                                                        </a>
-                                                </div>
-                                            </center>
-                                        </div>
-                                </div>
-                                <div class="table-responsive col-lg-6">
-                                    <div>
-                                        <center>
-                                            <hr>
-                                            <h5>enfants - الاطفال</h5>
-                                            <hr>
-                                        </center>
-                                    </div>
-                                    <br>
-                                    <div class="col-sm-8 col-lg-12">
-                                        <center>
-                                            <div class="col-sm-2 col-lg-2" >
-                                                <a class="btn btn-success  text-center">
-                                                            <i class="fa fa-plus"></i>
-                                                </a>
+                                    <h4 class="text-center">
+                                        Données personnelles - معلومات شخصية
+                                    </h4>
+                                    <hr>
+								</div>
+								<div class="card-body">
+
+
+                                    <div class="mb-3">
+                                        <div class="text-center">
+                                            <div class="mt-2">
+                                                <img src="{% static 'images/genericpersonnel.webp' %}" id="image" class="rounded-circle img-responsive mt-2" width="164" height="164">
+                                                <p>
+                                                    <input type="file" name="photo" id="photo" onchange="previewPicture(this)"/>
+                                                </p>
                                             </div>
-                                        </center>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <h5 class="card-title">Prénom :</h5>
+                                        <input type="text" class="form-control" name="prenomfr"   required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title"><span class="float-right">: الاسم الشخصي</span></h5>
+                                        <input type="text" class="form-control" name="prenomar"   required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title">Nom  :</h5>
+										<input type="text" class="form-control" name="nomfr"   required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title"><span class="float-right">: الاسم العائلي</span></h5>
+										<input type="text" class="form-control" name="nomar"   required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title">lieu de naissance :</h5>
+										<input type="text" class="form-control" name="lieunfr"   required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title"><span class="float-right">: مكان الازدياد</span></h5>
+										<input type="text" class="form-control" name="lieunar"   required>
+                                    </div>
+
+                                     <div class="mb-3">
+                                        <h5 class="card-title">Adresse :</h5>
+										<input type="text" class="form-control" name="adressefr"   required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title"><span class="float-right">: العنوان</span></h5>
+										<input type="text" class="form-control" name="adressear"  required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title">Situation familiale :</h5>
+										<select class="form-control  text-center" name="situationffr"   required>
+                                                <option>marié(e)</option>
+                                                <option>divorcé(e)</option>
+                                                <option>célibataire(e)</option>
+                                                <option selected>{{ personnel.situationfamilialefr }}</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="mb-3">
+                                            <h5 class="card-title text-right">: الوضع العائلي</h5>
+                                            <select class="form-control  text-center" name="situationfar"   required>
+                                                    <option>متزوج(ة)</option>
+                                                    <option>مطلق(ة)</option>
+                                                    <option>بدون</option>
+                                                    <option selected>{{ personnel.situationfamilialear }}</option>
+                                                </select>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title">Date de naissance :<span class="float-right">: تاريخ الازدياد</span></h5>
+										<input type="date" class="form-control" name="daten"  required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title">Cin :<span class="float-right">: ر.ب.و</span></h5>
+										<input type="text" class="form-control" name="cin"  required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title">Tele :<span class="float-right">: الهاتف</span></h5>
+										<input type="text" class="form-control" name="tele"  required>
+                                    </div>
+
+                                     <div class="mb-3">
+                                        <h5 class="card-title">Email :<span class="float-right">: البريد الالكتروني</span></h5>
+										<input type="text"  class="form-control" name="email" required>
+                                    </div>
+
+
+
+                                      {% if personnel.cin %}
+                                          <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                              <center>ajouté avec succès | أضيف بنجاح.</center>
+                                              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                              </button>
+                                          </div>
+                                      {% endif %}
+							    </div>
+						    </div>
+                        </div>
+
+						<div class="col-sm-8 col-lg-6 d-flex">
+							<div class="card flex-fill">
+								<div class="card-header">
+                                    <br>
+                                    <h4 class="text-center">
+                                        Données Professionnel - معلومات مهنية
+                                    </h4>
+                                    <hr>
+								</div>
+								<div class="card-body">
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title">Numéro d'identification fiscale <span class="float-right">: الرقم المالي</span></h5>
+                                            <input type="text" class="form-control" name="numiden" value="" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title">Date de recrutement :<span class="float-right">: تاريخ التوظيف</span></h5>
+                                            <input type="date" class="form-control" name="daterec" value="" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title">Date de démarcation :<span class="float-right">: تاريخ الترسيم</span></h5>
+                                            <input type="date" class="form-control" name="datedec" value="" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title">Date de départ à la retraite :<span class="float-right">: تاريخ الإحالة على التقاعد</span></h5>
+                                            <input type="date" class="form-control" name="dateretr" value="" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title">Numéro cnopsAf :<span class="float-right">: رفم cnopsAf</span></h5>
+                                            <input type="text" class="form-control" name="numcnopsaf" value="" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title">Numéro cnopsIm :<span class="float-right">: رفم cnopsIm</span></h5>
+                                            <input type="text" class="form-control" name="numcnopsim" value="" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title">Rib :<span class="float-right">: ر.ي.ب</span></h5>
+                                            <input type="text" class="form-control" name="rib" pattern="^(0|[1-9][0-9]*)$" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title">Ancienneté administrative :<span class="float-right">: الأقدمية الإدارية</span></h5>
+                                            <input type="text" class="form-control" name="ancadmi" value="" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title">Administration App :<span class="float-right">: إدارة</span></h5>
+                                            <input type="text" class="form-control" name="adminiapp" value="" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title">Service :<span class="float-right">: إدارة</span></h5>
+                                            <select class="form-control text-center" name="service"  required>
+                                                {% for service in services %}
+                                                    <option value="{{ service.idservice }}">{{ service.libelleservicefr }} - {{ service.libelleservicear }}</option>
+                                                {% endfor %}
+                                            </select>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title">Date d'affectation :<span class="float-right">: تاريخ التكليف</span></h5>
+                                                <input type="date" class="form-control" name="dateservice" value="" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title">Grade :<span class="float-right">: المرتبة</span></h5>
+                                                 <select class="form-control text-center" name="grade"   required>
+                                                {% for grade in grades %}
+                                                    <option value="{{ grade.idgrade }}">{{ grade.gradefr }} - {{ grade.gradear }}</option>
+                                                {% endfor %}
+                                            </select>
+                                    </div>
+
+                                     <div class="mb-3">
+                                        <h5 class="card-title">Date d'affectation :<span class="float-right">: تاريخ التكليف</span></h5>
+                                                <input type="date" class="form-control" name="dategrade" value="" required>
+                                    </div>
+							    </div>
+						    </div>
+                        </div>
+
+                        <div class="col-12 col-lg-12 col-xxl-12">
+                            <div class="card flex-fill">
+								<div class="card-body">
+                                <center><button type="button" class="btn btn-success"  data-toggle="modal" data-target="#defaultModalSuccess"style="font-size: 130%">Ajouter - اضافة</button></center>
+                                    <div class="modal fade" id="defaultModalSuccess" tabindex="-1" role="dialog" aria-hidden="true">
+										<div class="modal-dialog" role="document">
+											<div class="modal-content">
+												<div class="modal-header">
+													<h5 class="modal-title">Ajout - اضافة</h5>
+													<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                  <span aria-hidden="true">&times;</span>
+                                                </button>
+												</div>
+												<div class="modal-body m-3">
+													<p class="mb-0">Confirmer l'ajout d'un personnel - تأكيد اضافة عامل</p>
+												</div>
+												<div class="modal-footer">
+													<button type="submit" class="btn btn-success">confirmer - تأكيد</button>
+												</div>
+											</div>
+										</div>
+									</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-12 col-xxl-12">
+                            <div class="card flex-fill">
+                               <div class="card-body">
+                                    <div class="row">
+                                        <div class="table-responsive col-lg-6">
+                                            <div>
+                                                <center>
+                                                    <hr>
+                                                    <h5>Conjoint - الزوج</h5>
+                                                    <hr>
+                                                </center>
+                                            </div>
+
+                                                <div class="col-sm-8 col-lg-12 ">
+                                                    <center>
+                                                        <div class="col-sm-2 col-lg-2">
+                                                                <a class="btn btn-success  text-center" onclick="red()" id="addfe">
+                                                                    <i class="fa fa-plus"></i>
+                                                                </a>
+                                                        </div>
+                                                    </center>
+                                                </div>
+                                        </div>
+                                        <div class="table-responsive col-lg-6">
+                                            <div>
+                                                <center>
+                                                    <hr>
+                                                    <h5>enfants - الاطفال</h5>
+                                                    <hr>
+                                                </center>
+                                            </div>
+
+                                            <div class="col-sm-8 col-lg-12">
+                                                <center>
+                                                    <div class="col-sm-2 col-lg-2" >
+                                                        <a class="btn btn-success  text-center">
+                                                                    <i class="fa fa-plus"></i>
+                                                        </a>
+                                                    </div>
+                                                </center>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
-                                <hr>
                             </div>
-                            <center>
-                                <p>
-                                    <div class="col-sm-2 col-lg-2" >
-                                        <p>
-                                            <a  class="btn btn-success bg-white" style="color: lightseagreen" onclick="ed()" >suivant | التالي</a>
-                                        </p>
-                                     </div>
-                                </p>
-                            </center>
-						</div>
-					</div>
-                </form>
-			</div>
-			</div>
-		</div>
-    </div>
-</div>
+					    </div>
+                    </div>
+    </form>
 
-    <script type="text/javascript">
-            function red ()
+<script>
+		$(function() {
+			$("#smartwizard-default-primary").smartWizard({
+				theme: "default",
+				showStepURLhash: false
+			});
+			$("#smartwizard-default-success").smartWizard({
+				theme: "default",
+				showStepURLhash: false
+			});
+			$("#smartwizard-default-danger").smartWizard({
+				theme: "default",
+				showStepURLhash: false
+			});
+			$("#smartwizard-default-warning").smartWizard({
+				theme: "default",
+				showStepURLhash: false
+			});
+			$("#smartwizard-arrows-primary").smartWizard({
+				theme: "arrows",
+				showStepURLhash: false
+			});
+			$("#smartwizard-arrows-success").smartWizard({
+				theme: "arrows",
+				showStepURLhash: false
+			});
+			$("#smartwizard-arrows-danger").smartWizard({
+				theme: "arrows",
+				showStepURLhash: false
+			});
+			$("#smartwizard-arrows-warning").smartWizard({
+				theme: "arrows",
+				showStepURLhash: false
+			});
+			// Validation
+			var $validationForm = $("#smartwizard-validation");
+			$validationForm.validate({
+				errorPlacement: function errorPlacement(error, element) {
+					$(element).parents(".form-group").append(
+						error.addClass("invalid-feedback small d-block")
+					)
+				},
+				highlight: function(element) {
+					$(element).addClass("is-invalid");
+				},
+				unhighlight: function(element) {
+					$(element).removeClass("is-invalid");
+				},
+				rules: {
+					"wizard-confirm": {
+						equalTo: "input[name=\"wizard-password\"]"
+					}
+				}
+			});
+			$validationForm
+				.smartWizard({
+					autoAdjustHeight: false,
+					backButtonSupport: false,
+					useURLhash: false,
+					showStepURLhash: false,
+					toolbarSettings: {
+						toolbarExtraButtons: [$("<button class=\"btn btn-submit btn-primary\" type=\"button\">Finish</button>")]
+					}
+				})
+				.on("leaveStep", function(e, anchorObject, stepNumber, stepDirection) {
+					if (stepDirection === "forward") {
+						return $validationForm.valid();
+					}
+					return true;
+				});
+			$validationForm.find(".btn-submit").on("click", function() {
+				if (!$validationForm.valid()) {
+					return;
+				}
+				alert("Great! The form is valid and ready to submit.");
+				return false;
+			});
+		});
+
+
+
+
+        var image = document.getElementById("image");
+
+        // La fonction previewPicture
+        var previewPicture  = function (e) {
+
+            // e.files contient un objet FileList
+            const [picture] = e.files
+
+            // "picture" est un objet File
+            if (picture) {
+                // On change l'URL de l'image
+                image.src = URL.createObjectURL(picture)
+            }
+        }
+
+
+
+
+        function red ()
             {
                 var val = document.getElementsByName('cin')[0].value;
-                var data = "conjoint?personnel="+val;
-                window.open(data,'conjoint','width=500,height=650');
+                if(val != "")
+                {
+                    var data = "conjoint?personnel="+val;
+                     window.open(data,'conjoint','width=500,height=650');
+                }
+                else
+                {
+                    alert("il faut ajouter d'abord le personnel")
+                }
+
             }
-
-            function ed()
-            {
-
-                window.location.replace("modifier/"+{{ personnel.idpersonnel }});
-            }
-    </script>
-
+	</script>
 
 {% endblock %}
