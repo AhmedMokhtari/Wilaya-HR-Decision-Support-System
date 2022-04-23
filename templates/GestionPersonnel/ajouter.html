@@ -12,7 +12,7 @@
 								<div class="card-header">
                                     <br>
                                     <h4 class="text-center">
-                                        Données Complémentaires - معلومات اضافية
+                                        Données personnelles - معلومات شخصية
                                     </h4>
                                     <hr>
 								</div>
@@ -38,6 +38,39 @@
 							    </div>
 						    </div>
                         </div>
+
+                    <div class="col-sm-8 col-lg-6 d-flex">
+							<div class="card flex-fill">
+								<div class="card-header">
+                                    <br>
+                                    <h4 class="text-center">
+                                        Données personnelles - معلومات شخصية
+                                    </h4>
+                                    <hr>
+								</div>
+								<div class="card-body">
+                                    <div class="mb-3">
+                                        <h5 class="card-title">Cin :<span class="float-right">: ر.ب.و</span></h5>
+										<input type="text" class="form-control" name="cin" value="{{ personnel.cin }}" readonly  required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title">Conjoint :<span class="float-right">: الزوج</span></h5>
+										<a class="btn btn-success  text-center" onclick="red()" id="addfe">
+                                            <i class="fa fa-plus"></i>
+                                        </a>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title">Enfants :<span class="float-right">: الاطفال</span></h5>
+										<a class="btn btn-success  text-center">
+                                                                    <i class="fa fa-plus"></i>
+                                        </a>
+                                    </div>
+							    </div>
+						    </div>
+                        </div>
+
                     </div>
 
                 {% else %}
@@ -47,7 +80,7 @@
 								<div class="card-header">
                                     <br>
                                     <h4 class="text-center">
-                                        Données personnelles - معلومات شخصية
+                                        Données Professionnel - معلومات مهنية
                                     </h4>
                                     <hr>
 								</div>
@@ -143,17 +176,6 @@
                                         <h5 class="card-title">Email :<span class="float-right">: البريد الالكتروني</span></h5>
 										<input type="text"  class="form-control" name="email" required>
                                     </div>
-
-
-
-                                      {% if personnel.cin %}
-                                          <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                              <center>ajouté avec succès | أضيف بنجاح.</center>
-                                              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                              </button>
-                                          </div>
-                                      {% endif %}
 							    </div>
 						    </div>
                         </div>
@@ -427,7 +449,7 @@
                 if(val != "")
                 {
                     var data = "conjoint?personnel="+val;
-                     window.open(data,'conjoint','width=500,height=650');
+                     window.open(data,'conjoint','width=500,height=900');
                 }
                 else
                 {
