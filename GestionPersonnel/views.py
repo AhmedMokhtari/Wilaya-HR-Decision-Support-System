@@ -12,7 +12,12 @@ def consultation(request):
 
 
 @login_required(login_url='/connexion')
+
+
 def ajouter(request):
+
+    services = Service.objects.all()
+    grades = Grade.objects.all()
     if(request.method == 'POST'):
         nomfr = request.POST["nomfr"]
         nomar = request.POST["nomar"]
@@ -37,21 +42,23 @@ def ajouter(request):
         rib = request.POST["rib"]
         ancadmi = request.POST["ancadmi"]
         adminiapp = request.POST["adminiapp"]
+        dateservice = request.POST["dateservice"]
+        dategrade =  request.POST["dategrade"]
+        service = request.POST["service"]
+        grade = request.POST["grade"]
 
         objperso= Personnel(nomar=nomar, nomfr=nomfr, cin=cin, prenomar=prenomar, prenomfr=prenomfr,
                             lieunaissancear=lieunar, lieunaissancefr=lieunfr, datenaissance=daten,
                             tele=tele, email=email, situationfamilialefr=situatfr, adressear=adressear,
                             adressefr=adressefr, numerofinancier=numiden, daterecrutement=daterec,
                             datedemarcation=datedec, dateparrainageretraite=dateretr, numcnopsaf=numcnopsaf,
-                            numcnopsim=numcnopsim, rib=rib, ancienneteadmi=ancadmi, administrationapp=adminiapp)
+                            numcnopsim=numcnopsim, rib=rib, ancienneteadmi=ancadmi, administrationapp=adminiapp,
+                            situationfamilialear=situatar)
         objperso.save()
         conjoints = Conjointpersonnel.objects.filter(idpersonnel_field=objperso.idpersonnel).all()
-    else:
-        return render(request, 'GestionPersonnel/ajouter1.html')
-    if (objperso):
         return render(request, 'GestionPersonnel/ajouter1.html', {'personnel': objperso, 'conjoints': conjoints})
     else:
-        return render(request, 'GestionPersonnel/ajouter1.html')
+        return render(request, 'GestionPersonnel/ajouter1.html',{'services': services, 'grades': grades})
 
 
 @login_required(login_url='/connexion')

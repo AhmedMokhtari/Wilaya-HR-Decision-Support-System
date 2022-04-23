@@ -78,6 +78,16 @@
                                     </div>
 
                                     <div class="mb-3">
+                                        <h5 class="card-title">Date de naissance :<span class="float-right">: تاريخ الازدياد</span></h5>
+										<input type="date" class="form-control" name="daten" value="{{ personnel.datenaissance }}" {% if personnel.datenaissance %} readonly {% endif %} required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title">Cin :<span class="float-right">: ر.ب.و</span></h5>
+										<input type="text" class="form-control" name="cin" value="{{ personnel.cin }}" {% if personnel.tele %} readonly {% endif %} required>
+                                    </div>
+
+                                    <div class="mb-3">
                                         <h5 class="card-title">Tele :<span class="float-right">: الهاتف</span></h5>
 										<input type="text" class="form-control" name="tele" value="{{ personnel.tele }}" {% if personnel.tele %} readonly {% endif %} required>
                                     </div>
@@ -157,9 +167,31 @@
 
                                     <div class="mb-3">
                                         <h5 class="card-title">Service :<span class="float-right">: إدارة</span></h5>
-                                            <input type="text" class="form-control" name="adminiapp" value="" required>
+                                            <select class="form-control text-center" name="service"  required>
+                                                {% for service in services %}
+                                                    <option value="{{ service.idservice }}">{{ service.libelleservicefr }} - {{ service.libelleservicear }}</option>
+                                                {% endfor %}
+                                            </select>
                                     </div>
 
+                                    <div class="mb-3">
+                                        <h5 class="card-title">Date d'affectation :<span class="float-right">: تاريخ التكليف</span></h5>
+                                                <input type="date" class="form-control" name="dateservice" value="" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title">Grade :<span class="float-right">: المرتبة</span></h5>
+                                                 <select class="form-control text-center" name="grade"   required>
+                                                {% for grade in grades %}
+                                                    <option value="{{ grade.idgrade }}">{{ grade.gradefr }} - {{ grade.gradear }}</option>
+                                                {% endfor %}
+                                            </select>
+                                    </div>
+
+                                     <div class="mb-3">
+                                        <h5 class="card-title">Date d'affectation :<span class="float-right">: تاريخ التكليف</span></h5>
+                                                <input type="date" class="form-control" name="dategrade" value="" required>
+                                    </div>
 							    </div>
 						    </div>
                         </div>
@@ -298,6 +330,21 @@
 				return false;
 			});
 		});
+
+        function red ()
+            {
+                var val = document.getElementsByName('cin')[0].value;
+                if(val != "")
+                {
+                    var data = "conjoint?personnel="+val;
+                     window.open(data,'conjoint','width=500,height=650');
+                }
+                else
+                {
+                    alert("il faut ajouter d'abord le personnel")
+                }
+
+            }
 	</script>
 
 {% endblock %}
