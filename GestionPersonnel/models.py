@@ -142,6 +142,23 @@ class Conjointpersonnel(models.Model):
         unique_together = (('idconjoint_field', 'idpersonnel_field'),)
 
 # -------------------------------------------------------
+class Enfant(models.Model):
+    idenfant = models.AutoField(db_column='IdEnfant', primary_key=True)  # Field name made lowercase.
+    nomar = models.CharField(db_column='NomAr', max_length=20, db_collation='French_CI_AS', blank=True, null=True)  # Field name made lowercase.
+    nomfr = models.CharField(db_column='NomFr', max_length=20, db_collation='French_CI_AS', blank=True, null=True)  # Field name made lowercase.
+    prenomar = models.CharField(db_column='PrenomAr', max_length=20, db_collation='French_CI_AS', blank=True, null=True)  # Field name made lowercase.
+    prenomfr = models.CharField(db_column='PrenomFr', max_length=20, db_collation='French_CI_AS', blank=True, null=True)  # Field name made lowercase.
+    datenaissance = models.DateTimeField(db_column='DateNaissance', blank=True, null=True)  # Field name made lowercase.
+    lieunaissancear = models.CharField(db_column='LieuNaissanceAr', max_length=20, db_collation='French_CI_AS', blank=True, null=True)  # Field name made lowercase.
+    lieunaissancefr = models.CharField(db_column='LieuNaissanceFr', max_length=20, db_collation='French_CI_AS', blank=True, null=True)  # Field name made lowercase.
+    lienjuridique = models.CharField(db_column='LienJuridique', max_length=30, db_collation='French_CI_AS', blank=True, null=True)  # Field name made lowercase.
+    idconjoint_field = models.ForeignKey(Conjoint, models.DO_NOTHING, db_column='IdConjoint#', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
+
+    class Meta:
+        managed = False
+        db_table = 'Enfant'
+
+# -------------------------------------------------------
 class Division(models.Model):
     iddivision = models.AutoField(db_column='IdDivision', primary_key=True)  # Field name made lowercase.
     libelledivisionar = models.CharField(db_column='LibelleDivisionAr', max_length=100, db_collation='French_CI_AS', blank=True, null=True)  # Field name made lowercase.

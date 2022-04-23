@@ -1,5 +1,10 @@
 from django.contrib import admin
-from .models import Personnel, Fonction, Fonctionpersonnel, Echelle, Echellon, Grade, Gradepersonnel, Concours, Conjoint, Conjointpersonnel, Service, Servicepersonnel, Division, Echellon, Echelle
+from .models import Personnel, Fonction, \
+    Fonctionpersonnel, Echelle, Echellon, \
+    Grade, Gradepersonnel, Concours, \
+    Conjoint, Conjointpersonnel, \
+    Service, Servicepersonnel, \
+    Division, Echellon, Echelle, Enfant
 
 # Register your models here.
 admin.site.register(Personnel)
@@ -14,5 +19,4 @@ admin.site.register(Service)
 admin.site.register(Division)
 admin.site.register(Echelle)
 admin.site.register(Echellon)
-
-
+admin.site.register(Enfant)

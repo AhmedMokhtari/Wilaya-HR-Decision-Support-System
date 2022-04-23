@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from .models import Personnel,Conjoint, Conjointpersonnel, Service, Servicepersonnel, Grade, Gradepersonnel
+from .models import Personnel,Conjoint, Conjointpersonnel, Service, Servicepersonnel, Grade, Gradepersonnel, Enfant
 from django.contrib.auth.decorators import login_required
 from fpdf import FPDF
 from django.http import HttpResponse
@@ -63,6 +63,7 @@ def ajouter(request):
         objgradeperso = Gradepersonnel(idpersonnel_field=objperso, idgrade_field=objgrade, dategrade=dategrade)
         objserviceperso.save()
         objgradeperso.save()
+
         conjoints = Conjointpersonnel.objects.filter(idpersonnel_field=objperso.idpersonnel).all()
 
         return render(request, 'GestionPersonnel/ajouter.html', {'personnel': objperso})
@@ -75,6 +76,7 @@ def modifier(request, id):
     personnel = Personnel.objects.get(idpersonnel=id)
     conjointsinperso = Conjointpersonnel.objects.filter(idpersonnel_field=id)
     conjoints = Conjoint.objects.filter(idconjoint__in=conjointsinperso.values_list('idconjoint_field', flat=True))
+
     services = Service.objects.all()
     grades = Grade.objects.all()
 
@@ -129,6 +131,34 @@ def conjoint(request):
         return render(request, 'GestionPersonnel/conjoint.html', {'conjoint' : obj1 ,'personnel': pers.cin})
     else:
         return render(request, 'GestionPersonnel/conjoint.html')
+
+
+
+#enfant -----------------------------------
+@login_required(login_url='/connexion')
+def enfant(request):
+    cinpersonnel = request.GET.get('personnel', None)
+    personnel = Personnel.objects.filter(cin=cinpersonnel).first()
+    conjointsinperso = Conjointpersonnel.objects.filter(idpersonnel_field=personnel)
+    conjoints = Conjoint.objects.filter(idconjoint__in=conjointsinperso.values_list('idconjoint_field', flat=True))
+
+    if request.method == 'POST':
+        nomfr = request.POST["nomfr"]
+        nomar = request.POST["nomar"]
+        prenomfr = request.POST["prenomfr"]
+        prenomar = request.POST["prenomar"]
+        lienj = request.POST["lienj"]
+        daten = request.POST["daten"]
+        lieunfr = request.POST["lieunfr"]
+        lieunar = request.POST["lieunar"]
+        mere = request.POST["mere"]
+        objenfant = Enfant(nomar=nomar, nomfr=nomfr, lienjuridique=lienj, prenomar=prenomar, prenomfr=prenomfr,
+                           lieunaissancefr=lieunfr, lieunaissancear=lieunar, datenaissance=daten, idconjoint_field= Conjoint.objects.get(idconjoint=mere))
+        objenfant.save()
+        return  render(request, 'GestionPersonnel/enfant.html', {'enfant': Enfant.objects.all(),'personnel': cinpersonnel, 'conjoints':conjoints})
+
+    return render(request, 'GestionPersonnel/enfant.html', {'personnel': cinpersonnel, 'conjoints':conjoints})
+
 
 
 

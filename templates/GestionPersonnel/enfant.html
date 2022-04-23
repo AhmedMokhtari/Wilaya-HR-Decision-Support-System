@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Conjoint - </title>
     {% load static  %}
+    <title>Enfant - الطفل</title>
     <style>
     body {width:500px!important;height:500px!important;}
     </style>
@@ -15,8 +15,8 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Conjoint</h5>
-         <h5 class="modal-title textarab" id="exampleModalLabel">الزوج</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Enfant</h5>
+         <h5 class="modal-title textarab" id="exampleModalLabel">الطفل</h5>
       </div>
             <form action="" method="POST">
                   <div class="modal-body">
@@ -38,8 +38,16 @@
                                  <label class="col-form-label float-right" for="nomar" >: الاسم العائلي</label><input type="text" name="nomar" class="form-control">
                               </p>
 
+                             <p>
+                                 <label class="col-form-label" for="lieun">lieu de naissance :</label> <input type="text" name="lieunfr" class="form-control">
+                             </p>
+
+                             <p>
+                                 <label class="col-form-label float-right" for="lieun">: مكان الازدياد</label><input type="text" name="lieunar" class="form-control">
+                             </p>
+
                               <p>
-                                 <label class="col-form-label" for="cin">Cin :</label> <label class="col-form-label float-right" >: ر.ب.و</label><input type="text"  name="cin" class="form-control">
+                                 <label class="col-form-label" for="lienj">Lien juridique :</label> <label class="col-form-label float-right" >: ر.ب.و</label><input type="text"  name="lienj" class="form-control">
                               </p>
 
                               <p>
@@ -47,15 +55,20 @@
                              </p>
 
                               <p>
-                                 <label class="col-form-label" for="lieun">lieu de naissance :</label> <label class="col-form-label float-right" for="lieun">: مكان الازدياد</label><input type="text"   name="lieun" class="form-control">
-                             </p>
-
-                              <p>
                                  <label class="col-form-label" for="prenomfr">Personnel Cin :</label><input type="text"  name="personnelcin" readonly class="form-control" value="{{ personnel }}">
                              </p>
 
+                            <p>
+                                 <label class="col-form-label" for="mere">Mère :</label> <label class="col-form-label float-right" >: الأم</label>
+                                <select class="form-control" name="mere">
+                                {% for conjoint in conjoints %}
+                                    <option value="{{ conjoint.idconjoint }}"> {{ conjoint.cin }} - {{ conjoint.nomar }} {{ conjoint.nomar }}</option>
+                                {% endfor %}
+                                </select>
+                             </p>
+
                   </div>
-                    {% if conjoint.cin %}
+                    {% if enfant %}
                         <div class="alert alert-success alert-dismissible fade show" role="alert">
                             <center>ajouté avec succès | أضيف بنجاح.</center>
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">

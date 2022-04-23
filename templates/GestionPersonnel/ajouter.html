@@ -24,15 +24,15 @@
 
                                     <div class="mb-3">
                                         <h5 class="card-title">Conjoint :<span class="float-right">: الزوج</span></h5>
-										<a class="btn btn-success  text-center" onclick="red()" id="addfe">
+										<a class="btn btn-success  text-center" onclick="redF()" id="addfe">
                                             <i class="fa fa-plus"></i>
                                         </a>
                                     </div>
 
                                     <div class="mb-3">
                                         <h5 class="card-title">Enfants :<span class="float-right">: الاطفال</span></h5>
-										<a class="btn btn-success  text-center">
-                                                                    <i class="fa fa-plus"></i>
+										<a class="btn btn-success  text-center" onclick="redE()">
+                                            <i class="fa fa-plus"></i>
                                         </a>
                                     </div>
 							    </div>
@@ -63,8 +63,8 @@
 
                                     <div class="mb-3">
                                         <h5 class="card-title">Enfants :<span class="float-right">: الاطفال</span></h5>
-										<a class="btn btn-success  text-center">
-                                                                    <i class="fa fa-plus"></i>
+										<a class="btn btn-success  text-center" onclick="rede">
+                                            <i class="fa fa-plus"></i>
                                         </a>
                                     </div>
 							    </div>
@@ -440,15 +440,27 @@
             }
         }
 
-
-
-
-        function red ()
+            function redE ()
             {
-                var val = document.getElementsByName('cin')[0].value;
-                if(val != "")
+                var valE = document.getElementsByName('cin')[0].value;
+                if(valE != "")
                 {
-                    var data = "conjoint?personnel="+val;
+                    var data = "enfant?personnel="+valE;
+                     window.open(data,'enfant','width=500,height=900');
+                }
+                else
+                {
+                    alert("il faut ajouter d'abord le personnel")
+                }
+            }
+
+
+        function redF ()
+            {
+                var valF = document.getElementsByName('cin')[0].value;
+                if(valF != "")
+                {
+                    var data = "conjoint?personnel="+valF;
                      window.open(data,'conjoint','width=500,height=900');
                 }
                 else
