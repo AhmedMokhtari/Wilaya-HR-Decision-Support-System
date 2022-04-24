@@ -81,7 +81,7 @@ def ajouter(request):
 
         return render(request, 'GestionPersonnel/ajouter.html', {'personnel': objperso})
     else:
-        return render(request, 'GestionPersonnel/ajouter.html', {'services': services, 'grades': grades ,'fonctions':fonctions})
+        return render(request, 'GestionPersonnel/ajouter.html', {'services': services, 'grades': grades, 'fonctions': fonctions})
 
 
 @login_required(login_url='/connexion')
@@ -89,8 +89,18 @@ def modifier(request, id):
     personnel = Personnel.objects.get(idpersonnel=id)
     conjointsinperso = Conjointpersonnel.objects.filter(idpersonnel_field=id)
     conjoints = Conjoint.objects.filter(idconjoint__in=conjointsinperso.values_list('idconjoint_field', flat=True))
+
     serviceperso = Servicepersonnel.objects.filter(idpersonnel_field=id).values_list('idservice_field', flat=True)
     servicelast = Service.objects.filter(idservice__in=serviceperso).last()
+
+    gradeperso = Gradepersonnel.objects.filter(idpersonnel_field=id).values_list('idgrade_field', flat=True)
+    gradelast = Grade.objects.filter(idgrade__in=gradeperso).last()
+
+    fonctionperso = Fonctionpersonnel.objects.filter(idpersonnel_field=id).values_list('idpersonnel_field',flat=True)
+    fonctionlast = Fonction.objects.filter(idfonction__in=fonctionperso).last()
+    fonctionpersolast = Fonctionpersonnel.objects.filter(idfonction_field=fonctionlast, idpersonnel_field= id).first()
+
+
 
     services = Service.objects.all()
     grades = Grade.objects.all()
@@ -107,7 +117,9 @@ def modifier(request, id):
         personnel.save()
 
     return render(request, 'GestionPersonnel/modifier.html',
-                      {'personnel': personnel, 'conjoints': conjoints, 'services': services, 'grades': grades, 'servicelast': servicelast})
+                      {'personnel': personnel, 'conjoints': conjoints, 'services': services,
+                       'grades': grades, 'servicelast': servicelast, 'gradelast': gradelast,
+                       'fonctionlast': fonctionlast, 'fonctionpersolast': fonctionpersolast})
 
 
 

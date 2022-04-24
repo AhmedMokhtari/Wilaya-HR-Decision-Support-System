@@ -36,7 +36,7 @@ class Personnel(models.Model):
     numcnopsaf = models.CharField(db_column='NumCnopsAf', max_length=50, db_collation='French_CI_AS', blank=True, null=True)
     numcnopsim = models.CharField(db_column='NumCnopsIm', max_length=50, db_collation='French_CI_AS', blank=True, null=True)
     administrationapp = models.CharField(db_column='AdministrationApp', max_length=50, db_collation='French_CI_AS', blank=True, null=True)
-    photo = models.ImageField(upload_to="personnelImages/photos")
+    photo = models.ImageField(upload_to="photos")
 
     class Meta:
         managed = False

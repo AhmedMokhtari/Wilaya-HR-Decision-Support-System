@@ -18,7 +18,7 @@
                                     <div class="mb-3">
                                         <div class="text-center">
                                             <div class="mt-2">
-                                                <img src="{% static '{{images/genericpersonnel.webp}}' %}" id="image" class="rounded-circle img-responsive mt-2" width="164" height="164">
+                                                <img src="GestionPersonnel/personnelimages/{{ personnel.photo }}" id="image" class="rounded-circle img-responsive mt-2" width="164" height="164">
                                                 <p>
                                                     <input type="file" name="photo" id="photo" onchange="previewPicture(this)"/>
                                                 </p>
@@ -186,21 +186,21 @@
                                         <h5 class="card-title">Grade :<span class="float-right">: المرتبة</span></h5>
                                                  <select class="form-control text-center" name="grade"  required>
                                                 {% for grade in grades %}
-                                                    <option value="{{ grade.idgrade }}">{{ grade.gradefr }} - {{ grade.gradear }}</option>
+                                                    <option {% if gradelast.idgrade == grade.idgrade %} selected {% endif %} value="{{ grade.idgrade }}">{{ grade.gradefr }} - {{ grade.gradear }}</option>
                                                 {% endfor %}
                                             </select>
                                     </div>
 
                                      <div class="mb-3">
                                         <h5 class="card-title">Date d'affectation :<span class="float-right">: تاريخ التكليف</span></h5>
-                                                <input type="date" class="form-control" name="dategrade" required>
-                                    </div>
+                                                <input type="date" class="form-control" name="dategrade" value="{{ fonctionpersolast.datefonction }}" required>
+                                     </div>
 
                                     <div class="mb-3">
                                         <h5 class="card-title">Fonction :<span class="float-right">: الوظيفة</span></h5>
                                         <select class="form-control text-center" name="fonction"  required>
                                             {% for fonction in fonctions %}
-                                                <option value="{{fonction.idfonction}}">{{ fonction.libellefonctionfr }} - {{ fonction.libellefontionar }}</option>
+                                                <option {% if fonctionlast.idfonction == fonction %} selected {% endif %} value="{{fonction.idfonction}}">{{ fonction.libellefonctionfr }} - {{ fonction.libellefontionar }}</option>
                                             {% endfor %}
                                         </select>
                                     </div>
@@ -242,5 +242,10 @@
                     </div>
 
     </form>
-
+<script>
+    window.onload = function ()
+    {
+        alert('{{ fonctionpersolast.datefonction }}')
+    }
+</script>
 {% endblock content %}
