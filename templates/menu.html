@@ -5,736 +5,491 @@
 <!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
 <head>
     {% load static %}
-
-
-    <title></title>
-    <!--[if lt IE 10]>
-            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-            <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-            <![endif]-->
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="description" content="Admindek Bootstrap admin template made using Bootstrap 4 and it has huge amount of ready made feature, UI components, pages which completely fulfills any dashboard needs." />
-    <meta name="keywords" content="flat ui, admin Admin , Responsive, Landing, Bootstrap, App, Template, Mobile, iOS, Android, apple, creative app">
-    <meta name="author" content="colorlib" />
-
-    <link rel="icon" href="https://colorlib.com/polygon/admindek/files/assets/images/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.rtl.min.css" integrity="sha384-gXt9imSW0VcJVHezoNQsP+TNrjYXoGcrqBZJpry9zJt8PCQjobwmhMGaDHTASo9N" crossorigin="anonymous">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Quicksand:500,700" rel="stylesheet">
-
-    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
-
-    <link rel="stylesheet" href="{% static 'css/waves.min.css' %}" type="text/css" media="all">
-
-    <link rel="stylesheet" type="text/css" href="{% static 'css/feather.css' %}">
-
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="">
+	<meta name="author" content="Zakariae Mrabet, Ahmed Mokhtari">
+    <title>Wilaya de l'oriental - ولاية الشرق {{ title }}</title>
+	<link rel="preconnect" href="//fonts.gstatic.com/" crossorigin="">
     <link rel="stylesheet" type="text/css" href="{% static 'css/font-awesome-n.min.css' %}">
+	<!-- PICK ONE OF THE STYLES BELOW -->
+	 <link href="{% static 'css/classic.css' %}" rel="stylesheet">
+	<!-- <link href="{% static 'css/corporate.css' %}" rel="stylesheet"> -->
+	<!-- <link href="{% static 'css/modern.css' %}" rel="stylesheet"> -->
 
-    <link rel="stylesheet" href="{% static 'css/chartist.css' %}" type="text/css" media="all">
+	<!-- BEGIN SETTINGS -->
+	<!-- You can remove this after picking a style -->
+	<style>
+		body {
+			opacity: 0;
+		}
+	</style>
+	<script src="{% static 'js/settings.js' %}"></script>
+	<!-- END SETTINGS -->
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-120946860-6"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/widget.css' %}">
-    <script type="d2d1d6e2f87cbebdf4013b26-text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+  gtag('config', 'UA-120946860-6');
+</script>
 
 </head>
 
 
 <body>
-	<div class="loader-bg">
-		<div class="loader-bar"></div>
-	</div>
-	<div id="pcoded" class="pcoded">
-		<div class="pcoded-overlay-box"></div>
-		<div class="pcoded-container navbar-wrapper">
-			<nav class="navbar header-navbar pcoded-header">
-				<div class="navbar-wrapper">
-					<div class="navbar-logo">
-						<a href="index.html"><img class="img-fluid" src="{% static '' %}"  alt="Theme-Logo" /></a>
-						<a class="mobile-menu" id="mobile-collapse" href="#!"><i class="feather icon-menu icon-toggle-right"></i></a>
-						<a class="mobile-options waves-effect waves-light"><i class="feather icon-more-horizontal"></i></a>
-					</div>
-					<div class="navbar-container container-fluid">
-						<ul class="nav-left">
-							<li class="header-search">
-								<div class="main-search morphsearch-search">
-									<div class="input-group">
-										<span class="input-group-prepend search-close"><i class="feather icon-x input-group-text"></i></span>
-										<input type="text" class="form-control" placeholder="Rechercher">
-										<span class="input-group-append search-btn"><i class="feather icon-search input-group-text"></i></span>
-									</div>
-								</div>
-							</li>
-							<li>
-								<a href="#!" onclick="if (!window.__cfRLUnblockHandlers) return false; javascript:toggleFullScreen()" class="waves-effect waves-light" data-cf-modified-d2d1d6e2f87cbebdf4013b26-=""><i class="full-screen feather icon-maximize"></i></a>
-							</li>
-						</ul>
-						<ul class="nav-right">
-							<li class="header-notification">
-								<div class="dropdown-primary dropdown">
-									<div class="dropdown-toggle" data-toggle="dropdown">
-										<i class="feather icon-bell"></i>
-										<span class="badge bg-c-red">5</span>
-									</div>
-									<ul class="show-notification notification-view dropdown-menu" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
-										<li>
-											<h6>
-												Notifications
-											</h6>
-											<label class="label label-danger">New</label>
-										</li>
-										<li>
-											<div class="media">
-												<img class="img-radius" src="{% static 'jpg/avatar-4.jpg' %}" alt="Generic placeholder image">
-												<div class="media-body">
-													<h5 class="notification-user">
-                                                        Zakariae Mrabet
-													</h5>
-													<p class="notification-msg">
-														Lorem ipsum dolor sit amet, consectetuer elit.
-													</p>
-													<span class="notification-time">30 minutes ago</span>
-												</div>
-											</div>
-										</li>
-										<li>
-											<div class="media">
-												<img class="img-radius" src="{% static 'jpg/avatar-3.jpg' %}" alt="Generic placeholder image">
-												<div class="media-body">
-													<h5 class="notification-user">
-														Joseph William
-													</h5>
-													<p class="notification-msg">
-														Lorem ipsum dolor sit amet, consectetuer elit.
-													</p>
-													<span class="notification-time">30 minutes ago</span>
-												</div>
-											</div>
-										</li>
-										<li>
-											<div class="media">
-												<img class="img-radius" src="{% static 'jpg/avatar-4.jpg' %}" alt="Generic placeholder image">
-												<div class="media-body">
-													<h5 class="notification-user">
-														Sara Soudein
-													</h5>
-													<p class="notification-msg">
-														Lorem ipsum dolor sit amet, consectetuer elit.
-													</p>
-													<span class="notification-time">30 minutes ago</span>
-												</div>
-											</div>
-										</li>
-									</ul>
-								</div>
-							</li>
-							<!--<li class="header-notification">
-								<div class="dropdown-primary dropdown">
-									<div class="displayChatbox dropdown-toggle" data-toggle="dropdown">
-										<i class="feather icon-message-square"></i>
-										<span class="badge bg-c-green">3</span>
-									</div>
-								</div>
-							</li>-->
-							<li class="user-profile header-notification">
-								<div class="dropdown-primary dropdown">
-									<div class="dropdown-toggle" data-toggle="dropdown">
-										<img src="{% static 'jpg/avatar-4.jpg' %}" class="img-radius" alt="User-Profile-Image">
-										<span>Zakariae Mrabet</span>
-										<i class="feather icon-chevron-down"></i>
-									</div>
-									<ul class="show-notification profile-notification dropdown-menu" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
-										<li>
-											<a href="#!"><i class="feather icon-settings"></i> Paramètre</a>
-										</li>
-										<li>
-											<a href="#"><i class="feather icon-user"></i> Profile</a>
-										</li>
 
-										<li>
-											<a href="auth-sign-in-social.html"><i class="feather icon-log-out"></i> Déconnexion</a>
-										</li>
-									</ul>
-								</div>
-							</li>
+<div class="wrapper">
+		<nav id="sidebar" class="sidebar">
+			<div class="sidebar-content ">
+				<a class="sidebar-brand" href="#">
+                  <img class="align-middle" src="{% static 'images/logo2.png' %}" width="50"/>
+                  <span class="align-middle">Wilaya</span>
+                </a>
+				<ul class="sidebar-nav">
+					<li class="sidebar-header">
+						Principal
+					</li>
+					<li class="sidebar-item active">
+						<a href="#dashboards" data-toggle="collapse" class="sidebar-link">
+                          <i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Dashboard</span>
+                        </a>
+						<ul id="dashboards" class="sidebar-dropdown list-unstyled collapse show" data-parent="#sidebar">
+							<li class="sidebar-item"><a class="sidebar-link" href="{% url 'taboard' %}">Personnel</a></li>
+							<li class="sidebar-item active"><a class="sidebar-link" href="#">Service</a></li>
 						</ul>
+					</li>
+					<li class="sidebar-item">
+						<a href="#pages" data-toggle="collapse" class="sidebar-link collapsed">
+                          <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Gestion</span>
+                        </a>
+						<ul id="pages" class="sidebar-dropdown list-unstyled collapse " data-parent="#sidebar">
+							<li class="sidebar-item"><a class="sidebar-link" href="{% url 'consultation' %}">Personnel</a></li>
+							<li class="sidebar-item"><a class="sidebar-link" href="{% url 'ajouterc' %}">Congés</a></li>
+							<li class="sidebar-item"><a class="sidebar-link" href="#">Absence</a></li>
+							<li class="sidebar-item"><a class="sidebar-link" href="#">Formations</a></li>
+						</ul>
+					</li>
+					<li class="sidebar-item">
+						<a href="#auth" data-toggle="collapse" class="sidebar-link collapsed">
+                          <i class="align-middle" data-feather="users"></i> <span class="align-middle">Privilèges</span>
+                        </a>
+						<ul id="auth" class="sidebar-dropdown list-unstyled collapse " data-parent="#sidebar">
+							<li class="sidebar-item"><a class="sidebar-link" href="pages-sign-in.html">Administration</a></li>
+						</ul>
+					</li>
+					<li class="sidebar-header">
+						Fonctionnalité
+					</li>
+					<li class="sidebar-item">
+						<a class="sidebar-link" href="calendar.html">
+                          <i class="align-middle" data-feather="calendar"></i> <span class="align-middle">Calendrier</span>
+                        </a>
+					</li>
+				</ul>
+
+				<div class="sidebar-bottom d-none d-lg-block">
+					<div class="media">
+						<div class="media-body">
+							<h5 class="mb-1">{{ user.get_username }}</h5>
+							<div>
+								<i class="fas fa-circle text-success"></i> Online
+							</div>
+						</div>
 					</div>
+				</div>
+
+			</div>
+		</nav>
+
+		<div class="main">
+			<nav class="navbar navbar-expand navbar-light bg-white">
+				<a class="sidebar-toggle d-flex mr-2">
+                  <i class="hamburger align-self-center"></i>
+                </a>
+
+				<form class="form-inline d-none d-sm-inline-block">
+					<input class="form-control form-control-no-border mr-sm-2" type="text" placeholder="Rechercher..." aria-label="Search">
+				</form>
+
+				<div class="navbar-collapse collapse">
+					<ul class="navbar-nav ml-auto">
+						<li class="nav-item dropdown">
+							<a class="nav-icon dropdown-toggle" href="#" id="alertsDropdown" data-toggle="dropdown">
+								<div class="position-relative">
+									<i class="align-middle" data-feather="bell-off"></i>
+								</div>
+							</a>
+							<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right py-0" aria-labelledby="alertsDropdown">
+								<div class="dropdown-menu-header">
+									4 New Notifications
+								</div>
+								<div class="list-group">
+									<a href="#" class="list-group-item">
+										<div class="row no-gutters align-items-center">
+											<div class="col-2">
+												<i class="text-danger" data-feather="alert-circle"></i>
+											</div>
+											<div class="col-10">
+												<div class="text-dark">Update completed</div>
+												<div class="text-muted small mt-1">Restart server 12 to complete the update.</div>
+												<div class="text-muted small mt-1">2h ago</div>
+											</div>
+										</div>
+									</a>
+									<a href="#" class="list-group-item">
+										<div class="row no-gutters align-items-center">
+											<div class="col-2">
+												<i class="text-warning" data-feather="bell"></i>
+											</div>
+											<div class="col-10">
+												<div class="text-dark">Lorem ipsum</div>
+												<div class="text-muted small mt-1">Aliquam ex eros, imperdiet vulputate hendrerit et.</div>
+												<div class="text-muted small mt-1">6h ago</div>
+											</div>
+										</div>
+									</a>
+									<a href="#" class="list-group-item">
+										<div class="row no-gutters align-items-center">
+											<div class="col-2">
+												<i class="text-primary" data-feather="home"></i>
+											</div>
+											<div class="col-10">
+												<div class="text-dark">Login from 192.186.1.1</div>
+												<div class="text-muted small mt-1">8h ago</div>
+											</div>
+										</div>
+									</a>
+									<a href="#" class="list-group-item">
+										<div class="row no-gutters align-items-center">
+											<div class="col-2">
+												<i class="text-success" data-feather="user-plus"></i>
+											</div>
+											<div class="col-10">
+												<div class="text-dark">New connection</div>
+												<div class="text-muted small mt-1">Anna accepted your request.</div>
+												<div class="text-muted small mt-1">12h ago</div>
+											</div>
+										</div>
+									</a>
+								</div>
+								<div class="dropdown-menu-footer">
+									<a href="#" class="text-muted">Show all notifications</a>
+								</div>
+							</div>
+						</li>
+						<li class="nav-item dropdown">
+							<a class="nav-flag dropdown-toggle" href="#" id="languageDropdown" data-toggle="dropdown">
+                            <img src="{% static 'images/flags/us.png' %}" alt="English">
+                          </a>
+							<div class="dropdown-menu dropdown-menu-right" aria-labelledby="languageDropdown">
+								<a class="dropdown-item" href="#">
+                                  <img src="{% static 'images/flags/us.png' %}" alt="English" width="20" class="align-middle mr-1">
+                                  <span class="align-middle">English</span>
+                                </a>
+								<a class="dropdown-item" href="#">
+                                  <img src="{% static 'images/flags/es.png' %}" alt="Spanish" width="20" class="align-middle mr-1">
+                                  <span class="align-middle">Spanish</span>
+                                </a>
+								<a class="dropdown-item" href="#">
+                                  <img src="{% static 'images/flags/de.png' %}" alt="German" width="20" class="align-middle mr-1">
+                                  <span class="align-middle">German</span>
+                                </a>
+								<a class="dropdown-item" href="#">
+                                  <img src="{% static 'images/flags/nl.png' %}" alt="Dutch" width="20" class="align-middle mr-1">
+                                  <span class="align-middle">Dutch</span>
+                                </a>
+							</div>
+						</li>
+						<li class="nav-item dropdown">
+							<a class="nav-icon dropdown-toggle d-inline-block d-sm-none" href="#" data-toggle="dropdown">
+                                <i class="align-middle" data-feather="settings"></i>
+                            </a>
+
+							<a class="nav-link dropdown-toggle d-none d-sm-inline-block" href="#" data-toggle="dropdown">
+                                <span class="text-dark">{{ user.get_username }}</span>
+                            </a>
+							<div class="dropdown-menu dropdown-menu-right">
+								<a class="dropdown-item" href="pages-profile.html"><i class="align-middle mr-1" data-feather="user"></i> Profile</a>
+								<a class="dropdown-item" href="#"><i class="align-middle mr-1" data-feather="pie-chart"></i> Analytics</a>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item" href="pages-settings.html">Settings & Privacy</a>
+								<a class="dropdown-item" href="#">Help</a>
+								<a class="dropdown-item" href="#">Sign out</a>
+							</div>
+						</li>
+					</ul>
 				</div>
 			</nav>
 
+			<main class="content">
+				<div class="container-fluid p-0">
+                    {% block content %}
+                    {% endblock content %}
+				</div>
+			</main>
 
-			<div class="pcoded-main-container">
-				<div class="pcoded-wrapper">
-					<nav class="pcoded-navbar">
-						<div class="nav-list">
-							<div class="pcoded-inner-navbar main-menu">
-								<div class="pcoded-navigation-label">
-									Navigation
-								</div>
-								<ul class="pcoded-item pcoded-left-item">
-                                    <li class="">
-										<a href="admin" class="waves-effect waves-dark">
-											<span class="pcoded-micon"><i class="feather icon-home"></i></span>
-											<span class="pcoded-mtext">Tableau de bord</span>
-										</a>
-									</li>
-									<li class="">
-										<a href="admin" class="waves-effect waves-dark">
-											<span class="pcoded-micon"><i class="feather icon-menu"></i></span>
-											<span class="pcoded-mtext">Navigation</span>
-										</a>
-									</li>
-								</ul>
-
-								<div class="pcoded-navigation-label">
-									Personnels
-								</div>
-
-								<ul class="pcoded-item pcoded-left-item">
-									<li class="pcoded-hasmenu">
-										<a href="javascript:void(0)" class="waves-effect waves-dark">
-											<span class="pcoded-micon"><i class="feather icon-box"></i></span>
-											<span class="pcoded-mtext">Consultation</span>
-										</a>
-										<ul class="pcoded-submenu">
-											<li class="">
-												<a href="alert.html" class="waves-effect waves-dark"><span class="pcoded-mtext">Tableau de bord</span></a>
-											</li>
-											<li class="">
-												<a href="consultation" class="waves-effect waves-dark"><span class="pcoded-mtext">Informations</span></a>
-											</li>
-										</ul>
-									</li>
-									<li class="pcoded-hasmenu">
-										<a href="javascript:void(0)" class="waves-effect waves-dark">
-											<span class="pcoded-micon"><i class="feather icon-gitlab"></i></span>
-											<span class="pcoded-mtext">Gestion</span>
-										</a>
-										<ul class="pcoded-submenu">
-											<li class=" ">
-												<a href="consultation" class="waves-effect waves-dark"><span class="pcoded-mtext">Personnel</span></a>
-											</li>
-										</li>
-										<li class=" ">
-											<a href="{% url 'ajouter' %}" class="waves-effect waves-dark"><span class="pcoded-mtext">Ajout</span></a>
-										</li>
-										<li class=" ">
-											<a href="notification.html" class="waves-effect waves-dark"><span class="pcoded-mtext">Diplomes</span></a>
-										</li>
-									</ul>
+			<footer class="footer">
+				<div class="container-fluid">
+					<div class="row text-muted">
+						<div class="col-6 text-left">
+							<ul class="list-inline">
+								<li class="list-inline-item">
+									<a class="text-muted" href="#">Support</a>
 								</li>
-							</ul><!--
-							<div class="pcoded-navigation-label">
-								Forms
-							</div>
-							<ul class="pcoded-item pcoded-left-item">
-								<li class="pcoded-hasmenu">
-									<a href="javascript:void(0)" class="waves-effect waves-dark">
-										<span class="pcoded-micon"><i class="feather icon-clipboard"></i></span>
-										<span class="pcoded-mtext">Form</span>
-									</a>
-									<ul class="pcoded-submenu">
-										<li class=" ">
-											<a href="form-elements-component.html" class="waves-effect waves-dark"><span class="pcoded-mtext">Components</span></a>
-										</li>
-										<li class=" ">
-											<a href="form-elements-add-on.html" class="waves-effect waves-dark"><span class="pcoded-mtext">Add-On</span></a>
-										</li>
-										<li class=" ">
-											<a href="form-elements-advance.html" class="waves-effect waves-dark"><span class="pcoded-mtext">Advance</span></a>
-										</li>
-										<li class=" ">
-											<a href="form-validation.html" class="waves-effect waves-dark"><span class="pcoded-mtext">Validation</span></a>
-										</li>
-									</ul>
-								</li>
-
-								<li class=" ">
-									<a href="form-picker.html" class="waves-effect waves-dark">
-										<span class="pcoded-micon"><i class="feather icon-edit-1"></i></span>
-										<span class="pcoded-mtext">Form Picker</span>
-										<span class="pcoded-badge label label-warning">NEW</span>
-									</a>
-								</li>
-								<li class=" ">
-									<a href="form-select.html" class="waves-effect waves-dark">
-										<span class="pcoded-micon"><i class="feather icon-feather"></i></span>
-										<span class="pcoded-mtext">Form Select</span>
-									</a>
-								</li>
-								<li class=" ">
-									<a href="form-masking.html" class="waves-effect waves-dark">
-										<span class="pcoded-micon"><i class="feather icon-shield"></i></span>
-										<span class="pcoded-mtext">Form Masking</span>
-									</a>
-								</li>
-								<li class=" ">
-									<a href="form-wizard.html" class="waves-effect waves-dark">
-										<span class="pcoded-micon"><i class="feather icon-tv"></i></span>
-										<span class="pcoded-mtext">Form Wizard</span>
-									</a>
+								<li class="list-inline-item">
+									<a class="text-muted" href="#">Administration</a>
 								</li>
 							</ul>
-							<div class="pcoded-navigation-label">
-								Tables
-							</div>
-							<ul class="pcoded-item pcoded-left-item">
-								<li class="pcoded-hasmenu">
-									<a href="javascript:void(0)" class="waves-effect waves-dark">
-										<span class="pcoded-micon"><i class="feather icon-credit-card"></i></span>
-										<span class="pcoded-mtext">Bootstrap Table</span>
-									</a>
-									<ul class="pcoded-submenu">
-										<li class=" ">
-											<a href="bs-basic-table.html" class="waves-effect waves-dark"><span class="pcoded-mtext">Basic Table</span></a>
-										</li>
-										<li class=" ">
-											<a href="bs-table-sizing.html" class="waves-effect waves-dark"><span class="pcoded-mtext">Sizing Table</span></a>
-										</li>
-										<li class=" ">
-											<a href="bs-table-border.html" class="waves-effect waves-dark"><span class="pcoded-mtext">Border Table</span></a>
-										</li>
-										<li class=" ">
-											<a href="bs-table-styling.html" class="waves-effect waves-dark"><span class="pcoded-mtext">Styling Table</span></a>
-										</li>
-									</ul>
-								</li>
-								<li class="pcoded-hasmenu">
-									<a href="javascript:void(0)" class="waves-effect waves-dark">
-										<span class="pcoded-micon"><i class="feather icon-inbox"></i></span>
-										<span class="pcoded-mtext">Data Table</span>
-									</a>
-									<ul class="pcoded-submenu">
-										<li class=" ">
-											<a href="dt-basic.html" class="waves-effect waves-dark"><span class="pcoded-mtext">Basic Initialization</span></a>
-										</li>
-										<li class=" ">
-											<a href="dt-advance.html" class="waves-effect waves-dark"><span class="pcoded-mtext">Advance Initialization</span></a>
-										</li>
-										<li class=" ">
-											<a href="dt-styling.html" class="waves-effect waves-dark"><span class="pcoded-mtext">Styling</span></a>
-										</li>
-										<li class=" ">
-											<a href="dt-api.html" class="waves-effect waves-dark"><span class="pcoded-mtext">API</span></a>
-										</li>
-										<li class=" ">
-											<a href="dt-ajax.html" class="waves-effect waves-dark"><span class="pcoded-mtext">Ajax</span></a>
-										</li>
-										<li class=" ">
-											<a href="dt-server-side.html" class="waves-effect waves-dark"><span class="pcoded-mtext">Server Side</span></a>
-										</li>
-										<li class=" ">
-											<a href="dt-plugin.html" class="waves-effect waves-dark"><span class="pcoded-mtext">Plug-In</span></a>
-										</li>
-										<li class=" ">
-											<a href="dt-data-sources.html" class="waves-effect waves-dark"><span class="pcoded-mtext">Data Sources</span></a>
-										</li>
-									</ul>
-								</li>
-								<li class="pcoded-hasmenu">
-									<a href="javascript:void(0)" class="waves-effect waves-dark">
-										<span class="pcoded-micon"><i class="feather icon-server"></i></span>
-										<span class="pcoded-mtext">DT Extensions</span>
-									</a>
-									<ul class="pcoded-submenu">
-										<li class=" ">
-											<a href="dt-ext-autofill.html" class="waves-effect waves-dark"><span class="pcoded-mtext">AutoFill</span></a>
-										</li>
-										<li class="pcoded-hasmenu">
-											<a href="javascript:void(0)" class="waves-effect waves-dark"><span class="pcoded-mtext">Button</span></a>
-											<ul class="pcoded-submenu">
-												<li class=" ">
-													<a href="dt-ext-basic-buttons.html" class="waves-effect waves-dark"><span class="pcoded-mtext">Basic Button</span></a>
-												</li>
-												<li class=" ">
-													<a href="dt-ext-buttons-html-5-data-export.html" class="waves-effect waves-dark"><span class="pcoded-mtext">Data Export</span></a>
-												</li>
-											</ul>
-										</li>
-										<li class=" ">
-											<a href="dt-ext-col-reorder.html" class="waves-effect waves-dark"><span class="pcoded-mtext">Col Reorder</span></a>
-										</li>
-										<li class=" ">
-											<a href="dt-ext-fixed-columns.html" class="waves-effect waves-dark"><span class="pcoded-mtext">Fixed Columns</span></a>
-										</li>
-										<li class=" ">
-											<a href="dt-ext-fixed-header.html" class="waves-effect waves-dark"><span class="pcoded-mtext">Fixed Header</span></a>
-										</li>
-										<li class=" ">
-											<a href="dt-ext-key-table.html" class="waves-effect waves-dark"><span class="pcoded-mtext">Key Table</span></a>
-										</li>
-										<li class=" ">
-											<a href="dt-ext-responsive.html" class="waves-effect waves-dark"><span class="pcoded-mtext">Responsive</span></a>
-										</li>
-										<li class=" ">
-											<a href="dt-ext-row-reorder.html" class="waves-effect waves-dark"><span class="pcoded-mtext">Row Reorder</span></a>
-										</li>
-										<li class=" ">
-											<a href="dt-ext-scroller.html" class="waves-effect waves-dark"><span class="pcoded-mtext">Scroller</span></a>
-										</li>
-										<li class=" ">
-											<a href="dt-ext-select.html" class="waves-effect waves-dark"><span class="pcoded-mtext">Select Table</span></a>
-										</li>
-									</ul>
-								</li>
-								<li class=" ">
-									<a href="foo-table.html" class="waves-effect waves-dark">
-										<span class="pcoded-micon"><i class="feather icon-hash"></i></span>
-										<span class="pcoded-mtext">FooTable</span>
-									</a>
-								</li>
-								<li class="pcoded-hasmenu ">
-									<a href="javascript:void(0)" class="waves-effect waves-dark">
-										<span class="pcoded-micon"><i class="feather icon-airplay"></i></span>
-										<span class="pcoded-mtext">Handson Table</span>
-									</a>
-									<ul class="pcoded-submenu">
-										<li class="">
-											<a href="handson-appearance.html" class="waves-effect waves-dark"><span class="pcoded-mtext">Appearance</span></a>
-										</li>
-										<li class="">
-											<a href="handson-data-operation.html" class="waves-effect waves-dark"><span class="pcoded-mtext">Data Operation</span></a>
-										</li>
-										<li class="">
-											<a href="handson-rows-cols.html" class="waves-effect waves-dark"><span class="pcoded-mtext">Rows Columns</span></a>
-										</li>
-										<li class="">
-											<a href="handson-columns-only.html" class="waves-effect waves-dark"><span class="pcoded-mtext">Columns Only</span></a>
-										</li>
-										<li class="">
-											<a href="handson-cell-features.html" class="waves-effect waves-dark"><span class="pcoded-mtext">Cell Features</span></a>
-										</li>
-										<li class="">
-											<a href="handson-cell-types.html" class="waves-effect waves-dark"><span class="pcoded-mtext">Cell Types</span></a>
-										</li>
-										<li class="">
-											<a href="handson-integrations.html" class="waves-effect waves-dark"><span class="pcoded-mtext">Integrations</span></a>
-										</li>
-										<li class="">
-											<a href="handson-rows-only.html" class="waves-effect waves-dark"><span class="pcoded-mtext">Rows Only</span></a>
-										</li>
-										<li class="">
-											<a href="handson-utilities.html" class="waves-effect waves-dark"><span class="pcoded-mtext">Utilities</span></a>
-										</li>
-									</ul>
-								</li>
-								<li class="">
-									<a href="editable-table.html" class="waves-effect waves-dark">
-										<span class="pcoded-micon"><i class="feather icon-edit"></i></span>
-										<span class="pcoded-mtext">Editable Table</span>
-									</a>
-								</li>
-							</ul>
-							<div class="pcoded-navigation-label">
-								Chart And Maps
-							</div>
-							<ul class="pcoded-item pcoded-left-item">
-								<li class="pcoded-hasmenu ">
-									<a href="javascript:void(0)" class="waves-effect waves-dark">
-										<span class="pcoded-micon"><i class="feather icon-pie-chart"></i></span>
-										<span class="pcoded-mtext">Charts</span>
-									</a>
-									<ul class="pcoded-submenu">
-										<li class="">
-											<a href="chart-google.html" class="waves-effect waves-dark"><span class="pcoded-mtext">Google Chart</span></a>
-										</li>
-										<li class="">
-											<a href="chart-chartjs.html" class="waves-effect waves-dark"><span class="pcoded-mtext">ChartJs</span></a>
-										</li>
-										<li class="">
-											<a href="chart-list.html" class="waves-effect waves-dark"><span class="pcoded-mtext">List Chart</span></a>
-										</li>
-										<li class="">
-											<a href="chart-float.html" class="waves-effect waves-dark"><span class="pcoded-mtext">Float Chart</span></a>
-										</li>
-										<li class="">
-											<a href="chart-knob.html" class="waves-effect waves-dark"><span class="pcoded-mtext">Knob chart</span></a>
-										</li>
-										<li class="">
-											<a href="chart-morris.html" class="waves-effect waves-dark"><span class="pcoded-mtext">Morris Chart</span></a>
-										</li>
-										<li class="">
-											<a href="chart-nvd3.html" class="waves-effect waves-dark"><span class="pcoded-mtext">Nvd3 Chart</span></a>
-										</li>
-										<li class="">
-											<a href="chart-peity.html" class="waves-effect waves-dark"><span class="pcoded-mtext">Peity Chart</span></a>
-										</li>
-										<li class="">
-											<a href="chart-radial.html" class="waves-effect waves-dark"><span class="pcoded-mtext">Radial Chart</span></a>
-										</li>
-										<li class="">
-											<a href="chart-rickshaw.html" class="waves-effect waves-dark"><span class="pcoded-mtext">Rickshaw Chart</span></a>
-										</li>
-										<li class="">
-											<a href="chart-sparkline.html" class="waves-effect waves-dark"><span class="pcoded-mtext">Sparkline Chart</span></a>
-										</li>
-										<li class="">
-											<a href="chart-c3.html" class="waves-effect waves-dark"><span class="pcoded-mtext">C3 Chart</span></a>
-										</li>
-									</ul>
-								</li>
-								<li class="pcoded-hasmenu ">
-									<a href="javascript:void(0)" class="waves-effect waves-dark">
-										<span class="pcoded-micon"><i class="feather icon-map"></i></span>
-										<span class="pcoded-mtext">Maps</span>
-									</a>
-									<ul class="pcoded-submenu">
-										<li class="">
-											<a href="map-google.html" class="waves-effect waves-dark"><span class="pcoded-mtext">Google Maps</span></a>
-										</li>
-										<li class="">
-											<a href="map-vector.html" class="waves-effect waves-dark"><span class="pcoded-mtext">Vector Maps</span></a>
-										</li>
-										<li class="">
-											<a href="map-api.html" class="waves-effect waves-dark"><span class="pcoded-mtext">Google Map Search API</span></a>
-										</li>
-										<li class="">
-											<a href="location.html" class="waves-effect waves-dark"><span class="pcoded-mtext">Location</span></a>
-										</li>
-									</ul>
-								</li>
-							</ul>
-							<div class="pcoded-navigation-label">
-								Pages
-							</div>
-							<ul class="pcoded-item pcoded-left-item">
-								<li class="pcoded-hasmenu ">
-									<a href="javascript:void(0)" class="waves-effect waves-dark">
-										<span class="pcoded-micon"><i class="feather icon-unlock"></i></span>
-										<span class="pcoded-mtext">Authentication</span>
-									</a>
-									<ul class="pcoded-submenu">
-										<li class="">
-											<a href="auth-sign-in-social.html" class="waves-effect waves-dark"><span class="pcoded-mtext">Login</span></a>
-										</li>
-										<li class="">
-											<a href="auth-sign-up-social.html" class="waves-effect waves-dark"><span class="pcoded-mtext">Registration</span></a>
-										</li>
-										<li class="">
-											<a href="auth-reset-password.html" target="_blank" class="waves-effect waves-dark"><span class="pcoded-mtext">Forgot Password</span></a>
-										</li>
-										<li class="">
-											<a href="auth-lock-screen.html" target="_blank" class="waves-effect waves-dark"><span class="pcoded-mtext">Lock Screen</span></a>
-										</li>
-									</ul>
-								</li>
-								<li class="pcoded-hasmenu ">
-									<a href="javascript:void(0)" class="waves-effect waves-dark">
-										<span class="pcoded-micon"><i class="feather icon-sliders"></i></span>
-										<span class="pcoded-mtext">Maintenance</span>
-									</a>
-									<ul class="pcoded-submenu">
-										<li class="">
-											<a href="error.html" class="waves-effect waves-dark"><span class="pcoded-mtext">Error</span></a>
-										</li>
-										<li class="">
-											<a href="comming-soon.html" class="waves-effect waves-dark"><span class="pcoded-mtext">Comming Soon</span></a>
-										</li>
-										<li class="">
-											<a href="offline-ui.html" class="waves-effect waves-dark"><span class="pcoded-mtext">Offline UI</span></a>
-										</li>
-									</ul>
-								</li>
-								<li class="pcoded-hasmenu ">
-									<a href="javascript:void(0)" class="waves-effect waves-dark">
-										<span class="pcoded-micon"><i class="feather icon-mail"></i></span>
-										<span class="pcoded-mtext">Email</span>
-									</a>
-									<ul class="pcoded-submenu">
-										<li class="">
-											<a href="email-compose.html" class="waves-effect waves-dark"><span class="pcoded-mtext">Compose Email</span></a>
-										</li>
-										<li class="">
-											<a href="email-inbox.html" class="waves-effect waves-dark"><span class="pcoded-mtext">Inbox</span></a>
-										</li>
-										<li class="">
-											<a href="email-read.html" class="waves-effect waves-dark"><span class="pcoded-mtext">Read Mail</span></a>
-										</li>
-									</ul>
-								</li>
-							</ul>
-							<div class="pcoded-navigation-label">
-								App
-							</div>
-							<ul class="pcoded-item pcoded-left-item">
-								<li class="">
-									<a href="todo.html" class="waves-effect waves-dark">
-										<span class="pcoded-micon"><i class="feather icon-bookmark"></i></span>
-										<span class="pcoded-mtext">To-Do</span>
-									</a>
-								</li>
-							</ul>
-							<div class="pcoded-navigation-label">
-								Extension
-							</div>
-							<ul class="pcoded-item pcoded-left-item">
-								<li class="pcoded-hasmenu ">
-									<a href="javascript:void(0)" class="waves-effect waves-dark">
-										<span class="pcoded-micon"><i class="feather icon-file-plus"></i></span>
-										<span class="pcoded-mtext">Editor</span>
-									</a>
-									<ul class="pcoded-submenu">
-										<li class="">
-											<a href="ck-editor.html" class="waves-effect waves-dark"><span class="pcoded-mtext">CK-Editor</span></a>
-										</li>
-										<li class="">
-											<a href="wysiwyg-editor.html" class="waves-effect waves-dark"><span class="pcoded-mtext">WYSIWYG Editor</span></a>
-										</li>
-									</ul>
-								</li>
-								<li class="pcoded-hasmenu ">
-									<a href="javascript:void(0)" class="waves-effect waves-dark">
-										<span class="pcoded-micon"><i class="feather icon-calendar"></i></span>
-										<span class="pcoded-mtext">Event Calendar</span>
-									</a>
-									<ul class="pcoded-submenu">
-										<li class="">
-											<a href="event-full-calender.html" class="waves-effect waves-dark"><span class="pcoded-mtext">Full Calendar</span></a>
-										</li>
-										<li class="">
-											<a href="event-clndr.html" class="waves-effect waves-dark">
-												<span class="pcoded-mtext">CLNDER</span>
-												<span class="pcoded-badge label label-info">NEW</span>
-											</a>
-										</li>
-									</ul>
-								</li>
-								<li class="">
-									<a href="image-crop.html" class="waves-effect waves-dark">
-										<span class="pcoded-micon">
-											<i class="feather icon-scissors"></i>
-											<b>IC</b>
-										</span>
-										<span class="pcoded-mtext">Image Cropper</span>
-									</a>
-								</li>
-								<li class="">
-									<a href="file-upload.html" class="waves-effect waves-dark">
-										<span class="pcoded-micon"><i class="feather icon-upload-cloud"></i></span>
-										<span class="pcoded-mtext">File Upload</span>
-									</a>
-								</li>
-								<li class="">
-									<a href="change-loges.html" class="waves-effect waves-dark">
-										<span class="pcoded-micon"><i class="feather icon-briefcase"></i></span>
-										<span class="pcoded-mtext">Change Loges</span>
-										<span class="pcoded-badge label label-warning">1.0</span>
-									</a>
-								</li>
-							</ul>
-							<div class="pcoded-navigation-label">
-								Other
-							</div>
-							<ul class="pcoded-item pcoded-left-item">
-								<li class="pcoded-hasmenu ">
-									<a href="javascript:void(0)" class="waves-effect waves-dark">
-										<span class="pcoded-micon"><i class="feather icon-list"></i></span>
-										<span class="pcoded-mtext">Menu Levels</span>
-									</a>
-									<ul class="pcoded-submenu">
-										<li class="">
-											<a href="javascript:void(0)" class="waves-effect waves-dark"><span class="pcoded-mtext">Menu Level 2.1</span></a>
-										</li>
-										<li class="pcoded-hasmenu ">
-											<a href="javascript:void(0)" class="waves-effect waves-dark"><span class="pcoded-mtext">Menu Level 2.2</span></a>
-											<ul class="pcoded-submenu">
-												<li class="">
-													<a href="javascript:void(0)" class="waves-effect waves-dark"><span class="pcoded-mtext">Menu Level 3.1</span></a>
-												</li>
-											</ul>
-										</li>
-										<li class="">
-											<a href="javascript:void(0)" class="waves-effect waves-dark"><span class="pcoded-mtext">Menu Level 2.3</span></a>
-										</li>
-									</ul>
-								</li>
-								<li class="">
-									<a href="javascript:void(0)" class="disabled waves-effect waves-dark">
-										<span class="pcoded-micon">
-											<i class="feather icon-power"></i>
-											<b>D</b>
-										</span>
-										<span class="pcoded-mtext">Disabled Menu</span>
-									</a>
-								</li>
-								<li class="">
-									<a href="sample-page.html" class="waves-effect waves-dark">
-										<span class="pcoded-micon"><i class="feather icon-watch"></i></span>
-										<span class="pcoded-mtext">Sample Page</span>
-									</a>
-								</li>
-							</ul>-->
+						</div>
+						<div class="col-6 text-right">
+							<p class="mb-0">
+								&copy; 2022 - <a href="index.html" class="text-muted">Wilaya de l'oriental</a>
+							</p>
 						</div>
 					</div>
-				</nav>
-
-				<div class="pcoded-content">
-                        {% block content %}
-                        {% endblock content %}
-                </div>
-				<div id="styleSelector"></div>
-			</div>
+				</div>
+			</footer>
 		</div>
 	</div>
-</div>
-<!--[if lt IE 10]>
-<div class="ie-warning">
-	<h1>Warning!!</h1>
-	<p>
-		You are using an outdated version of Internet Explorer, please upgrade
-		<br/>
-		to any of the following web browsers to access this website.
-	</p>
-	<div class="iew-container">
-		<ul class="iew-download">
-			<li>
-				<a href="http://www.google.com/chrome/">
-					<img src="../files/assets/images/browser/chrome.png" alt="Chrome">
-					<div>
-						Chrome
-					</div>
-				</a>
-			</li>
-			<li>
-				<a href="https://www.mozilla.org/en-US/firefox/new/">
-					<img src="../files/assets/images/browser/firefox.png" alt="Firefox">
-					<div>
-						Firefox
-					</div>
-				</a>
-			</li>
-			<li>
-				<a href="http://www.opera.com">
-					<img src="../files/assets/images/browser/opera.png" alt="Opera">
-					<div>
-						Opera
-					</div>
-				</a>
-			</li>
-			<li>
-				<a href="https://www.apple.com/safari/">
-					<img src="../files/assets/images/browser/safari.png" alt="Safari">
-					<div>
-						Safari
-					</div>
-				</a>
-			</li>
-			<li>
-				<a href="http://windows.microsoft.com/en-us/internet-explorer/download-ie">
-					<img src="../files/assets/images/browser/ie.png" alt="">
-					<div>
-						IE (9 & above)
-					</div>
-				</a>
-			</li>
-		</ul>
-	</div>
-	<p>
-		Sorry for the inconvenience!
-	</p>
-</div>
-<![endif]-->
+
+	<script src="{% static 'js/app.js' %}"></script>
+
+	<script>
+		$(function() {
+			// Bar chart
+			new Chart(document.getElementById("chartjs-dashboard-bar-devices"), {
+				type: "bar",
+				data: {
+					labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+					datasets: [{
+						label: "Mobile",
+						backgroundColor: window.theme.primary,
+						borderColor: window.theme.primary,
+						hoverBackgroundColor: window.theme.primary,
+						hoverBorderColor: window.theme.primary,
+						data: [54, 67, 41, 55, 62, 45, 55, 73, 60, 76, 48, 79]
+					}, {
+						label: "Desktop",
+						backgroundColor: "#E8EAED",
+						borderColor: "#E8EAED",
+						hoverBackgroundColor: "#E8EAED",
+						hoverBorderColor: "#E8EAED",
+						data: [69, 66, 24, 48, 52, 51, 44, 53, 62, 79, 51, 68]
+					}]
+				},
+				options: {
+					maintainAspectRatio: false,
+					legend: {
+						display: false
+					},
+					scales: {
+						yAxes: [{
+							gridLines: {
+								display: false
+							},
+							stacked: false,
+							ticks: {
+								stepSize: 20
+							}
+						}],
+						xAxes: [{
+							barPercentage: .75,
+							categoryPercentage: .5,
+							stacked: false,
+							gridLines: {
+								color: "transparent"
+							}
+						}]
+					}
+				}
+			});
+		});
+	</script>
+	<script>
+		$(function() {
+			$("#world_map").vectorMap({
+				map: "world_mill",
+				normalizeFunction: "polynomial",
+				hoverOpacity: .7,
+				hoverColor: false,
+				regionStyle: {
+					initial: {
+						fill: "#e3eaef"
+					}
+				},
+				markerStyle: {
+					initial: {
+						"r": 9,
+						"fill": window.theme.primary,
+						"fill-opacity": .95,
+						"stroke": "#fff",
+						"stroke-width": 7,
+						"stroke-opacity": .4
+					},
+					hover: {
+						"stroke": "#fff",
+						"fill-opacity": 1,
+						"stroke-width": 1.5
+					}
+				},
+				backgroundColor: "transparent",
+				zoomOnScroll: false,
+				markers: [{
+						latLng: [31.230391, 121.473701],
+						name: "Shanghai"
+					},
+					{
+						latLng: [39.904202, 116.407394],
+						name: "Beijing"
+					},
+					{
+						latLng: [28.704060, 77.102493],
+						name: "Delhi"
+					},
+					{
+						latLng: [6.524379, 3.379206],
+						name: "Lagos"
+					},
+					{
+						latLng: [39.343357, 117.361649],
+						name: "Tianjin"
+					},
+					{
+						latLng: [24.860735, 67.001137],
+						name: "Karachi"
+					},
+					{
+						latLng: [41.008240, 28.978359],
+						name: "Istanbul"
+					},
+					{
+						latLng: [35.689487, 139.691711],
+						name: "Tokyo"
+					},
+					{
+						latLng: [23.129110, 113.264381],
+						name: "Guangzhou"
+					},
+					{
+						latLng: [19.075983, 72.877655],
+						name: "Mumbai"
+					},
+					{
+						latLng: [40.7127837, -74.0059413],
+						name: "New York"
+					},
+					{
+						latLng: [34.052235, -118.243683],
+						name: "Los Angeles"
+					},
+					{
+						latLng: [41.878113, -87.629799],
+						name: "Chicago"
+					},
+					{
+						latLng: [29.760427, -95.369804],
+						name: "Houston"
+					},
+					{
+						latLng: [33.448376, -112.074036],
+						name: "Phoenix"
+					},
+					{
+						latLng: [51.507351, -0.127758],
+						name: "London"
+					},
+					{
+						latLng: [48.856613, 2.352222],
+						name: "Paris"
+					},
+					{
+						latLng: [55.755825, 37.617298],
+						name: "Moscow"
+					},
+					{
+						latLng: [40.416775, -3.703790],
+						name: "Madrid"
+					}
+				]
+			});
+			setTimeout(function() {
+				$(window).trigger('resize');
+			}, 250)
+		});
+	</script>
+	<script>
+		$(function() {
+			// Pie chart
+			new Chart(document.getElementById("chartjs-dashboard-pie"), {
+				type: "pie",
+				data: {
+					labels: ["Direct", "Affiliate", "E-mail", "Other"],
+					datasets: [{
+						data: [2602, 1253, 541, 1465],
+						backgroundColor: [
+							window.theme.primary,
+							window.theme.warning,
+							window.theme.danger,
+							"#E8EAED"
+						],
+						borderColor: "transparent"
+					}]
+				},
+				options: {
+					responsive: !window.MSInputMethodContext,
+					maintainAspectRatio: false,
+					legend: {
+						display: false
+					}
+				}
+			});
+		});
+	</script>
+	<script>
+		$(function() {
+			// Radar chart
+			new Chart(document.getElementById("chartjs-dashboard-radar"), {
+				type: "radar",
+				data: {
+					labels: ["Technology", "Sports", "Media", "Gaming", "Arts"],
+					datasets: [{
+						label: "Interests",
+						backgroundColor: "rgba(0, 123, 255, 0.2)",
+						borderColor: "#2979ff",
+						pointBackgroundColor: "#2979ff",
+						pointBorderColor: "#fff",
+						pointHoverBackgroundColor: "#fff",
+						pointHoverBorderColor: "#2979ff",
+						data: [70, 53, 82, 60, 33]
+					}]
+				},
+				options: {
+					maintainAspectRatio: false,
+					legend: {
+						display: false
+					}
+				}
+			});
+		});
+	</script>
+	<script>
+		$(function() {
+			$("#datatables-dashboard-traffic").DataTable({
+				pageLength: 8,
+				lengthChange: false,
+				bFilter: false,
+				autoWidth: false,
+				order: [
+					[1, "desc"]
+				]
+			});
+		});
+	</script>
+
 
 <script data-cfasync="false" src="{% static 'js/email-decode.min.js' %}"></script>
 <script type="d2d1d6e2f87cbebdf4013b26-text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
@@ -758,21 +513,5 @@
 <script src="{% static 'js/light.js' %}" type="d2d1d6e2f87cbebdf4013b26-text/javascript"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <script src="{% static 'js/pcoded.min.js' %}" type="d2d1d6e2f87cbebdf4013b26-text/javascript"></script>
-<script src="{% static 'js/vertical-layout.min.js' %}" type="d2d1d6e2f87cbebdf4013b26-text/javascript"></script>
-<script type="d2d1d6e2f87cbebdf4013b26-text/javascript" src="{% static 'js/custom-dashboard.min.js' %}"></script>
-<script type="d2d1d6e2f87cbebdf4013b26-text/javascript" src="{% static 'js/script.min.js' %}"></script>
-
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13" type="d2d1d6e2f87cbebdf4013b26-text/javascript">
-
-    </script>
-    <script type="d2d1d6e2f87cbebdf4013b26-text/javascript">
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-
-          gtag('config', 'UA-23581568-13');
-    </script>
-<script src="{% static 'js/rocket-loader.min.js' %}" data-cf-settings="d2d1d6e2f87cbebdf4013b26-|49" defer=""></script></body>
-
-<!-- Mirrored from colorlib.com/polygon/admindek/default/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 12 Dec 2019 16:08:25 GMT -->
+</body>
 </html>
