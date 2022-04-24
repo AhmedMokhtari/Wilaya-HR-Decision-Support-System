@@ -1,0 +1,246 @@
+{% extends 'menu.html' %}
+{% block content %}
+    {% load static %}
+
+    <form method="POST">
+    {% csrf_token %}
+					<div class="row">
+						<div class="col-sm-8 col-lg-6 d-flex">
+							<div class="card flex-fill">
+								<div class="card-header">
+                                    <br>
+                                    <h4 class="text-center">
+                                        Données Professionnel - معلومات مهنية
+                                    </h4>
+                                    <hr>
+								</div>
+								<div class="card-body">
+                                    <div class="mb-3">
+                                        <div class="text-center">
+                                            <div class="mt-2">
+                                                <img src="{% static '{{images/genericpersonnel.webp}}' %}" id="image" class="rounded-circle img-responsive mt-2" width="164" height="164">
+                                                <p>
+                                                    <input type="file" name="photo" id="photo" onchange="previewPicture(this)"/>
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <h5 class="card-title">Prénom :</h5>
+                                        <input type="text" class="form-control" name="prenomfr" value="{{ personnel.prenomfr }}"   readonly>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title"><span class="float-right">: الاسم الشخصي</span></h5>
+                                        <input type="text" class="form-control" name="prenomar" value="{{ personnel.prenomar }}"  readonly>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title">Nom  :</h5>
+										<input type="text" class="form-control" name="nomfr" value="{{ personnel.nomfr }}"   readonly>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title"><span class="float-right">: الاسم العائلي</span></h5>
+										<input type="text" class="form-control" name="nomar" value="{{ personnel.nomar }}"   readonly>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title">lieu de naissance :</h5>
+										<input type="text" class="form-control" name="lieunfr" value="{{ personnel.lieunaissancefr }}"   readonly>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title"><span class="float-right">: مكان الازدياد</span></h5>
+										<input type="text" class="form-control" name="lieunar" value="{{ personnel.lieunaissancear }}"   readonly>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title">Date de naissance :<span class="float-right" >: تاريخ الازدياد</span></h5>
+										<input type="date" class="form-control" name="daten" value="{{ personnel.datenaissance }}"  readonly>
+                                    </div>
+
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title">Cin :<span class="float-right">: ر.ب.و</span></h5>
+										<input type="text" class="form-control" name="cin" value="{{ personnel.cin }}"  readonly>
+                                    </div>
+
+
+                                     <div class="mb-3">
+                                        <h5 class="card-title">Adresse :</h5>
+										<input type="text" class="form-control" name="adressefr"   required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title"><span class="float-right">: العنوان</span></h5>
+										<input type="text" class="form-control" name="adressear"  required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title">Situation familiale :</h5>
+										<select class="form-control  text-center" name="situationffr"   required>
+                                                <option>marié(e)</option>
+                                                <option>divorcé(e)</option>
+                                                <option>célibataire(e)</option>
+                                                <option selected>{{ personnel.situationfamilialefr }}</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="mb-3">
+                                            <h5 class="card-title text-right">: الوضع العائلي</h5>
+                                            <select class="form-control  text-center" name="situationfar"   required>
+                                                    <option>متزوج(ة)</option>
+                                                    <option>مطلق(ة)</option>
+                                                    <option>بدون</option>
+                                                    <option selected>{{ personnel.situationfamilialear }}</option>
+                                                </select>
+                                    </div>
+
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title">Tele :<span class="float-right">: الهاتف</span></h5>
+										<input type="text" class="form-control" name="tele"  required>
+                                    </div>
+
+                                     <div class="mb-3">
+                                        <h5 class="card-title">Email :<span class="float-right">: البريد الالكتروني</span></h5>
+										<input type="text"  class="form-control" name="email" required>
+                                    </div>
+							    </div>
+						    </div>
+                        </div>
+
+						<div class="col-sm-8 col-lg-6 d-flex">
+							<div class="card flex-fill">
+								<div class="card-header">
+                                    <br>
+                                    <h4 class="text-center">
+                                        Données Professionnel - معلومات مهنية
+                                    </h4>
+                                    <hr>
+								</div>
+								<div class="card-body">
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title">Numéro d'identification fiscale <span class="float-right">: الرقم المالي</span></h5>
+                                            <input type="text" class="form-control" name="numiden" value="{{ personnel.numerofinancier }}" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title">Date de recrutement :<span class="float-right">: تاريخ التوظيف</span></h5>
+                                            <input type="date" class="form-control" name="daterec" value="{{ personnel.daterecrutement }}" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title">Date de démarcation :<span class="float-right">: تاريخ الترسيم</span></h5>
+                                            <input type="date" class="form-control" name="datedec" value="{{ personnel.datedemarcation }}" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title">Date de départ à la retraite :<span class="float-right">: تاريخ الإحالة على التقاعد</span></h5>
+                                            <input type="date" class="form-control" name="dateretr" value="{{ personnel.dateparrainageretraite }}" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title">Numéro cnopsAf :<span class="float-right">: رفم cnopsAf</span></h5>
+                                            <input type="text" class="form-control" name="numcnopsaf" value="{{ personnel.numcnopsaf }}" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title">Numéro cnopsIm :<span class="float-right">: رفم cnopsIm</span></h5>
+                                            <input type="text" class="form-control" name="numcnopsim" value="{{ personnel.numcnopsim }}" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title">Rib :<span class="float-right">: ر.ي.ب</span></h5>
+                                            <input type="text" class="form-control" name="rib" pattern="^(0|[1-9][0-9]*)$" value="{{ personnel.rib }}" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title">Ancienneté administrative :<span class="float-right">: الأقدمية الإدارية</span></h5>
+                                            <input type="text" class="form-control" name="ancadmi" value="{{ personnel.ancienneteadmi }}" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title">Administration App :<span class="float-right">: إدارة</span></h5>
+                                            <input type="text" class="form-control" name="adminiapp" value="{{ personnel.administrationapp }}" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title">Service :<span class="float-right">: إدارة</span></h5>
+                                            <select class="form-control text-center" name="service"  required>
+
+                                                {% for service in services %}
+                                                    <option {% if servicelast.idservice == service.idservice %} selected {% endif %} value="{{ service.idservice }}">{{ service.libelleservicefr }} - {{ service.libelleservicear }}</option>
+                                                {% endfor %}
+                                            </select>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title">Date d'affectation :<span class="float-right">: تاريخ التكليف</span></h5>
+                                                <input type="date" class="form-control" name="dateservice" value="" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title">Grade :<span class="float-right">: المرتبة</span></h5>
+                                                 <select class="form-control text-center" name="grade"  required>
+                                                {% for grade in grades %}
+                                                    <option value="{{ grade.idgrade }}">{{ grade.gradefr }} - {{ grade.gradear }}</option>
+                                                {% endfor %}
+                                            </select>
+                                    </div>
+
+                                     <div class="mb-3">
+                                        <h5 class="card-title">Date d'affectation :<span class="float-right">: تاريخ التكليف</span></h5>
+                                                <input type="date" class="form-control" name="dategrade" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title">Fonction :<span class="float-right">: الوظيفة</span></h5>
+                                        <select class="form-control text-center" name="fonction"  required>
+                                            {% for fonction in fonctions %}
+                                                <option value="{{fonction.idfonction}}">{{ fonction.libellefonctionfr }} - {{ fonction.libellefontionar }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <h5 class="card-title">Date Fonction :<span class="float-right">: تاريخ الوظيفة</span></h5>
+                                                <input type="date" class="form-control" name="datefonction" required>
+                                    </div>
+
+							    </div>
+						    </div>
+                        </div>
+
+                        <div class="col-12 col-lg-12 col-xxl-12">
+                            <div class="card flex-fill">
+								<div class="card-body">
+                                <center><button type="button" class="btn btn-success"  data-toggle="modal" data-target="#defaultModalSuccess"style="font-size: 130%">Ajouter - اضافة</button></center>
+                                    <div class="modal fade" id="defaultModalSuccess" tabindex="-1" role="dialog" aria-hidden="true">
+										<div class="modal-dialog" role="document">
+											<div class="modal-content">
+												<div class="modal-header">
+													<h5 class="modal-title">Ajout - اضافة</h5>
+													<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                  <span aria-hidden="true">&times;</span>
+                                                </button>
+												</div>
+												<div class="modal-body m-3">
+													<p class="mb-0">Confirmer l'ajout d'un personnel - تأكيد اضافة عامل</p>
+												</div>
+												<div class="modal-footer">
+													<button type="submit" class="btn btn-success">confirmer - تأكيد</button>
+												</div>
+											</div>
+										</div>
+									</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+    </form>
+
+{% endblock content %}
