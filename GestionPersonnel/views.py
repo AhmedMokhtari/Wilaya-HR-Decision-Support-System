@@ -168,7 +168,7 @@ def enfant(request):
         objenfant = Enfant(nomar=nomar, nomfr=nomfr, lienjuridique=lienj, prenomar=prenomar, prenomfr=prenomfr,
                            lieunaissancefr=lieunfr, lieunaissancear=lieunar, datenaissance=daten, idconjoint_field= Conjoint.objects.get(idconjoint=mere))
         objenfant.save()
-        return  render(request, 'GestionPersonnel/enfant.html', {'enfant': Enfant.objects.all(),'personnel': cinpersonnel, 'conjoints':conjoints})
+        return render(request, 'GestionPersonnel/enfant.html', {'enfant': Enfant.objects.all(),'personnel': cinpersonnel, 'conjoints':conjoints})
 
     return render(request, 'GestionPersonnel/enfant.html', {'personnel': cinpersonnel, 'conjoints':conjoints})
 
