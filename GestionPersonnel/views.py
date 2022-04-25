@@ -25,6 +25,7 @@ def ajouter(request):
     services = Service.objects.all()
     grades = Grade.objects.all()
     fonctions = Fonction.objects.all()
+
     if(request.method == 'POST'):
         nomfr = request.POST["nomfr"]
         nomar = request.POST["nomar"]
@@ -109,16 +110,70 @@ def modifier(request, id):
     grades = Grade.objects.all()
     fonctions = Fonction.objects.all()
 
+
     if request.method == 'POST':
+        daten = request.POST["daten"]
+        lieunar = request.POST["lieunar"]
+        lieunfr = request.POST["lieunfr"]
         tele = request.POST["tele"]
         email = request.POST["email"]
-        situatar = request.POST.get('situationfar', False)
+        situatfr = request.POST["situationffr"]
+        situatar = request.POST["situationfar"]
         adressear = request.POST["adressear"]
         adressefr = request.POST["adressefr"]
-        nummatri = request.POST["nummatri"]
         numiden = request.POST["numiden"]
-        personnel = Personnel.objects.get(idpersonnel=id)
-        personnel.save()
+        daterec = request.POST["daterec"]
+        datedec = request.POST["datedec"]
+        dateretr = request.POST["dateretr"]
+        numcnopsaf = request.POST["numcnopsaf"]
+        numcnopsim = request.POST["numcnopsim"]
+        rib = request.POST["rib"]
+        ancadmi = request.POST["ancadmi"]
+        adminiapp = request.POST["adminiapp"]
+        photo = request.POST["photo"]
+        dateservice = request.POST["dateservice"]
+        dategrade = request.POST["dategrade"]
+        service = request.POST["service"]
+        grade = request.POST["grade"]
+        fonction = request.POST["fonction"]
+        datefonction = request.POST["datefonction"]
+
+
+        objperso = Personnel.objects.get(idpersonnel= id)
+        objperso.tele = tele
+        objperso.email = email
+        objperso.numcnopsaf = numcnopsaf
+        objperso.numcnopsim = numcnopsim
+        objperso.adressefr = adressefr
+        objperso.adressear = adressear
+        objperso.situationfamilialear = situatar
+        objperso.situationfamilialefr = situatfr
+        objperso.lieunaissancefr = lieunfr
+        objperso.lieunaissancear = lieunar
+        objperso.rib = rib
+        objperso.datenaissance = daten
+        objperso.numerofinancier = numiden
+        objperso.datedemarcation = datedec
+        objperso.daterecrutement = daterec
+        objperso.dateparrainageretraite = dateretr
+        objperso.ancienneteadmi = ancadmi
+        objperso.administrationapp = adminiapp
+        objperso.photo = photo
+        objperso.save()
+
+        objservice = Service(idservice=service)
+        objgrade = Grade(idgrade=grade)
+        objfonction = Fonction(idfonction=fonction)
+
+        objfonctionperso = Fonctionpersonnel(idpersonnel_field=objperso, idfonction_field=objfonction,
+                                             datefonction=datefonction)
+        objserviceperso = Servicepersonnel(idpersonnel_field=objperso, idservice_field=objservice,
+                                           dateaffectation=dateservice)
+        objgradeperso = Gradepersonnel(idpersonnel_field=objperso, idgrade_field=objgrade, dategrade=dategrade)
+
+        objfonctionperso.save()
+        objserviceperso.save()
+        objgradeperso.save()
 
     return render(request, 'GestionPersonnel/modifier.html',
                       {'personnel': personnel, 'conjoints': conjoints, 'services': services,
