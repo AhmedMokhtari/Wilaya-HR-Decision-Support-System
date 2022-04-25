@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from fpdf import FPDF
 from django.http import HttpResponse
 import os
+from django.db.models import Q
 
 
 #personnel -------------------------------.
@@ -92,18 +93,21 @@ def modifier(request, id):
 
     serviceperso = Servicepersonnel.objects.filter(idpersonnel_field=id).values_list('idservice_field', flat=True)
     servicelast = Service.objects.filter(idservice__in=serviceperso).last()
+    servicepersolast = Servicepersonnel.objects.get(idpersonnel_field=personnel, idservice_field=servicelast)
 
     gradeperso = Gradepersonnel.objects.filter(idpersonnel_field=id).values_list('idgrade_field', flat=True)
     gradelast = Grade.objects.filter(idgrade__in=gradeperso).last()
+    gradepersolast = Gradepersonnel.objects.get(idpersonnel_field=personnel, idgrade_field=gradelast)
 
-    fonctionperso = Fonctionpersonnel.objects.filter(idpersonnel_field=id).values_list('idpersonnel_field',flat=True)
+    fonctionperso = Fonctionpersonnel.objects.filter(idpersonnel_field=id).values_list('idfonction_field',flat=True)
     fonctionlast = Fonction.objects.filter(idfonction__in=fonctionperso).last()
-    fonctionpersolast = Fonctionpersonnel.objects.filter(idfonction_field=fonctionlast, idpersonnel_field= id).first()
+    fonctionpersolast = Fonctionpersonnel.objects.get(idpersonnel_field=personnel, idfonction_field= fonctionlast)
 
 
 
     services = Service.objects.all()
     grades = Grade.objects.all()
+    fonctions = Fonction.objects.all()
 
     if request.method == 'POST':
         tele = request.POST["tele"]
@@ -118,8 +122,9 @@ def modifier(request, id):
 
     return render(request, 'GestionPersonnel/modifier.html',
                       {'personnel': personnel, 'conjoints': conjoints, 'services': services,
-                       'grades': grades, 'servicelast': servicelast, 'gradelast': gradelast,
-                       'fonctionlast': fonctionlast, 'fonctionpersolast': fonctionpersolast})
+                       'grades': grades, 'fonctions':fonctions, 'servicelast': servicelast, 'gradelast': gradelast,
+                       'fonctionlast': fonctionlast, 'fonctionpersolast': fonctionpersolast,
+                       'servicepersolast':servicepersolast, 'gradepersolast':gradepersolast})
 
 
 
