@@ -310,29 +310,6 @@
 					}
 				}
 			});
-			$validationForm
-				.smartWizard({
-					autoAdjustHeight: false,
-					backButtonSupport: false,
-					useURLhash: false,
-					showStepURLhash: false,
-					toolbarSettings: {
-						toolbarExtraButtons: [$("<button class=\"btn btn-submit btn-primary\" type=\"button\">Finish</button>")]
-					}
-				})
-				.on("leaveStep", function(e, anchorObject, stepNumber, stepDirection) {
-					if (stepDirection === "forward") {
-						return $validationForm.valid();
-					}
-					return true;
-				});
-			$validationForm.find(".btn-submit").on("click", function() {
-				if (!$validationForm.valid()) {
-					return;
-				}
-				alert("Great! The form is valid and ready to submit.");
-				return false;
-			});
 		});
 
         var image = document.getElementById("image");

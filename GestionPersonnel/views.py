@@ -6,7 +6,7 @@ from .models import Personnel,Conjoint, Conjointpersonnel, \
 from django.contrib.auth.decorators import login_required
 from fpdf import FPDF
 from django.http import HttpResponse
-import os
+import os,datetime
 from django.db.models import Q
 
 
@@ -133,7 +133,7 @@ def modifier(request, id):
         objperso.situationfamilialefr = situatfr
         objperso.lieunaissancefr = lieunfr
         objperso.lieunaissancear = lieunar
-        objperso.rib = rib
+        objperso.rib = int(rib)
         objperso.datenaissance = daten
         objperso.numerofinancier = numiden
         objperso.datedemarcation = datedec
@@ -161,6 +161,7 @@ def modifier(request, id):
         if not Gradepersonnel.objects.filter(idpersonnel_field=objperso).filter(idgrade_field=objgrade):
             objgradeperso = Gradepersonnel(idpersonnel_field=objperso, idgrade_field=objgrade, dategrade=dategrade)
             objgradeperso.save()
+
 
     conjointsinperso = Conjointpersonnel.objects.filter(idpersonnel_field=id)
     conjoints = Conjoint.objects.filter(idconjoint__in=conjointsinperso.values_list('idconjoint_field', flat=True))
