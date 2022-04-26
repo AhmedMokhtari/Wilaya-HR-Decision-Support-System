@@ -1,0 +1,575 @@
+{% extends 'menu.html' %}
+{% block content %}
+  {% load static %}
+    <link rel="stylesheet" href="{% static 'css/all.min.css' %}"/>
+    <style>
+    body{
+    color: #1a202c;
+    text-align: left;
+    background-color: #e2e8f0;
+}
+    .shadow {
+        box-shadow: 0 7px 10px 0 rgb(0 0 0 / 20%) !important;
+        border-radius: 10px !important;
+    }
+.main-body {
+    padding: 15px;
+}
+.card {
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.06);
+}
+
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 0 solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+}
+
+.card-body {
+    flex: 1 1 auto;
+    min-height: 1px;
+    padding: 1rem;
+}
+.card-body .row h6{
+    line-height: 1.7 !important;
+}
+.heigh-row{
+/* important */
+  display: flex;
+  /* important */
+  align-items: stretch;
+  justify-content: space-around;
+}
+.heigh-col {
+  flex: 1  ;
+  min-height: 100%;
+}
+.gutters-sm {
+    margin-right: -8px;
+    margin-left: -8px;
+}
+
+.gutters-sm>.col, .gutters-sm>[class*=col-] {
+    padding-right: 8px;
+    padding-left: 8px;
+}
+.mb-3, .my-3 {
+    margin-bottom: 1rem!important;
+}
+.ButtonLink {
+  white-space: nowrap !important;
+  text-align: center !important;
+}
+.bg-gray-300 {
+    background-color: #e2e8f0;
+}
+.h-100 {
+    height: 100%!important;
+}
+.shadow-none {
+    box-shadow: none!important;
+}
+.dis-none {
+    display: none;
+}
+</style>
+    <div class="container">
+        <div class="main-body">
+            <div class="row gutters-sm">
+                   <div class="col-md-6 ">
+                        <div class="card p-3 h-100 shadow">
+                              <div class="card-body">
+                                  <h3 class="mb-4">Personnel Information</h3>
+                                  <div class="d-flex flex-column align-items-center text-center">
+                                                <img src="https://www.bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle mb-3" width="150">
+                                                </div>
+                                  <div class="mt-3 my-4">
+                                      <div class="row">
+                                            <div class="col-sm-5">
+                                               <h6 class="mb-0 ">Cin</h6>
+                                             </div>
+                                             <div class="col-sm-7 text-secondary ">
+                                                  {{ personnel.cin }}
+                                             </div>
+                                       </div>
+                                      <hr>
+                                      <div class="row">
+                                             <div class="col-sm-5">
+                                                 <h6 class="mb-0">Prenom</h6>
+                                             </div>
+                                             <div class="col-sm-7 text-secondary">
+                                                    {{ personnel.prenomfr }}
+                                      </div>
+                                      </div>
+                                      <hr>
+                                      <div class="row">
+                                           <div class="col-sm-5">
+                                               <h6 class="mb-0">Nom</h6>
+                                            </div>
+                                           <div class="col-sm-7 text-secondary">
+                                                 {{ personnel.nomfr }}
+                                           </div>
+                                      </div>
+                                      <hr>
+                                      <div class="row">
+                                          <div class="col-sm-5">
+                                              <h6 class="mb-0">Lieu De Naissence</h6>
+                                         </div>
+                                         <div class="col-sm-7 text-secondary">
+                                            {{ personnel.lieunaissancefr}}
+                                          </div>
+                                      </div>
+                                       <hr>
+                                      <div class="row">
+                                                <div class="col-sm-5">
+                                                  <h6 class="mb-0">Address</h6>
+                                                </div>
+                                                <div class="col-sm-7 text-secondary">
+                                                  {{ personnel.adressefr }}
+                                                </div>
+                                       </div>
+                                       <hr>
+                                      <div class="row">
+                                                <div class="col-sm-5">
+                                                  <h6 class="mb-0">Situation familiale :</h6>
+                                                </div>
+                                                <div class="col-sm-7 text-secondary">
+                                                    {{ personnel.situationfamiliale }}
+                                                </div>
+                                      </div>
+                                       <hr>
+                                      <div class="row">
+                                                <div class="col-sm-5">
+                                                  <h6 class="mb-0">Tele :</h6>
+                                                </div>
+                                                <div class="col-sm-7 text-secondary">
+                                                  {{ personnel.tele }}
+                                                </div>
+                                      </div>
+                                       <hr>
+                                      <div class="row">
+                                                <div class="col-sm-5">
+                                                  <h6 class="mb-0">Email :</h6>
+                                                </div>
+                                                <div class="col-sm-7 text-secondary">
+                                                  {{ personnel.email }}
+                                                </div>
+                                      </div>
+                                        <hr>
+                                       <div class="row">
+                                            <div class="col-sm-5">
+                                                  <h6 class="mb-0"> Conjoint :</h6>
+                                            </div>
+                                            <div class="col-sm-7 text-secondary">
+                                                <button class="badge badge-secondary" style="border: none" data-toggle="modal" data-target="#conjointmodel"> <i class="fa-solid fa-eye fa-xl"></i></button>
+                                            </div>
+                                       </div>
+                                        <hr>
+                                       <div class="row">
+                                            <div class="col-sm-5">
+                                                  <h6 class="mb-0"> Enfant :</h6>
+                                            </div>
+                                            <div class="col-sm-7 text-secondary">
+                                                <button class="badge badge-secondary" style="border: none" data-toggle="modal" data-target="#enfantmodel"> <i class="fa-solid fa-eye fa-xl"></i></button>
+                                            </div>
+                                       </div>
+                                        <hr>
+                                       <div class="row">
+                                            <div class="col-sm-5">
+                                                  <h6 class="mb-0"> Diplome :</h6>
+                                            </div>
+                                            <div class="col-sm-7 text-secondary">
+                                                <button class="badge badge-secondary" style="border: none" data-toggle="modal" data-target="#diplomemodel"> <i class="fa-solid fa-eye fa-xl"></i></button>
+                                            </div>
+                                       </div>
+                                        <hr>
+                                       <div class="row">
+                                            <div class="col-sm-5">
+                                                  <h6 class="mb-0"> Formtaion :</h6>
+                                            </div>
+                                            <div class="col-sm-7 text-secondary">
+                                                <button class="badge badge-secondary" style="border: none" data-toggle="modal" data-target="#formationmodel"> <i class="fa-solid fa-eye fa-xl"></i></button>
+                                            </div>
+                                       </div>
+                                        <hr>
+                          </div>
+                         </div>
+                             </div>
+                   </div>
+                   <div class="col-md-6">
+                         <div class="card p-3 h-100 shadow">
+                              <div class="card-body   ">
+                                   <h3 class="mb-4">Professional Information</h3>
+                                   <div class="row">
+                                        <div class="col-sm-5">
+                                            <h6 class="mb-0">Numéro d'identification fiscale</h6>
+                                        </div>
+                                        <div class="col-sm-7 text-secondary">
+                                            {{ personnel.numerofinancier }}
+                                        </div>
+                                   </div>
+                                   <hr>
+                                   <div class="row">
+                                        <div class="col-sm-5">
+                                          <h6 class="mb-0">Date de recrutement :</h6>
+                                         </div>
+                                        <div class="col-sm-7 text-secondary">
+                                            {{ personnel.daterecrutement}}
+                                        </div>
+                                   </div>
+                                   <hr>
+                                   <div class="row">
+                                        <div class="col-sm-5">
+                                          <h6 class="mb-0">Date de démarcation :</h6>
+                                        </div>
+                                        <div class="col-sm-7 text-secondary">
+                                            {{personnel.datedemarcation}}
+                                        </div>
+                                   </div>
+                                   <hr>
+                                   <div class="row">
+                                        <div class="col-sm-5">
+                                          <h6 class="mb-0">Date de départ à la retraite :</h6>
+                                        </div>
+                                        <div class="col-sm-7 text-secondary">
+                                            {{ personnel.daterarrainageretraite}}
+                                        </div>
+                                   </div>
+                                   <hr>
+                                   <div class="row">
+                                        <div class="col-sm-5">
+                                          <h6 class="mb-0">Numéro cnopsAf :</h6>
+                                        </div>
+                                        <div class="col-sm-7 text-secondary">
+                                            {{personnel.numcnopsaf }}
+                                        </div>
+                                   </div>
+                                   <hr>
+                                   <div class="row">
+                                        <div class="col-sm-5">
+                                          <h6 class="mb-0">Numéro cnopsIm :</h6>
+                                        </div>
+                                        <div class="col-sm-7 text-secondary">
+                                            {{ personnel.numcnopsim }}
+                                        </div>
+                                   </div>
+                                   <hr>
+                                   <div class="row">
+                                        <div class="col-sm-5">
+                                          <h6 class="mb-0">RIB :</h6>
+                                        </div>
+                                        <div class="col-sm-7 text-secondary">
+                                            {{ personnel.rib }}
+                                        </div>
+                                   </div>
+                                   <hr>
+                                   <div class="row">
+                                        <div class="col-sm-5">
+                                              <h6 class="mb-0">Ancienneté administrative  :</h6>
+                                        </div>
+                                        <div class="col-sm-7 text-secondary">
+                                            {{ personnel.ancienneteadmi }}
+                                        </div>
+                                   </div>
+                                   <hr>
+                                   <div class="row">
+                                        <div class="col-sm-5">
+                                              <h6 class="mb-0">Administration App :</h6>
+                                        </div>
+                                        <div class="col-sm-7 text-secondary">
+                                            {{ personnel.administrationapp }}
+                                        </div>
+                                   </div>
+                                   <hr>
+                                   <div class="row">
+                                        <div class="col-sm-5">
+                                              <h6 class="mb-0"> Grade :</h6>
+                                        </div>
+                                        <div class="col-sm-7 text-secondary">
+                                            <button class="badge badge-secondary" style="border: none" data-toggle="modal" data-target="#grademodel"> <i class="fa-solid fa-eye fa-xl"></i></button>
+                                        </div>
+                                   </div>
+                                   <hr>
+                                   <div class="row">
+                                        <div class="col-sm-5">
+                                              <h6 class="mb-0"> Service :</h6>
+                                        </div>
+                                        <div class="col-sm-7 text-secondary">
+                                            <button class="badge badge-secondary" style="border: none" data-toggle="modal" data-target="#servicemodel"> <i class="fa-solid fa-eye fa-xl"></i></button>
+                                        </div>
+                                   </div>
+                                   <hr>
+                                   <div class="row justify-content-between ">
+                                        <div class="col-sm-4 ">
+                                             <a href="{% url 'export_pdf' personnel.idpersonnel %}" target="_blank">
+                                               <button type="button" class="btn btn-primary ButtonLink p-2">
+                                                Attestation de travail
+                                                </button>
+                                             </a>
+                                        </div>
+                                        <div class="col-sm-7">
+                                             <button type="button" id="autoquitter" class="btn btn-primary ButtonLink p-2">
+                                                Autorisation de Quitter le Terrirtoire
+                                            </button>
+                                        </div>
+                                   </div>
+                                   <hr>
+                                  <div class="row dis-none" id="quitterinfo" >
+                                     <div class="col" id="quitter">
+                                       <form method="post" class="post-form"  target="_blank" action="{% url 'export_pdfquiter' personnel.idpersonnel %}">
+                                           {% csrf_token %}
+                                             <label for="de" class="my-1">De :</label>  <input id="de"  class="form-control" name="De" type="text "/>
+                                             <label for="de" class="my-1">En ce compter du :</label>  <input id="da" name="Da" class="form-control mt-1" type="date"/>
+                                             <label for="de" class="my-1">Année :</label>  <input id="an"  name="an" class="form-control mt-1" type="text "/>
+                                             <div class=" row justify-content-center">
+                                                <button class="btn btn-info p-2 w-25 mt-3">Imprimer</button>
+                                             </div>
+                                        </form>
+                                     </div>
+                                  </div>
+                              </div>
+                         </div>
+                   </div>
+            </div>
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="diplomemodel" tabindex="-1" role="dialog" aria-labelledby="diplomemodelcenter" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title" id="diplometitle">Diplom</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span class="btn btn-outline-danger" aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                    <table class="table table-hover">
+                          <thead>
+                            <tr>
+                              <th scope="col">Diplome</th>
+                              <th scope="col">Etablissement </th>
+                                <th scope="col">Specialite</th>
+                                <th scope="col">Date Diplome</th>
+                            </tr>
+                          </thead>
+                          <tbody class="text-secondary ">
+                          {% for diplome in diplomes %}
+                            <tr>
+                              <th scope="row">{{ diplome.diplomefr }}</th>
+                              <td>{{ diplome.etablissement }}</td>
+                              <td>{{ diplome.specialitefr }}</td>
+                              <td>@{{ diplome.datediplome }}</td>
+                            </tr>
+                          {% endfor %}
+                          </tbody>
+                    </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal fade" id="formationmodel" tabindex="-1" role="dialog" aria-labelledby="formationmodelcenter" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title" id="formationtitle">Formation</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                  <table class="table table-hover">
+                      <thead class="font-weight-bold">
+                        <tr class="font-weight-bold">
+                          <th scope="col">Thematique Formation</th>
+                          <th scope="col">Date </th>
+                          <th scope="col">Duree</th>
+                        </tr>
+                      </thead>
+                      <tbody class=" text-secondary">
+                        <tr>
+                          <th scope="row">1</th>
+                          <td>Mark</td>
+                          <td>Otto</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">1</th>
+                          <td>Otto</td>
+                          <td>@mdo</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">1</th>
+                          <td>Mark</td>
+                          <td>Otto</td>
+                        </tr>
+                      </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal fade" id="grademodel" tabindex="-1" role="dialog" aria-labelledby="grademodelcenter" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title" id="gradetitle">Grade</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                  <table class="table table-hover">
+                      <thead>
+                        <tr>
+                          <th scope="col">Grade</th>
+                          <th scope="col">Date Grade </th>
+                            <th scope="col">Changement De Grade</th>
+                            <th scope="col">Echellon</th>
+                            <th scope="col">Echeel</th>
+                        </tr>
+                      </thead>
+                      <tbody class="text-secondary">
+                        <tr>
+                          <th scope="row">1</th>
+                          <td>Mark</td>
+                          <td>Otto</td>
+                          <td>@mdo</td>
+                          <td>@mdo</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">1</th>
+                          <td>Mark</td>
+                          <td>Otto</td>
+                          <td>@mdo</td>
+                          <td>@mdo</td>
+                        </tr>
+                        <tr>
+                          <th scope="row">1</th>
+                          <td>Mark</td>
+                          <td>Otto</td>
+                          <td>@mdo</td>
+                          <td>@mdo</td>
+                        </tr>
+                      </tbody>
+                  </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal fade" id="servicemodel" tabindex="-1" role="dialog" aria-labelledby="servicemodelcenter" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title" id="servicetitle">Service</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                 <table class="table table-hover">
+                      <thead>
+                        <tr>
+                          <th scope="col">Service</th>
+                          <th scope="col">Division</th>
+                          <th scope="col">Date Affectation</th>
+                        </tr>
+                      </thead>
+                      <tbody class="text-secondary ">
+                        {% for Service,servipers in Serviii  %}
+                        <tr>
+                          <th scope="row">{{ servipers.idservice_field}}</th>
+                          <td>{{ Service.iddivision_field    }}</td>
+                          <td>{{ servipers.dateaffectation}}</td>
+                        </tr>
+                      {% endfor %}
+                      </tbody>
+                 </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal fade" id="enfantmodel" tabindex="-1" role="dialog" aria-labelledby="enfantmodelcenter" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title" id="enfanttitle">Enfant</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                  <table class="table table-hover">
+                      <thead>
+                        <tr>
+                          <th scope="col">Conjoint</th>
+                          <th scope="col">Full name </th>
+                            <th scope="col">Date Naissence</th>
+                            <th scope="col">Lieu de Naissence Lien Juridique</th>
+                            <th scope="col"> Lien Juridique</th>
+                        </tr>
+                      </thead>
+                      <tbody class="text-secondary">
+                        {%  for enfant in enfants %}
+                            <tr>
+                                <td>{{ enfant.idconjoint_field }}</td>
+                                <td>{{ enfant.nomfr }} {{ enfant.nomar }}</td>
+                                <td>{{ enfant.datenaissance }}</td>
+                                <td>{{ enfant.lieunaissancefr }}</td>
+                                <td>{{ enfant.lienjuridique }}</td>
+                            </tr>
+                         {% endfor %}
+                      </tbody>
+                   </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal fade" id="conjointmodel" tabindex="-1" role="dialog" aria-labelledby="conjointmodelcenter" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title" id="conjointtitle">Conjoint</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                  <table class="table table-hover">
+                      <thead>
+                            <tr>
+                             <th scope="col">Cin</th>
+                             <th scope="col">Full name </th>
+                              <th scope="col">Date Naissence</th>
+                              <th scope="col">Lieu de Naissence</th>
+                             </tr>
+                      </thead>
+                      <tbody class="text-secondary">
+                         {%  for conjoint in conjoints %}
+                               <tr>
+                                  <td>{{ conjoint.cin }}</td>
+                                  <td>{{ conjoint.nomfr }} {{ conjoint.prenomfr}}</td>
+                                  <td>{{ conjoint.datenaissance }}</td>
+                                  <td>{{ conjoint.lieunaissance }}</td>
+                               </tr>
+                         {% endfor %}
+                      </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+<script type="text/javascript" src="{% static 'js/all.min.js' %}"></script>
+<script type="text/javascript">
+    let quitter=document.getElementById("autoquitter");
+    quitter.onclick=function (){
+        document.getElementById("quitterinfo").classList.toggle("dis-none");
+    }
+</script>
+
+{% endblock %}

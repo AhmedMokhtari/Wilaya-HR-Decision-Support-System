@@ -13,7 +13,7 @@
                     <hr>
                     <div class="text-center">
                         <div class="col-sm-3 float-left">
-                           <input class="form-control" placeholder="Recherche par Cin">
+                           <input class="form-control" id="search" placeholder="Recherche ">
                         </div>
 
                         <div class="col-sm-2 float-right">
@@ -24,7 +24,7 @@
 
                 </div>
                 <div class="col-12 col-lg-12 col-xxl-12 d-flex">
-                    <table class="table table-striped text-center">
+                    <table class="table table-striped text-center" id="table">
                         <thead>
                             <tr>
                                 <th>Cin - ر.ب.و</th>
@@ -41,7 +41,7 @@
                                 <td>{{ personnel.nomfr }} - {{personnel.prenomfr}}</td>
                                 <td>{{personnel.nomar}} - {{ personnel.prenomar }}</td>
                                 <td>{{ personnel.tele }}</td>
-                                <td><button class="btn btn-info btn-icon m-1 "><i class="fa-solid fa-eye fa-xs m-1 "></i></button><a href><button class="btn btn-warning btn-icon  mx-1"><i class="fa-solid fa-pen fa-xs mx-1"></i></button></a> </td>
+                                <td><a href="{% url 'info' personnel.idpersonnel %}" class="btn btn-success m-1"><i class="fa-solid fa-eye fa-lg " ></i></a><a href><button class="btn btn-warning btn-icon  mx-1"><i class="fa-solid fa-pen fa-xs mx-1"></i></button></a> </td>
                               </tr>
                             {% endfor %}
                         </tbody>
@@ -50,4 +50,15 @@
             </div>
         </div>
     </form>
+      <script>
+    let $rows = $('#table tbody tr');
+$('#search').keyup(function() {
+    let val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+
+    $rows.show().filter(function() {
+        let text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+        return !~text.indexOf(val);
+    }).hide();
+});
+    </script>
 {% endblock %}

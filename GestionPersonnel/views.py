@@ -15,11 +15,19 @@ from django.db.models import Q
 def consultation(request):
     personnels = { 'personnels' : Personnel.objects.all()}
     return render(request, 'GestionPersonnel/consultation.html', personnels)
+def info(request,id):
+    personnel = Personnel.objects.get(idpersonnel=id)
+    conjointsinperso = Conjointpersonnel.objects.filter(idpersonnel_field=id)
+    conjoints = Conjoint.objects.filter(idconjoint__in=conjointsinperso.values_list('idconjoint_field', flat=True))
+    serviperso = Servicepersonnel.objects.filter(idpersonnel_field=id)
+    Servii = Servicepersonnel.objects.filter(idpersonnel_field=id)
+    Services = Service.objects.filter(idservice__in=Servii.values_list('idservice_field', flat=True))
+    enfants=Enfant.objects.filter(idconjoint_field__in=conjointsinperso.values_list('idconjoint_field', flat=True))
+    diplomes = Diplome.objects.filter(idpersonnel_field=id)
+    return render(request,'GestionPersonnel/info.html',{'personnel': personnel, 'conjoints': conjoints, 'conjointsinperso': conjointsinperso,'Serviii':zip(Services,serviperso),'diplomes':diplomes,"enfants":enfants})
 
 
 @login_required(login_url='/connexion')
-
-
 def ajouter(request):
 
     services = Service.objects.all()
@@ -277,9 +285,10 @@ def diplome(request):
 
 
 
-def printpdfquitter(req):
-    empName = "Ahmed Mokhtari";
-    cin = "FB129386"
+def printpdfquitter(req,id):
+    personnel = Personnel.objects.get(idpersonnel=id)
+    empName = str(personnel.nomfr + " " + personnel.prenomfr);
+    cin = str(personnel.cin)
     grade="ingenieur"
     temp=req.POST["De"]
     du=req.POST["Da"]
@@ -341,10 +350,11 @@ def printpdfquitter(req):
 
 
 
-def printpdf(req):
-   empName="Ahmed Mokhtari";
-   cin="FB129386"
-   num="123823"
+def printpdf(req,id):
+   personnel = Personnel.objects.get(idpersonnel=id)
+   empName=str(personnel.nomfr+" "+personnel.prenomfr);
+   cin=str(personnel.cin)
+   num=str(personnel.numerofinancier)
    grade="ingenieur"
    pdf=FPDF()
    pdf.add_page()

@@ -82,9 +82,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'mssql',
         'NAME': 'ProjetWilaya',
-        'USER': 'zaka',
-        'PASSWORD': 'zaka',
-        'HOST': 'DESKTOP-J4H5HNC',
+        'USER': 'mokhta',
+        'PASSWORD': '123',
+        'HOST': 'DESKTOP-5ROL8PJ',
         'PORT': '',
         'OPTIONS': {
             'driver': 'ODBC Driver 17 for SQL Server',

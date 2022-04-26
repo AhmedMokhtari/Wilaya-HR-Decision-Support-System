@@ -132,7 +132,8 @@ class Conjoint(models.Model):
     class Meta:
         managed = False
         db_table = 'Conjoint'
-
+    def __str__(self):
+        return self.nomfr + " " + self.prenomfr
 # -------------------------------------------------------
 class Conjointpersonnel(models.Model):
     idconjoint_field = models.OneToOneField(Conjoint, models.DO_NOTHING, db_column='IdConjoint#', primary_key=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
@@ -169,7 +170,8 @@ class Division(models.Model):
     class Meta:
         managed = False
         db_table = 'Division'
-
+    def __str__(self):
+        return self.libelledivisionfr
 
 # -------------------------------------------------------
 class Service(models.Model):
@@ -181,7 +183,8 @@ class Service(models.Model):
     class Meta:
         managed = False
         db_table = 'Service'
-
+    def __str__(self):
+        return self.libelleservicefr
 # -------------------------------------------------------
 class Servicepersonnel(models.Model):
     idservicepersonnel = models.AutoField(db_column='IdServicePersonnel', primary_key=True)
