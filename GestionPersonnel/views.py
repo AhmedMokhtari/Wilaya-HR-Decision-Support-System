@@ -58,7 +58,7 @@ def ajouter(request):
         fonction = request.POST["fonction"]
         datefonction = request.POST["datefonction"]
 
-        objperso= Personnel(nomar=nomar, nomfr=nomfr, cin=cin, prenomar=prenomar, prenomfr=prenomfr,
+        objperso= Personnel.objects.create(nomar=nomar, nomfr=nomfr, cin=cin, prenomar=prenomar, prenomfr=prenomfr,
                             lieunaissancear=lieunar, lieunaissancefr=lieunfr, datenaissance=daten,
                             tele=tele, email=email, situationfamilialefr=situatfr, adressear=adressear,
                             adressefr=adressefr, numerofinancier=numiden, daterecrutement=daterec,
@@ -71,9 +71,9 @@ def ajouter(request):
         objgrade = Grade(idgrade=grade)
         objfonction = Fonction(idfonction=fonction)
 
-        objfonctionperso = Fonctionpersonnel(idpersonnel_field=objperso, idfonction_field=objfonction, datefonction=datefonction)
-        objserviceperso = Servicepersonnel(idpersonnel_field=objperso, idservice_field=objservice, dateaffectation=dateservice)
-        objgradeperso = Gradepersonnel(idpersonnel_field=objperso, idgrade_field=objgrade, dategrade=dategrade)
+        objfonctionperso = Fonctionpersonnel.objects.create(idpersonnel_field=objperso, idfonction_field=objfonction, datefonction=datefonction)
+        objserviceperso = Servicepersonnel.objects.create(idpersonnel_field=objperso, idservice_field=objservice, dateaffectation=dateservice)
+        objgradeperso = Gradepersonnel.objects.create(idpersonnel_field=objperso, idgrade_field=objgrade, dategrade=dategrade)
 
         objfonctionperso.save()
         objserviceperso.save()
@@ -86,30 +86,13 @@ def ajouter(request):
         return render(request, 'GestionPersonnel/ajouter.html', {'services': services, 'grades': grades, 'fonctions': fonctions})
 
 
+
+
+
 @login_required(login_url='/connexion')
 def modifier(request, id):
-    personnel = Personnel.objects.get(idpersonnel=id)
-    conjointsinperso = Conjointpersonnel.objects.filter(idpersonnel_field=id)
-    conjoints = Conjoint.objects.filter(idconjoint__in=conjointsinperso.values_list('idconjoint_field', flat=True))
 
-    serviceperso = Servicepersonnel.objects.filter(idpersonnel_field=id).values_list('idservice_field', flat=True)
-    servicelast = Service.objects.filter(idservice__in=serviceperso).last()
-    servicepersolast = Servicepersonnel.objects.get(idpersonnel_field=personnel, idservice_field=servicelast)
-
-    gradeperso = Gradepersonnel.objects.filter(idpersonnel_field=id).values_list('idgrade_field', flat=True)
-    gradelast = Grade.objects.filter(idgrade__in=gradeperso).last()
-    gradepersolast = Gradepersonnel.objects.get(idpersonnel_field=personnel, idgrade_field=gradelast)
-
-    fonctionperso = Fonctionpersonnel.objects.filter(idpersonnel_field=id).values_list('idfonction_field',flat=True)
-    fonctionlast = Fonction.objects.filter(idfonction__in=fonctionperso).last()
-    fonctionpersolast = Fonctionpersonnel.objects.get(idpersonnel_field=personnel, idfonction_field= fonctionlast)
-
-
-
-    services = Service.objects.all()
-    grades = Grade.objects.all()
-    fonctions = Fonction.objects.all()
-
+    objperso = Personnel.objects.get(idpersonnel= id)
 
     if request.method == 'POST':
         daten = request.POST["daten"]
@@ -139,7 +122,7 @@ def modifier(request, id):
         datefonction = request.POST["datefonction"]
 
 
-        objperso = Personnel.objects.get(idpersonnel= id)
+
         objperso.tele = tele
         objperso.email = email
         objperso.numcnopsaf = numcnopsaf
@@ -165,18 +148,41 @@ def modifier(request, id):
         objgrade = Grade(idgrade=grade)
         objfonction = Fonction(idfonction=fonction)
 
-        objfonctionperso = Fonctionpersonnel(idpersonnel_field=objperso, idfonction_field=objfonction,
-                                             datefonction=datefonction)
-        objserviceperso = Servicepersonnel(idpersonnel_field=objperso, idservice_field=objservice,
-                                           dateaffectation=dateservice)
-        objgradeperso = Gradepersonnel(idpersonnel_field=objperso, idgrade_field=objgrade, dategrade=dategrade)
+        if not Fonctionpersonnel.objects.filter(idpersonnel_field=objperso).filter(idfonction_field=objfonction):
+            objfonctionperso = Fonctionpersonnel(idpersonnel_field=objperso, idfonction_field=objfonction,
+                                                 datefonction=datefonction)
+            objfonctionperso.save()
 
-        objfonctionperso.save()
-        objserviceperso.save()
-        objgradeperso.save()
+        if not Servicepersonnel.objects.filter(idpersonnel_field=objperso).filter(idservice_field=objservice):
+            objserviceperso = Servicepersonnel(idpersonnel_field=objperso, idservice_field=objservice,
+                                           dateaffectation=dateservice)
+            objserviceperso.save()
+
+        if not Gradepersonnel.objects.filter(idpersonnel_field=objperso).filter(idgrade_field=objgrade):
+            objgradeperso = Gradepersonnel(idpersonnel_field=objperso, idgrade_field=objgrade, dategrade=dategrade)
+            objgradeperso.save()
+
+    conjointsinperso = Conjointpersonnel.objects.filter(idpersonnel_field=id)
+    conjoints = Conjoint.objects.filter(idconjoint__in=conjointsinperso.values_list('idconjoint_field', flat=True))
+
+    serviceperso = Servicepersonnel.objects.filter(idpersonnel_field=id).values_list('idservice_field', flat=True)
+    servicelast = Service.objects.filter(idservice__in=serviceperso).last()
+    servicepersolast = Servicepersonnel.objects.get(idpersonnel_field=objperso, idservice_field=servicelast)
+
+    gradeperso = Gradepersonnel.objects.filter(idpersonnel_field=id).values_list('idgrade_field', flat=True)
+    gradelast = Grade.objects.filter(idgrade__in=gradeperso).last()
+    gradepersolast = Gradepersonnel.objects.get(idpersonnel_field=objperso, idgrade_field=gradelast)
+
+    fonctionperso = Fonctionpersonnel.objects.filter(idpersonnel_field=id).values_list('idfonction_field', flat=True)
+    fonctionlast = Fonction.objects.filter(idfonction__in=fonctionperso).last()
+    fonctionpersolast = Fonctionpersonnel.objects.get(idpersonnel_field=objperso, idfonction_field=fonctionlast)
+
+    services = Service.objects.all()
+    grades = Grade.objects.all()
+    fonctions = Fonction.objects.all()
 
     return render(request, 'GestionPersonnel/modifier.html',
-                      {'personnel': personnel, 'conjoints': conjoints, 'services': services,
+                      {'personnel': objperso, 'conjoints': conjoints, 'services': services,
                        'grades': grades, 'fonctions':fonctions, 'servicelast': servicelast, 'gradelast': gradelast,
                        'fonctionlast': fonctionlast, 'fonctionpersolast': fonctionpersolast,
                        'servicepersolast':servicepersolast, 'gradepersolast':gradepersolast})

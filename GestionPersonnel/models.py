@@ -54,7 +54,8 @@ class Fonction(models.Model):
 
 # -------------------------------------------------------
 class Fonctionpersonnel(models.Model):
-    idfonction_field = models.OneToOneField(Fonction, models.DO_NOTHING, db_column='IdFonction#', primary_key=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
+    idfonctionpersonnel = models.AutoField(db_column='IdFonctionPersonnel', primary_key=True)
+    idfonction_field = models.ForeignKey('Fonction', models.DO_NOTHING, db_column='IdFonction#')  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
     idpersonnel_field = models.ForeignKey('Personnel', models.DO_NOTHING, db_column='IdPersonnel#')  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
     datefonction = models.DateTimeField(db_column='DateFonction')  # Field name made lowercase.
 
@@ -105,7 +106,8 @@ class Grade(models.Model):
 
 # -------------------------------------------------------
 class Gradepersonnel(models.Model):
-    idgrade_field = models.OneToOneField(Grade, models.DO_NOTHING, db_column='IdGrade#', primary_key=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
+    idggradepersonnel = models.AutoField(db_column='IdGradePersonnel', primary_key=True)
+    idgrade_field = models.OneToOneField(Grade, models.DO_NOTHING, db_column='IdGrade#')  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
     idpersonnel_field = models.ForeignKey('Personnel', models.DO_NOTHING, db_column='IdPersonnel#')  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
     dategrade = models.DateTimeField(db_column='DateGrade', blank=True, null=True)  # Field name made lowercase.
     changementdegrade = models.CharField(db_column='ChangementDeGrade', max_length=100, db_collation='French_CI_AS', blank=True, null=True)  # Field name made lowercase.
@@ -182,7 +184,8 @@ class Service(models.Model):
 
 # -------------------------------------------------------
 class Servicepersonnel(models.Model):
-    idservice_field = models.OneToOneField(Service, models.DO_NOTHING, db_column='IdService#', primary_key=True)
+    idservicepersonnel = models.AutoField(db_column='IdServicePersonnel', primary_key=True)
+    idservice_field = models.OneToOneField(Service, models.DO_NOTHING, db_column='IdService#')
     idpersonnel_field = models.ForeignKey(Personnel, models.DO_NOTHING, db_column='IdPersonnel#')
     dateaffectation = models.DateTimeField(db_column='DateAffectation', blank=True, null=True)
 

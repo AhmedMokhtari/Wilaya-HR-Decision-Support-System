@@ -5,13 +5,12 @@
         {% csrf_token %}
     <div id="smartwizard-default-primary" class="wizard wizard-primary mb-4">
         <ul>
-            <li><a href="#default-primary-step-1">Données Personnelles - معلومات شخصية<br><small>تعديل المعلومات - Modifier les données</small></a></li>
-            <li><a href="#default-primary-step-2">Données Professionnel - معلومات مهنية<br><small>تعديل المعلومات - Modifier les données</small></a></li>
-            <li><a href="#default-primary-step-3">Third Step<br><small>Step description</small></a></li>
+            <li><a href="#default-primary-step-1">Données Personnelles - بيانات شخصية<br><small>تعديل المعلومات - Modifier les données</small></a></li>
+            <li><a href="#default-primary-step-2">Données Professionnels - بيانات مهنية<br><small>تعديل المعلومات - Modifier les données</small></a></li>
+            <li><a href="#default-primary-step-3">بيانات إضافية - Données supplémentaires<br><small>تعديل المعلومات - Modifier les données</small></a></li>
         </ul>
 
     <div>
-
         <div id="default-primary-step-1" class="">
             <div class="row">
                 <div class="col-md-6"  style="padding-right:20px; border-right: 1px solid #ccc;">
@@ -241,7 +240,34 @@
         </div>
 
         <div id="default-primary-step-3" class="">
-            Step Content 3
+            <div class="row">
+                <div class="col-md-3">
+                    <div>
+                        <table class="table table-striped text-center">
+                        <thead>
+                            <tr>
+                                <th>Cin - ر.ب.و</th>
+                                <th>Nom Complet</th>
+                                <th>الاسم الكامل</th>
+                                <th>Tele - هاتف</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for personnel in personnels %}
+                              <tr class="tb-colon"  >
+                                <td>{{ personnel.cin }}</td>
+                                <td>{{ personnel.nomfr }} - {{personnel.prenomfr}}</td>
+                                <td>{{personnel.nomar}} - {{ personnel.prenomar }}</td>
+                                <td>{{ personnel.tele }}</td>
+                                <td><button class="btn btn-info btn-icon m-1 "><i class="fa-solid fa-eye fa-xs m-1 "></i></button><a href><button class="btn btn-warning btn-icon  mx-1"><i class="fa-solid fa-pen fa-xs mx-1"></i></button></a> </td>
+                              </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -263,18 +289,7 @@
 				theme: "arrows",
 				showStepURLhash: false
 			});
-			$("#smartwizard-arrows-success").smartWizard({
-				theme: "arrows",
-				showStepURLhash: false
-			});
-			$("#smartwizard-arrows-danger").smartWizard({
-				theme: "arrows",
-				showStepURLhash: false
-			});
-			$("#smartwizard-arrows-warning").smartWizard({
-				theme: "arrows",
-				showStepURLhash: false
-			});
+
 			// Validation
 			var $validationForm = $("#smartwizard-validation");
 			$validationForm.validate({
