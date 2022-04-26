@@ -92,7 +92,8 @@ def ajouter(request):
 @login_required(login_url='/connexion')
 def modifier(request, id):
 
-    objperso = Personnel.objects.get(idpersonnel= id)
+
+
 
     if request.method == 'POST':
         daten = request.POST["daten"]
@@ -122,46 +123,47 @@ def modifier(request, id):
         datefonction = request.POST["datefonction"]
 
 
-
-        objperso.tele = tele
-        objperso.email = email
-        objperso.numcnopsaf = numcnopsaf
-        objperso.numcnopsim = numcnopsim
-        objperso.adressefr = adressefr
-        objperso.adressear = adressear
-        objperso.situationfamilialear = situatar
-        objperso.situationfamilialefr = situatfr
-        objperso.lieunaissancefr = lieunfr
-        objperso.lieunaissancear = lieunar
-        objperso.rib = int(rib)
-        objperso.datenaissance = daten
-        objperso.numerofinancier = numiden
-        objperso.datedemarcation = datedec
-        objperso.daterecrutement = daterec
-        objperso.dateparrainageretraite = dateretr
-        objperso.ancienneteadmi = ancadmi
-        objperso.administrationapp = adminiapp
-        objperso.photo = photo
-        objperso.save()
+        objperso2 = Personnel.objects.get(idpersonnel=id)
+        objperso2.tele = tele
+        objperso2.email = email
+        objperso2.numcnopsaf = numcnopsaf
+        objperso2.numcnopsim = numcnopsim
+        objperso2.adressefr = adressefr
+        objperso2.adressear = adressear
+        objperso2.situationfamilialear = situatar
+        objperso2.situationfamilialefr = situatfr
+        objperso2.lieunaissancefr = lieunfr
+        objperso2.lieunaissancear = lieunar
+        objperso2.rib = int(rib)
+        objperso2.datenaissance = daten
+        objperso2.numerofinancier = numiden
+        objperso2.datedemarcation = datedec
+        objperso2.daterecrutement = daterec
+        objperso2.dateparrainageretraite = dateretr
+        objperso2.ancienneteadmi = ancadmi
+        objperso2.administrationapp = adminiapp
+        objperso2.photo = photo
+        objperso2.save()
 
         objservice = Service(idservice=service)
         objgrade = Grade(idgrade=grade)
         objfonction = Fonction(idfonction=fonction)
 
-        if not Fonctionpersonnel.objects.filter(idpersonnel_field=objperso).filter(idfonction_field=objfonction):
-            objfonctionperso = Fonctionpersonnel(idpersonnel_field=objperso, idfonction_field=objfonction,
+        if not Fonctionpersonnel.objects.filter(idpersonnel_field=objperso2).filter(idfonction_field=objfonction):
+            objfonctionperso = Fonctionpersonnel(idpersonnel_field=objperso2, idfonction_field=objfonction,
                                                  datefonction=datefonction)
             objfonctionperso.save()
 
-        if not Servicepersonnel.objects.filter(idpersonnel_field=objperso).filter(idservice_field=objservice):
-            objserviceperso = Servicepersonnel(idpersonnel_field=objperso, idservice_field=objservice,
+        if not Servicepersonnel.objects.filter(idpersonnel_field=objperso2).filter(idservice_field=objservice):
+            objserviceperso = Servicepersonnel(idpersonnel_field=objperso2, idservice_field=objservice,
                                            dateaffectation=dateservice)
             objserviceperso.save()
 
-        if not Gradepersonnel.objects.filter(idpersonnel_field=objperso).filter(idgrade_field=objgrade):
-            objgradeperso = Gradepersonnel(idpersonnel_field=objperso, idgrade_field=objgrade, dategrade=dategrade)
+        if not Gradepersonnel.objects.filter(idpersonnel_field=objperso2).filter(idgrade_field=objgrade):
+            objgradeperso = Gradepersonnel(idpersonnel_field=objperso2, idgrade_field=objgrade, dategrade=dategrade)
             objgradeperso.save()
 
+    objperso = Personnel.objects.get(idpersonnel=id)
 
     conjointsinperso = Conjointpersonnel.objects.filter(idpersonnel_field=id)
     conjoints = Conjoint.objects.filter(idconjoint__in=conjointsinperso.values_list('idconjoint_field', flat=True))
