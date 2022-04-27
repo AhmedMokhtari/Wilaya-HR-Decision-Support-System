@@ -1,7 +1,11 @@
 from django.contrib import admin
 from .models import *
+from import_export.admin import ImportExportModelAdmin
 # Register your models here.
-admin.site.register(Personnel)
+#admin.site.register(Personnel)
+@admin.register(Personnel)
+class PersonnelImportExport(ImportExportModelAdmin):
+    pass
 admin.site.register(Fonction)
 admin.site.register(Grade)
 admin.site.register(Gradepersonnel)
