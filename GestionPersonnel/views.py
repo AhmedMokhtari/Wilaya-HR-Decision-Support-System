@@ -18,7 +18,7 @@ def consultation(request):
 
 def export_perso_csv(request):
     response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="users.csv"'
+    response['Content-Disposition'] = 'attachment; filename="personnels.csv"'
     response.write(u'\ufeff'.encode('utf8'))
     writer = csv.writer(response)
     writer.writerow(['CIN', 'NOM', 'PRENOM', 'LIEU DE NAISSENCE','EMAIL','TEL ','SITUATION FAMILIALER'])
