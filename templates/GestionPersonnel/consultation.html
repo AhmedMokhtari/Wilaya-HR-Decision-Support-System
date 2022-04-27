@@ -18,7 +18,7 @@
 
                         <div class="col-sm-2 float-right">
                            <a href="{% url 'ajouterp' %}" class="btn btn-success m-1"><i class="fa-solid fa-plus  " ></i></a>
-                            <button class="btn btn-primary  m-1" id="export"><i class="fa-solid fa-file-excel  " ></i></i>  </button>
+                            <a  class="btn btn-primary  m-1" id="export" href="{% url 'export_perso_xls' %}"><i class="fa-solid fa-file-excel " ></i></a>
                         </div>
                     </div>
 
@@ -41,7 +41,7 @@
                                 <td>{{ personnel.nomfr }} - {{personnel.prenomfr}}</td>
                                 <td>{{personnel.nomar}} - {{ personnel.prenomar }}</td>
                                 <td>{{ personnel.tele }}</td>
-                                <td><a href="{% url 'info' personnel.idpersonnel %}" class="btn btn-success m-1"><i class="fa-solid fa-eye fa-lg " ></i></a><a href><button class="btn btn-warning btn-icon  mx-1"><i class="fa-solid fa-pen fa-xs mx-1"></i></button></a> </td>
+                                <td><a href="{% url 'info' personnel.idpersonnel %}" class="btn btn-success m-1"><i class="fa-solid fa-eye fa-lg " ></i></a><a href="{% url 'modifier' personnel.idpersonnel %}"><button class="btn btn-warning btn-icon  mx-1"><i class="fa-solid fa-pen fa-xs mx-1"></i></button></a> </td>
                               </tr>
                             {% endfor %}
                         </tbody>

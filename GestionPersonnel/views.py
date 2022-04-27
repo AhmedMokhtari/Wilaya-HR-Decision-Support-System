@@ -6,7 +6,7 @@ from .models import Personnel,Conjoint, Conjointpersonnel, \
 from django.contrib.auth.decorators import login_required
 from fpdf import FPDF
 from django.http import HttpResponse
-import os,datetime
+import os,datetime,csv
 from django.db.models import Q
 
 
@@ -15,6 +15,17 @@ from django.db.models import Q
 def consultation(request):
     personnels = { 'personnels' : Personnel.objects.all()}
     return render(request, 'GestionPersonnel/consultation.html', personnels)
+
+def export_perso_csv(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="users.csv"'
+    response.write(u'\ufeff'.encode('utf8'))
+    writer = csv.writer(response)
+    writer.writerow(['CIN', 'NOM', 'PRENOM', 'LIEU DE NAISSENCE','EMAIL','TEL ','SITUATION FAMILIALER'])
+    personnels = Personnel.objects.all().values_list('cin', 'nomfr', 'prenomfr', 'lieunaissancefr','email','tele','situationfamilialefr')
+    for personnel in personnels:
+        writer.writerow(personnel)
+    return response
 def info(request,id):
     personnel = Personnel.objects.get(idpersonnel=id)
     conjointsinperso = Conjointpersonnel.objects.filter(idpersonnel_field=id)
@@ -99,10 +110,6 @@ def ajouter(request):
 
 @login_required(login_url='/connexion')
 def modifier(request, id):
-
-
-
-
     if request.method == 'POST':
         daten = request.POST["daten"]
         lieunar = request.POST["lieunar"]

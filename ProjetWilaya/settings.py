@@ -129,9 +129,11 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR,'static')
+MEDIA_URL='/images/PersonPhoto/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'ProjetWilaya/static')
 ]
+MEDIA_ROOT=os.path.join(BASE_DIR,'static/images/PersonPhoto/')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
