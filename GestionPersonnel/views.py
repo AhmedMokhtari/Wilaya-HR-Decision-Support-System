@@ -240,20 +240,22 @@ def ajouter_conjoint(request):
         return render(request, 'GestionPersonnel/conjoint.html')
 
 
-
 def modifier_conjoint(request,id):
+    suc = "no"
     conjoint = Conjoint.objects.get(idconjoint=id)
     if request.method == 'POST':
-        nomfr = request.POST["nomfr"]
-        nomar = request.POST["nomar"]
-        prenomfr = request.POST["prenomfr"]
-        prenomar = request.POST["prenomar"]
-        cin = request.POST["cin"]
-        daten = request.POST["daten"]
-        lieun = request.POST["lieun"]
-        personnelcin = request.POST["personnelcin"]
+        objconjoint = Conjoint.objects.get(idconjoint=id)
+        objconjoint.nomfr = request.POST["nomfr"]
+        objconjoint.nomar = request.POST["nomar"]
+        objconjoint.prenomfr = request.POST["prenomfr"]
+        objconjoint.prenomar = request.POST["prenomar"]
+        objconjoint.cin = request.POST["cin"]
+        objconjoint.datenaissance = request.POST["daten"]
+        objconjoint.lieunaissance = request.POST["lieun"]
+        suc = "yes"
+        objconjoint.save()
+    return render(request, "GestionPersonnel/modifier_conjoint.html", {'conjoint': conjoint,'suc':suc})
 
-    return render(request, "GestionPersonnel/modifier_conjoint.html",  {'conjoint':conjoint})
 
 # enfant -----------------------------------
 @login_required(login_url='/connexion')
@@ -280,20 +282,22 @@ def ajouter_enfant(request):
     return render(request, 'GestionPersonnel/enfant.html', {'personnel': cinpersonnel, 'conjoints':conjoints})
 
 def modifier_enfant(request,id):
-    enfant = Enfant.objects.get(idenfant=id)
+    suc = 'no'
+    objenfant = Enfant.objects.get(idenfant=id)
     conjoints = Conjoint.objects.all()
     if request.method == "POST":
-        nomfr = request.POST["nomfr"]
-        nomar = request.POST["nomar"]
-        prenomfr = request.POST["prenomfr"]
-        prenomar = request.POST["prenomar"]
-        lienj = request.POST["lienj"]
-        daten = request.POST["daten"]
-        lieunfr = request.POST["lieunfr"]
-        lieunar = request.POST["lieunar"]
-        mere = request.POST["mere"]
-
-    return render(request, 'GestionPersonnel/modifier_enfant.html', {'enfant':enfant, 'conjoints':conjoints})
+        objenfant.nomfr = request.POST["nomfr"]
+        objenfant.nomar = request.POST["nomar"]
+        objenfant.prenomfr = request.POST["prenomfr"]
+        objenfant.prenomar = request.POST["prenomar"]
+        objenfant.lienjuridique = request.POST["lienj"]
+        objenfant.datenaissance = request.POST["daten"]
+        objenfant.lieunaissancefr = request.POST["lieunfr"]
+        objenfant.lieunaissancear = request.POST["lieunar"]
+        objenfant.idconjoint_field = Conjoint.objects.get(idconjoint=request.POST["mere"])
+        objenfant.save()
+        suc = 'yes'
+    return render(request, 'GestionPersonnel/modifier_enfant.html', {'enfant': objenfant, 'conjoints':conjoints,'suc':suc})
 # diplome -----------------------------------
 @login_required(login_url='/connexion')
 def ajouter_diplome(request):

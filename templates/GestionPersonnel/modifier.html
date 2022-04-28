@@ -261,7 +261,7 @@
                                 <td>{{ conjoint.nomfr }} - {{conjoint.prenomfr}}</td>
                                 <td>{{conjoint.nomar}} - {{ conjoint.prenomar }}</td>
                                 <td>{{ conjoint.datenaissance }}</td>
-                                <td><a href><button class="btn btn-warning btn-icon  mx-1"><i class="fa-solid fa-pen fa-xs mx-1"></i></button></a> </td>
+                                <td><a onclick="red( '/personnel/modifier_conjoint', '{{  conjoint.idconjoint }}')"  class="btn btn-warning btn-icon  mx-1"><i class="fa-solid fa-pen fa-xs mx-1"></i></a> </td>
                               </tr>
                             {% endfor %}
                         </tbody>
@@ -289,7 +289,7 @@
                                     <td>{{ enfant.nomfr }} - {{enfant.prenomfr}}</td>
                                     <td>{{ enfant.nomar}} - {{ enfant.prenomar }}</td>
                                     <td>{{ personnel.datenaissance }}</td>
-                                    <td><a href><button class="btn btn-warning btn-icon  mx-1"><i class="fa-solid fa-pen fa-xs mx-1"></i></button></a> </td>
+                                    <td><a  onclick="red( '/personnel/modifier_enfant', '{{ enfant.idenfant }}')" class="btn btn-warning btn-icon  mx-1"><i class="fa-solid fa-pen fa-xs mx-1"></i></a> </td>
                                   </tr>
                                 {% endfor %}
                             </tbody>
@@ -317,7 +317,7 @@
                                     <td>{{ diplome.diplomefr }}</td>
                                     <td>{{ diplome.diplomear}}</td>
                                     <td>{{ diplome.specialitefr }} - {{ diplome.specialitear }}</td>
-                                    <td><a href="{% url 'modifier_diplome' diplome.iddiplome %}" class="btn btn-warning btn-icon  mx-1"><i class="fa-solid fa-pen fa-xs mx-1"></i></a> </td>
+                                    <td><a onclick="red( '/personnel/modifier_diplome', '{{ diplome.iddiplome }}')" class="btn btn-warning btn-icon  mx-1"><i class="fa-solid fa-pen fa-xs mx-1"></i></a> </td>
                                   </tr>
                                 {% endfor %}
                             </tbody>
@@ -372,17 +372,23 @@
 
         var image = document.getElementById("image");
 
-                // La fonction previewPicture
-                var previewPicture  = function (e) {
+        // La fonction previewPicture
+        var previewPicture  = function (e) {
 
-                    // e.files contient un objet FileList
-                    const [picture] = e.files
+            // e.files contient un objet FileList
+            const [picture] = e.files
 
-                    // "picture" est un objet File
-                    if (picture) {
-                        // On change l'URL de l'image
-                        image.src = URL.createObjectURL(picture)
-                    }
-                 }
+            // "picture" est un objet File
+            if (picture) {
+                // On change l'URL de l'image
+                image.src = URL.createObjectURL(picture)
+            }
+         }
+
+        function red (link,val)
+        {
+            var data = link+"/"+val;
+            window.open(data,link,'width=500,height=900');
+        }
 </script>
 {% endblock content %}

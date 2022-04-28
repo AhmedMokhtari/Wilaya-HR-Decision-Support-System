@@ -23,39 +23,42 @@
                             {% csrf_token %}
 
                              <p>
-                                 <label class="col-form-label" for="prenomfr">Prénom :</label><input type="text" name="prenomfr" class="form-control">
+                                 <label class="col-form-label" for="prenomfr">Prénom :</label>
+                                 <input type="text" name="prenomfr" class="form-control" value="{{ enfant.prenomfr }}">
                              </p>
 
                               <p>
-                                 <label class="col-form-label float-right" for="prenomar" >: الاسم الشخصي</label><input type="text"  name="prenomar" class="form-control">
+                                 <label class="col-form-label float-right" for="prenomar" >: الاسم الشخصي</label>
+                                  <input type="text"  name="prenomar" class="form-control" value="{{ enfant.prenomar }}">
                              </p>
 
                               <p>
-                                 <label class="col-form-label" for="nomfr">Nom :</label><input type="text" name="nomfr"  class="form-control">
+                                 <label class="col-form-label" for="nomfr">Nom :</label><input type="text" name="nomfr"  class="form-control" value="{{ enfant.nomfr }}">
                              </p>
 
                               <p>
-                                 <label class="col-form-label float-right" for="nomar" >: الاسم العائلي</label><input type="text" name="nomar" class="form-control">
+                                 <label class="col-form-label float-right" for="nomar" >: الاسم العائلي</label>
+                                  <input type="text" name="nomar" class="form-control" value="{{ enfant.nomar }}">
                               </p>
 
                              <p>
-                                 <label class="col-form-label" for="lieun">lieu de naissance :</label> <input type="text" name="lieunfr" class="form-control">
+                                 <label class="col-form-label" for="lieun">lieu de naissance :</label>
+                                 <input type="text" name="lieunfr" class="form-control" value="{{ enfant.lieunaissancefr }}">
                              </p>
 
                              <p>
-                                 <label class="col-form-label float-right" for="lieun">: مكان الازدياد</label><input type="text" name="lieunar" class="form-control">
+                                 <label class="col-form-label float-right" for="lieun">: مكان الازدياد</label>
+                                 <input type="text" name="lieunar" class="form-control" value="{{ enfant.lieunaissancear }}">
                              </p>
 
                               <p>
-                                 <label class="col-form-label" for="lienj">Lien juridique :</label> <label class="col-form-label float-right" >: ر.ب.و</label><input type="text"  name="lienj" class="form-control">
+                                 <label class="col-form-label" for="lienj">Lien juridique :</label> <label class="col-form-label float-right" >: ر.ب.و</label>
+                                  <input type="text"  name="lienj" class="form-control" value="{{ enfant.lienjuridique }}">
                               </p>
 
                               <p>
-                                 <label class="col-form-label" for="daten">Date de naissance :</label> <label class="col-form-label float-right" for="daten" >: تاريخ الازدياد</label><input type="date" name="daten" class="form-control">
-                             </p>
-
-                              <p>
-                                 <label class="col-form-label" for="prenomfr">Personnel Cin :</label><input type="text"  name="personnelcin" readonly class="form-control" value="{{ personnel }}">
+                                 <label class="col-form-label" for="daten">Date de naissance :</label> <label class="col-form-label float-right" for="daten" >: تاريخ الازدياد</label>
+                                  <input type="date" name="daten" class="form-control" value="{{ enfant.datenaissance|date:'Y-m-d' }}">
                              </p>
 
                             <p>
@@ -68,16 +71,17 @@
                              </p>
 
                   </div>
-                    {% if enfant %}
+                    {% if suc == 'yes' %}
                         <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            <center>ajouté avec succès | أضيف بنجاح.</center>
+                            <center>modifié avec succès | أضيف بنجاح.</center>
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                     {% endif %}
+
                   <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Ajouter | اضافة</button>
+                    <button type="submit" class="btn btn-primary">Enregistrer - حفظ</button>
                   </div>
             </form>
       </div>
