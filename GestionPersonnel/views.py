@@ -198,12 +198,15 @@ def modifier(request, id):
     services = Service.objects.all()
     grades = Grade.objects.all()
     fonctions = Fonction.objects.all()
+    enfants = Enfant.objects.filter(idconjoint_field__in=conjointsinperso.values_list('idconjoint_field', flat=True))
+    diplomes = Diplome.objects.filter(idpersonnel_field=id)
 
     return render(request, 'GestionPersonnel/modifier.html',
                       {'personnel': objperso, 'conjoints': conjoints, 'services': services,
-                       'grades': grades, 'fonctions':fonctions, 'servicelast': servicelast, 'gradelast': gradelast,
-                       'fonctionlast': fonctionlast, 'fonctionpersolast': fonctionpersolast,
-                       'servicepersolast':servicepersolast, 'gradepersolast':gradepersolast})
+                       'grades': grades, 'fonctions':fonctions, 'servicelast': servicelast,
+                       'gradelast': gradelast,'fonctionlast': fonctionlast,
+                       'fonctionpersolast': fonctionpersolast,'servicepersolast':servicepersolast,
+                       'gradepersolast':gradepersolast, 'enfants':enfants, 'diplomes':diplomes})
 
 
 

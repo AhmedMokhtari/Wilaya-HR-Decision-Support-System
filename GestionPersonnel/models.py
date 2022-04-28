@@ -9,7 +9,7 @@ class Personnel(models.Model):
     prenomar = models.CharField(db_column='PrenomAr', max_length=20, db_collation='French_CI_AS', blank=True, null=True)
     nomfr = models.CharField(db_column='NomFr', max_length=20, db_collation='French_CI_AS', blank=True, null=True)
     prenomfr = models.CharField(db_column='PrenomFr', max_length=20, db_collation='French_CI_AS', blank=True, null=True)
-    cin = models.CharField(db_column='Cin', max_length=20, db_collation='French_CI_AS', blank=True, null=True)
+    cin = models.CharField(db_column='Cin', max_length=20, db_collation='French_CI_AS', unique=True)
     datenaissance = models.DateTimeField(db_column='DateNaissance', blank=True, null=True)
     lieunaissancear = models.CharField(db_column='LieuNaissanceAr', max_length=30, db_collation='French_CI_AS', blank=True, null=True)
     lieunaissancefr = models.CharField(db_column='LieuNaissanceFr', max_length=30, db_collation='French_CI_AS', blank=True, null=True)
@@ -121,7 +121,7 @@ class Gradepersonnel(models.Model):
 # -------------------------------------------------------
 class Conjoint(models.Model):
     idconjoint = models.AutoField(db_column='IdConjoint', primary_key=True)  # Field name made lowercase.
-    cin = models.CharField(db_column='Cin', max_length=20, db_collation='French_CI_AS', blank=True, null=True)  # Field name made lowercase.
+    cin = models.CharField(db_column='Cin', max_length=20, db_collation='French_CI_AS', unique=True)  # Field name made lowercase.
     nomar = models.CharField(db_column='NomAr', max_length=20, db_collation='French_CI_AS', blank=True, null=True)  # Field name made lowercase.
     nomfr = models.CharField(db_column='NomFr', max_length=20, db_collation='French_CI_AS', blank=True, null=True)  # Field name made lowercase.
     prenomar = models.CharField(db_column='PrenomAr', max_length=20, db_collation='French_CI_AS', blank=True, null=True)  # Field name made lowercase.
@@ -132,8 +132,6 @@ class Conjoint(models.Model):
     class Meta:
         managed = False
         db_table = 'Conjoint'
-    def __str__(self):
-        return self.nomfr + " " + self.prenomfr
 # -------------------------------------------------------
 class Conjointpersonnel(models.Model):
     idconjoint_field = models.OneToOneField(Conjoint, models.DO_NOTHING, db_column='IdConjoint#', primary_key=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.

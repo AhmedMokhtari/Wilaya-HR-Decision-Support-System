@@ -78,14 +78,16 @@ WSGI_APPLICATION = 'ProjetWilaya.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
-
+# Zakariae Mrabet PC 1 Server DESKTOP-J4H5HNC
+# Zakariae Mrabet PC 2
+# Ahmed Mokhtari Server DESKTOP-5ROL8PJ
 DATABASES = {
     'default': {
         'ENGINE': 'mssql',
         'NAME': 'ProjetWilaya',
-        'USER': 'mokhta',
-        'PASSWORD': '123',
-        'HOST': 'DESKTOP-5ROL8PJ',
+        'USER': 'zaka',
+        'PASSWORD': 'zaka',
+        'HOST': 'DESKTOP-J4H5HNC',
         'PORT': '',
         'OPTIONS': {
             'driver': 'ODBC Driver 17 for SQL Server',

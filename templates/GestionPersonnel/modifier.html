@@ -1,6 +1,8 @@
 {% extends 'menu.html' %}
 {% block content %}
     {% load static %}
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static 'css/all.min.css' %}"/>
 <form method="post">
         {% csrf_token %}
     <div id="smartwizard-default-primary" class="wizard wizard-primary mb-4">
@@ -241,31 +243,88 @@
 
         <div id="default-primary-step-3" class="">
             <div class="row">
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <div>
+                    <br>
+                        <h5 class="card-title">Conjoint :<span class="float-right">: الزوج</span></h5>
                         <table class="table table-striped text-center">
                         <thead>
                             <tr>
-                                <th>Cin - ر.ب.و</th>
                                 <th>Nom Complet</th>
                                 <th>الاسم الكامل</th>
-                                <th>Tele - هاتف</th>
+                                <th>D-naissance - تاريخ الازدياد</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            {% for personnel in personnels %}
+                            {% for conjoint in conjoints %}
                               <tr class="tb-colon"  >
-                                <td>{{ personnel.cin }}</td>
-                                <td>{{ personnel.nomfr }} - {{personnel.prenomfr}}</td>
-                                <td>{{personnel.nomar}} - {{ personnel.prenomar }}</td>
-                                <td>{{ personnel.tele }}</td>
-                                <td><button class="btn btn-info btn-icon m-1 "><i class="fa-solid fa-eye fa-xs m-1 "></i></button><a href><button class="btn btn-warning btn-icon  mx-1"><i class="fa-solid fa-pen fa-xs mx-1"></i></button></a> </td>
+                                <td>{{ conjoint.nomfr }} - {{conjoint.prenomfr}}</td>
+                                <td>{{conjoint.nomar}} - {{ conjoint.prenomar }}</td>
+                                <td>{{ conjoint.datenaissance }}</td>
+                                <td><a href><button class="btn btn-warning btn-icon  mx-1"><i class="fa-solid fa-pen fa-xs mx-1"></i></button></a> </td>
                               </tr>
                             {% endfor %}
                         </tbody>
                     </table>
                     </div>
+                <hr>
+                </div>
+
+                <div class="col-md-4">
+                    <div>
+                    <br>
+                        <h5 class="card-title">Enfants :<span class="float-right">: الاطفال</span></h5>
+                        <table class="table table-striped text-center">
+                            <thead>
+                                <tr>
+                                    <th>Nom Complet</th>
+                                    <th>الاسم الكامل</th>
+                                    <th>D-naissance - تاريخ الازدياد</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for enfant in enfants %}
+                                  <tr class="tb-colon"  >
+                                    <td>{{ enfant.nomfr }} - {{enfant.prenomfr}}</td>
+                                    <td>{{ enfant.nomar}} - {{ enfant.prenomar }}</td>
+                                    <td>{{ personnel.datenaissance }}</td>
+                                    <td><a href><button class="btn btn-warning btn-icon  mx-1"><i class="fa-solid fa-pen fa-xs mx-1"></i></button></a> </td>
+                                  </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                <hr>
+                </div>
+
+                <div class="col-md-4">
+                    <div>
+                    <br>
+                        <h5 class="card-title">Diplômes :<span class="float-right">: ديبلومات</span></h5>
+                        <table class="table table-striped text-center">
+                            <thead>
+                                <tr>
+                                    <th>Diplôme</th>
+                                    <th>ديبلوم</th>
+                                    <th>التخصص - Spécialité</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for diplome in diplomes %}
+                                  <tr class="tb-colon"  >
+                                    <td>{{ diplome.diplomefr }}</td>
+                                    <td>{{ diplome.diplomear}}</td>
+                                    <td>{{ diplome.specialitefr }} - {{ diplome.specialitear }}</td>
+                                    <td><a href><button class="btn btn-warning btn-icon  mx-1"><i class="fa-solid fa-pen fa-xs mx-1"></i></button></a> </td>
+                                  </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                <hr>
                 </div>
             </div>
         </div>
