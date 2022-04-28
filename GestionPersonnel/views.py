@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render, redirect
 from .models import Personnel,Conjoint, Conjointpersonnel, \
     Service, Servicepersonnel, Grade, \
     Gradepersonnel, Enfant, Diplome, Fonction, Fonctionpersonnel
@@ -6,7 +6,7 @@ from .models import Personnel,Conjoint, Conjointpersonnel, \
 from django.contrib.auth.decorators import login_required
 from fpdf import FPDF
 from django.http import HttpResponse
-import os,datetime,csv
+import os,datetime, csv
 from django.db.models import Q
 
 
@@ -16,6 +16,7 @@ def consultation(request):
     personnels = { 'personnels' : Personnel.objects.all()}
     return render(request, 'GestionPersonnel/consultation.html', personnels)
 
+# export-------------------------------
 def export_perso_csv(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="personnels.csv"'
@@ -26,6 +27,8 @@ def export_perso_csv(request):
     for personnel in personnels:
         writer.writerow(personnel)
     return response
+
+#info -------------------------------.
 def info(request,id):
     personnel = Personnel.objects.get(idpersonnel=id)
     conjointsinperso = Conjointpersonnel.objects.filter(idpersonnel_field=id)
@@ -37,7 +40,7 @@ def info(request,id):
     diplomes = Diplome.objects.filter(idpersonnel_field=id)
     return render(request,'GestionPersonnel/info.html',{'personnel': personnel, 'conjoints': conjoints, 'conjointsinperso': conjointsinperso,'Serviii':zip(Services,serviperso),'diplomes':diplomes,"enfants":enfants})
 
-
+# ajouter -------------------------------.
 @login_required(login_url='/connexion')
 def ajouter(request):
 
@@ -106,8 +109,7 @@ def ajouter(request):
 
 
 
-
-
+# modifier -------------------------------.
 @login_required(login_url='/connexion')
 def modifier(request, id):
     if request.method == 'POST':
@@ -208,13 +210,9 @@ def modifier(request, id):
                        'fonctionpersolast': fonctionpersolast,'servicepersolast':servicepersolast,
                        'gradepersolast':gradepersolast, 'enfants':enfants, 'diplomes':diplomes})
 
-
-
-
-
-#conjoint -----------------------------------
+# conjoint -----------------------------------
 @login_required(login_url='/connexion')
-def conjoint(request):
+def ajouter_conjoint(request):
     if request.method == 'POST':
         nomfr = request.POST["nomfr"]
         nomar = request.POST["nomar"]
@@ -226,12 +224,10 @@ def conjoint(request):
         personnelcin = request.POST["personnelcin"]
         obj1 = Conjoint(nomar=nomar, nomfr=nomfr, cin=cin, prenomar=prenomar, prenomfr=prenomfr, lieunaissance=lieun, datenaissance=daten)
         obj1.save()
-
         pers = Personnel.objects.filter(cin=personnelcin).first()
         con = Conjoint.objects.filter(cin=cin).first()
         obj2 = Conjointpersonnel(idconjoint_field=con, idpersonnel_field=pers)
         obj2.save()
-
     else:
         cinpersonnel = request.GET.get('personnel', None)
         if(cinpersonnel) :
@@ -245,9 +241,23 @@ def conjoint(request):
 
 
 
-#enfant -----------------------------------
+def modifier_conjoint(request,id):
+    conjoint = Conjoint.objects.get(idconjoint=id)
+    if request.method == 'POST':
+        nomfr = request.POST["nomfr"]
+        nomar = request.POST["nomar"]
+        prenomfr = request.POST["prenomfr"]
+        prenomar = request.POST["prenomar"]
+        cin = request.POST["cin"]
+        daten = request.POST["daten"]
+        lieun = request.POST["lieun"]
+        personnelcin = request.POST["personnelcin"]
+
+    return render(request, "GestionPersonnel/modifier_conjoint.html",  {'conjoint':conjoint})
+
+# enfant -----------------------------------
 @login_required(login_url='/connexion')
-def enfant(request):
+def ajouter_enfant(request):
     cinpersonnel = request.GET.get('personnel', None)
     personnel = Personnel.objects.filter(cin=cinpersonnel).first()
     conjointsinperso = Conjointpersonnel.objects.filter(idpersonnel_field=personnel)
@@ -267,16 +277,28 @@ def enfant(request):
                            lieunaissancefr=lieunfr, lieunaissancear=lieunar, datenaissance=daten, idconjoint_field= Conjoint.objects.get(idconjoint=mere))
         objenfant.save()
         return render(request, 'GestionPersonnel/enfant.html', {'enfant': Enfant.objects.all(),'personnel': cinpersonnel, 'conjoints':conjoints})
-
     return render(request, 'GestionPersonnel/enfant.html', {'personnel': cinpersonnel, 'conjoints':conjoints})
 
+def modifier_enfant(request,id):
+    enfant = Enfant.objects.get(idenfant=id)
+    conjoints = Conjoint.objects.all()
+    if request.method == "POST":
+        nomfr = request.POST["nomfr"]
+        nomar = request.POST["nomar"]
+        prenomfr = request.POST["prenomfr"]
+        prenomar = request.POST["prenomar"]
+        lienj = request.POST["lienj"]
+        daten = request.POST["daten"]
+        lieunfr = request.POST["lieunfr"]
+        lieunar = request.POST["lieunar"]
+        mere = request.POST["mere"]
 
-#diplome -----------------------------------
+    return render(request, 'GestionPersonnel/modifier_enfant.html', {'enfant':enfant, 'conjoints':conjoints})
+# diplome -----------------------------------
 @login_required(login_url='/connexion')
-def diplome(request):
+def ajouter_diplome(request):
     cinpersonnel = request.GET.get('personnel', None)
     personnel = Personnel.objects.filter(cin=cinpersonnel).first()
-
     if request.method == 'POST':
         diplomefr = request.POST["diplomefr"]
         diplomear = request.POST["diplomear"]
@@ -289,12 +311,13 @@ def diplome(request):
                            specialitear=spear, specialitefr=spefr, datediplome=datedip,idpersonnel_field=personnel)
         objdiplome.save()
         return render(request, 'GestionPersonnel/diplome.html', {'personnel': cinpersonnel, 'diplome':objdiplome})
-
     return render(request, 'GestionPersonnel/diplome.html', {'personnel': cinpersonnel})
 
+def modifer_diplome(request):
+    if request.method == 'POST':
+        return
 
-
-
+# Attestations ---------------------------
 def printpdfquitter(req,id):
     personnel = Personnel.objects.get(idpersonnel=id)
     empName = str(personnel.nomfr + " " + personnel.prenomfr);

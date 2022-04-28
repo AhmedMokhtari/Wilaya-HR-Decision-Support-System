@@ -11,7 +11,6 @@
             <li><a href="#default-primary-step-2">Données Professionnels - بيانات مهنية<br><small>تعديل المعلومات - Modifier les données</small></a></li>
             <li><a href="#default-primary-step-3">بيانات إضافية - Données supplémentaires<br><small>تعديل المعلومات - Modifier les données</small></a></li>
         </ul>
-
     <div>
         <div id="default-primary-step-1" class="">
             <div class="row">
@@ -318,7 +317,7 @@
                                     <td>{{ diplome.diplomefr }}</td>
                                     <td>{{ diplome.diplomear}}</td>
                                     <td>{{ diplome.specialitefr }} - {{ diplome.specialitear }}</td>
-                                    <td><a href><button class="btn btn-warning btn-icon  mx-1"><i class="fa-solid fa-pen fa-xs mx-1"></i></button></a> </td>
+                                    <td><a href="{% url 'modifier_diplome' diplome.iddiplome %}" class="btn btn-warning btn-icon  mx-1"><i class="fa-solid fa-pen fa-xs mx-1"></i></a> </td>
                                   </tr>
                                 {% endfor %}
                             </tbody>

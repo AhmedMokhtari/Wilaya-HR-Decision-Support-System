@@ -62,7 +62,7 @@
                                  <label class="col-form-label" for="mere">Conjoint :</label> <label class="col-form-label float-right" >: الزوج</label>
                                 <select class="form-control" name="mere">
                                 {% for conjoint in conjoints %}
-                                    <option value="{{ conjoint.idconjoint }}"> {{ conjoint.cin }} - {{ conjoint.nomar }} {{ conjoint.nomar }}</option>
+                                    <option {% if conjoint.id == enfant.idconjoint_field %} selected {% endif %} value="{{ conjoint.idconjoint }}"> {{ conjoint.cin }} - {{ conjoint.nomar }} {{ conjoint.nomar }}</option>
                                 {% endfor %}
                                 </select>
                              </p>

@@ -79,7 +79,7 @@ WSGI_APPLICATION = 'ProjetWilaya.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 # Zakariae Mrabet PC 1 Server DESKTOP-J4H5HNC
-# Zakariae Mrabet PC 2
+# Zakariae Mrabet PC 2 Server DESKTOP-IRG7UCK
 # Ahmed Mokhtari Server DESKTOP-5ROL8PJ
 DATABASES = {
     'default': {
