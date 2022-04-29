@@ -298,6 +298,7 @@ def modifier_enfant(request,id):
         objenfant.save()
         suc = 'yes'
     return render(request, 'GestionPersonnel/modifier_enfant.html', {'enfant': objenfant, 'conjoints':conjoints,'suc':suc})
+
 # diplome -----------------------------------
 @login_required(login_url='/connexion')
 def ajouter_diplome(request):
@@ -317,9 +318,20 @@ def ajouter_diplome(request):
         return render(request, 'GestionPersonnel/diplome.html', {'personnel': cinpersonnel, 'diplome':objdiplome})
     return render(request, 'GestionPersonnel/diplome.html', {'personnel': cinpersonnel})
 
-def modifer_diplome(request):
+def modifer_diplome(request,id):
+    suc = 'no'
+    objdiplome = Diplome.objects.get(iddiplome=id)
     if request.method == 'POST':
-        return
+        objdiplome.diplomefr = request.POST["diplomefr"]
+        objdiplome.diplomear = request.POST["diplomear"]
+        objdiplome.etablissement = request.POST["etabfr"]
+        objdiplome.specialitefr = request.POST["spefr"]
+        objdiplome.specialitear = request.POST["spear"]
+        objdiplome.datediplome = request.POST["datedip"]
+        objdiplome.save()
+        suc = 'yes'
+    return render(request, 'GestionPersonnel/modifier_diplome.html',
+                  {'diplome': objdiplome, 'suc': suc})
 
 # Attestations ---------------------------
 def printpdfquitter(req,id):
