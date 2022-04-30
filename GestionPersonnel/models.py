@@ -19,7 +19,7 @@ class Personnel(models.Model):
     tele = models.IntegerField(db_column='Tele', blank=True, null=True)  # Field name made lowercase.
     situationfamilialear = models.CharField(db_column='SituationFamilialeAr', max_length=80, db_collation='French_CI_AS', blank=True, null=True)
     situationfamilialefr = models.CharField(db_column='SituationFamilialeFr', max_length=80, db_collation='French_CI_AS', blank=True, null=True)
-    sexe = models.CharField(db_column='Sexe', max_length=30, db_collation='French_CI_AS', blank=True, null=True)
+    sexe = models.CharField(db_column='Sexe', max_length=90, db_collation='French_CI_AS', blank=True, null=True)
     vaccination = models.BooleanField(db_column='Vaccination', blank=True, null=True)  # Field name made lowercase.
     numerolocation = models.CharField(db_column='NumeroLocation', max_length=60, db_collation='French_CI_AS', blank=True, null=True)
     numerofinancier = models.CharField(db_column='NumeroFinancier', max_length=60, db_collation='French_CI_AS', blank=True, null=True)

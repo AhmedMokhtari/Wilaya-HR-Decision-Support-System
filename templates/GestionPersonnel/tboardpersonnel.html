@@ -1,419 +1,380 @@
 {% extends 'menu.html' %}
 {% block content %}
     {% load static %}
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static 'css/all.min.css' %}"/>
+    <link href="assets/css/feather.css" rel="stylesheet" type="text/css">
+    <div class="row">
+        <div class="col-12 col-sm-6 col-xl d-flex">
+            <div class="card flex-fill">
+                <div class="card-body py-4">
+                    <div class="media">
+                        <div class="d-inline-block mt-2 mr-3">
+                            <i class="feather-lg text-primary" data-feather="user"></i>
+                        </div>
+                        <div class="media-body">
+                            <h3 class="mb-2">{{  hommes }}</h3>
+                            <div class="mb-0">Hommes</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-xl d-flex">
+            <div class="card flex-fill">
+                <div class="card-body py-4">
+                    <div class="media">
+                        <div class="d-inline-block mt-2 mr-3">
+                            <i class="feather-lg text-warning" data-feather="user"></i>
+                        </div>
+                        <div class="media-body">
+                            <h3 class="mb-2">{{ femmes }}</h3>
+                            <div class="mb-0">Femmes</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-xl d-flex">
+            <div class="card flex-fill">
+                <div class="card-body py-4">
+                    <div class="media">
+                        <div class="d-inline-block mt-2 mr-3">
+                            <i class="feather-lg text-success" data-feather="sliders"></i>
+                        </div>
+                        <div class="media-body">
+                            <h3 class="mb-2">{{administrationOne}}</h3>
+                            <div class="mb-0">Administration 1</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-xl d-flex">
+            <div class="card flex-fill">
+                <div class="card-body py-4">
+                    <div class="media">
+                        <div class="d-inline-block mt-2 mr-3">
+                            <i class="feather-lg text-danger" data-feather="sliders"></i>
+                        </div>
+                        <div class="media-body">
+                            <h3 class="mb-2">{{ administrationTwo }}</h3>
+                            <div class="mb-0">AdministrationTwo</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-xl d-none d-xxl-flex">
+            <div class="card flex-fill">
+                <div class="card-body py-4">
+                    <div class="media">
+                        <div class="d-inline-block mt-2 mr-3">
+                            <i class="feather-lg text-info" data-feather="activity"></i>
+                        </div>
+                        <div class="media-body">
+                            <h3 class="mb-2">{{personnels}}</h3>
+                            <div class="mb-0">Nombre Total du personnel </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="row">
-						<div class="col-lg-6 col-xl-5 d-flex">
-							<div class="w-100">
-								<div class="row">
-									<div class="col-sm-6">
-										<div class="card flex-fill">
-											<div class="card-header">
-												<h5 class="card-title mb-0">Hommes</h5>
-											</div>
-											<div class="card-body my-2">
-												<div class="row d-flex align-items-center mb-4">
-													<div class="col-8">
-														<h2 class="d-flex align-items-center mb-0 font-weight-light">
-															350
-														</h2>
-													</div>
-													<div class="col-4 text-right">
-														<span class="text-muted">50%</span>
-													</div>
-												</div>
+        <div class="col-12 col-lg-8 d-flex">
+            <div class="card flex-fill w-100">
+                <div class="card-header">
+                    <span class="badge badge-primary float-right">{% now "Y" %}</span>
+                    <h5 class="card-title mb-0">Départ en retraite</h5>
+                </div>
+                <div class="card-body">
+                    <div class="chart chart-lg">
+                        <canvas id="chartjs-dashboard-line"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-4 d-flex">
+            <div class="card flex-fill w-100">
+                <div class="card-body d-flex">
+                    <div class="align-self-center w-100">
+                        <div class="py-3">
+                            <div class="chart chart-xs">
+                                <canvas id="chartjs-dashboard-pie"></canvas>
+                            </div>
+                        </div>
 
-												<div class="progress progress-sm shadow-sm mb-1">
-													<div class="progress-bar bg-primary" role="progressbar" style="width: 57%"></div>
-												</div>
-											</div>
-										</div>
-										<div class="card flex-fill">
-											<div class="card-header">
-												<h5 class="card-title mb-0">Femmes</h5>
-											</div>
-											<div class="card-body my-2">
-												<div class="row d-flex align-items-center mb-4">
-													<div class="col-8">
-														<h2 class="d-flex align-items-center mb-0 font-weight-light">
-															350
-														</h2>
-													</div>
-													<div class="col-4 text-right">
-														<span class="text-muted">50%</span>
-													</div>
-												</div>
-												<div class="progress progress-sm shadow-sm mb-1">
-													<div class="progress-bar bg-info" role="progressbar" style="width: 64%"></div>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="col-sm-6">
-										<div class="card flex-fill">
-											<div class="card-header">
-												<span class="badge badge-warning float-right">Annual</span>
-												<h5 class="card-title mb-0">Bounce</h5>
-											</div>
-											<div class="card-body my-2">
-												<div class="row d-flex align-items-center mb-4">
-													<div class="col-8">
-														<h2 class="d-flex align-items-center mb-0 font-weight-light">
-															2.364
-														</h2>
-													</div>
-													<div class="col-4 text-right">
-														<span class="text-muted">82%</span>
-													</div>
-												</div>
+                        <table class="table mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Source</th>
+                                    <th class="text-right">Revenue</th>
+                                    <th class="text-right">Value</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><i class="fas fa-square-full text-primary"></i> Direct</td>
+                                    <td class="text-right">$ 2602</td>
+                                    <td class="text-right text-success">+43%</td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fas fa-square-full text-warning"></i> Affiliate</td>
+                                    <td class="text-right">$ 1253</td>
+                                    <td class="text-right text-success">+13%</td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fas fa-square-full text-danger"></i> E-mail</td>
+                                    <td class="text-right">$ 541</td>
+                                    <td class="text-right text-success">+24%</td>
+                                </tr>
+                                <tr>
+                                    <td><i class="fas fa-square-full text-dark"></i> Other</td>
+                                    <td class="text-right">$ 1465</td>
+                                    <td class="text-right text-success">+11%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-												<div class="progress progress-sm shadow-sm mb-1">
-													<div class="progress-bar bg-warning" role="progressbar" style="width: 82%"></div>
-												</div>
-											</div>
-										</div>
-										<div class="card flex-fill">
-											<div class="card-header">
-												<span class="badge badge-success float-right">Yearly</span>
-												<h5 class="card-title mb-0">Activity</h5>
-											</div>
-											<div class="card-body my-2">
-												<div class="row d-flex align-items-center mb-4">
-													<div class="col-8">
-														<h2 class="d-flex align-items-center mb-0 font-weight-light">
-															57.300
-														</h2>
-													</div>
-													<div class="col-4 text-right">
-														<span class="text-muted">32%</span>
-													</div>
-												</div>
+     <div class="row">
+        <div class="col-12 col-sm-4 d-flex">
+            <div class="card flex-fill">
+                <div class="card-header">
+                    <div class="card-actions float-right">
+                        <div class="dropdown show">
+                            <a href="#" data-toggle="dropdown" data-display="static">
+                              <i class="align-middle" data-feather="more-horizontal"></i>
+                            </a>
 
-												<div class="progress progress-sm shadow-sm mb-1">
-													<div class="progress-bar bg-success" role="progressbar" style="width: 32%"></div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="#">Action</a>
+                                <a class="dropdown-item" href="#">Another action</a>
+                                <a class="dropdown-item" href="#">Something else here</a>
+                            </div>
+                        </div>
+                    </div>
+                    <h5 class="card-title mb-0">Calendar</h5>
+                </div>
+                <div class="card-body d-flex">
+                    <div class="align-self-center w-100">
+                        <div class="chart">
+                            <div id="datetimepicker-dashboard"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-						<div class="col-lg-6 col-xl-7">
-							<div class="card flex-fill w-100">
-								<div class="card-header">
-									<div class="card-actions float-right">
-										<div class="dropdown show">
-											<a href="#" data-toggle="dropdown" data-display="static">
-                                              <i class="align-middle" data-feather="more-horizontal"></i>
-                                            </a>
+        <div class="col-12 col-sm-8 d-flex">
+            <div class="card flex-fill">
+                <div class="card-header">
+                    <div class="card-actions float-right">
+                        <div class="dropdown show">
+                            <a href="#" data-toggle="dropdown" data-display="static">
+                              <i class="align-middle" data-feather="more-horizontal"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="#">Action</a>
+                                <a class="dropdown-item" href="#">Another action</a>
+                                <a class="dropdown-item" href="#">Something else here</a>
+                            </div>
+                        </div>
+                    </div>
+                    <h5 class="card-title mb-0">Latest Projects</h5>
+                </div>
+                <table id="datatables-dashboard-projects" class="table table-striped my-0">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th class="d-none d-xl-table-cell">Start Date</th>
+                            <th class="d-none d-xl-table-cell">End Date</th>
+                            <th>Status</th>
+                            <th class="d-none d-md-table-cell">Assignee</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Project Apollo</td>
+                            <td class="d-none d-xl-table-cell">01/01/2018</td>
+                            <td class="d-none d-xl-table-cell">31/06/2018</td>
+                            <td><span class="badge badge-success">Done</span></td>
+                            <td class="d-none d-md-table-cell">Carl Jenkins</td>
+                        </tr>
+                        <tr>
+                            <td>Project Fireball</td>
+                            <td class="d-none d-xl-table-cell">01/01/2018</td>
+                            <td class="d-none d-xl-table-cell">31/06/2018</td>
+                            <td><span class="badge badge-danger">Cancelled</span></td>
+                            <td class="d-none d-md-table-cell">Bertha Martin</td>
+                        </tr>
+                        <tr>
+                            <td>Project Hades</td>
+                            <td class="d-none d-xl-table-cell">01/01/2018</td>
+                            <td class="d-none d-xl-table-cell">31/06/2018</td>
+                            <td><span class="badge badge-success">Done</span></td>
+                            <td class="d-none d-md-table-cell">Stacie Hall</td>
+                        </tr>
+                        <tr>
+                            <td>Project Nitro</td>
+                            <td class="d-none d-xl-table-cell">01/01/2018</td>
+                            <td class="d-none d-xl-table-cell">31/06/2018</td>
+                            <td><span class="badge badge-warning">In progress</span></td>
+                            <td class="d-none d-md-table-cell">Carl Jenkins</td>
+                        </tr>
+                        <tr>
+                            <td>Project Phoenix</td>
+                            <td class="d-none d-xl-table-cell">01/01/2018</td>
+                            <td class="d-none d-xl-table-cell">31/06/2018</td>
+                            <td><span class="badge badge-success">Done</span></td>
+                            <td class="d-none d-md-table-cell">Bertha Martin</td>
+                        </tr>
+                        <tr>
+                            <td>Project X</td>
+                            <td class="d-none d-xl-table-cell">01/01/2018</td>
+                            <td class="d-none d-xl-table-cell">31/06/2018</td>
+                            <td><span class="badge badge-success">Done</span></td>
+                            <td class="d-none d-md-table-cell">Stacie Hall</td>
+                        </tr>
+                        <tr>
+                            <td>Project Romeo</td>
+                            <td class="d-none d-xl-table-cell">01/01/2018</td>
+                            <td class="d-none d-xl-table-cell">31/06/2018</td>
+                            <td><span class="badge badge-success">Done</span></td>
+                            <td class="d-none d-md-table-cell">Ashley Briggs</td>
+                        </tr>
+                        <tr>
+                            <td>Project Wombat</td>
+                            <td class="d-none d-xl-table-cell">01/01/2018</td>
+                            <td class="d-none d-xl-table-cell">31/06/2018</td>
+                            <td><span class="badge badge-warning">In progress</span></td>
+                            <td class="d-none d-md-table-cell">Bertha Martin</td>
+                        </tr>
+                        <tr>
+                            <td>Project Zircon</td>
+                            <td class="d-none d-xl-table-cell">01/01/2018</td>
+                            <td class="d-none d-xl-table-cell">31/06/2018</td>
+                            <td><span class="badge badge-danger">Cancelled</span></td>
+                            <td class="d-none d-md-table-cell">Stacie Hall</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 
-											<div class="dropdown-menu dropdown-menu-right">
-												<a class="dropdown-item" href="#">Action</a>
-												<a class="dropdown-item" href="#">Another action</a>
-												<a class="dropdown-item" href="#">Something else here</a>
-											</div>
-										</div>
-									</div>
-									<h5 class="card-title mb-0">Real-Time</h5>
-								</div>
-								<div class="card-body p-2">
-									<div id="world_map" style="height:304px;"></div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div class="row">
-						<div class="col-12 col-lg-4 d-flex">
-							<div class="card flex-fill w-100">
-								<div class="card-header">
-									<div class="card-actions float-right">
-										<div class="dropdown show">
-											<a href="#" data-toggle="dropdown" data-display="static">
-                                              <i class="align-middle" data-feather="more-horizontal"></i>
-                                            </a>
-
-											<div class="dropdown-menu dropdown-menu-right">
-												<a class="dropdown-item" href="#">Action</a>
-												<a class="dropdown-item" href="#">Another action</a>
-												<a class="dropdown-item" href="#">Something else here</a>
-											</div>
-										</div>
-									</div>
-									<h5 class="card-title mb-0">Languages</h5>
-								</div>
-								<table class="table table-striped my-0">
-									<thead>
-										<tr>
-											<th>Language</th>
-											<th class="text-right">Users</th>
-											<th class="d-none d-xl-table-cell w-75">% Users</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>en-us</td>
-											<td class="text-right">735</td>
-											<td class="d-none d-xl-table-cell">
-												<div class="progress">
-													<div class="progress-bar bg-info" role="progressbar" style="width: 43%;" aria-valuenow="43" aria-valuemin="0" aria-valuemax="100">43%</div>
-												</div>
-											</td>
-										</tr>
-										<tr>
-											<td>en-gb</td>
-											<td class="text-right">223</td>
-											<td class="d-none d-xl-table-cell">
-												<div class="progress">
-													<div class="progress-bar bg-info" role="progressbar" style="width: 27%;" aria-valuenow="27" aria-valuemin="0" aria-valuemax="100">27%</div>
-												</div>
-											</td>
-										</tr>
-										<tr>
-											<td>fr-fr</td>
-											<td class="text-right">181</td>
-											<td class="d-none d-xl-table-cell">
-												<div class="progress">
-													<div class="progress-bar bg-info" role="progressbar" style="width: 22%;" aria-valuenow="22" aria-valuemin="0" aria-valuemax="100">22%</div>
-												</div>
-											</td>
-										</tr>
-										<tr>
-											<td>es-es</td>
-											<td class="text-right">132</td>
-											<td class="d-none d-xl-table-cell">
-												<div class="progress">
-													<div class="progress-bar bg-info" role="progressbar" style="width: 16%;" aria-valuenow="16" aria-valuemin="0" aria-valuemax="100">16%</div>
-												</div>
-											</td>
-										</tr>
-										<tr>
-											<td>de-de</td>
-											<td class="text-right">118</td>
-											<td class="d-none d-xl-table-cell">
-												<div class="progress">
-													<div class="progress-bar bg-info" role="progressbar" style="width: 15%;" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100">15%</div>
-												</div>
-											</td>
-										</tr>
-										<tr>
-											<td>ru-ru</td>
-											<td class="text-right">98</td>
-											<td class="d-none d-xl-table-cell">
-												<div class="progress">
-													<div class="progress-bar bg-info" role="progressbar" style="width: 13%;" aria-valuenow="13" aria-valuemin="0" aria-valuemax="100">13%</div>
-												</div>
-											</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-						</div>
-
-						<div class="col-12 col-lg-4 d-flex">
-							<div class="card flex-fill w-100">
-								<div class="card-header">
-									<div class="card-actions float-right">
-										<div class="dropdown show">
-											<a href="#" data-toggle="dropdown" data-display="static">
-                                              <i class="align-middle" data-feather="more-horizontal"></i>
-                                            </a>
-
-											<div class="dropdown-menu dropdown-menu-right">
-												<a class="dropdown-item" href="#">Action</a>
-												<a class="dropdown-item" href="#">Another action</a>
-												<a class="dropdown-item" href="#">Something else here</a>
-											</div>
-										</div>
-									</div>
-									<h5 class="card-title mb-0">Mobile / Desktop</h5>
-								</div>
-								<div class="card-body d-flex w-100">
-									<div class="align-self-center chart">
-										<canvas id="chartjs-dashboard-bar-devices"></canvas>
-									</div>
-								</div>
-							</div>
-						</div>
-
-						<div class="col-12 col-lg-4 d-flex">
-							<div class="card flex-fill">
-								<div class="card-header">
-									<div class="card-actions float-right">
-										<div class="dropdown show">
-											<a href="#" data-toggle="dropdown" data-display="static">
-                                              <i class="align-middle" data-feather="more-horizontal"></i>
-                                            </a>
-
-											<div class="dropdown-menu dropdown-menu-right">
-												<a class="dropdown-item" href="#">Action</a>
-												<a class="dropdown-item" href="#">Another action</a>
-												<a class="dropdown-item" href="#">Something else here</a>
-											</div>
-										</div>
-									</div>
-									<h5 class="card-title mb-0">Interests</h5>
-								</div>
-								<div class="card-body">
-									<div class="chart">
-										<canvas id="chartjs-dashboard-radar"></canvas>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-
-					<div class="row">
-						<div class="col-12 col-lg-5 col-xl-4 d-flex">
-							<div class="card flex-fill w-100">
-								<div class="card-header">
-									<div class="card-actions float-right">
-										<div class="dropdown show">
-											<a href="#" data-toggle="dropdown" data-display="static">
-                                              <i class="align-middle" data-feather="more-horizontal"></i>
-                                            </a>
-
-											<div class="dropdown-menu dropdown-menu-right">
-												<a class="dropdown-item" href="#">Action</a>
-												<a class="dropdown-item" href="#">Another action</a>
-												<a class="dropdown-item" href="#">Something else here</a>
-											</div>
-										</div>
-									</div>
-									<h5 class="card-title mb-0">Source / Medium</h5>
-								</div>
-								<div class="card-body d-flex">
-									<div class="align-self-center w-100">
-										<div class="py-3">
-											<div class="chart chart-xs">
-												<canvas id="chartjs-dashboard-pie"></canvas>
-											</div>
-										</div>
-
-										<table class="table mb-0">
-											<thead>
-												<tr>
-													<th>Source</th>
-													<th class="text-right">Revenue</th>
-													<th class="text-right">Value</th>
-												</tr>
-											</thead>
-											<tbody>
-												<tr>
-													<td><i class="fas fa-square-full text-primary"></i> Direct</td>
-													<td class="text-right">$ 2602</td>
-													<td class="text-right text-success">+43%</td>
-												</tr>
-												<tr>
-													<td><i class="fas fa-square-full text-warning"></i> Affiliate</td>
-													<td class="text-right">$ 1253</td>
-													<td class="text-right text-success">+13%</td>
-												</tr>
-												<tr>
-													<td><i class="fas fa-square-full text-danger"></i> E-mail</td>
-													<td class="text-right">$ 541</td>
-													<td class="text-right text-success">+24%</td>
-												</tr>
-												<tr>
-													<td><i class="fas fa-square-full text-dark"></i> Other</td>
-													<td class="text-right">$ 1465</td>
-													<td class="text-right text-success">+11%</td>
-												</tr>
-											</tbody>
-										</table>
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="col-12 col-lg-7 col-xl-8 d-flex">
-							<div class="card flex-fill">
-								<div class="card-header">
-									<div class="card-actions float-right">
-										<div class="dropdown show">
-											<a href="#" data-toggle="dropdown" data-display="static">
-                                              <i class="align-middle" data-feather="more-horizontal"></i>
-                                            </a>
-
-											<div class="dropdown-menu dropdown-menu-right">
-												<a class="dropdown-item" href="#">Action</a>
-												<a class="dropdown-item" href="#">Another action</a>
-												<a class="dropdown-item" href="#">Something else here</a>
-											</div>
-										</div>
-									</div>
-									<h5 class="card-title mb-0">Traffic</h5>
-								</div>
-								<table id="datatables-dashboard-traffic" class="table table-striped my-0">
-									<thead>
-										<tr>
-											<th>Source</th>
-											<th class="text-right">Users</th>
-											<th class="d-none d-xl-table-cell text-right">Sessions</th>
-											<th class="d-none d-xl-table-cell text-right">Bounce Rate</th>
-											<th class="d-none d-xl-table-cell text-right">Avg. Session Duration</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td>Google</td>
-											<td class="text-right">1023</td>
-											<td class="d-none d-xl-table-cell text-right">1265</td>
-											<td class="d-none d-xl-table-cell text-right text-success">27.23%</td>
-											<td class="d-none d-xl-table-cell text-right">00:06:25</td>
-										</tr>
-										<tr>
-											<td>Bing</td>
-											<td class="text-right">504</td>
-											<td class="d-none d-xl-table-cell text-right">623</td>
-											<td class="d-none d-xl-table-cell text-right text-danger">66.76%</td>
-											<td class="d-none d-xl-table-cell text-right">00:04:42</td>
-										</tr>
-										<tr>
-											<td>Twitter</td>
-											<td class="text-right">462</td>
-											<td class="d-none d-xl-table-cell text-right">571</td>
-											<td class="d-none d-xl-table-cell text-right text-success">31.53%</td>
-											<td class="d-none d-xl-table-cell text-right">00:08:05</td>
-										</tr>
-										<tr>
-											<td>Pinterest</td>
-											<td class="text-right">623</td>
-											<td class="d-none d-xl-table-cell text-right">770</td>
-											<td class="d-none d-xl-table-cell text-right text-danger">52.81%</td>
-											<td class="d-none d-xl-table-cell text-right">00:03:10</td>
-										</tr>
-										<tr>
-											<td>Facebook</td>
-											<td class="text-right">812</td>
-											<td class="d-none d-xl-table-cell text-right">1003</td>
-											<td class="d-none d-xl-table-cell text-right text-success">24.83%</td>
-											<td class="d-none d-xl-table-cell text-right">00:05:56</td>
-										</tr>
-										<tr>
-											<td>DuckDuckGo</td>
-											<td class="text-right">693</td>
-											<td class="d-none d-xl-table-cell text-right">856</td>
-											<td class="d-none d-xl-table-cell text-right text-success">37.36%</td>
-											<td class="d-none d-xl-table-cell text-right">00:09:12</td>
-										</tr>
-										<tr>
-											<td>GitHub</td>
-											<td class="text-right">713</td>
-											<td class="d-none d-xl-table-cell text-right">881</td>
-											<td class="d-none d-xl-table-cell text-right text-success">38.09%</td>
-											<td class="d-none d-xl-table-cell text-right">00:06:19</td>
-										</tr>
-										<tr>
-											<td>Direct</td>
-											<td class="text-right">872</td>
-											<td class="d-none d-xl-table-cell text-right">1077</td>
-											<td class="d-none d-xl-table-cell text-right text-success">32.70%</td>
-											<td class="d-none d-xl-table-cell text-right">00:09:18</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-						</div>
-					</div>
+    <script>
+		$(function() {
+			$("#datetimepicker-dashboard").datetimepicker({
+				inline: true,
+				sideBySide: false,
+				format: "L"
+			});
+		});
+	</script>
+	<script>
+		$(function() {
+			// Line chart
+			new Chart(document.getElementById("chartjs-dashboard-line"), {
+				type: "line",
+				data: {
+					labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+					datasets: [{
+						label: "Personnel",
+						fill: true,
+						backgroundColor: "Transparent",
+						borderColor: window.theme.primary,
+						data: [{{ departretraiteone.1 }}, {{ departretraiteone.2 }}, {{ departretraiteone.3 }}, {{ departretraiteone.4 }}, {{ departretraiteone.5 }}, {{ departretraiteone.6 }}, {{ departretraiteone.7 }}, {{ departretraiteone.8 }}, {{ departretraiteone.9 }}, {{ departretraiteone.10 }}, {{ departretraiteone.11 }},{{ departretraiteone.11 }}]
+					}, {
+						label: "Personnel",
+						fill: true,
+						backgroundColor: "Transparent",
+						borderColor: window.theme.tertiary,
+						borderDash: [4, 4],
+						data: [{{ departretraitetwo.1 }}, {{ departretraitetwo.2 }}, {{ departretraitetwo.3 }}, {{ departretraitetwo.4 }}, {{ departretraitetwo.5 }}, {{ departretraitetwo.6 }}, {{ departretraitetwo.7 }}, {{ departretraitetwo.8 }}, {{ departretraitetwo.9 }}, {{ departretraitetwo.10 }}, {{ departretraitetwo.11 }},{{ departretraitetwo.11 }}]
+					}]
+				},
+				options: {
+					maintainAspectRatio: false,
+					legend: {
+						display: false
+					},
+					tooltips: {
+						intersect: false
+					},
+					hover: {
+						intersect: true
+					},
+					plugins: {
+						filler: {
+							propagate: false
+						}
+					},
+					scales: {
+						xAxes: [{
+							reverse: true,
+							gridLines: {
+								color: "rgba(0,0,0,0.05)"
+							}
+						}],
+						yAxes: [{
+							ticks: {
+								stepSize: 500
+							},
+							display: true,
+							borderDash: [5, 5],
+							gridLines: {
+								color: "rgba(0,0,0,0)",
+								fontColor: "#fff"
+							}
+						}]
+					}
+				}
+			});
+		});
+	</script>
+	<script>
+		$(function() {
+			// Pie chart
+			new Chart(document.getElementById("chartjs-dashboard-pie"), {
+				type: "pie",
+				data: {
+					labels: ["Direct", "Affiliate", "E-mail", "Other"],
+					datasets: [{
+						data: [2602, 1253, 541, 1465],
+						backgroundColor: [
+							window.theme.primary,
+							window.theme.warning,
+							window.theme.danger,
+							"#E8EAED"
+						],
+						borderColor: "transparent"
+					}]
+				},
+				options: {
+					responsive: !window.MSInputMethodContext,
+					maintainAspectRatio: false,
+					legend: {
+						display: false
+					}
+				}
+			});
+		});
+	</script>
+	<script>
+		$(function() {
+			$("#datatables-dashboard-projects").DataTable({
+				pageLength: 6,
+				lengthChange: false,
+				bFilter: false,
+				autoWidth: false
+			});
+		});
+	</script>
 {% endblock content %}

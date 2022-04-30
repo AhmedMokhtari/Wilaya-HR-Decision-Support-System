@@ -86,6 +86,14 @@
                         </div>
 
                         <div class="mb-3">
+                            <h5 class="card-title">Sexe :<span class="float-right">: الجنس</span></h5>
+                            <select class="form-control  text-center" name="sexe"   required>
+                                     <option selected>Homme-ذكر</option>
+                                    <option>Femme-أنثى</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
                             <h5 class="card-title">Situation familiale :</h5>
                             <select class="form-control  text-center" name="situationffr"   required>
                                 <option {% if personnel.situationfamilialefr == 'marié(e)' %} selected {% endif %}>marié(e)</option>

@@ -132,8 +132,8 @@
 
                                     <div class="mb-3">
                                         <h5 class="card-title">Situation familiale :</h5>
-										<select class="form-control  text-center" name="situationffr"   required>
-                                                <option>marié(e)</option>
+										<select class="form-control  text-center" name="sexear"   required>
+                                                <option selected>marié(e)</option>
                                                 <option>divorcé(e)</option>
                                                 <option>célibataire(e)</option>
                                                 <option selected>{{ personnel.situationfamilialefr }}</option>
@@ -143,11 +143,19 @@
                                     <div class="mb-3">
                                             <h5 class="card-title text-right">: الوضع العائلي</h5>
                                             <select class="form-control  text-center" name="situationfar"   required>
-                                                    <option>متزوج(ة)</option>
+                                                    <option selected>متزوج(ة)</option>
                                                     <option>مطلق(ة)</option>
                                                     <option>بدون</option>
                                                     <option selected>{{ personnel.situationfamilialear }}</option>
                                                 </select>
+                                    </div>
+
+                                     <div class="mb-3">
+                                        <h5 class="card-title">Sexe :<span class="float-right">: الجنس</span></h5>
+										<select class="form-control  text-center" name="sexe"   required>
+                                                <option selected>Homme</option>
+                                                <option>Femme</option>
+                                        </select>
                                     </div>
 
                                     <div class="mb-3">
