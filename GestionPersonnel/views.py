@@ -450,59 +450,24 @@ def taboardpersonnel(request):
     personnels = Personnel.objects.all().count()
     administrationOne = Personnel.objects.filter(administrationapp='one').count()
     administrationTwo = Personnel.objects.filter(administrationapp='two').count()
-    departretraiteone = [
-        Personnel.objects.filter(administrationapp='one').filter(
-            dateparrainageretraite__year=datetime.datetime.now().year).filter(dateparrainageretraite__month=1).count(),
-        Personnel.objects.filter(administrationapp='one').filter(
-            dateparrainageretraite__year=datetime.datetime.now().year).filter(dateparrainageretraite__month=2).count(),
-        Personnel.objects.filter(administrationapp='one').filter(
-            dateparrainageretraite__year=datetime.datetime.now().year).filter(dateparrainageretraite__month=3).count(),
-        Personnel.objects.filter(administrationapp='one').filter(
-            dateparrainageretraite__year=datetime.datetime.now().year).filter(dateparrainageretraite__month=4).count(),
-        Personnel.objects.filter(administrationapp='one').filter(
-            dateparrainageretraite__year=datetime.datetime.now().year).filter(dateparrainageretraite__month=5).count(),
-        Personnel.objects.filter(administrationapp='one').filter(
-            dateparrainageretraite__year=datetime.datetime.now().year).filter(dateparrainageretraite__month=6).count(),
-        Personnel.objects.filter(administrationapp='one').filter(
-            dateparrainageretraite__year=datetime.datetime.now().year).filter(dateparrainageretraite__month=7).count(),
-        Personnel.objects.filter(administrationapp='one').filter(
-            dateparrainageretraite__year=datetime.datetime.now().year).filter(dateparrainageretraite__month=8).count(),
-        Personnel.objects.filter(administrationapp='one').filter(
-            dateparrainageretraite__year=datetime.datetime.now().year).filter(dateparrainageretraite__month=9).count(),
-        Personnel.objects.filter(administrationapp='one').filter(
-            dateparrainageretraite__year=datetime.datetime.now().year).filter(dateparrainageretraite__month=10).count(),
-        Personnel.objects.filter(administrationapp='one').filter(
-            dateparrainageretraite__year=datetime.datetime.now().year).filter(dateparrainageretraite__month=11).count(),
-        Personnel.objects.filter(administrationapp='one').filter(
-            dateparrainageretraite__year=datetime.datetime.now().year).filter(dateparrainageretraite__month=12).count(),
-    ]
 
-    departretraitetwo = [
-        Personnel.objects.filter(administrationapp='two').filter(
-            dateparrainageretraite__year=datetime.datetime.now().year).filter(dateparrainageretraite__month=1).count(),
-        Personnel.objects.filter(administrationapp='two').filter(
-            dateparrainageretraite__year=datetime.datetime.now().year).filter(dateparrainageretraite__month=2).count(),
-        Personnel.objects.filter(administrationapp='two').filter(
-            dateparrainageretraite__year=datetime.datetime.now().year).filter(dateparrainageretraite__month=3).count(),
-        Personnel.objects.filter(administrationapp='two').filter(
-            dateparrainageretraite__year=datetime.datetime.now().year).filter(dateparrainageretraite__month=4).count(),
-        Personnel.objects.filter(administrationapp='two').filter(
-            dateparrainageretraite__year=datetime.datetime.now().year).filter(dateparrainageretraite__month=5).count(),
-        Personnel.objects.filter(administrationapp='two').filter(
-            dateparrainageretraite__year=datetime.datetime.now().year).filter(dateparrainageretraite__month=6).count(),
-        Personnel.objects.filter(administrationapp='two').filter(
-            dateparrainageretraite__year=datetime.datetime.now().year).filter(dateparrainageretraite__month=7).count(),
-        Personnel.objects.filter(administrationapp='two').filter(
-            dateparrainageretraite__year=datetime.datetime.now().year).filter(dateparrainageretraite__month=8).count(),
-        Personnel.objects.filter(administrationapp='two').filter(
-            dateparrainageretraite__year=datetime.datetime.now().year).filter(dateparrainageretraite__month=9).count(),
-        Personnel.objects.filter(administrationapp='two').filter(
-            dateparrainageretraite__year=datetime.datetime.now().year).filter(dateparrainageretraite__month=10).count(),
-        Personnel.objects.filter(administrationapp='two').filter(
-            dateparrainageretraite__year=datetime.datetime.now().year).filter(dateparrainageretraite__month=11).count(),
-        Personnel.objects.filter(administrationapp='two').filter(
-            dateparrainageretraite__year=datetime.datetime.now().year).filter(dateparrainageretraite__month=12).count(),
-    ]
+
+    #date1
+    departretraiteone = []
+    i = 0
+    while i <= 11:
+        departretraiteone.append(Personnel.objects.filter(administrationapp='one').filter(
+            dateparrainageretraite__year=datetime.datetime.now().year).filter(dateparrainageretraite__month=i+1).count())
+        i = i + 1
+
+    #date2
+    departretraitetwo = []
+    i = 0
+    while i<=11:
+        departretraitetwo.append(Personnel.objects.filter(administrationapp='two').filter(
+            dateparrainageretraite__year=datetime.datetime.now().year).filter(dateparrainageretraite__month=i+1).count())
+        i = i + 1
+
     return render(request,'GestionPersonnel/tboardpersonnel.html',
         {
             'femmes': femmes,
