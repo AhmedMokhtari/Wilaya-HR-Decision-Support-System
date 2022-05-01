@@ -38,6 +38,7 @@ class Personnel(models.Model):
     administrationapp = models.CharField(db_column='AdministrationApp', max_length=50, db_collation='French_CI_AS', blank=True, null=True)
     photo = models.ImageField(upload_to="photos")
     age = models.IntegerField(db_column='Age', blank=True, null=True)
+    lastupdate = models.DateTimeField(db_column='LastUpdate', blank=True, null=True)
 
     class Meta:
         managed = False

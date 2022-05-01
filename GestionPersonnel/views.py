@@ -1,20 +1,21 @@
 from django.shortcuts import render, redirect
-from .models import Personnel,Conjoint, Conjointpersonnel, \
+from .models import Personnel, Conjoint, Conjointpersonnel, \
     Service, Servicepersonnel, Grade, \
     Gradepersonnel, Enfant, Diplome, Fonction, Fonctionpersonnel
-
 from django.contrib.auth.decorators import login_required
 from fpdf import FPDF
 from django.http import HttpResponse
-import os, datetime, csv, pandas as pd, seaborn as sns
+import os
+import datetime
+import csv
+import pandas as pd
+import seaborn as sns
 from .utils import calculate_age, get_graph, count_age_int
-
-
 
 #personnel -------------------------------.
 @login_required(login_url='/connexion')
 def consultation(request):
-    personnels = { 'personnels' : Personnel.objects.all()}
+    personnels = {'personnels': Personnel.objects.all()}
     return render(request, 'GestionPersonnel/consultation.html', personnels)
 
 # export-------------------------------
@@ -23,8 +24,8 @@ def export_perso_csv(request):
     response['Content-Disposition'] = 'attachment; filename="personnels.csv"'
     response.write(u'\ufeff'.encode('utf8'))
     writer = csv.writer(response)
-    writer.writerow(['CIN', 'NOM', 'PRENOM', 'LIEU DE NAISSENCE','EMAIL','TEL ','SITUATION FAMILIALER'])
-    personnels = Personnel.objects.all().values_list('cin', 'nomfr', 'prenomfr', 'lieunaissancefr','email','tele','situationfamilialefr')
+    writer.writerow(['CIN', 'NOM', 'PRENOM', 'LIEU DE NAISSENCE', 'EMAIL', 'TEL ', 'SITUATION FAMILIALER'])
+    personnels = Personnel.objects.all().values_list('cin', 'nomfr', 'prenomfr', 'lieunaissancefr', 'email', 'tele', 'situationfamilialefr')
     for personnel in personnels:
         writer.writerow(personnel)
     return response
@@ -39,7 +40,8 @@ def info(request,id):
     Services = Service.objects.filter(idservice__in=Servii.values_list('idservice_field', flat=True))
     enfants=Enfant.objects.filter(idconjoint_field__in=conjointsinperso.values_list('idconjoint_field', flat=True))
     diplomes = Diplome.objects.filter(idpersonnel_field=id)
-    return render(request,'GestionPersonnel/info.html',{'personnel': personnel, 'conjoints': conjoints, 'conjointsinperso': conjointsinperso,'Serviii': zip(Services,serviperso),'diplomes':diplomes,"enfants":enfants})
+    return render(request, 'GestionPersonnel/info.html', {'personnel': personnel, 'conjoints': conjoints, 'conjointsinperso': conjointsinperso,
+                                                          'Serviii': zip(Services, serviperso), 'diplomes':diplomes, "enfants":enfants})
 
 # ajouter -------------------------------.
 @login_required(login_url='/connexion')
@@ -90,7 +92,7 @@ def ajouter(request):
                             adressefr=adressefr, numerofinancier=numiden, daterecrutement=daterec,
                             datedemarcation=datedec, dateparrainageretraite=dateretr, numcnopsaf=numcnopsaf,
                             numcnopsim=numcnopsim, rib=rib, ancienneteadmi=ancadmi, administrationapp=adminiapp,
-                            situationfamilialear=situatar, photo=photo, sexe=sexe, age=age)
+                            situationfamilialear=situatar, photo=photo, sexe=sexe, age=age, lastupdate=datetime.date.today())
         objperso.save()
 
         objservice = Service(idservice=service)
@@ -167,6 +169,7 @@ def modifier(request, id):
         objperso2.photo = photo
         objperso2.sexe = sexe
         objperso2.age = age
+        objperso2.lastupdate = datetime.date.today()
         objperso2.save()
 
         objservice = Service(idservice=service)
@@ -238,13 +241,13 @@ def ajouter_conjoint(request):
     else:
         cinpersonnel = request.GET.get('personnel', None)
         if(cinpersonnel) :
-            return render(request, 'GestionPersonnel/conjoint.html', {'personnel': cinpersonnel})
+            return render(request, 'GestionPersonnel/ajouter_conjoint.html', {'personnel': cinpersonnel})
         else:
-            return render(request, 'GestionPersonnel/conjoint.html')
+            return render(request, 'GestionPersonnel/ajouter_conjoint.html')
     if(obj1)  :
-        return render(request, 'GestionPersonnel/conjoint.html', {'conjoint' : obj1 ,'personnel': pers.cin})
+        return render(request, 'GestionPersonnel/ajouter_conjoint.html', {'conjoint' : obj1 ,'personnel': pers.cin})
     else:
-        return render(request, 'GestionPersonnel/conjoint.html')
+        return render(request, 'GestionPersonnel/ajouter_conjoint.html')
 
 
 @login_required(login_url='/connexion')
@@ -286,8 +289,8 @@ def ajouter_enfant(request):
         objenfant = Enfant(nomar=nomar, nomfr=nomfr, lienjuridique=lienj, prenomar=prenomar, prenomfr=prenomfr,
                            lieunaissancefr=lieunfr, lieunaissancear=lieunar, datenaissance=daten, idconjoint_field= Conjoint.objects.get(idconjoint=mere))
         objenfant.save()
-        return render(request, 'GestionPersonnel/enfant.html', {'enfant': Enfant.objects.all(),'personnel': cinpersonnel, 'conjoints':conjoints})
-    return render(request, 'GestionPersonnel/enfant.html', {'personnel': cinpersonnel, 'conjoints':conjoints})
+        return render(request, 'GestionPersonnel/ajouter_enfant.html', {'enfant': Enfant.objects.all(),'personnel': cinpersonnel, 'conjoints':conjoints})
+    return render(request, 'GestionPersonnel/ajouter_enfant.html', {'personnel': cinpersonnel, 'conjoints':conjoints})
 
 @login_required(login_url='/connexion')
 def modifier_enfant(request,id):
@@ -324,8 +327,8 @@ def ajouter_diplome(request):
         objdiplome=Diplome(diplomefr=diplomefr, diplomear=diplomear, etablissement=etabfr,
                            specialitear=spear, specialitefr=spefr, datediplome=datedip,idpersonnel_field=personnel)
         objdiplome.save()
-        return render(request, 'GestionPersonnel/diplome.html', {'personnel': cinpersonnel, 'diplome':objdiplome})
-    return render(request, 'GestionPersonnel/diplome.html', {'personnel': cinpersonnel})
+        return render(request, 'GestionPersonnel/ajouter_diplome.html', {'personnel': cinpersonnel, 'diplome':objdiplome})
+    return render(request, 'GestionPersonnel/ajouter_diplome.html', {'personnel': cinpersonnel})
 
 
 @login_required(login_url='/connexion')
