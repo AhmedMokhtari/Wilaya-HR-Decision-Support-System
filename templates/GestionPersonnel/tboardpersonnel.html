@@ -44,7 +44,7 @@
                         </div>
                         <div class="media-body">
                             <h3 class="mb-2">{{administrationOne}}</h3>
-                            <div class="mb-0">Administration 1</div>
+                            <div class="mb-0">AdministrationOne</div>
                         </div>
                     </div>
                 </div>
@@ -166,69 +166,15 @@
                         </tr>
                     </thead>
                     <tbody>
+                    {% for perso in personnelslastup %}
                         <tr>
-                            <td>Project Apollo</td>
+                            <td>{{ perso.nomfr }} - {{ perso.nomar }}</td>
                             <td class="d-none d-xl-table-cell">01/01/2018</td>
                             <td class="d-none d-xl-table-cell">31/06/2018</td>
                             <td><span class="badge badge-success">Done</span></td>
                             <td class="d-none d-md-table-cell">Carl Jenkins</td>
                         </tr>
-                        <tr>
-                            <td>Project Fireball</td>
-                            <td class="d-none d-xl-table-cell">01/01/2018</td>
-                            <td class="d-none d-xl-table-cell">31/06/2018</td>
-                            <td><span class="badge badge-danger">Cancelled</span></td>
-                            <td class="d-none d-md-table-cell">Bertha Martin</td>
-                        </tr>
-                        <tr>
-                            <td>Project Hades</td>
-                            <td class="d-none d-xl-table-cell">01/01/2018</td>
-                            <td class="d-none d-xl-table-cell">31/06/2018</td>
-                            <td><span class="badge badge-success">Done</span></td>
-                            <td class="d-none d-md-table-cell">Stacie Hall</td>
-                        </tr>
-                        <tr>
-                            <td>Project Nitro</td>
-                            <td class="d-none d-xl-table-cell">01/01/2018</td>
-                            <td class="d-none d-xl-table-cell">31/06/2018</td>
-                            <td><span class="badge badge-warning">In progress</span></td>
-                            <td class="d-none d-md-table-cell">Carl Jenkins</td>
-                        </tr>
-                        <tr>
-                            <td>Project Phoenix</td>
-                            <td class="d-none d-xl-table-cell">01/01/2018</td>
-                            <td class="d-none d-xl-table-cell">31/06/2018</td>
-                            <td><span class="badge badge-success">Done</span></td>
-                            <td class="d-none d-md-table-cell">Bertha Martin</td>
-                        </tr>
-                        <tr>
-                            <td>Project X</td>
-                            <td class="d-none d-xl-table-cell">01/01/2018</td>
-                            <td class="d-none d-xl-table-cell">31/06/2018</td>
-                            <td><span class="badge badge-success">Done</span></td>
-                            <td class="d-none d-md-table-cell">Stacie Hall</td>
-                        </tr>
-                        <tr>
-                            <td>Project Romeo</td>
-                            <td class="d-none d-xl-table-cell">01/01/2018</td>
-                            <td class="d-none d-xl-table-cell">31/06/2018</td>
-                            <td><span class="badge badge-success">Done</span></td>
-                            <td class="d-none d-md-table-cell">Ashley Briggs</td>
-                        </tr>
-                        <tr>
-                            <td>Project Wombat</td>
-                            <td class="d-none d-xl-table-cell">01/01/2018</td>
-                            <td class="d-none d-xl-table-cell">31/06/2018</td>
-                            <td><span class="badge badge-warning">In progress</span></td>
-                            <td class="d-none d-md-table-cell">Bertha Martin</td>
-                        </tr>
-                        <tr>
-                            <td>Project Zircon</td>
-                            <td class="d-none d-xl-table-cell">01/01/2018</td>
-                            <td class="d-none d-xl-table-cell">31/06/2018</td>
-                            <td><span class="badge badge-danger">Cancelled</span></td>
-                            <td class="d-none d-md-table-cell">Stacie Hall</td>
-                        </tr>
+                    {% endfor %}
                     </tbody>
                 </table>
             </div>

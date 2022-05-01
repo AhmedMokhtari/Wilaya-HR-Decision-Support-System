@@ -18,7 +18,7 @@ def consultation(request):
     personnels = {'personnels': Personnel.objects.all()}
     return render(request, 'GestionPersonnel/consultation.html', personnels)
 
-# export-------------------------------
+#export-------------------------------
 def export_perso_csv(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="personnels.csv"'
@@ -461,9 +461,15 @@ def printpdf(req,id):
 #taboard------------------------------------------------------
 @login_required(login_url='/connexion')
 def taboardpersonnel(request):
+
+    from dateutil.relativedelta import relativedelta
+    from django.db.models import F
+
     femmes = Personnel.objects.filter(sexe='Femme-أنثى').count()
     hommes = Personnel.objects.filter(sexe='Homme-ذكر').count()
     personnels = Personnel.objects.all().count()
+    data = datetime.timedelta(days=6 * 365/12)
+    personnelslastup = Personnel.objects.filter(lastupdate__lte= (datetime.datetime.today() + data)).all()
     administrationOne = Personnel.objects.filter(administrationapp='one').count()
     administrationTwo = Personnel.objects.filter(administrationapp='two').count()
 
@@ -510,6 +516,8 @@ def taboardpersonnel(request):
             'administrationTwo': administrationTwo,
             'departretraiteone': departretraiteone,
             'departretraitetwo': departretraitetwo,
-            'chart':chart,
+            'chart': chart,
+            'personnelslastup': personnelslastup
+
 
         })
