@@ -153,26 +153,26 @@
                             </div>
                         </div>
                     </div>
-                    <h5 class="card-title mb-0">Latest Projects</h5>
+                    <h5 class="card-title mb-0">Modification</h5>
                 </div>
-                <table id="datatables-dashboard-projects" class="table table-striped my-0">
+                <table id="datatables-dashboard-projects"  class="table table-striped my-0 text-center">
                     <thead>
                         <tr>
-                            <th>Name</th>
-                            <th class="d-none d-xl-table-cell">Start Date</th>
-                            <th class="d-none d-xl-table-cell">End Date</th>
-                            <th>Status</th>
-                            <th class="d-none d-md-table-cell">Assignee</th>
+                            <th>Cin - ر.ب.و</th>
+                            <th class="d-none d-xl-table-cell">Nom Complet</th>
+                            <th>الاسم الكامل</th>
+                            <th class="d-none d-md-table-cell">Tele - هاتف</th>
+                            <th class="d-none d-md-table-cell">la dernière modification - أخر تحديت</th>
                         </tr>
                     </thead>
                     <tbody>
                     {% for perso in personnelslastup %}
-                        <tr>
-                            <td>{{ perso.nomfr }} - {{ perso.nomar }}</td>
-                            <td class="d-none d-xl-table-cell">01/01/2018</td>
-                            <td class="d-none d-xl-table-cell">31/06/2018</td>
-                            <td><span class="badge badge-success">Done</span></td>
-                            <td class="d-none d-md-table-cell">Carl Jenkins</td>
+                        <tr >
+                            <td>{{ perso.cin }}</td>
+                            <td>{{ perso.nomfr }} - {{ perso.prenomfr }}</td>
+                            <td class="d-none d-xl-table-cell">{{ perso.nomar }} - {{ perso.prenomar }}</td>
+                            <td class="d-none d-xl-table-cell">{{ perso.tele }}</td>
+                            <td><span class="badge badge-success">{{ perso.lastupdate }}</span></td>
                         </tr>
                     {% endfor %}
                     </tbody>
