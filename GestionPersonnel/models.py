@@ -16,7 +16,7 @@ class Personnel(models.Model):
     adressear = models.CharField(db_column='AdresseAr', max_length=100, db_collation='French_CI_AS', blank=True, null=True)
     adressefr = models.CharField(db_column='AdresseFr', max_length=100, db_collation='French_CI_AS', blank=True, null=True)
     email = models.CharField(db_column='Email', max_length=40, db_collation='French_CI_AS', blank=True, null=True)
-    tele = models.IntegerField(db_column='Tele', blank=True, null=True)  # Field name made lowercase.
+    tele = models.IntegerField(db_column='Tele', blank=True, null=True)
     situationfamilialear = models.CharField(db_column='SituationFamilialeAr', max_length=80, db_collation='French_CI_AS', blank=True, null=True)
     situationfamilialefr = models.CharField(db_column='SituationFamilialeFr', max_length=80, db_collation='French_CI_AS', blank=True, null=True)
     sexe = models.CharField(db_column='Sexe', max_length=90, db_collation='French_CI_AS', blank=True, null=True)
@@ -37,6 +37,7 @@ class Personnel(models.Model):
     numcnopsim = models.CharField(db_column='NumCnopsIm', max_length=50, db_collation='French_CI_AS', blank=True, null=True)
     administrationapp = models.CharField(db_column='AdministrationApp', max_length=50, db_collation='French_CI_AS', blank=True, null=True)
     photo = models.ImageField(upload_to="photos")
+    age = models.IntegerField(db_column='Age', blank=True, null=True)
 
     class Meta:
         managed = False

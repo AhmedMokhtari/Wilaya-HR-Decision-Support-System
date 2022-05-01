@@ -6,8 +6,9 @@ from .models import Personnel,Conjoint, Conjointpersonnel, \
 from django.contrib.auth.decorators import login_required
 from fpdf import FPDF
 from django.http import HttpResponse
-import os,datetime, csv
-from django.db.models import Q
+import os, datetime, csv, pandas as pd, seaborn as sns
+from .utils import calculate_age, get_graph, count_age_int
+
 
 
 #personnel -------------------------------.
@@ -38,7 +39,7 @@ def info(request,id):
     Services = Service.objects.filter(idservice__in=Servii.values_list('idservice_field', flat=True))
     enfants=Enfant.objects.filter(idconjoint_field__in=conjointsinperso.values_list('idconjoint_field', flat=True))
     diplomes = Diplome.objects.filter(idpersonnel_field=id)
-    return render(request,'GestionPersonnel/info.html',{'personnel': personnel, 'conjoints': conjoints, 'conjointsinperso': conjointsinperso,'Serviii':zip(Services,serviperso),'diplomes':diplomes,"enfants":enfants})
+    return render(request,'GestionPersonnel/info.html',{'personnel': personnel, 'conjoints': conjoints, 'conjointsinperso': conjointsinperso,'Serviii': zip(Services,serviperso),'diplomes':diplomes,"enfants":enfants})
 
 # ajouter -------------------------------.
 @login_required(login_url='/connexion')
@@ -59,8 +60,8 @@ def ajouter(request):
         lieunfr = request.POST["lieunfr"]
         tele = request.POST["tele"]
         email = request.POST["email"]
-        situatfr = request.POST["situationffr"]
-        situatar = request.POST["situationfar"]
+        situatfr = request.POST.get('situationffr', None)
+        situatar = request.POST.get('situationfar', None)
         adressear= request.POST["adressear"]
         adressefr = request.POST["adressefr"]
         numiden = request.POST["numiden"]
@@ -80,13 +81,16 @@ def ajouter(request):
         fonction = request.POST["fonction"]
         datefonction = request.POST["datefonction"]
         sexe = request.POST["sexe"]
+        age = calculate_age(daten)
+
+
         objperso= Personnel.objects.create(nomar=nomar, nomfr=nomfr, cin=cin, prenomar=prenomar, prenomfr=prenomfr,
                             lieunaissancear=lieunar, lieunaissancefr=lieunfr, datenaissance=daten,
                             tele=tele, email=email, situationfamilialefr=situatfr, adressear=adressear,
                             adressefr=adressefr, numerofinancier=numiden, daterecrutement=daterec,
                             datedemarcation=datedec, dateparrainageretraite=dateretr, numcnopsaf=numcnopsaf,
                             numcnopsim=numcnopsim, rib=rib, ancienneteadmi=ancadmi, administrationapp=adminiapp,
-                            situationfamilialear=situatar, photo=photo, sexe=sexe)
+                            situationfamilialear=situatar, photo=photo, sexe=sexe, age=age)
         objperso.save()
 
         objservice = Service(idservice=service)
@@ -139,7 +143,7 @@ def modifier(request, id):
         fonction = request.POST["fonction"]
         datefonction = request.POST["datefonction"]
         sexe = request.POST["sexe"]
-
+        age = calculate_age(daten)
 
         objperso2 = Personnel.objects.get(idpersonnel=id)
         objperso2.tele = tele
@@ -162,6 +166,7 @@ def modifier(request, id):
         objperso2.administrationapp = adminiapp
         objperso2.photo = photo
         objperso2.sexe = sexe
+        objperso2.age = age
         objperso2.save()
 
         objservice = Service(idservice=service)
@@ -242,6 +247,7 @@ def ajouter_conjoint(request):
         return render(request, 'GestionPersonnel/conjoint.html')
 
 
+@login_required(login_url='/connexion')
 def modifier_conjoint(request,id):
     suc = "no"
     conjoint = Conjoint.objects.get(idconjoint=id)
@@ -283,6 +289,7 @@ def ajouter_enfant(request):
         return render(request, 'GestionPersonnel/enfant.html', {'enfant': Enfant.objects.all(),'personnel': cinpersonnel, 'conjoints':conjoints})
     return render(request, 'GestionPersonnel/enfant.html', {'personnel': cinpersonnel, 'conjoints':conjoints})
 
+@login_required(login_url='/connexion')
 def modifier_enfant(request,id):
     suc = 'no'
     objenfant = Enfant.objects.get(idenfant=id)
@@ -320,6 +327,8 @@ def ajouter_diplome(request):
         return render(request, 'GestionPersonnel/diplome.html', {'personnel': cinpersonnel, 'diplome':objdiplome})
     return render(request, 'GestionPersonnel/diplome.html', {'personnel': cinpersonnel})
 
+
+@login_required(login_url='/connexion')
 def modifer_diplome(request,id):
     suc = 'no'
     objdiplome = Diplome.objects.get(iddiplome=id)
@@ -336,6 +345,7 @@ def modifer_diplome(request,id):
                   {'diplome': objdiplome, 'suc': suc})
 
 # Attestations ---------------------------
+@login_required(login_url='/connexion')
 def printpdfquitter(req,id):
     personnel = Personnel.objects.get(idpersonnel=id)
     empName = str(personnel.nomfr + " " + personnel.prenomfr);
@@ -400,7 +410,7 @@ def printpdfquitter(req,id):
     return (response) ;
 
 
-
+@login_required(login_url='/connexion')
 def printpdf(req,id):
    personnel = Personnel.objects.get(idpersonnel=id)
    empName=str(personnel.nomfr+" "+personnel.prenomfr);
@@ -442,6 +452,9 @@ def printpdf(req,id):
    ##response.TransmitFile(pathtofile);
    return (response)
 
+
+
+
 #taboard------------------------------------------------------
 @login_required(login_url='/connexion')
 def taboardpersonnel(request):
@@ -468,6 +481,23 @@ def taboardpersonnel(request):
             dateparrainageretraite__year=datetime.datetime.now().year).filter(dateparrainageretraite__month=i+1).count())
         i = i + 1
 
+    """[-13932000, -11020000, -7611000, -4653000, -1952000, -625000, -116000, -14000, -1000]
+    [14220000, 10125000, 5984000, 3131000, 1151000, 312000, 49000, 4000, 0]"""
+
+    ageData = pd.DataFrame(
+        {
+            'Age': ['20-24', '25-29', '30-34', '35-39', '40-44', '45-49', '50-54', '55-59', '60-64'],
+            'Male': count_age_int('Homme-ذكر'),
+            'Female': [-x for x in count_age_int('Femme-أنثى')],
+        }
+    )
+    AgeClass = [ '60-64', '55-59', '50-54', '45-49', '40-44', '35-39', '30-34', '25-29', '20-24']
+    pallette = sns.color_palette("Blues")
+    bar_plot = sns.barplot(x='Male', y='Age', data=ageData, order=AgeClass, lw=0, palette = pallette).set_title('La pyramide des âges')
+    bar_plot = sns.barplot(x='Female', y='Age', data=ageData, order=AgeClass, lw=0, palette = pallette)
+    bar_plot.set_xlabel("Population")
+    chart = get_graph()
+
     return render(request,'GestionPersonnel/tboardpersonnel.html',
         {
             'femmes': femmes,
@@ -477,6 +507,6 @@ def taboardpersonnel(request):
             'administrationTwo': administrationTwo,
             'departretraiteone': departretraiteone,
             'departretraitetwo': departretraitetwo,
+            'chart':chart,
 
         })
-
