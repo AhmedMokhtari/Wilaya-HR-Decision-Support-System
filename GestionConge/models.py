@@ -12,3 +12,14 @@ class Conge(models.Model):
     class Meta:
         managed = False
         db_table = 'Conge'
+
+
+class DateElimine(models.Model):
+    ideateelimine= models.AutoField(db_column='IdDateElimine', primary_key=True)
+    motif = models.CharField(db_column='Motif', max_length=50, db_collation='French_CI_AS', blank=True, null=True)
+    dateelimine = models.DateTimeField(db_column='DateElimine', blank=True, null=True)
+
+
+    class Meta:
+        managed = False
+        db_table = 'DateElimine'

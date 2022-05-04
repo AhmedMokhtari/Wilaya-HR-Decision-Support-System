@@ -52,7 +52,7 @@
 					</li>
 					<li class="sidebar-item active">
 						<a href="#dashboards" data-toggle="collapse" class="sidebar-link">
-                          <i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Dashboard</span>
+                          <i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Tableau de bord</span>
                         </a>
 						<ul id="dashboards" class="sidebar-dropdown list-unstyled collapse show" data-parent="#sidebar">
 							<li class="sidebar-item"><a class="sidebar-link" href="{% url 'taboard' %}">Personnel</a></li>
@@ -60,16 +60,35 @@
 						</ul>
 					</li>
 					<li class="sidebar-item">
-						<a href="#pages" data-toggle="collapse" class="sidebar-link collapsed">
-                          <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Gestion</span>
+						<a href="#personnel" data-toggle="collapse" class="sidebar-link collapsed">
+                          <i class="align-middle" data-feather="user" ></i> <span class="align-middle">Personnel</span>
                         </a>
-						<ul id="pages" class="sidebar-dropdown list-unstyled collapse " data-parent="#sidebar">
-							<li class="sidebar-item"><a class="sidebar-link" href="{% url 'consultation' %}">Personnel</a></li>
-							<li class="sidebar-item"><a class="sidebar-link" href="{% url 'ajouterc' %}">Congés</a></li>
-							<li class="sidebar-item"><a class="sidebar-link" href="#">Absence</a></li>
-							<li class="sidebar-item"><a class="sidebar-link" href="#">Formations</a></li>
+						<ul id="personnel" class="sidebar-dropdown list-unstyled collapse " data-parent="#sidebar">
+							<li class="sidebar-item"><a class="sidebar-link" href="{% url 'consultation' %}">Consultation</a></li>
+							<li class="sidebar-item"><a class="sidebar-link" href="{% url 'ajouterp' %}">Ajout</a></li>
+                            <li class="sidebar-item"><a class="sidebar-link" href="{% url 'taboard' %}">Tableau de bord</a></li>
 						</ul>
 					</li>
+
+
+                    <li class="sidebar-item">
+						<a href="#conge" data-toggle="collapse" class="sidebar-link collapsed">
+                          <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Congé</span>
+                        </a>
+						<ul id="conge" class="sidebar-dropdown list-unstyled collapse " data-parent="#sidebar">
+							<li class="sidebar-item"><a class="sidebar-link" href="{% url 'taboard' %}">Tableau de bord</a></li>
+						</ul>
+					</li>
+
+                    <li class="sidebar-item">
+						<a href="#absence" data-toggle="collapse" class="sidebar-link collapsed">
+                          <i class="align-middle" data-feather="user-x"></i> <span class="align-middle">Absence</span>
+                        </a>
+						<ul id="absence" class="sidebar-dropdown list-unstyled collapse" data-parent="#sidebar">
+							<li class="sidebar-item"><a class="sidebar-link" href="{% url 'taboard' %}">Tableau de bord</a></li>
+						</ul>
+					</li>
+
 					<li class="sidebar-item">
 						<a href="#auth" data-toggle="collapse" class="sidebar-link collapsed">
                           <i class="align-middle" data-feather="users"></i> <span class="align-middle">Privilèges</span>

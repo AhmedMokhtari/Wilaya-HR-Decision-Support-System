@@ -318,6 +318,14 @@ class Thematiqueformationpersonnel(models.Model):
         db_table = 'ThematiqueFormationPersonnel'
         unique_together = (('idthematiqueformation_field', 'idpersonnel_field'),)
 
+class DateElimine(models.Model):
+    ideateelimine= models.AutoField(db_column='IdDateElimine', primary_key=True)
+    motif = models.CharField(db_column='Motif', max_length=50, db_collation='French_CI_AS', blank=True, null=True)
+    dateelimine = models.DateTimeField(db_column='DateElimine', blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'DateElimine'
 
 class AuthGroup(models.Model):
     name = models.CharField(unique=True, max_length=150, db_collation='French_CI_AS')
@@ -431,3 +439,5 @@ class DjangoSession(models.Model):
     class Meta:
         managed = False
         db_table = 'django_session'
+
+

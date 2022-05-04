@@ -4,7 +4,7 @@ from django.db import models
 
 # -------------------------------------------------------
 class Personnel(models.Model):
-    idpersonnel = models.AutoField(db_column='IdPersonnel', primary_key=True)  # Field name made lowercase.
+    idpersonnel = models.AutoField(db_column='IdPersonnel', primary_key=True)
     nomar = models.CharField(db_column='NomAr', max_length=20, db_collation='French_CI_AS', blank=True, null=True)
     prenomar = models.CharField(db_column='PrenomAr', max_length=20, db_collation='French_CI_AS', blank=True, null=True)
     nomfr = models.CharField(db_column='NomFr', max_length=20, db_collation='French_CI_AS', blank=True, null=True)
