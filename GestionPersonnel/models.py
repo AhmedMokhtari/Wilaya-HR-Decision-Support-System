@@ -188,7 +188,7 @@ class Service(models.Model):
 # -------------------------------------------------------
 class Servicepersonnel(models.Model):
     idservicepersonnel = models.AutoField(db_column='IdServicePersonnel', primary_key=True)
-    idservice_field = models.OneToOneField(Service, models.DO_NOTHING, db_column='IdService#')
+    idservice_field = models.ForeignKey(Service, models.DO_NOTHING, db_column='IdService#')
     idpersonnel_field = models.ForeignKey(Personnel, models.DO_NOTHING, db_column='IdPersonnel#')
     dateaffectation = models.DateTimeField(db_column='DateAffectation', blank=True, null=True)
 

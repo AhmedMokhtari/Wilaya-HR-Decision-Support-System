@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from .models import Personnel, Conjoint, Conjointpersonnel, \
     Service, Servicepersonnel, Grade, \
     Gradepersonnel, Enfant, Diplome, Fonction, Fonctionpersonnel
@@ -38,7 +38,7 @@ def info(request,id):
     serviperso = Servicepersonnel.objects.filter(idpersonnel_field=id)
     Servii = Servicepersonnel.objects.filter(idpersonnel_field=id)
     Services = Service.objects.filter(idservice__in=Servii.values_list('idservice_field', flat=True))
-    enfants=Enfant.objects.filter(idconjoint_field__in=conjointsinperso.values_list('idconjoint_field', flat=True))
+    enfants = Enfant.objects.filter(idconjoint_field__in=conjointsinperso.values_list('idconjoint_field', flat=True))
     diplomes = Diplome.objects.filter(idpersonnel_field=id)
     return render(request, 'GestionPersonnel/info.html', {'personnel': personnel, 'conjoints': conjoints, 'conjointsinperso': conjointsinperso,
                                                           'Serviii': zip(Services, serviperso), 'diplomes':diplomes, "enfants":enfants})
@@ -351,7 +351,7 @@ def modifer_diplome(request,id):
 @login_required(login_url='/connexion')
 def printpdfquitter(req,id):
     personnel = Personnel.objects.get(idpersonnel=id)
-    empName = str(personnel.nomfr + " " + personnel.prenomfr);
+    empName = str(personnel.nomfr + " " + personnel.prenomfr)
     cin = str(personnel.cin)
     grade="ingenieur"
     temp=req.POST["De"]
@@ -410,13 +410,13 @@ def printpdfquitter(req,id):
     response = HttpResponse(pdfr, content_type='application/pdf')
     response['Content-Disposition'] = ' filename="mypdf.pdf"'
     ##response.TransmitFile(pathtofile);
-    return (response) ;
+    return (response)
 
 
 @login_required(login_url='/connexion')
 def printpdf(req,id):
    personnel = Personnel.objects.get(idpersonnel=id)
-   empName=str(personnel.nomfr+" "+personnel.prenomfr);
+   empName=str(personnel.nomfr+" "+personnel.prenomfr)
    cin=str(personnel.cin)
    num=str(personnel.numerofinancier)
    grade="ingenieur"
@@ -461,10 +461,6 @@ def printpdf(req,id):
 #taboard------------------------------------------------------
 @login_required(login_url='/connexion')
 def taboardpersonnel(request):
-
-    from dateutil.relativedelta import relativedelta
-    from django.db.models import F
-
     femmes = Personnel.objects.filter(sexe='Femme-أنثى').count()
     hommes = Personnel.objects.filter(sexe='Homme-ذكر').count()
     personnels = Personnel.objects.all().count()

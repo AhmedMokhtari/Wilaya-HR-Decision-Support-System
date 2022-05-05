@@ -43,7 +43,7 @@
 		<nav id="sidebar" class="sidebar">
 			<div class="sidebar-content ">
 				<a class="sidebar-brand" href="#">
-                  <img class="align-middle" src="{% static 'images/logo2.png' %}" width="50"/>
+                  <img class="align-middle" src="{% static 'images/logo2.png' %}" width="50" alt="logo"/>
                   <span class="align-middle">Wilaya</span>
                 </a>
 				<ul class="sidebar-nav">
@@ -76,7 +76,7 @@
                           <i class="align-middle" data-feather="layout"></i> <span class="align-middle">Congé</span>
                         </a>
 						<ul id="conge" class="sidebar-dropdown list-unstyled collapse " data-parent="#sidebar">
-							<li class="sidebar-item"><a class="sidebar-link" href="{% url 'taboard' %}">Tableau de bord</a></li>
+							<li class="sidebar-item"><a class="sidebar-link" href="{% url 'ajouterconje' %}">Tableau de bord</a></li>
 						</ul>
 					</li>
 
@@ -94,14 +94,14 @@
                           <i class="align-middle" data-feather="users"></i> <span class="align-middle">Privilèges</span>
                         </a>
 						<ul id="auth" class="sidebar-dropdown list-unstyled collapse " data-parent="#sidebar">
-							<li class="sidebar-item"><a class="sidebar-link" href="pages-sign-in.html">Administration</a></li>
+							<li class="sidebar-item"><a class="sidebar-link" href="#">Administration</a></li>
 						</ul>
 					</li>
 					<li class="sidebar-header">
 						Fonctionnalité
 					</li>
 					<li class="sidebar-item">
-						<a class="sidebar-link" href="calendar.html">
+						<a class="sidebar-link" href="#">
                           <i class="align-middle" data-feather="calendar"></i> <span class="align-middle">Calendrier</span>
                         </a>
 					</li>
@@ -229,10 +229,10 @@
                                 <span class="text-dark">{{ user.get_username }}</span>
                             </a>
 							<div class="dropdown-menu dropdown-menu-right">
-								<a class="dropdown-item" href="pages-profile.html"><i class="align-middle mr-1" data-feather="user"></i> Profile</a>
+								<a class="dropdown-item" href="#"><i class="align-middle mr-1" data-feather="user"></i> Profile</a>
 								<a class="dropdown-item" href="#"><i class="align-middle mr-1" data-feather="pie-chart"></i> Analytics</a>
 								<div class="dropdown-divider"></div>
-								<a class="dropdown-item" href="pages-settings.html">Settings & Privacy</a>
+								<a class="dropdown-item" href="#">Settings & Privacy</a>
 								<a class="dropdown-item" href="#">Help</a>
 								<a class="dropdown-item" href="#">Sign out</a>
 							</div>
@@ -263,7 +263,7 @@
 						</div>
 						<div class="col-6 text-right">
 							<p class="mb-0">
-								&copy; 2022 - <a href="index.html" class="text-muted">Wilaya de l'oriental</a>
+								&copy; 2022 - <a href="#" class="text-muted">Wilaya de l'oriental</a>
 							</p>
 						</div>
 					</div>
@@ -435,34 +435,6 @@
 			setTimeout(function() {
 				$(window).trigger('resize');
 			}, 250)
-		});
-	</script>
-	<script>
-		$(function() {
-			// Pie chart
-			new Chart(document.getElementById("chartjs-dashboard-pie"), {
-				type: "pie",
-				data: {
-					labels: ["Direct", "Affiliate", "E-mail", "Other"],
-					datasets: [{
-						data: [2602, 1253, 541, 1465],
-						backgroundColor: [
-							window.theme.primary,
-							window.theme.warning,
-							window.theme.danger,
-							"#E8EAED"
-						],
-						borderColor: "transparent"
-					}]
-				},
-				options: {
-					responsive: !window.MSInputMethodContext,
-					maintainAspectRatio: false,
-					legend: {
-						display: false
-					}
-				}
-			});
 		});
 	</script>
 	<script>

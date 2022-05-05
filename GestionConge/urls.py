@@ -1,7 +1,7 @@
-from django.contrib import admin
-from django.urls import path, include
+from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('ajouterc', views.conge, name='ajouterc')
+    path('ajouterconge', views.conge, name='ajouterconje'),
+    path('deleteconge/<int:id>', views.delete, name='deleteconge'),
 ]
