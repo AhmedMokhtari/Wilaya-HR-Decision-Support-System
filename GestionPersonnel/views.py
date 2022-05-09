@@ -465,7 +465,7 @@ def taboardpersonnel(request):
     hommes = Personnel.objects.filter(sexe='Homme-ذكر').count()
     personnels = Personnel.objects.all().count()
     data = datetime.datetime.today() - datetime.timedelta(days=6 * 365/12)
-    personnelslastup = Personnel.objects.filter(lastupdate__gte = data).all()
+    personnelslastup = Personnel.objects.filter(lastupdate__lte = data).all()
     administrationOne = Personnel.objects.filter(administrationapp='one').count()
     administrationTwo = Personnel.objects.filter(administrationapp='two').count()
 
