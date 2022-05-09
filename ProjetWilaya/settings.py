@@ -34,7 +34,6 @@ INSTALLED_APPS = [
     'Accueil.apps.AccueilConfig',
     'GestionPersonnel.apps.GestionpersonnelConfig',
     'GestionConge.apps.GestioncongeConfig',
-    'GestionAbsence.apps.GestionabsenceConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -81,14 +80,14 @@ WSGI_APPLICATION = 'ProjetWilaya.wsgi.application'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 # Zakariae Mrabet PC 1 Server DESKTOP-J4H5HNC
 # Zakariae Mrabet PC 2 Server DESKTOP-IRG7UCK
-# Ahmed Mokhtari Server DESKTOP-ANBD5NF
+# Ahmed Mokhtari Server DESKTOP-5ROL8PJ
 DATABASES = {
     'default': {
         'ENGINE': 'mssql',
         'NAME': 'ProjetWilaya',
-        'USER': 'mokhta',
-        'PASSWORD': '123',
-        'HOST': 'DESKTOP-ANBD5NF',
+        'USER': 'zaka',
+        'PASSWORD': 'zaka',
+        'HOST': 'DESKTOP-J4H5HNC',
         'PORT': '',
         'OPTIONS': {
             'driver': 'ODBC Driver 17 for SQL Server',
@@ -133,11 +132,11 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR,'static')
-MEDIA_URL='/images/'
+MEDIA_URL='/images/PersonPhoto/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'ProjetWilaya/static')
 ]
-MEDIA_ROOT=os.path.join(BASE_DIR,'static/images')
+MEDIA_ROOT=os.path.join(BASE_DIR,'static/images/PersonPhoto/')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
