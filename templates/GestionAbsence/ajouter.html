@@ -1,0 +1,244 @@
+{% extends 'menu.html' %}
+{% block content %}
+    {% load static %}
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static 'css/all.min.css' %}"/>
+    <link href="{% static 'css/absenceajouter.css' %}" rel="stylesheet" type="text/css">
+
+    <section class="container-fluidd-flex mt-3 absence " style="background-color: white !important;">
+        <section class="p-3">
+             <form class="form-inline justify-content-around" id="formsearch">
+                <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-2">
+                    <span class="btn btn-warning" data-toggle="modal" data-target="#AjouterModal"><i class="fa-solid fa-plus"></i> </span>
+                    <button class="btn btn-success export mx-2"><i class="fa-solid fa-file-export "></i> </button>
+                </div>
+                <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
+                    <div>
+                      <input type="search" id="search" class="form-control " autocomplete="off" placeholder="search">
+                    </div>
+                </div>
+                <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-2">
+                    <input type="date" id="date1" class="form-control" >
+                </div>
+                  <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-2">
+                    <input type="date" id="date2" class="form-control" >
+                </div>
+                <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-2 ">
+                    <button type="button" onclick="calcDate()" class="btn-search"><i class="fa-solid fa-search"></i></button>
+                     <button type="button" onclick="reseet()" class="btn btn-outline-infos "><i class="fa-solid fa-arrow-rotate-left fa-lg"></i></button>
+                </div>
+
+              </form>
+            <!--<div class="col-md-2 col-sm-12">
+                <button class="btn btn-warning" data-toggle="modal" data-target="#AjouterModal"><i class="fa-solid fa-plus"></i> Ajouter</button>
+                <button class="btn btn-success export mx-2"><i class="fa-solid fa-file-export "></i> Export</button>
+            </div>
+            <div class=" col-md-10 col-sm-12">
+                <form action=""  id="formsearch" class="row d-flex flex-wrap">
+                    <input type="search" id="search" class="form-control " placeholder="search">
+                    <input type="date" id="date1" class="form-control " >
+                    <input type="date" id="date2" class="form-control " >
+                    <button type="button" onclick="calcDate()" class="btn-search "><i class="fa-solid fa-search"></i></button>
+                    <button type="button" onclick="reseet()" class="btn btn-outline-infos "><i class="fa-solid fa-arrow-rotate-left fa-lg"></i></button>
+                </form>
+            </div>
+            -->
+        </section>
+
+        <section class="abs-data mt-3">
+            <table id="table" class="table table-hover">
+                <thead style="background-color: #313b4ceb;color: white">
+                  <tr>
+                    <th scope="col">Full Name</th>
+                    <th scope="col">Date Absence</th>
+                    <th scope="col">Nombre Jour</th>
+                    <th scope="col">Motif</th>
+                    <th scope="col">Justification</th>
+                  </tr>
+                </thead>
+                <tbody>
+                 {% for Abs in Absence %}
+                              <tr class="tb-colon">
+                                  <td>{{ Abs.idpersonnel_field }}</td>
+                                  <td>{{ Abs.dateabsence|date:"M d, Y" }}</td>
+                                  <td>{{Abs.nbjours}} </td>
+                                  <td>{{ Abs.motif }}</td>
+                                {% if Abs.justification %}
+                                   <td class="just"><i class="fa-solid fa-circle-check fa-lg"></i> </td>
+                                {% else %}
+                                    <td class="nojust"><i class="fa-solid fa-circle-xmark  fa-lg" style="color: red"></i></td>
+                                {% endif %}
+                              </tr>
+                            {% endfor %}
+                </tbody>
+              </table>
+        </section>
+        <section class="row flex-nowrap p-3">
+           <article class="col">
+            <h5>Totale d'absence : <span id="totalabsence" style="font-weight:bold;font-size: 17px;color: #05a5f9">100</span></h5>
+          </article>
+          <article class="col">
+            <h5>Totale Jours : <span id="totaljours" style="font-weight:bold;font-size: 17px;color: #05a5f9"></span></h5>
+          </article>
+          <article class="col">
+            <h5>Totale d'absence Justifier : <span id="justifier" style="font-weight:bold;font-size: 17px;color: #05a5f9">100</span></h5>
+          </article>
+          <article class="col">
+            <h5>Totale d'absence non Justifier : <span id="nojustifier" style="font-weight:bold;font-size: 17px;color: #05a5f9">100</span></h5>
+          </article>
+
+        </section>
+
+    </section>
+    <!-- Modal -->
+     <div class="modal fade" id="AjouterModal" tabindex="-1" role="dialog" aria-labelledby="AjoutereModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="AjouterModalLabel">Ajouter</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form action="{% url 'ajouterab' %}" autocomplete="off" method="POST">
+                {% csrf_token %}
+                  <div class="form-group">
+                    <label for="Personnel">Personnel</label>
+                    <input type="text" required  class="form-control" id="Personnel"  list="Personnels"  name="Personnel" pattern="^({% for pers in personnels %}{{ pers.cin }} - {{ pers.prenomfr }} {{ pers.nomfr }}|{% endfor %})$" placeholder="Rechercher Personnel">
+                  </div>
+                  <div class="form-group">
+                    <label for="dateAbsence">Date Absence</label>
+                    <input type="date" required class="form-control" id="dateAbsence" name="dateab">
+                  </div>
+                  <div class="form-group">
+                    <label for="nbJours">Nb Jours</label>
+                    <input type="number" required min="0" class="form-control" id="nbJours" name="nbJours">
+                  </div>
+                 <div class="form-group">
+                    <label for="justification">Justifier :</label>
+                     <select class="form-select form-select-sm p-1 mx-2" required name="justification">
+                          <option value="1">Yes</option>
+                          <option value="0">Non</option>
+                    </select>
+                  </div>
+                <div class="form-group">
+                    <label for="motif">Motif</label>
+                    <textarea rows="5"class="form-control" required id="motif" name="motif"></textarea>
+                  </div>
+                 <div class="form-group">
+                    <input type="submit" class="btn btn-primary" value="Ajouter">
+                  </div>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </div>
+     <datalist id="Personnels">
+        {% for pers in personnels %}
+            <option>{{ pers.cin }} - {{ pers.prenomfr }} {{ pers.nomfr }}</option>
+        {% endfor %}
+   </datalist>
+    <script>
+         window.history.pushState(null, null, 'http://127.0.0.1:8000/absence/absence');
+         totalJours();
+         justification();
+         noJustification();
+         totalAbsence();
+         function resetTable(){
+              let table = document.getElementById("table");
+              for(let i=1;i<table.rows.length;i++){
+                table.rows[i].removeAttribute("style");
+              }
+         }
+         function reseet(){
+                document.getElementById("formsearch").reset();
+                resetTable();
+                totalJours();
+                justification();
+                noJustification();
+                totalAbsence();
+                return 0;
+             }
+         function dateCheck(from,to,check) {
+            if((check.getTime() <= to.getTime() && check.getTime() >= from.getTime()-85400000)) {
+                // 86,400,000 is 1 day in millisecond
+                return true;
+            }
+            return false;
+         }
+         function calcDate(){
+             resetTable();
+             let date1=new Date(document.getElementById("date1").value);
+             let date2=new Date(document.getElementById("date2").value);
+             let table = document.getElementById("table");
+             for(let i=1;i<table.rows.length;i++){
+                 let val =new Date(table.rows[i].cells[1].innerHTML)
+                 if(!(dateCheck(date1,date2,val))){
+                   table.rows[i].style.display="none";
+                 }
+             }
+             totalJours();
+             justification();
+             noJustification();
+             totalAbsence();
+         }
+         function totalAbsence() {
+              let table1 = document.getElementById("table");
+              let val;
+              let subTotal = Array.from(table1.rows).slice(1).reduce((total, row) => {
+                  val=1;
+                  if(row.style.display==="none")
+                      val=0;
+                return total + val;
+              }, 0);
+              document.getElementById("totalabsence").innerHTML =subTotal;
+            }
+         function totalJours() {
+              let table1 = document.getElementById("table");
+              let val;
+              let subTotal = Array.from(table1.rows).slice(1).reduce((total, row) => {
+                  val=parseFloat(row.cells[2].innerHTML)
+                  if(row.style.display==="none")
+                      val=0;
+                return total + val;
+              }, 0);
+              document.getElementById("totaljours").innerHTML =subTotal;
+            }
+         function noJustification() {
+              let table = document.getElementById("table");
+              let val;
+              let subTotal = Array.from(table.rows).slice(1).reduce((total, row) => {
+                  val=0;
+                  if(row.cells[4].classList.contains("nojust")  && !(row.style.display=="none"))
+                      val=1;
+                return total + val;
+              }, 0);
+              document.getElementById("nojustifier").innerHTML =subTotal;
+            }
+         function justification() {
+              let table = document.getElementById("table");
+              let val;
+              let subTotal = Array.from(table.rows).slice(1).reduce((total, row) => {
+                  val=0;
+                  if(row.cells[4].classList.contains("just")  && !(row.style.display=="none"))
+                      val=1;
+                return total + val;
+              }, 0);
+              document.getElementById("justifier").innerHTML =subTotal;
+            }
+         let $rows = $('#table tbody tr');
+         $('#search').keyup(function() {
+            let val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+            $rows.show().filter(function() {
+                let text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+                return !~text.indexOf(val);
+            }).hide();
+            totalJours();
+            justification();
+            noJustification();
+            totalAbsence();
+        });
+    </script>
+{% endblock content %}

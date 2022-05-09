@@ -1,8 +1,6 @@
 from django.db import models
 
 # Create your models here.
-
-# -------------------------------------------------------
 class Personnel(models.Model):
     idpersonnel = models.AutoField(db_column='IdPersonnel', primary_key=True)
     nomar = models.CharField(db_column='NomAr', max_length=20, db_collation='French_CI_AS', blank=True, null=True)
@@ -36,14 +34,15 @@ class Personnel(models.Model):
     numcnopsaf = models.CharField(db_column='NumCnopsAf', max_length=50, db_collation='French_CI_AS', blank=True, null=True)
     numcnopsim = models.CharField(db_column='NumCnopsIm', max_length=50, db_collation='French_CI_AS', blank=True, null=True)
     administrationapp = models.CharField(db_column='AdministrationApp', max_length=50, db_collation='French_CI_AS', blank=True, null=True)
-    photo = models.ImageField(upload_to="")
+    photo = models.ImageField(upload_to="photos")
     age = models.IntegerField(db_column='Age', blank=True, null=True)
     lastupdate = models.DateField(db_column='LastUpdate', blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'Personnel'
-
+    def __str__ (self):
+        return f"{self.nomfr} {self.prenomfr}"
 # -------------------------------------------------------
 class Fonction(models.Model):
     idfonction = models.AutoField(db_column='IdFonction', primary_key=True)  # Field name made lowercase.
@@ -212,4 +211,16 @@ class Diplome(models.Model):
     class Meta:
         managed = False
         db_table = 'Diplome'
+
+class Absence(models.Model):
+    idabsence = models.AutoField(db_column='IdAbsence', primary_key=True)  # Field name made lowercase.
+    dateabsence = models.DateTimeField(db_column='DateAbsence', blank=True, null=True)  # Field name made lowercase.
+    nbjours = models.IntegerField(db_column='NbJours', blank=True, null=True)  # Field name made lowercase.
+    motif = models.CharField(db_column='Motif', max_length=100, db_collation='French_CI_AS', blank=True, null=True)  # Field name made lowercase.
+    justification = models.BooleanField(db_column='Justification')
+    idpersonnel_field = models.ForeignKey('Personnel', models.DO_NOTHING, db_column='IdPersonnel#', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
+
+    class Meta:
+        managed = False
+        db_table = 'Absence'
 
