@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'Accueil.apps.AccueilConfig',
     'GestionPersonnel.apps.GestionpersonnelConfig',
     'GestionConge.apps.GestioncongeConfig',
+    'GestionAbsence.apps.GestionabsenceConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -80,14 +81,14 @@ WSGI_APPLICATION = 'ProjetWilaya.wsgi.application'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 # Zakariae Mrabet PC 1 Server DESKTOP-J4H5HNC
 # Zakariae Mrabet PC 2 Server DESKTOP-IRG7UCK
-# Ahmed Mokhtari Server DESKTOP-5ROL8PJ
+# Ahmed Mokhtari Server DESKTOP-ANBD5NF
 DATABASES = {
     'default': {
         'ENGINE': 'mssql',
         'NAME': 'ProjetWilaya',
-        'USER': 'zaka',
-        'PASSWORD': 'zaka',
-        'HOST': 'DESKTOP-J4H5HNC',
+        'USER': 'mokhta',
+        'PASSWORD': '123',
+        'HOST': 'DESKTOP-ANBD5NF',
         'PORT': '',
         'OPTIONS': {
             'driver': 'ODBC Driver 17 for SQL Server',

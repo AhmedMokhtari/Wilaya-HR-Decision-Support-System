@@ -1,0 +1,195 @@
+{% extends 'menu.html' %}
+{% block content %}
+    {% load static %}
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static 'css/all.min.css' %}"/>
+    <link href="assets/css/feather.css" rel="stylesheet" type="text/css">
+    <style >
+    .shadow{
+        box-shadow: 0 0.3rem 0.9rem rgb(5 92 98 / 14%) !important;
+        border-radius: 8px !important;
+    }
+    </style>
+    <div class="row">
+        <div class="col-12 col-sm-6 col-xl d-flex">
+            <div class="card flex-fill">
+                <div class="card-body shadow py-4">
+                    <div class="media">
+                        <div class="d-inline-block mt-2 mr-3">
+                            <i class="feather-lg text-info" data-feather="activity"></i>
+                        </div>
+                        <div class="media-body">
+                            <h3 class="mb-2">{{ totalabsence }}</h3>
+                            <div class="mb-0">Total Absence</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-xl d-flex">
+            <div class="card flex-fill">
+                <div class="card-body shadow py-4">
+                    <div class="media">
+                        <div class="d-inline-block mt-2 mr-3">
+                          <i class="fa-regular fa-calendar-check fa-2xl" style="color: #2ecc71;text-shadow: 1px 1px 1px #ccc;font-size:30px;"></i>
+                        </div>
+                        <div class="media-body">
+                            <h3 class="mb-2">{{ daySum }}</h3>
+                            <div class="mb-0">Nombre Jours</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-lg-6 d-flex">
+            <div class="card flex-fill w-100">
+                <div class="card-body shadow">
+                    <div class="chart chart-lg">
+                        <canvas id="myChart" width="400" height="300"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-3 d-flex">
+            <div class="card flex-fill w-100">
+                <div class="card-body  shadow d-flex">
+                    <div class="align-self-center  w-100">
+                        <div class="">
+                           <canvas id="pie-chart" width="820" height="900"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-3 d-flex">
+            <div class="card flex-fill w-100">
+                <div class="card-body shadow d-flex">
+                    <div class="align-self-center  w-100">
+                        <div class="">
+                           <canvas id="myChartjust"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12  d-flex">
+            <div class="card flex-fill w-100">
+                <div class="card-body shadow">
+                    <div class="chart chart-lg">
+                        <canvas id="bar-chart" width="600" height="230"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+    <script>
+        new Chart(document.getElementById("pie-chart"), {
+        type: 'pie',
+        data: {
+          labels: ["Femmme", "Homme"],
+          datasets: [{
+          backgroundColor: ["#3e95cd", "#FFA500"],
+          data: [{{ femmes }},{{ hommes  }}]
+          }]
+        },
+        options: {
+            legend:{
+              position: 'bottom',
+              labels:{
+                   fontColor: "black",
+                  marginTop:20
+              }
+            },
+          title: {
+            display: true,
+            text: 'Pourcentage Absence '
+          }
+        }
+    });
+        let ctx = document.getElementById('myChart').getContext('2d');
+        let chart = new Chart(ctx, {
+        // The type of chart we want to create
+        type: 'line', // also try bar or other graph types
+
+        // The data for our dataset
+        data: {
+            labels: ["Janvier", "Féverier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre   ", "Octobre", "Novembre", "Décembre"],
+            // Information about the dataset
+        datasets: [{
+                label: "NbJours",
+                backgroundColor: 'lightblue',
+                borderColor: 'royalblue',
+                data: [26.4, 39.8, 66.8, 66.4, 40.6, 55.2, 77.4, 69.8, 57.8, 76, 110.8, 142.6],
+            }]
+        },
+
+        // Configuration options
+        options: {
+        layout: {
+          padding: 10,
+        },
+            legend: {
+                position: 'bottom',
+            },
+            title: {
+                display: true,
+                text: 'Total Absence Par Mois'
+            }
+        }
+    });
+        let char = document.getElementById("myChartjust");
+        let data = {
+            labels: [
+                "Justifier",
+                "Non Justifier",
+            ],
+            datasets: [
+                {
+                    data: [{{justifier}}, {{nojustifier}}],
+                    backgroundColor: [
+                        "#FF6384",
+                        "#36A2EB"
+                    ],
+                    hoverBackgroundColor: [
+                        "#FF4394",
+                        "#36A2EB"
+                    ]
+
+
+                }]
+        };
+        let options = {
+            cutoutPercentage:40,
+        };
+        let myDoughnutChart = new Chart(char, {
+            type: 'doughnut',
+            data: data,
+            options: options
+        });
+        new Chart(document.getElementById("bar-chart"), {
+    type: 'bar',
+    data: {
+      labels: ["DSIG", "RH", "GRH", "DIV", "DIVV"],
+      datasets: [
+        {
+          label: "TOTAL ABSENCE",
+          backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+          data: [2478,5267,734,784,433]
+        }
+      ]
+    },
+    options: {
+      legend: { display: false },
+      title: {
+        display: true,
+        text: 'Total Absence By Division'
+      }
+    }
+});
+    </script>
+{% endblock content %}
