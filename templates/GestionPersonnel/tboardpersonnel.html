@@ -1,9 +1,9 @@
 {% extends 'menu.html' %}
 {% block content %}
     {% load static %}
-    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/all.min.css' %}"/>
-    <link href="assets/css/feather.css" rel="stylesheet" type="text/css">
+    <link href="{% static 'css/feather.css' %}" rel="stylesheet" type="text/css">
     <div class="row">
         <div class="col-12 col-sm-6 col-xl d-flex">
             <div class="card flex-fill">
@@ -92,7 +92,7 @@
         <div class="col-12 col-lg-6 d-flex">
             <div class="card flex-fill w-100">
                 <div class="card-header">
-                    <span id="year" class="badge badge-primary float-right">{% now "Y" %}</span>
+                  <button type="button" class="btn btn-transparent" data-toggle="modal" data-target="#myModal"><span id="year" class="badge badge-primary float-right">{% now "Y" %}</span></button>
                  </div>
                 <div class="card-body d-flex w-100">
                     <div class="align-self-center chart">
@@ -120,7 +120,7 @@
                         </thead>
                         <tbody>
                             {% for item in cinqdepartretraite %}
-                                <tr onclick="rowdata(this)">
+                                <tr id="trelem" onclick="rowdata(this)">
                                     <td>{{ item.an }}</td>
                                     <td>{{ item.cinqdepartretraiteone }}</td>
                                     <td>{{ item.cinqdepartretraitetwo }}</td>
@@ -143,7 +143,7 @@
                 <div class="card-body d-flex">
                     <div class="align-self-center w-100">
                         <div class="chart">
-                            <img  class="img-fluid" src='data:image/png;base64,{{chart|safe}}'/>
+                            <img  class="img-fluid" src='data:image/png;base64,{{chart|safe}}' alt="Piramyd"/>
                         </div>
                     </div>
                 </div>
@@ -181,6 +181,42 @@
         </div>
     </div>
 
+    <div id="myModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Modal Header</h4>
+          </div>
+          <div class="modal-body">
+              <div class="table-responsive">
+                  <table class="table table-striped ">
+                      <thead>
+                      <th>cin</th>
+                      <th>nom</th>
+                      <th>nom</th>
+                      <th>age</th>
+                      </thead>
+                      <tbody id="modalsdata">
+
+                      </tbody>
+                  </table>
+              </div>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <script>
+      $(document).ready(function (){
+            $('#trelem').click()
+      })
+    </script>
     <script>
 		$(function() {
 			$("#datetimepicker-dashboard").datetimepicker({
@@ -190,6 +226,7 @@
 			});
 		});
 	</script>
+    <!--
 	<script>
 		$(function() {
 			// Line chart
@@ -250,8 +287,7 @@
 				}
 			});
 		});
-	</script>
-
+	</script>-->
     <script>
 		$(function() {
 			// Bar chart
@@ -303,8 +339,6 @@
 			});
 		});
 	</script>
-
-
 	<script>
 		$(function() {
 			// Pie chart
@@ -333,8 +367,6 @@
 			});
 		});
 	</script>
-
-
     <script>
 		$(function() {
 			$("#datatables-dashboard-projects2").DataTable({
@@ -347,8 +379,6 @@
 
 
 	</script>
-
-
     <script>
         var chart = JSC.chart('chartDiv', {
           debug: true,
@@ -425,16 +455,24 @@
     </script>
     <script>
         function rowdata(x) {
-
             $.ajax(
             {
                 type:"POST",
                 url: "{% url 'ajaxtaboardpersonnel' %}",
                 data:{annes: $(x).find("td:eq(0)").text()},
+
                 success: function( data )
                 {
+                    $("#modalsdata").empty()
+                    for(var i = 0; i < data.departretraite.length; i++)
+                    {
+                        $("#modalsdata").append('<tr><td>'+data.departretraite[i].cin+'</td><td>'+data.departretraite[i].nomfr+'</td><td>'+data.departretraite[i].nomar+'</td><td>'+data.departretraite[i].age+'</td></tr>')
+                    }
+                    console.log(data)
+
                     $('#year').text($(x).find("td:eq(0)").text())
                     chart1.destroy();
+
                     $(function() {
                         // Bar chart
                        chart1 =  new Chart(document.getElementById("chartjs-dashboard-bar-devices"), {
@@ -447,14 +485,14 @@
                                     borderColor: window.theme.primary,
                                     hoverBackgroundColor: window.theme.primary,
                                     hoverBorderColor: window.theme.primary,
-                                    data: data[0]
+                                    data: data.departretraiteonecount
                                 }, {
                                     label: "Adm2",
                                     backgroundColor: "#E8EAED",
                                     borderColor: "#E8EAED",
                                     hoverBackgroundColor: "#E8EAED",
                                     hoverBorderColor: "#E8EAED",
-                                    data: data[1]
+                                    data: data.departretraitetwocount
                                 }]
                             },
                             options: {

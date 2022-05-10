@@ -4,7 +4,7 @@ from .models import Personnel, Conjoint, Conjointpersonnel, \
     Gradepersonnel, Enfant, Diplome, Fonction, Fonctionpersonnel
 from django.contrib.auth.decorators import login_required
 from fpdf import FPDF
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 import os
 import datetime
 import csv
@@ -469,18 +469,21 @@ def ajaxtaboardpersonnel(request):
 
     # date1
     departretraite = []
-    departretraiteone = []
-    departretraitetwo = []
+    departretraiteonecount = []
+    departretraitetwocount = []
     i = 0
     while i <= 11:
-        departretraiteone.append(Personnel.objects.filter(administrationapp='one').filter(dateparrainageretraite__year=date).filter(dateparrainageretraite__month=i + 1).count())
-        departretraitetwo.append(Personnel.objects.filter(administrationapp='two').filter(dateparrainageretraite__year=date).filter(dateparrainageretraite__month=i + 1).count())
+        departretraiteonecount.append(Personnel.objects.filter(administrationapp='one').filter(dateparrainageretraite__year=date).filter(dateparrainageretraite__month=i + 1).count())
+        departretraitetwocount.append(Personnel.objects.filter(administrationapp='two').filter(dateparrainageretraite__year=date).filter(dateparrainageretraite__month=i + 1).count())
         i = i + 1
-    departretraite.append(departretraiteone)
-    departretraite.append(departretraitetwo)
 
+    departretraite = {
+                      'departretraite' : list(Personnel.objects.filter(dateparrainageretraite__year=date).values('cin','nomar','nomfr','age')),
+                      'departretraitetwocount' : departretraitetwocount,
+                      'departretraiteonecount': departretraiteonecount}
     json_data = json.dumps(departretraite)
-    return HttpResponse(json_data, content_type="application/json")
+    return JsonResponse(departretraite,safe=False)
+
 
 #taboard------------------------------------------------------
 @login_required(login_url='/connexion')
