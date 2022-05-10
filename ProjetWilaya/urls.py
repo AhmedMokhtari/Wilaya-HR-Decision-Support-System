@@ -26,6 +26,8 @@ urlpatterns = [
     path('conge/', include('django.contrib.auth.urls')),
     path('conge/', include('GestionConge.urls')),
     path('absence/', include('GestionAbsence.urls')),
+    path('absence/', include('django.contrib.auth.urls')),
 
 ]
-urlpatterns+=static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

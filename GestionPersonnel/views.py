@@ -11,6 +11,9 @@ import csv
 import pandas as pd
 import seaborn as sns
 from .utils import calculate_age, get_graph, count_age_int
+from django.views.decorators.csrf import csrf_exempt
+from django.core import serializers
+import json
 
 #personnel -------------------------------.
 @login_required(login_url='/connexion')
@@ -455,12 +458,35 @@ def printpdf(req,id):
    ##response.TransmitFile(pathtofile);
    return (response)
 
+@csrf_exempt
+def ajaxtaboardpersonnel(request):
 
+    date = request.POST.get('annes', None)
+    if date == None:
+        date = datetime.datetime.now().year
+    else:
+        date = int(date)
 
+    # date1
+    departretraite = []
+    departretraiteone = []
+    departretraitetwo = []
+    i = 0
+    while i <= 11:
+        departretraiteone.append(Personnel.objects.filter(administrationapp='one').filter(dateparrainageretraite__year=date).filter(dateparrainageretraite__month=i + 1).count())
+        departretraitetwo.append(Personnel.objects.filter(administrationapp='two').filter(dateparrainageretraite__year=date).filter(dateparrainageretraite__month=i + 1).count())
+        i = i + 1
+    departretraite.append(departretraiteone)
+    departretraite.append(departretraitetwo)
+
+    json_data = json.dumps(departretraite)
+    return HttpResponse(json_data, content_type="application/json")
 
 #taboard------------------------------------------------------
 @login_required(login_url='/connexion')
+@csrf_exempt
 def taboardpersonnel(request):
+
     femmes = Personnel.objects.filter(sexe='Femme-أنثى').count()
     hommes = Personnel.objects.filter(sexe='Homme-ذكر').count()
     personnels = Personnel.objects.all().count()
@@ -469,6 +495,17 @@ def taboardpersonnel(request):
     administrationOne = Personnel.objects.filter(administrationapp='one').count()
     administrationTwo = Personnel.objects.filter(administrationapp='two').count()
 
+    # dates 5 retraites
+    i = 0
+    cinqdepartretraite = []
+    while i < 5:
+        data = {'cinqdepartretraite' : Personnel.objects.filter(dateparrainageretraite__year=datetime.datetime.now().year - i).count(),
+                'an' : datetime.datetime.now().year - i,
+                'cinqdepartretraiteone': Personnel.objects.filter(administrationapp='one').filter(dateparrainageretraite__year=datetime.datetime.now().year - i).count(),
+                'cinqdepartretraitetwo' : Personnel.objects.filter(administrationapp='two').filter(dateparrainageretraite__year=datetime.datetime.now().year - i).count()
+                }
+        cinqdepartretraite.append(data)
+        i = i + 1
 
     #date1
     departretraiteone = []
@@ -503,6 +540,7 @@ def taboardpersonnel(request):
     bar_plot.set_xlabel("Population")
     chart = get_graph()
 
+
     return render(request,'GestionPersonnel/tboardpersonnel.html',
         {
             'femmes': femmes,
@@ -513,7 +551,6 @@ def taboardpersonnel(request):
             'departretraiteone': departretraiteone,
             'departretraitetwo': departretraitetwo,
             'chart': chart,
-            'personnelslastup': personnelslastup
-
-
+            'personnelslastup': personnelslastup,
+            'cinqdepartretraite' : cinqdepartretraite,
         })

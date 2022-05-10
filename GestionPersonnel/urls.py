@@ -18,5 +18,6 @@ urlpatterns = [
     path('modifier_enfant/<int:id>', views.modifier_enfant, name='modifier_enfant'),
     path('ajouter_diplome', views.ajouter_diplome, name='ajouter_diplome'),
     path('modifier_diplome/<int:id>', views.modifer_diplome, name='modifier_diplome'),
+    path('ajaxtaboardpersonnel', views.ajaxtaboardpersonnel, name='ajaxtaboardpersonnel'),
     path('export/xls', views.export_perso_csv, name='export_perso_xls'),
 ]

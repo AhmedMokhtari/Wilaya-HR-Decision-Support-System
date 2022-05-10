@@ -83,10 +83,10 @@
     </div>
 
     <div class="row">
-        <div class="col-12 col-lg-8 d-flex">
+        <div class="col-12 col-lg-6 d-flex">
             <div class="card flex-fill w-100">
                 <div class="card-header">
-                    <span class="badge badge-primary float-right">{% now "Y" %}</span>
+                    <span id="year" class="badge badge-primary float-right">{% now "Y" %}</span>
                     <h5 class="card-title mb-0">Départ en retraite</h5>
                 </div>
                 <div class="card-body">
@@ -96,14 +96,32 @@
                 </div>
             </div>
         </div>
-        <div class="col-12 col-lg-4 d-flex">
+        <div class="col-12 col-lg-6 d-flex">
             <div class="card flex-fill w-100">
-                <div class="card-body d-flex">
-                    <div class="align-self-center w-100">
-                        <div class="py-3">
-                            <img  class="img-fluid" src='data:image/png;base64,{{chart|safe}}'/>
-                        </div>
-                    </div>
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Modification <span class="float-right">رهن الاشارة</span></h5>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-striped my-0 text-center table-hover" style=" flex-direction: row-reverse;">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <td>AdministrationOne</td>
+                                <td>AdministrationTwo</td>
+                                <td>Total</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in cinqdepartretraite %}
+                                <tr onclick="rowdata(this)">
+                                    <td>{{ item.an }}</td>
+                                    <td>{{ item.cinqdepartretraiteone }}</td>
+                                    <td>{{ item.cinqdepartretraitetwo }}</td>
+                                    <td>{{ item.cinqdepartretraite }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -113,24 +131,12 @@
         <div class="col-12 col-sm-4 d-flex">
             <div class="card flex-fill">
                 <div class="card-header">
-                    <div class="card-actions float-right">
-                        <div class="dropdown show">
-                            <a href="#" data-toggle="dropdown" data-display="static">
-                              <i class="align-middle" data-feather="more-horizontal"></i>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="#">Action</a>
-                                <a class="dropdown-item" href="#">Another action</a>
-                                <a class="dropdown-item" href="#">Something else here</a>
-                            </div>
-                        </div>
-                    </div>
-                    <h5 class="card-title mb-0">Calendar</h5>
+                    <!--<h5 class="card-title mb-0">Calendar</h5>-->
                 </div>
                 <div class="card-body d-flex">
                     <div class="align-self-center w-100">
                         <div class="chart">
-                            <div id="datetimepicker-dashboard"></div>
+                            <img  class="img-fluid" src='data:image/png;base64,{{chart|safe}}'/>
                         </div>
                     </div>
                 </div>
@@ -140,21 +146,9 @@
         <div class="col-12 col-sm-8 d-flex">
             <div class="card flex-fill">
                 <div class="card-header">
-                    <div class="card-actions float-right">
-                        <div class="dropdown show">
-                            <a href="#" data-toggle="dropdown" data-display="static">
-                              <i class="align-middle" data-feather="more-horizontal"></i>
-                            </a>
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="#">Action</a>
-                                <a class="dropdown-item" href="#">Another action</a>
-                                <a class="dropdown-item" href="#">Something else here</a>
-                            </div>
-                        </div>
-                    </div>
-                    <h5 class="card-title mb-0">Modification</h5>
+                    <h5 class="card-title mb-0">Modification <span class="float-right">رهن الاشارة</span></h5>
                 </div>
-                <table id="datatables-dashboard-projects"  class="table table-striped my-0 text-center">
+                <table id="datatables-dashboard-projects2"  class="table table-striped my-0 text-center">
                     <thead>
                         <tr>
                             <th>Cin - ر.ب.و</th>
@@ -166,7 +160,7 @@
                     </thead>
                     <tbody>
                     {% for perso in personnelslastup %}
-                        <tr >
+                        <tr>
                             <td>{{ perso.cin }}</td>
                             <td>{{ perso.nomfr }} - {{ perso.prenomfr }}</td>
                             <td class="d-none d-xl-table-cell">{{ perso.nomar }} - {{ perso.prenomar }}</td>
@@ -278,16 +272,22 @@
 			});
 		});
 	</script>
-	<script>
+
+
+    <script>
 		$(function() {
-			$("#datatables-dashboard-projects").DataTable({
+			$("#datatables-dashboard-projects2").DataTable({
 				pageLength: 6,
 				lengthChange: false,
 				bFilter: false,
-				autoWidth: false
+				autoWidth: false,
 			});
 		});
+
+
 	</script>
+
+
     <script>
         var chart = JSC.chart('chartDiv', {
           debug: true,
@@ -361,5 +361,79 @@
             }
           ]
         });
+    </script>
+    <script>
+        function rowdata(x) {
+
+            $.ajax(
+            {
+                type:"POST",
+                url: "{% url 'ajaxtaboardpersonnel' %}",
+                data:{annes: $(x).find("td:eq(0)").text()},
+                success: function( data )
+                {
+                    $('#year').text($(x).find("td:eq(0)").text())
+                    $(function() {
+                        // Line chart
+                        new Chart(document.getElementById("chartjs-dashboard-line"), {
+                            type: "line",
+                            data: {
+                                labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+                                datasets: [{
+                                    label: "Personnel",
+                                    fill: true,
+                                    backgroundColor: "Transparent",
+                                    borderColor: window.theme.primary,
+                                    data: data[0]
+                                }, {
+                                    label: "Personnel",
+                                    fill: true,
+                                    backgroundColor: "Transparent",
+                                    borderColor: window.theme.tertiary,
+                                    borderDash: [4, 4],
+                                    data: data[1]
+                                }]
+                            },
+                            options: {
+                                maintainAspectRatio: false,
+                                legend: {
+                                    display: false
+                                },
+                                tooltips: {
+                                    intersect: false
+                                },
+                                hover: {
+                                    intersect: true
+                                },
+                                plugins: {
+                                    filler: {
+                                        propagate: false
+                                    }
+                                },
+                                scales: {
+                                    xAxes: [{
+                                        reverse: true,
+                                        gridLines: {
+                                            color: "rgba(0,0,0,0.05)"
+                                        }
+                                    }],
+                                    yAxes: [{
+                                        ticks: {
+                                            stepSize: 500
+                                        },
+                                        display: true,
+                                        borderDash: [5, 5],
+                                        gridLines: {
+                                            color: "rgba(0,0,0,0)",
+                                            fontColor: "#fff"
+                                        }
+                                    }]
+                                }
+                            }
+                        });
+                    });
+                }
+             })
+        }
     </script>
 {% endblock content %}

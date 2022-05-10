@@ -1,7 +1,14 @@
 from django.shortcuts import render
-from .models import Personnel, Absence
+from django.contrib.auth.decorators import login_required
+from .models import Absence
+from GestionPersonnel.models import Personnel
 from django.db.models import Q
-# Create your views here.
+from fpdf import FPDF
+from django.http import HttpResponse
+import csv
+
+
+#
 def taboardabsence(request):
     absence=Absence.objects.all()
     totalabsence=absence.count()
@@ -24,9 +31,13 @@ def taboardabsence(request):
 
     }
     return render(request,'GestionAbsence/tboard.html',cont)
+
+#
 def absence(request):
     info = { 'Absence' : Absence.objects.all(),'personnels' : Personnel.objects.all()}
     return render(request, 'GestionAbsence/ajouter.html',info)
+
+#
 def ajouterabsence(request):
         id=request.POST.get("Personnel",False)
         id=id.split("-")
@@ -40,6 +51,8 @@ def ajouterabsence(request):
         objectab.save()
         info = {'Absence': Absence.objects.all(), 'personnels': Personnel.objects.all()}
         return render(request, 'GestionAbsence/ajouter.html', info)
+
+
 def export_abs_csv(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="Absence.csv"'
@@ -50,9 +63,13 @@ def export_abs_csv(request):
     for abs in Absencs:
         writer.writerow(abs)
     return response
+
+
 def modifierabs(request,id):
     obj = { 'personnels' : Personnel.objects.all(),'abs':Absence.objects.get(idabsence=id)}
     return render(request, 'GestionAbsence/modifier.html',obj)
+
+
 def modifierabsence(request,id):
     nbjours = request.POST.get("nbJours", False)
     motif = request.POST.get("motif", False)
