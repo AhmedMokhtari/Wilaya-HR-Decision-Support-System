@@ -82,24 +82,31 @@
         </div>
     </div>
 
+
+
+    <div class="col-md-12 title">
+        <h5 class="card-title mb-0">Départ en retraite <span class="float-right">حالات التقاعد المتوقعة</span></h5>
+    </div>
+    <br>
     <div class="row">
         <div class="col-12 col-lg-6 d-flex">
             <div class="card flex-fill w-100">
                 <div class="card-header">
                     <span id="year" class="badge badge-primary float-right">{% now "Y" %}</span>
-                    <h5 class="card-title mb-0">Départ en retraite</h5>
-                </div>
-                <div class="card-body">
-                    <div class="chart chart-lg">
-                        <canvas id="chartjs-dashboard-line"></canvas>
+                 </div>
+                <div class="card-body d-flex w-100">
+                    <div class="align-self-center chart">
+                        <canvas id="chartjs-dashboard-bar-devices"></canvas>
                     </div>
                 </div>
             </div>
         </div>
+
+
         <div class="col-12 col-lg-6 d-flex">
             <div class="card flex-fill w-100">
                 <div class="card-header">
-                    <h5 class="card-title mb-0">Modification <span class="float-right">رهن الاشارة</span></h5>
+                    <span id="year" class="badge badge-primary float-right">5 ans</span>
                 </div>
                 <div class="table-responsive">
                     <table class="table table-striped my-0 text-center table-hover" style=" flex-direction: row-reverse;">
@@ -244,6 +251,60 @@
 			});
 		});
 	</script>
+
+    <script>
+		$(function() {
+			// Bar chart
+			chart1 =new Chart(document.getElementById("chartjs-dashboard-bar-devices"), {
+				type: "bar",
+				data: {
+                    labels: ["Jan-ينا", "Fev-فبر", "Mar-مارس", "Avr-أبر", "Mai-ماي", "Jun-يونيو", "Jul-يول", "Auo-غشت", "Sep-شتن", "Oct-أكت", "Nov-نون", "Dec-ديس"],
+					datasets: [{
+						label: "Adm1",
+						backgroundColor: window.theme.primary,
+						borderColor: window.theme.primary,
+						hoverBackgroundColor: window.theme.primary,
+						hoverBorderColor: window.theme.primary,
+						data: [{{ departretraiteone.0 }}, {{ departretraiteone.1 }}, {{ departretraiteone.2 }}, {{ departretraiteone.3 }}, {{ departretraiteone.4 }}, {{ departretraiteone.5 }}, {{ departretraiteone.6 }}, {{ departretraiteone.7 }}, {{ departretraiteone.8 }}, {{ departretraiteone.9 }}, {{ departretraiteone.10 }},{{ departretraiteone.11 }}]
+					}, {
+						label: "Adm2",
+						backgroundColor: "#E8EAED",
+						borderColor: "#E8EAED",
+						hoverBackgroundColor: "#E8EAED",
+						hoverBorderColor: "#E8EAED",
+						data: [{{ departretraitetwo.0 }}, {{ departretraitetwo.1 }}, {{ departretraitetwo.2 }}, {{ departretraitetwo.3 }}, {{ departretraitetwo.4 }}, {{ departretraitetwo.5 }}, {{ departretraitetwo.6 }}, {{ departretraitetwo.7 }}, {{ departretraitetwo.8 }}, {{ departretraitetwo.9 }}, {{ departretraitetwo.10 }},{{ departretraitetwo.11 }}]
+					}]
+				},
+				options: {
+					maintainAspectRatio: false,
+					legend: {
+						display: false
+					},
+					scales: {
+						yAxes: [{
+							gridLines: {
+								display: false
+							},
+							stacked: false,
+							ticks: {
+								stepSize: 20
+							}
+						}],
+						xAxes: [{
+							barPercentage: .75,
+							categoryPercentage: .5,
+							stacked: false,
+							gridLines: {
+								color: "transparent"
+							}
+						}]
+					}
+				}
+			});
+		});
+	</script>
+
+
 	<script>
 		$(function() {
 			// Pie chart
@@ -373,24 +434,26 @@
                 success: function( data )
                 {
                     $('#year').text($(x).find("td:eq(0)").text())
+                    chart1.destroy();
                     $(function() {
-                        // Line chart
-                        new Chart(document.getElementById("chartjs-dashboard-line"), {
-                            type: "line",
+                        // Bar chart
+                       chart1 =  new Chart(document.getElementById("chartjs-dashboard-bar-devices"), {
+                            type: "bar",
                             data: {
-                                labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+					            labels: ["Jan-ينا", "Fev-فبر", "Mar-مارس", "Avr-أبر", "Mai-ماي", "Jun-يونيو", "Jul-يول", "Auo-غشت", "Sep-شتن", "Oct-أكت", "Nov-نون", "Dec-ديس"],
                                 datasets: [{
-                                    label: "Personnel",
-                                    fill: true,
-                                    backgroundColor: "Transparent",
+                                    label: "Adm1",
+                                    backgroundColor: window.theme.primary,
                                     borderColor: window.theme.primary,
+                                    hoverBackgroundColor: window.theme.primary,
+                                    hoverBorderColor: window.theme.primary,
                                     data: data[0]
                                 }, {
-                                    label: "Personnel",
-                                    fill: true,
-                                    backgroundColor: "Transparent",
-                                    borderColor: window.theme.tertiary,
-                                    borderDash: [4, 4],
+                                    label: "Adm2",
+                                    backgroundColor: "#E8EAED",
+                                    borderColor: "#E8EAED",
+                                    hoverBackgroundColor: "#E8EAED",
+                                    hoverBorderColor: "#E8EAED",
                                     data: data[1]
                                 }]
                             },
@@ -399,33 +462,22 @@
                                 legend: {
                                     display: false
                                 },
-                                tooltips: {
-                                    intersect: false
-                                },
-                                hover: {
-                                    intersect: true
-                                },
-                                plugins: {
-                                    filler: {
-                                        propagate: false
-                                    }
-                                },
                                 scales: {
-                                    xAxes: [{
-                                        reverse: true,
+                                    yAxes: [{
                                         gridLines: {
-                                            color: "rgba(0,0,0,0.05)"
+                                            display: false
+                                        },
+                                        stacked: false,
+                                        ticks: {
+                                            stepSize: 20
                                         }
                                     }],
-                                    yAxes: [{
-                                        ticks: {
-                                            stepSize: 500
-                                        },
-                                        display: true,
-                                        borderDash: [5, 5],
+                                    xAxes: [{
+                                        barPercentage: .75,
+                                        categoryPercentage: .5,
+                                        stacked: false,
                                         gridLines: {
-                                            color: "rgba(0,0,0,0)",
-                                            fontColor: "#fff"
+                                            color: "transparent"
                                         }
                                     }]
                                 }
