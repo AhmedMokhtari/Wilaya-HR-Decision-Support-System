@@ -187,7 +187,6 @@
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal">&times;</button>
-            <h4 class="modal-title">Modal Header</h4>
           </div>
           <div class="modal-body">
               <div class="table-responsive">
@@ -197,6 +196,7 @@
                       <th>nom</th>
                       <th>nom</th>
                       <th>age</th>
+                      <th>info</th>
                       </thead>
                       <tbody id="modalsdata">
 
@@ -206,7 +206,7 @@
 
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
           </div>
         </div>
 
@@ -466,7 +466,7 @@
                     $("#modalsdata").empty()
                     for(var i = 0; i < data.departretraite.length; i++)
                     {
-                        $("#modalsdata").append('<tr><td>'+data.departretraite[i].cin+'</td><td>'+data.departretraite[i].nomfr+'</td><td>'+data.departretraite[i].nomar+'</td><td>'+data.departretraite[i].age+'</td></tr>')
+                        $("#modalsdata").append('<tr><td>'+data.departretraite[i].cin+'</td><td>'+data.departretraite[i].nomfr+'</td><td>'+data.departretraite[i].nomar+'</td><td>'+data.departretraite[i].age+'</td><td><a href="/personnel/info/'+data.departretraite[i].idpersonnel+'" class="btn btn-success m-1"><i class="fa-solid fa-eye fa-lg " ></i></a></td></tr>')
                     }
                     console.log(data)
 

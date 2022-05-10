@@ -478,7 +478,7 @@ def ajaxtaboardpersonnel(request):
         i = i + 1
 
     departretraite = {
-                      'departretraite' : list(Personnel.objects.filter(dateparrainageretraite__year=date).values('cin','nomar','nomfr','age')),
+                      'departretraite' : list(Personnel.objects.filter(dateparrainageretraite__year=date).values('cin','nomar','nomfr','age','idpersonnel')),
                       'departretraitetwocount' : departretraitetwocount,
                       'departretraiteonecount': departretraiteonecount}
     json_data = json.dumps(departretraite)
