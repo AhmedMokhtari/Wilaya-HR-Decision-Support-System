@@ -15,13 +15,14 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 import json
 
-#personnel -------------------------------.
+
+#Personnel ----------------------------------------------------------
 @login_required(login_url='/connexion')
 def consultation(request):
     personnels = {'personnels': Personnel.objects.all()}
     return render(request, 'GestionPersonnel/consultation.html', personnels)
 
-#export-------------------------------
+#Export----------------------------------------------------------
 def export_perso_csv(request):
     response = HttpResponse(content_type='text/csv')
     response['Content-Disposition'] = 'attachment; filename="personnels.csv"'
@@ -33,7 +34,7 @@ def export_perso_csv(request):
         writer.writerow(personnel)
     return response
 
-#info -------------------------------.
+#Info ----------------------------------------------------------
 def info(request,id):
     personnel = Personnel.objects.get(idpersonnel=id)
     conjointsinperso = Conjointpersonnel.objects.filter(idpersonnel_field=id)
@@ -46,7 +47,7 @@ def info(request,id):
     return render(request, 'GestionPersonnel/info.html', {'personnel': personnel, 'conjoints': conjoints, 'conjointsinperso': conjointsinperso,
                                                           'Serviii': zip(Services, serviperso), 'diplomes':diplomes, "enfants":enfants})
 
-# ajouter -------------------------------.
+# Ajouter ----------------------------------------------------------
 @login_required(login_url='/connexion')
 def ajouter(request):
 
@@ -65,8 +66,6 @@ def ajouter(request):
         lieunfr = request.POST["lieunfr"]
         tele = request.POST["tele"]
         email = request.POST["email"]
-        situatfr = request.POST.get('situationffr', None)
-        situatar = request.POST.get('situationfar', None)
         adressear= request.POST["adressear"]
         adressefr = request.POST["adressefr"]
         numiden = request.POST["numiden"]
@@ -86,8 +85,20 @@ def ajouter(request):
         fonction = request.POST["fonction"]
         datefonction = request.POST["datefonction"]
         sexe = request.POST["sexe"]
+        ppr = request.POST["ppr"]
+        statut = request.POST["statut"]
         age = calculate_age(daten)
 
+
+        if (int(request.POST.get('situationfar', None)) == 1) :
+            situatar = "متزوج(ة)"
+            situatfr = "marié(e)"
+        elif (int(request.POST.get('situationfar', None)) == 2):
+            situatar = "مطلق(ة)"
+            situatfr = "divorcé(e)"
+        else:
+            situatar = "بدون"
+            situatfr = "célibataire(e)"
 
         objperso= Personnel.objects.create(nomar=nomar, nomfr=nomfr, cin=cin, prenomar=prenomar, prenomfr=prenomfr,
                             lieunaissancear=lieunar, lieunaissancefr=lieunfr, datenaissance=daten,
@@ -95,7 +106,8 @@ def ajouter(request):
                             adressefr=adressefr, numerofinancier=numiden, daterecrutement=daterec,
                             datedemarcation=datedec, dateparrainageretraite=dateretr, numcnopsaf=numcnopsaf,
                             numcnopsim=numcnopsim, rib=rib, ancienneteadmi=ancadmi, administrationapp=adminiapp,
-                            situationfamilialear=situatar, photo=photo, sexe=sexe, age=age, lastupdate=datetime.date.today())
+                            situationfamilialear=situatar, photo=photo, sexe=sexe, age=age, lastupdate=datetime.date.today(),
+                                           ppr=ppr, statut=statut)
         objperso.save()
 
         objservice = Service(idservice=service)
@@ -118,7 +130,7 @@ def ajouter(request):
 
 
 
-# modifier -------------------------------.
+# Modifier ----------------------------------------------------------
 @login_required(login_url='/connexion')
 def modifier(request, id):
     if request.method == 'POST':
@@ -127,8 +139,7 @@ def modifier(request, id):
         lieunfr = request.POST["lieunfr"]
         tele = request.POST["tele"]
         email = request.POST["email"]
-        situatfr = request.POST["situationffr"]
-        situatar = request.POST["situationfar"]
+
         adressear = request.POST["adressear"]
         adressefr = request.POST["adressefr"]
         numiden = request.POST["numiden"]
@@ -149,6 +160,8 @@ def modifier(request, id):
         datefonction = request.POST["datefonction"]
         sexe = request.POST["sexe"]
         age = calculate_age(daten)
+        ppr = request.POST["ppr"]
+        statut = request.POST["statut"]
 
         objperso2 = Personnel.objects.get(idpersonnel=id)
         objperso2.tele = tele
@@ -157,8 +170,7 @@ def modifier(request, id):
         objperso2.numcnopsim = numcnopsim
         objperso2.adressefr = adressefr
         objperso2.adressear = adressear
-        objperso2.situationfamilialear = situatar
-        objperso2.situationfamilialefr = situatfr
+
         objperso2.lieunaissancefr = lieunfr
         objperso2.lieunaissancear = lieunar
         objperso2.rib = int(rib)
@@ -173,6 +185,21 @@ def modifier(request, id):
         objperso2.sexe = sexe
         objperso2.age = age
         objperso2.lastupdate = datetime.date.today()
+        objperso2.ppr = ppr
+        objperso2.statut = statut
+
+        if (int(request.POST.get('situationfar', None)) == 1) :
+            situatar = "متزوج(ة)"
+            situatfr = "marié(e)"
+        elif (int(request.POST.get('situationfar', None)) == 2):
+            situatar = "مطلق(ة)"
+            situatfr = "divorcé(e)"
+        else:
+            situatar = "بدون"
+            situatfr = "célibataire(e)"
+
+        objperso2.situationfamilialear = situatar
+        objperso2.situationfamilialefr = situatfr
         objperso2.save()
 
         objservice = Service(idservice=service)
@@ -223,7 +250,7 @@ def modifier(request, id):
                        'fonctionpersolast': fonctionpersolast,'servicepersolast':servicepersolast,
                        'gradepersolast':gradepersolast, 'enfants':enfants, 'diplomes':diplomes})
 
-# conjoint -----------------------------------
+# Conjoint --------------------------------------------------------------
 @login_required(login_url='/connexion')
 def ajouter_conjoint(request):
     if request.method == 'POST':
@@ -271,7 +298,7 @@ def modifier_conjoint(request,id):
     return render(request, "GestionPersonnel/modifier_conjoint.html", {'conjoint': conjoint,'suc':suc})
 
 
-# enfant -----------------------------------
+# Enfant --------------------------------------------------------------
 @login_required(login_url='/connexion')
 def ajouter_enfant(request):
     cinpersonnel = request.GET.get('personnel', None)
@@ -314,7 +341,7 @@ def modifier_enfant(request,id):
         suc = 'yes'
     return render(request, 'GestionPersonnel/modifier_enfant.html', {'enfant': objenfant, 'conjoints':conjoints,'suc':suc})
 
-# diplome -----------------------------------
+# Diplome --------------------------------------------------------------
 @login_required(login_url='/connexion')
 def ajouter_diplome(request):
     cinpersonnel = request.GET.get('personnel', None)
@@ -350,7 +377,7 @@ def modifer_diplome(request,id):
     return render(request, 'GestionPersonnel/modifier_diplome.html',
                   {'diplome': objdiplome, 'suc': suc})
 
-# Attestations ---------------------------
+# Attestations ------------------------------------------------------
 @login_required(login_url='/connexion')
 def printpdfquitter(req,id):
     personnel = Personnel.objects.get(idpersonnel=id)
@@ -458,6 +485,7 @@ def printpdf(req,id):
    ##response.TransmitFile(pathtofile);
    return (response)
 
+#Ajax tabdeboard ------------------------------------------------------
 @csrf_exempt
 def ajaxtaboardpersonnel(request):
 
@@ -468,7 +496,6 @@ def ajaxtaboardpersonnel(request):
         date = int(date)
 
     # date1
-    departretraite = []
     departretraiteonecount = []
     departretraitetwocount = []
     i = 0
@@ -557,3 +584,4 @@ def taboardpersonnel(request):
             'personnelslastup': personnelslastup,
             'cinqdepartretraite' : cinqdepartretraite,
         })
+
