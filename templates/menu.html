@@ -9,16 +9,16 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta name="description" content="">
 	<meta name="author" content="Zakariae Mrabet, Ahmed Mokhtari">
-     <link href="{% static 'css/navbar.css' %}" rel="stylesheet">
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <title>ولاية الشرق -{% block title %} {% endblock title %}</title>
+    <link href="{% static 'css/navbar.css' %}" rel="stylesheet">
+    <link href="{% static 'css/navbar.css' %}" rel="stylesheet">
 	<link rel="preconnect" href="//fonts.gstatic.com/" crossorigin="">
     <link rel="stylesheet" type="text/css" href="{% static 'css/font-awesome-n.min.css' %}">
-	<!-- PICK ONE OF THE STYLES BELOW -->
-	 <link href="{% static 'css/classic.css' %}" rel="stylesheet">
-	<!-- <link href="{% static 'css/corporate.css' %}" rel="stylesheet"> -->
-	<!-- <link href="{% static 'css/modern.css' %}" rel="stylesheet"> -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<link rel="preconnect" href="//fonts.gstatic.com/" crossorigin="">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/font-awesome-n.min.css' %}">
+    <link href="{% static 'css/classic.css' %}" rel="stylesheet">
 
+    <title>ولاية الشرق -{% block title %} {% endblock title %}</title>
 	<style>
 		body {
 			opacity: 0;
@@ -38,8 +38,8 @@
 
   gtag('config', 'UA-120946860-6');
 </script>
-
 </head>
+
 <body>
 <div class="wrapper">
 <!--
@@ -244,7 +244,6 @@
 					</ul>
 				</div>
 			</nav>-->
-
         <nav id="navbar_top" class="navbar navbar-icon-top navbar-expand-lg sticky-top navbar-dark  bg-dark">
            <a class="nav-brand" href="#">
               <img class="align-middle" src="{% static 'images/logo2.png' %}" width="60" alt="logo"/>
@@ -337,8 +336,8 @@
           </div>
         </nav>
 
-			<main class="content">
-				<div class="container-fluid p-0" style="width: 90%">
+			<main class="content" style="background-color: #F5F9FC">
+				<div class="container-fluid p-0" style="width: 90%" >
                     {% block content %}
                     {% endblock content %}
 				</div>
@@ -529,18 +528,14 @@
 <script type="d2d1d6e2f87cbebdf4013b26-text/javascript" src="{% static 'js/jquery-ui.min.js' %}"></script>
 <script type="d2d1d6e2f87cbebdf4013b26-text/javascript" src="{% static 'js/popper.min.js' %}"></script>
 <script type="d2d1d6e2f87cbebdf4013b26-text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
-
 <script src="{% static 'js/waves.min.js' %}" type="d2d1d6e2f87cbebdf4013b26-text/javascript"></script>
-
 <script type="d2d1d6e2f87cbebdf4013b26-text/javascript" src="{% static 'js/jquery.slimscroll.js' %}"></script>
-
 <script src="{% static 'js/jquery.flot.js' %}" type="d2d1d6e2f87cbebdf4013b26-text/javascript"></script>
 <script src="{% static 'js/jquery.flot.categories.js' %}" type="d2d1d6e2f87cbebdf4013b26-text/javascript"></script>
 <script src="{% static 'js/curvedlines.js' %}" type="d2d1d6e2f87cbebdf4013b26-text/javascript"></script>
 <script src="{% static 'js/jquery.flot.tooltip.min.js' %}" type="d2d1d6e2f87cbebdf4013b26-text/javascript"></script>
-
 <script src="{% static 'js/chartist.js' %}" type="d2d1d6e2f87cbebdf4013b26-text/javascript"></script>
-
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
 <script src="{% static 'js/amcharts.js' %}" type="d2d1d6e2f87cbebdf4013b26-text/javascript"></script>
 <script src="{% static 'js/serial.js' %}" type="d2d1d6e2f87cbebdf4013b26-text/javascript"></script>
 <script src="{% static 'js/light.js' %}" type="d2d1d6e2f87cbebdf4013b26-text/javascript"></script>
