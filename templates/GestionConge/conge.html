@@ -1,6 +1,7 @@
 {% extends 'menu.html' %}
 {% block content %}
     {% load static %}
+    {% block title %}{% endblock title %}
     <link rel="stylesheet" href="{% static 'css/all.min.css' %}"/>
     <form method="POST">
     {% csrf_token %}
