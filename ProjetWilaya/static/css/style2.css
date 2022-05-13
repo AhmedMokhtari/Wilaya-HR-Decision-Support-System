@@ -462,7 +462,8 @@ a:focus {
   overflow: hidden;
   background: url("../images/banner.png") no-repeat;
   background-size: cover;
-  min-height: 550px;
+  min-height: 300px;
+  height: 80%;
 }
 
 .banner .block {
