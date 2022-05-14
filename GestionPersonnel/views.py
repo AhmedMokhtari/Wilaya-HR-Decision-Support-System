@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from .models import Personnel, Conjoint, Conjointpersonnel, \
     Service, Servicepersonnel, Grade, \
-    Gradepersonnel, Enfant, Diplome, Fonction, Fonctionpersonnel
+    Gradepersonnel, Enfant, Diplome, Fonction, Fonctionpersonnel,Division
 from django.contrib.auth.decorators import login_required
 from fpdf import FPDF
 from django.http import HttpResponse, JsonResponse
@@ -14,12 +14,58 @@ from .utils import calculate_age, get_graph, count_age_int
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 import json
-
+from django.db import connection
 #personnel -------------------------------.
 @login_required(login_url='/connexion')
 def consultation(request):
-    personnels = {'personnels': Personnel.objects.all()}
+    cursor = connection.cursor()
+    cursor.execute('''with t1 as(select IdService#,IdPersonnel#,DateAffectation, ROW_NUMBER()  OVER ( PARTITION BY IdPersonnel# ORDER BY IdPersonnel#,DateAffectation desc ) RowNumber from ServicePersonnel )
+    ,
+    t2 as(
+    select IdGrade#,IdPersonnel#,DateGrade, ROW_NUMBER()  OVER ( PARTITION BY IdPersonnel# ORDER BY IdPersonnel#,DateGrade desc ) RowNumber from GradePersonnel
+    )
+    select P.IdPersonnel, P.NomFr , P.PrenomFr,P.Cin,D.LibelleDivisionFr, S.LibelleServiceFr ,P.ancienneteAdmi ,t1.IdService#,t1.DateAffectation,t2.IdGrade#,t2.DateGrade,G.GradeFr
+    from t1,t2 ,Service S ,Personnel P,Division D,Grade G where   t1.IdPersonnel# = t2.IdPersonnel#  and  t1.RowNumber = t2.RowNumber  and
+    t1.RowNumber=1 AND S.IdService=t1.IdService# AND P.IdPersonnel=t1.IdPersonnel# AND D.IdDivision=S.IdDivision# AND G.IdGrade=t2.IdGrade#''')
+    rows = dictfetchall(cursor)
+    division = Division.objects.all();
+    grade = Grade.objects.all();
+    personnels = {'personnels': rows, 'divs': division, 'grades': grade}
     return render(request, 'GestionPersonnel/consultation.html', personnels)
+
+
+# filter -------------------------------.
+@login_required(login_url='/connexion')
+def get_json_perso_data(request, *args, **kwargs):
+    selected_obj = kwargs.get('obj')
+    arr=selected_obj.split("-");
+    reqAncienteAdmi = "P.{ancienneteAdmi} = '{ancienneteAdmiValue}' ".format(ancienneteAdmi=arr[0], ancienneteAdmiValue=arr[1]);
+    reqDivision = " D.{IdDivision}='{IdDivisionValue}'".format( IdDivision=arr[2], IdDivisionValue=arr[3]);
+    reqGrade = " G.{IdGrade}='{IdGradeValue}'".format( IdGrade=arr[4], IdGradeValue=arr[5]);
+    if(arr[0]==str(1) and arr[1]==str(1)):
+        reqAncienteAdmi="1 = 1"
+    if (arr[2] == str(1) and arr[3] == str(1)):
+        reqDivision = "1 = 1"
+    if (arr[4] == str(1) and arr[5] == str(1)):
+        reqGrade = "1 = 1"
+    cursor = connection.cursor()
+    req="""with ServPerso as(select *, ROW_NUMBER()  OVER ( PARTITION BY IdPersonnel# ORDER BY IdPersonnel#,DateAffectation desc ) RowNumber from ServicePersonnel)
+       select P.NomFr , P.PrenomFr,P.Cin,D.LibelleDivisionFr, S.LibelleServiceFr ,P.ancienneteAdmi ,P.Tele,P.IdPersonnel
+       from ServPerso SP ,Service S ,Personnel P,Division D  where
+       RowNumber=1 AND S.IdService=SP.IdService# AND P.IdPersonnel=SP.IdPersonnel# AND D.IdDivision=S.IdDivision# AND {reqAncienteAdmi} AND {reqDivision} AND {reqGrade} """.format(reqAncienteAdmi=reqAncienteAdmi,reqDivision=reqDivision,reqGrade=reqGrade)
+    print(req)
+    req1='''with t1 as(select IdService#,IdPersonnel#,DateAffectation, ROW_NUMBER()  OVER ( PARTITION BY IdPersonnel# ORDER BY IdPersonnel#,DateAffectation desc ) RowNumber from ServicePersonnel )
+    ,
+    t2 as(
+    select IdGrade#,IdPersonnel#,DateGrade, ROW_NUMBER()  OVER ( PARTITION BY IdPersonnel# ORDER BY IdPersonnel#,DateGrade desc ) RowNumber from GradePersonnel
+    )
+    select P.IdPersonnel, P.NomFr , P.PrenomFr,P.Cin,D.LibelleDivisionFr, S.LibelleServiceFr ,P.ancienneteAdmi ,t1.IdService#,t1.DateAffectation,t2.IdGrade#,t2.DateGrade,G.GradeFr
+    from t1,t2 ,Service S ,Personnel P,Division D,Grade G where   t1.IdPersonnel# = t2.IdPersonnel#  and  t1.RowNumber = t2.RowNumber  and
+    t1.RowNumber=1 AND S.IdService=t1.IdService# AND P.IdPersonnel=t1.IdPersonnel# AND D.IdDivision=S.IdDivision# AND G.IdGrade=t2.IdGrade# AND {reqAncienteAdmi} AND {reqDivision} AND {reqGrade}  '''.format(reqAncienteAdmi=reqAncienteAdmi,reqDivision=reqDivision,reqGrade=reqGrade)
+    cursor.execute(req1)
+    rows = dictfetchall(cursor)
+    objpersonnel = list(Personnel.objects.filter(ancienneteadmi=selected_obj).values())
+    return JsonResponse({'data':rows})
 
 #export-------------------------------
 def export_perso_csv(request):
@@ -557,3 +603,11 @@ def taboardpersonnel(request):
             'personnelslastup': personnelslastup,
             'cinqdepartretraite' : cinqdepartretraite,
         })
+
+def dictfetchall(cursor):
+    "Return all rows from a cursor as a dict"
+    columns = [col[0] for col in cursor.description]
+    return [
+        dict(zip(columns, row))
+        for row in cursor.fetchall()
+    ]

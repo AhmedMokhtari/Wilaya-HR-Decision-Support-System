@@ -6,6 +6,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('consultation', views.consultation, name='consultation'),
+    path('perso-json/<str:obj>/', views.get_json_perso_data, name='perso-json'),
     path('ajouterp', views.ajouter, name='ajouterp'),
     path('ajouter_conjoint', views.ajouter_conjoint, name='ajouter_conjoint'),
     path('modifier_conjoint/<int:id>', views.modifier_conjoint, name='modifier_conjoint'),
