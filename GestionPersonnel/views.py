@@ -24,7 +24,7 @@ def consultation(request):
     t2 as(
     select IdGrade#,IdPersonnel#,DateGrade, ROW_NUMBER()  OVER ( PARTITION BY IdPersonnel# ORDER BY IdPersonnel#,DateGrade desc ) RowNumber from GradePersonnel
     )
-    select P.IdPersonnel, P.NomFr , P.PrenomFr,P.Cin,D.LibelleDivisionFr, S.LibelleServiceFr ,P.ancienneteAdmi ,t1.IdService#,t1.DateAffectation,t2.IdGrade#,t2.DateGrade,G.GradeFr
+    select P.IdPersonnel, P.NomFr , P.PrenomFr,P.Cin,D.LibelleDivisionFr, S.LibelleServiceFr ,P.AdministrationApp ,t1.IdService#,t1.DateAffectation,t2.IdGrade#,t2.DateGrade,G.GradeFr
     from t1,t2 ,Service S ,Personnel P,Division D,Grade G where   t1.IdPersonnel# = t2.IdPersonnel#  and  t1.RowNumber = t2.RowNumber  and
     t1.RowNumber=1 AND S.IdService=t1.IdService# AND P.IdPersonnel=t1.IdPersonnel# AND D.IdDivision=S.IdDivision# AND G.IdGrade=t2.IdGrade#''')
     rows = dictfetchall(cursor)
@@ -49,20 +49,15 @@ def get_json_perso_data(request, *args, **kwargs):
     if (arr[4] == str(1) and arr[5] == str(1)):
         reqGrade = "1 = 1"
     cursor = connection.cursor()
-    req="""with ServPerso as(select *, ROW_NUMBER()  OVER ( PARTITION BY IdPersonnel# ORDER BY IdPersonnel#,DateAffectation desc ) RowNumber from ServicePersonnel)
-       select P.NomFr , P.PrenomFr,P.Cin,D.LibelleDivisionFr, S.LibelleServiceFr ,P.ancienneteAdmi ,P.Tele,P.IdPersonnel
-       from ServPerso SP ,Service S ,Personnel P,Division D  where
-       RowNumber=1 AND S.IdService=SP.IdService# AND P.IdPersonnel=SP.IdPersonnel# AND D.IdDivision=S.IdDivision# AND {reqAncienteAdmi} AND {reqDivision} AND {reqGrade} """.format(reqAncienteAdmi=reqAncienteAdmi,reqDivision=reqDivision,reqGrade=reqGrade)
-    print(req)
-    req1='''with t1 as(select IdService#,IdPersonnel#,DateAffectation, ROW_NUMBER()  OVER ( PARTITION BY IdPersonnel# ORDER BY IdPersonnel#,DateAffectation desc ) RowNumber from ServicePersonnel )
+    req='''with t1 as(select IdService#,IdPersonnel#,DateAffectation, ROW_NUMBER()  OVER ( PARTITION BY IdPersonnel# ORDER BY IdPersonnel#,DateAffectation desc ) RowNumber from ServicePersonnel )
     ,
     t2 as(
     select IdGrade#,IdPersonnel#,DateGrade, ROW_NUMBER()  OVER ( PARTITION BY IdPersonnel# ORDER BY IdPersonnel#,DateGrade desc ) RowNumber from GradePersonnel
     )
-    select P.IdPersonnel, P.NomFr , P.PrenomFr,P.Cin,D.LibelleDivisionFr, S.LibelleServiceFr ,P.ancienneteAdmi ,t1.IdService#,t1.DateAffectation,t2.IdGrade#,t2.DateGrade,G.GradeFr
+    select P.IdPersonnel, P.NomFr , P.PrenomFr,P.Cin,D.LibelleDivisionFr, S.LibelleServiceFr ,P.AdministrationApp ,t1.IdService#,t1.DateAffectation,t2.IdGrade#,t2.DateGrade,G.GradeFr
     from t1,t2 ,Service S ,Personnel P,Division D,Grade G where   t1.IdPersonnel# = t2.IdPersonnel#  and  t1.RowNumber = t2.RowNumber  and
     t1.RowNumber=1 AND S.IdService=t1.IdService# AND P.IdPersonnel=t1.IdPersonnel# AND D.IdDivision=S.IdDivision# AND G.IdGrade=t2.IdGrade# AND {reqAncienteAdmi} AND {reqDivision} AND {reqGrade}  '''.format(reqAncienteAdmi=reqAncienteAdmi,reqDivision=reqDivision,reqGrade=reqGrade)
-    cursor.execute(req1)
+    cursor.execute(req)
     rows = dictfetchall(cursor)
     objpersonnel = list(Personnel.objects.filter(ancienneteadmi=selected_obj).values())
     return JsonResponse({'data':rows})

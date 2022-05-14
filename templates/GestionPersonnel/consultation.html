@@ -17,9 +17,8 @@
                         <div class="default text">Budget</div>
                         <div class="menu">
                             <div class="item" data-value="-1">All</div>
-                            <div class="item">Wilaya</div>
-                            <div class="item">Province</div>
-                            <div class="item">Annexe</div>
+                            <div class="item">Général</div>
+                            <div class="item">Préfectoral</div>
                         </div>
                     </div>
                     <div class="ui selection dropdown mr-5">
@@ -85,7 +84,7 @@
                               <tr class="tb-colon"  >
                                 <td>{{ personnel.Cin }}</td>
                                 <td>{{personnel.NomFr}} - {{ personnel.PrenomFr }}</td>
-                                  <td>{{ personnel.ancienneteAdmi }} </td>
+                                  <td>{{ personnel.AdministrationApp }} </td>
                                   <td>{{ personnel.LibelleDivisionFr }}</td>
                                   <td>{{ personnel.GradeFr }}</td>
                                  <td><a href="{% url 'info' personnel.IdPersonnel %}" class="btn btn-success m-1"><i class="fa-solid fa-eye fa-lg " ></i></a><a href="{% url 'modifier' personnel.IdPersonnel %}" class="btn btn-warning btn-icon  mx-1"><i class="fa-solid fa-pen fa-xs mx-1"></i></a> </td>
@@ -145,7 +144,7 @@ $(document).on("keyup", "#search",search);
                ancienneteAdmi = 1;
                ancienneteAdmiValue=1;
         }else{
-            ancienneteAdmi="ancienneteAdmi";
+            ancienneteAdmi="AdministrationApp";
             ancienneteAdmiValue=e.target.value;
         }
 
@@ -156,7 +155,7 @@ $(document).on("keyup", "#search",search);
                 ancienneteAdmi = 1;
                 ancienneteAdmiValue=1;
             }else{
-                ancienneteAdmi = "ancienneteAdmi";
+                ancienneteAdmi = "AdministrationApp";
                 ancienneteAdmiValue=budget;
             }
         }
@@ -183,7 +182,7 @@ $(document).on("keyup", "#search",search);
                 ancienneteAdmi = 1;
                 ancienneteAdmiValue=1;
             }else{
-                ancienneteAdmi = "ancienneteAdmi";
+                ancienneteAdmi = "AdministrationApp";
                 ancienneteAdmiValue=budget;
             }
         }
@@ -225,7 +224,7 @@ $(document).on("keyup", "#search",search);
                 personnel=`<tr class="tb-colon" >
                                 <td>${item.Cin}</td>
                                 <td>${item.NomFr} - ${item.PrenomFr}</td>
-                                <td>${item.ancienneteAdmi} </td>
+                                <td>${item.AdministrationApp} </td>
                                 <td>${item.LibelleDivisionFr}</td>
                                 <td>${item.GradeFr}</td>
                                 <td><a href="info/${idp}" class="btn btn-success m-1"><i class="fa-solid fa-eye fa-lg " ></i></a><a href="modifier/${idp}"class="btn btn-warning btn-icon  mx-1"><i class="fa-solid fa-pen fa-xs mx-1"></i></a> </td>
