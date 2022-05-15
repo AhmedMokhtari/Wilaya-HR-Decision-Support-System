@@ -31,3 +31,11 @@ def count_age_int(sexe):
         age.append(Personnel.objects.filter(sexe=sexe).filter(data1 & data2).count())
         i = i + 5
     return age
+
+def dictfetchall(cursor):
+    "Return all rows from a cursor as a dict"
+    columns = [col[0] for col in cursor.description]
+    return [
+        dict(zip(columns, row))
+        for row in cursor.fetchall()
+    ]

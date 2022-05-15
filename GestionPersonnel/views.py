@@ -10,11 +10,13 @@ import datetime
 import csv
 import pandas as pd
 import seaborn as sns
-from .utils import calculate_age, get_graph, count_age_int
+from .utils import calculate_age, get_graph, count_age_int, dictfetchall
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 import json
 from django.db import connection
+
+
 #personnel -------------------------------.
 @login_required(login_url='/connexion')
 def consultation(request):
@@ -128,7 +130,18 @@ def ajouter(request):
         datefonction = request.POST["datefonction"]
         sexe = request.POST["sexe"]
         age = calculate_age(daten)
+        ppr = request.POST["ppr"]
+        statut = request.POST["statut"]
 
+        if (int(request.POST.get('situationfar', None)) == 1):
+            situatar = "متزوج(ة)"
+            situatfr = "marié(e)"
+        elif (int(request.POST.get('situationfar', None)) == 2):
+            situatar = "مطلق(ة)"
+            situatfr = "divorcé(e)"
+        else:
+            situatar = "بدون"
+            situatfr = "célibataire(e)"
 
         objperso= Personnel.objects.create(nomar=nomar, nomfr=nomfr, cin=cin, prenomar=prenomar, prenomfr=prenomfr,
                             lieunaissancear=lieunar, lieunaissancefr=lieunfr, datenaissance=daten,
@@ -136,7 +149,8 @@ def ajouter(request):
                             adressefr=adressefr, numerofinancier=numiden, daterecrutement=daterec,
                             datedemarcation=datedec, dateparrainageretraite=dateretr, numcnopsaf=numcnopsaf,
                             numcnopsim=numcnopsim, rib=rib, ancienneteadmi=ancadmi, administrationapp=adminiapp,
-                            situationfamilialear=situatar, photo=photo, sexe=sexe, age=age, lastupdate=datetime.date.today())
+                            situationfamilialear=situatar, photo=photo, sexe=sexe, age=age, lastupdate=datetime.date.today(),
+                                           ppr = ppr, statut=statut)
         objperso.save()
 
         objservice = Service(idservice=service)
@@ -168,8 +182,6 @@ def modifier(request, id):
         lieunfr = request.POST["lieunfr"]
         tele = request.POST["tele"]
         email = request.POST["email"]
-        situatfr = request.POST["situationffr"]
-        situatar = request.POST["situationfar"]
         adressear = request.POST["adressear"]
         adressefr = request.POST["adressefr"]
         numiden = request.POST["numiden"]
@@ -190,10 +202,24 @@ def modifier(request, id):
         datefonction = request.POST["datefonction"]
         sexe = request.POST["sexe"]
         age = calculate_age(daten)
+        ppr = request.POST["ppr"]
+        statut = request.POST["statut"]
+
+        if (int(request.POST.get('situationfar', None)) == 1):
+            situatar = "متزوج(ة)"
+            situatfr = "marié(e)"
+        elif (int(request.POST.get('situationfar', None)) == 2):
+            situatar = "مطلق(ة)"
+            situatfr = "divorcé(e)"
+        else:
+            situatar = "بدون"
+            situatfr = "célibataire(e)"
 
         objperso2 = Personnel.objects.get(idpersonnel=id)
         objperso2.tele = tele
         objperso2.email = email
+        objperso2.ppr = ppr
+        objperso2.statut = statut
         objperso2.numcnopsaf = numcnopsaf
         objperso2.numcnopsim = numcnopsim
         objperso2.adressefr = adressefr
@@ -579,7 +605,7 @@ def taboardpersonnel(request):
     )
     AgeClass = [ '60-64', '55-59', '50-54', '45-49', '40-44', '35-39', '30-34', '25-29', '20-24']
     pallette = sns.color_palette("Blues")
-    bar_plot = sns.barplot(x='Male', y='Age', data=ageData, order=AgeClass, lw=0, palette = pallette).set_title('La pyramide des âges')
+    bar_plot = sns.barplot(x='Male', y='Age', data=ageData, order=AgeClass, lw=0, palette = pallette).set_title('ﺭﺎﻤﻋﻷﺍ ﻡﺮﻫ')
     bar_plot = sns.barplot(x='Female', y='Age', data=ageData, order=AgeClass, lw=0, palette = pallette)
     bar_plot.set_xlabel("Population")
     chart = get_graph()
@@ -599,10 +625,3 @@ def taboardpersonnel(request):
             'cinqdepartretraite' : cinqdepartretraite,
         })
 
-def dictfetchall(cursor):
-    "Return all rows from a cursor as a dict"
-    columns = [col[0] for col in cursor.description]
-    return [
-        dict(zip(columns, row))
-        for row in cursor.fetchall()
-    ]
