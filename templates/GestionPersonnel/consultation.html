@@ -1,67 +1,108 @@
 {% extends 'menu.html' %}
 {% block content %}
     {% load static %}
+    <title>{% block title %} معلومات {% endblock title %}</title>
     <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/all.min.css' %}"/>
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200&family=Montserrat:wght@800;900&display=swap" rel="stylesheet">
+    <style>
+    h3{
+        font-family: "Cairo ExtraLight"
+    }
+
+    </style>
     <!-- CSS only -->
     <div class="col-12 col-xl-12">
-            <div class="card">
+        <div class="card">
             <form method="get" id="formsearch">
-                <div class="card-header">
+                <div class="card-header text-right">
+                    <h3 class="text-right"><strong>البحت</strong></h3>
                     <hr>
-                    <div class="ui selection dropdown mr-5">
-                        <input type="hidden" name="budget" id="budget">
-                        <i class="dropdown icon"></i>
-                        <div class="default text">Budget</div>
-                        <div class="menu">
-                            <div class="item" data-value="-1">All</div>
-                            <div class="item">Général</div>
-                            <div class="item">Préfectoral</div>
+                    <div class="row">
+                        <div class="col-3">
+                            <label class="col-form-label">الميزانية :</label>
+                            <div class="ui selection dropdown mr-5 text-right">
+                                <input type="hidden" name="budget" id="budget">
+                                <i class="dropdown icon"></i>
+                                <div class="default text">الميزانية</div>
+                                <div class="menu">
+                                    <div class="item" data-value="-1">الكل</div>
+                                    <div class="item">Général</div>
+                                    <div class="item">Préfectoral</div>
+                                </div>
+                            </div>
+                        </div>
+
+                         <div class="col-3">
+                            <label class="col-form-label">القسم :</label>
+                            <div class="ui selection dropdown mr-5 text-right">
+                              <input type="hidden" name="div" id="div">
+                              <i class="dropdown icon"></i>
+                              <div class="default text">القسم</div>
+                              <div class="menu">
+                                  <div class="item" data-value="-1">الكل</div>
+                                  {% for div in divs %}
+                                        <div class="item" data-value="{{ div.iddivision }}">{{ div.libelledivisionfr }}</div>
+                                  {% endfor %}
+                              </div>
+                            </div>
+                         </div>
+
+                        <div class="col-3">
+                            <label class="col-form-label">الرتبة :</label>
+                            <div class="ui selection dropdown mr-5 text-right">
+                              <input type="hidden" name="grade" id="grade">
+                              <i class="dropdown icon"></i>
+                              <div class="default text">الرتبة</div>
+                              <div class="menu">
+                                  <div class="item" data-value="-1">All</div>
+                                  {% for grade in grades %}
+                                     <div class="item" data-value="{{ grade.idgrade }}">{{ grade.gradefr }}</div>
+                                  {% endfor %}
+                              </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="ui selection dropdown mr-5">
-                      <input type="hidden" name="div" id="div">
-                      <i class="dropdown icon"></i>
-                      <div class="default text">Division</div>
-                      <div class="menu">
-                           <div class="item" data-value="-1">All</div>
-                          {% for div in divs %}
-                        <div class="item" data-value="{{ div.iddivision }}">{{ div.libelledivisionfr }}</div>
-                          {% endfor %}
-                      </div>
-                    </div>
-                    <div class="ui selection dropdown">
-                      <input type="hidden" name="grade" id="grade">
-                      <i class="dropdown icon"></i>
-                      <div class="default text">Grade</div>
-                      <div class="menu">
-                          <div class="item" data-value="-1">All</div>
-                          {% for grade in grades %}
-                             <div class="item" data-value="{{ grade.idgrade }}">{{ grade.gradefr }}</div>
-                          {% endfor %}
-                      </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-1"><label class="col-form-label block">الجنس &nbsp;:</label></div>
+
+                        <div class="col-3">
+                            <label class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="inline-radios-example" value="option1">
+                                <span class="form-check-label"> &nbsp; ذكر </span>
+                            </label>
+                        </div>
+                        <div class="col-3">
+                            <label class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="inline-radios-example" value="option2">
+                                <span class="form-check-label">  &nbsp; أنثى </span>
+                            </label>
+                        </div>
                     </div>
                 </div>
             </form>
-            </div>
+        </div>
     </div>
     <form method="POST">
     {% csrf_token %}
         <div class="col-12 col-xl-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title"><strong>Personnel <span class="float-right">الموضفين</span></strong></h3>
-                    <h6 class="card-subtitle text-muted">les informations du personnel <span class="float-right">معلومات الموضفين</span></h6>
-                    <hr>
+                    <h3 class="text-right"><strong>الموضفين</strong></h3>
+                    <h6 class="card-subtitle text-muted text-right">معلومات الموضفين</h6>
+                    <br>
                     <div class="text-center">
                         <div class="col-sm-3 float-left">
                            <input class="form-control" id="search" placeholder="بحث..... ">
                         </div>
 
-                        <div class="col-sm-2 float-right">
-                           <a href="{% url 'ajouterp' %}" class="btn btn-success m-1"><i class="fa-solid fa-plus  " ></i></a>
-                            <a  class="btn btn-primary  m-1" id="export" href="{% url 'export_perso_xls' %}"><i class="fa-solid fa-file-excel " ></i></a>
+                        <div class="col-sm-2 text-right">
+                            <a href="{% url 'ajouterp' %}" class="btn btn-transparent m-1"><i style="color: green" class="fa-solid fa-circle-plus fa-2xl" ></i></a>
+                            <a  class="btn btn-transparent m-1" id="export" href="{% url 'export_perso_xls' %}"><i style="color: green" class="fa-solid fa-file-csv fa-2xl" ></i></a>
                         </div>
                     </div>
 
@@ -70,24 +111,24 @@
                     <table class="table table-striped text-center" id="table">
                         <thead>
                             <tr>
-                                <th>Cin - ر.ب.و</th>
+                                <th>ر.ب.و</th>
                                 <th>الاسم الكامل</th>
-                                <th>Budget</th>
-                                <th>Division</th>
-                                 <th>Grade</th>
-                                <th>Action</th>
+                                <th>الميزانية</th>
+                                <th>قسم</th>
+                                 <th>الرتبة</th>
+                                <th>معلومات</th>
                             </tr>
                         </thead>
                         <tbody id="tbody">
                             {% for personnel in personnels %}
-                              <tr class="tb-colon"  >
-                                <td>{{ personnel.Cin }}</td>
-                                <td>{{personnel.NomFr}} - {{ personnel.PrenomFr }}</td>
-                                  <td>{{ personnel.AdministrationApp }} </td>
-                                  <td>{{ personnel.LibelleDivisionFr }}</td>
-                                  <td>{{ personnel.GradeFr }}</td>
-                                 <td><a href="{% url 'info' personnel.IdPersonnel %}" class="btn btn-success m-1"><i class="fa-solid fa-eye fa-lg " ></i></a><a href="{% url 'modifier' personnel.IdPersonnel %}" class="btn btn-warning btn-icon  mx-1"><i class="fa-solid fa-pen fa-xs mx-1"></i></a> </td>
-                              </tr>
+                                  <tr class="tb-colon"  >
+                                        <td>{{ personnel.Cin }}</td>
+                                        <td>{{personnel.NomFr}} - {{ personnel.PrenomFr }}</td>
+                                        <td>{{ personnel.AdministrationApp }} </td>
+                                        <td>{{ personnel.LibelleDivisionFr }}</td>
+                                        <td>{{ personnel.GradeFr }}</td>
+                                        <td><a href="info/${idp}" class="btn btn-success m-1"><i class="fa-solid fa-arrow-up-right-from-square fa-lg " ></i></a><a href="modifier/${idp}"class="btn btn-warning btn-icon  mx-1"><i class="fa-solid fa-pen-to-square fa-lg"></i></a> </td>
+                                  </tr>
                             {% endfor %}
                         </tbody>
                     </table>
@@ -226,8 +267,7 @@ $(document).on("keyup", "#search",search);
                                 <td>${item.AdministrationApp} </td>
                                 <td>${item.LibelleDivisionFr}</td>
                                 <td>${item.GradeFr}</td>
-                                <td><a href="info/${idp}" class="btn btn-success m-1"><i class="fa-solid fa-eye fa-lg " ></i></a><a href="modifier/${idp}"class="btn btn-warning btn-icon  mx-1"><i class="fa-solid fa-pen fa-xs mx-1"></i></a> </td>
-                              </tr>`
+<td><a href="info/${idp}" class="btn btn-success m-1"><i class="fa-solid fa-arrow-up-right-from-square fa-lg " ></i></a><a href="modifier/${idp}"class="btn btn-warning btn-icon  mx-1"><i class="fa-solid fa-pen-to-square fa-lg"></i></a> </td>                              </tr>`
                 tableBody.append(personnel)
             })
 
