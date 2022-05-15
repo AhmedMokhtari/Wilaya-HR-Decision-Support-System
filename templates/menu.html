@@ -9,26 +9,19 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 	<meta name="description" content="">
 	<meta name="author" content="Zakariae Mrabet, Ahmed Mokhtari">
-    <link href="{% static 'css/navbar.css' %}" rel="stylesheet">
-    <link href="{% static 'css/navbar.css' %}" rel="stylesheet">
+
 	<link rel="preconnect" href="//fonts.gstatic.com/" crossorigin="">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/font-awesome-n.min.css' %}">
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="{% static 'css/font-awesome-n.min.css' %}">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" id="bootstrap-css">
 	<link rel="preconnect" href="//fonts.gstatic.com/" crossorigin="">
-    <link rel="stylesheet" type="text/css" href="{% static 'css/font-awesome-n.min.css' %}">
+    <link href="{% static 'css/navbar.css' %}" rel="stylesheet">
     <link href="{% static 'css/classic.css' %}" rel="stylesheet">
 
-    <title>ولاية الشرق -{% block title %} {% endblock title %}</title>
-	<style>
-		body {
-			opacity: 0;
-		}
-        .wrapper{
-            background-color: white;
-        }
-	</style>
+    <title> ولاية الشرق - {% block title %} {% endblock title %}</title>
 
-	<!-- END SETTINGS -->
 <!-- Global site tag (gtag.js) - Google Analytics -->
 <script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-120946860-6"></script>
 <script>
@@ -256,7 +249,7 @@
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
               <li class="nav-item active">
-                <a class="nav-link" href="#">
+                <a class="nav-link" id="maindata" href="{% url 'index' %}">
                   <i class="fa fa-home"></i>
                   الرئيسية
                   <span class="sr-only">(current)</span>
@@ -309,7 +302,7 @@
                 </div>
               </li>
             </ul>
-              <!--
+<!--
             <ul class="navbar-nav ">
               <li class="nav-item">
                 <a class="nav-link" href="#">
@@ -328,15 +321,15 @@
                 </a>
               </li>
             </ul>
+
             <form class="form-inline my-2 my-lg-0">
               <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
               <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
             </form>
-        -->
+           -->
           </div>
         </nav>
-
-			<main class="content" style="background-color: #F5F9FC">
+			<main class="content" style="background-color:  #F5F9FC">
 				<div class="container-fluid p-0" style="width: 90%" >
                     {% block content %}
                     {% endblock content %}
@@ -368,147 +361,6 @@
 	</div>
 
 	<script src="{% static 'js/app.js' %}"></script>
-
-
-	<script>
-		$(function() {
-			$("#world_map").vectorMap({
-				map: "world_mill",
-				normalizeFunction: "polynomial",
-				hoverOpacity: .7,
-				hoverColor: false,
-				regionStyle: {
-					initial: {
-						fill: "#e3eaef"
-					}
-				},
-				markerStyle: {
-					initial: {
-						"r": 9,
-						"fill": window.theme.primary,
-						"fill-opacity": .95,
-						"stroke": "#fff",
-						"stroke-width": 7,
-						"stroke-opacity": .4
-					},
-					hover: {
-						"stroke": "#fff",
-						"fill-opacity": 1,
-						"stroke-width": 1.5
-					}
-				},
-				backgroundColor: "transparent",
-				zoomOnScroll: false,
-				markers: [{
-						latLng: [31.230391, 121.473701],
-						name: "Shanghai"
-					},
-					{
-						latLng: [39.904202, 116.407394],
-						name: "Beijing"
-					},
-					{
-						latLng: [28.704060, 77.102493],
-						name: "Delhi"
-					},
-					{
-						latLng: [6.524379, 3.379206],
-						name: "Lagos"
-					},
-					{
-						latLng: [39.343357, 117.361649],
-						name: "Tianjin"
-					},
-					{
-						latLng: [24.860735, 67.001137],
-						name: "Karachi"
-					},
-					{
-						latLng: [41.008240, 28.978359],
-						name: "Istanbul"
-					},
-					{
-						latLng: [35.689487, 139.691711],
-						name: "Tokyo"
-					},
-					{
-						latLng: [23.129110, 113.264381],
-						name: "Guangzhou"
-					},
-					{
-						latLng: [19.075983, 72.877655],
-						name: "Mumbai"
-					},
-					{
-						latLng: [40.7127837, -74.0059413],
-						name: "New York"
-					},
-					{
-						latLng: [34.052235, -118.243683],
-						name: "Los Angeles"
-					},
-					{
-						latLng: [41.878113, -87.629799],
-						name: "Chicago"
-					},
-					{
-						latLng: [29.760427, -95.369804],
-						name: "Houston"
-					},
-					{
-						latLng: [33.448376, -112.074036],
-						name: "Phoenix"
-					},
-					{
-						latLng: [51.507351, -0.127758],
-						name: "London"
-					},
-					{
-						latLng: [48.856613, 2.352222],
-						name: "Paris"
-					},
-					{
-						latLng: [55.755825, 37.617298],
-						name: "Moscow"
-					},
-					{
-						latLng: [40.416775, -3.703790],
-						name: "Madrid"
-					}
-				]
-			});
-			setTimeout(function() {
-				$(window).trigger('resize');
-			}, 250)
-		});
-	</script>
-	<script>
-		$(function() {
-			// Radar chart
-			new Chart(document.getElementById("chartjs-dashboard-radar"), {
-				type: "radar",
-				data: {
-					labels: ["Technology", "Sports", "Media", "Gaming", "Arts"],
-					datasets: [{
-						label: "Interests",
-						backgroundColor: "rgba(0, 123, 255, 0.2)",
-						borderColor: "#2979ff",
-						pointBackgroundColor: "#2979ff",
-						pointBorderColor: "#fff",
-						pointHoverBackgroundColor: "#fff",
-						pointHoverBorderColor: "#2979ff",
-						data: [70, 53, 82, 60, 33]
-					}]
-				},
-				options: {
-					maintainAspectRatio: false,
-					legend: {
-						display: false
-					}
-				}
-			});
-		});
-	</script>
 	<script>
 		$(function() {
 			$("#datatables-dashboard-traffic").DataTable({

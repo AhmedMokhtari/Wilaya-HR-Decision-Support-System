@@ -1,8 +1,9 @@
 {% extends 'menu.html' %}
 {% block content %}
 {% load static %}
-{% block title %}إضافة{% endblock title %}
-<link rel="stylesheet" href="{% static 'css/all.min.css' %}"/>
+    <title> {% block title %}إضافة{% endblock title %}</title>
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/all.min.css' %}"/>
  <form action="" method="POST">
     {% csrf_token %}
                 {% if personnel.cin %}
@@ -92,6 +93,7 @@
                                     </h4>
                                     <hr>
 								</div>
+
 								<div class="card-body">
                                     <div class="mb-3">
                                         <div class="text-center">
@@ -103,6 +105,9 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                    <br>
+
                                     <div class="row">
                                         <div class="col-md">
                                             <label class="col-form-label float-right" for="prenomar">الاسم الشخصي :</label>
@@ -114,6 +119,8 @@
                                             <input type="text" class="form-control text-center" name="prenomfr"   required>
                                         </div>
                                     </div>
+
+                                    <br>
 
                                     <div class="row">
                                         <div class="col-md">
@@ -127,6 +134,8 @@
                                         </div>
                                     </div>
 
+                                    <br>
+
                                     <div class="row">
                                         <div class="col-md">
                                             <label class="col-form-label float-right" for="lieunar"> مكان الازدياد :</label>
@@ -138,6 +147,8 @@
                                             <input type="text" class="form-control text-center" name="lieunfr"   required>
                                         </div>
                                     </div>
+
+                                    <br>
 
                                     <div class="row">
                                         <div class="col-md">
@@ -151,17 +162,21 @@
                                         </div>
                                     </div>
 
+                                    <br>
+
                                     <div class="row">
                                         <div class="col-md">
                                             <label class="col-form-label float-right" for="situationfar"> الوضع العائلي :</label>
                                             <label class="col-form-label" dir="ltr" for="situationfar">Situation familiale :</label>
-                                            <select class="form-control  text-center" name="situationfar"   required>
+                                            <select class="form-control text-center" name="situationfar"   required>
                                                 <option value="1">متزوج(ة)-marié(e)</option>
                                                 <option value="2">مطلق(ة)-divorcé(e)</option>
                                                 <option value="3">بدون-célibataire(e)</option>
                                             </select>
                                         </div>
                                     </div>
+
+                                    <br>
 
                                     <div class="row">
                                         <div class="col-md">
@@ -174,6 +189,8 @@
                                         </div>
                                     </div>
 
+                                    <br>
+
                                     <div class="row">
                                         <div class="col-md">
                                             <label class="col-form-label float-right" for="daten"> تاريخ الازدياد :</label>
@@ -181,6 +198,8 @@
                                             <input type="date" class="form-control text-center" name="daten"  required>
                                         </div>
                                     </div>
+
+                                    <br>
 
                                     <div class="row">
                                         <div class="col-md">
@@ -190,6 +209,8 @@
                                         </div>
                                     </div>
 
+                                    <br>
+
                                     <div class="row">
                                         <div class="col-md">
                                             <label class="col-form-label float-right" for="email"> البريد الالكتروني :</label>
@@ -198,6 +219,8 @@
                                         </div>
                                     </div>
 
+                                    <br>
+
                                     <div class="row">
                                         <div class="col-md">
                                             <label class="col-form-label float-right" for="tele"> الهاتف :</label>
@@ -205,8 +228,6 @@
                                             <input type="text" class="form-control text-center" name="tele"  required>
                                         </div>
                                     </div>
-
-
 							    </div>
 						    </div>
                         </div>
@@ -229,6 +250,8 @@
                                         </div>
                                     </div>
 
+                                <br>
+
                                     <div class="row">
                                         <div class="col-md">
                                             <label class="col-form-label float-right" for="adminiapp"> الإدارة :</label>
@@ -240,6 +263,8 @@
                                         </div>
                                     </div>
 
+                                <br>
+
                                     <div class="row">
                                         <div class="col-md">
                                             <label class="col-form-label float-right" for="numiden"> الرقم المالي :</label>
@@ -248,6 +273,8 @@
                                         </div>
                                     </div>
 
+                                <br>
+
                                     <div class="row">
                                         <div class="col-md">
                                             <label class="col-form-label float-right" for="statut"> الحالة :</label>
@@ -255,6 +282,8 @@
                                             <input type="text" class="form-control text-center" name="statut" required>
                                         </div>
                                     </div>
+
+                                <br>
 
 
                                     <div class="row">
@@ -265,6 +294,8 @@
                                         </div>
                                     </div>
 
+                                <br>
+
                                     <div class="row">
                                         <div class="col-md">
                                             <label class="col-form-label float-right" for="ancadmi"> الأقدمية الإدارية :</label>
@@ -272,6 +303,8 @@
                                             <input type="text" class="form-control text-center" name="ancadmi" required>
                                         </div>
                                     </div>
+
+                                <br>
 
                                     <div class="row">
                                         <div class="col-md">
@@ -287,13 +320,17 @@
                                         </div>
                                     </div>
 
+                                <br>
+
                                     <div class="row">
                                         <div class="col-md">
                                             <label class="col-form-label float-right" for="dateretr"> تاريخ الإحالة على التقاعد :</label>
                                             <label class="col-form-label" dir="ltr" for="dateretr">Date de départ à la retraite :</label>
-                                             <input type="text" class="form-control text-center" name="dateretr" required>
+                                             <input type="date" class="form-control text-center" name="dateretr" required>
                                         </div>
                                     </div>
+
+                                <br>
 
                                     <div class="row">
                                         <div class="col-md">
@@ -398,88 +435,7 @@
                     </div>
                  {% endif %}
     </form>
-
 <script>
-		$(function() {
-			$("#smartwizard-default-primary").smartWizard({
-				theme: "default",
-				showStepURLhash: false
-			});
-			$("#smartwizard-default-success").smartWizard({
-				theme: "default",
-				showStepURLhash: false
-			});
-			$("#smartwizard-default-danger").smartWizard({
-				theme: "default",
-				showStepURLhash: false
-			});
-			$("#smartwizard-default-warning").smartWizard({
-				theme: "default",
-				showStepURLhash: false
-			});
-			$("#smartwizard-arrows-primary").smartWizard({
-				theme: "arrows",
-				showStepURLhash: false
-			});
-			$("#smartwizard-arrows-success").smartWizard({
-				theme: "arrows",
-				showStepURLhash: false
-			});
-			$("#smartwizard-arrows-danger").smartWizard({
-				theme: "arrows",
-				showStepURLhash: false
-			});
-			$("#smartwizard-arrows-warning").smartWizard({
-				theme: "arrows",
-				showStepURLhash: false
-			});
-			// Validation
-			var $validationForm = $("#smartwizard-validation");
-			$validationForm.validate({
-				errorPlacement: function errorPlacement(error, element) {
-					$(element).parents(".form-group").append(
-						error.addClass("invalid-feedback small d-block")
-					)
-				},
-				highlight: function(element) {
-					$(element).addClass("is-invalid");
-				},
-				unhighlight: function(element) {
-					$(element).removeClass("is-invalid");
-				},
-				rules: {
-					"wizard-confirm": {
-						equalTo: "input[name=\"wizard-password\"]"
-					}
-				}
-			});
-			$validationForm
-				.smartWizard({
-					autoAdjustHeight: false,
-					backButtonSupport: false,
-					useURLhash: false,
-					showStepURLhash: false,
-					toolbarSettings: {
-						toolbarExtraButtons: [$("<button class=\"btn btn-submit btn-primary\" type=\"button\">Finish</button>")]
-					}
-				})
-				.on("leaveStep", function(e, anchorObject, stepNumber, stepDirection) {
-					if (stepDirection === "forward") {
-						return $validationForm.valid();
-					}
-					return true;
-				});
-			$validationForm.find(".btn-submit").on("click", function() {
-				if (!$validationForm.valid()) {
-					return;
-				}
-				alert("Great! The form is valid and ready to submit.");
-				return false;
-			});
-		});
-
-
-
 
         var image = document.getElementById("image");
 
@@ -509,8 +465,6 @@
                     alert("il faut ajouter d'abord le personnel")
                 }
             }
-
-
 	</script>
 
 {% endblock %}

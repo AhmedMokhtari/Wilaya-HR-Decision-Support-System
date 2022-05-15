@@ -1,16 +1,17 @@
 {% extends 'navbar.html' %}
 {% block content %}
     {% load static %}
-    {% block title %} الرئيسية {% endblock title %}
-
+   <title>{% block title %} الرئيسية {% endblock title %}</title>
   <!-- Favicon -->
-  <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}" />
-     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" id="bootstrap-css">
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}" />
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" id="bootstrap-css">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="{% static 'js/slick/slick.css' %}">
     <link rel="stylesheet" href="{% static 'js/slick/slick-theme.css' %}">
     <link rel="stylesheet" href="{% static 'css/style2.css' %}">
     <link rel="stylesheet" href="{% static 'css/accueil.css' %}">
+
+
 <style>
     .not-allowed {cursor: not-allowed;}
     .op-c {
@@ -33,7 +34,7 @@
 </style>
 
 
-< id="top" >
+<body id="top">
 
 <!--
 <header>
@@ -866,14 +867,7 @@
     <script src="{% static 'js/script2.js' %}"></script>
     <script src="{% static 'js/contact.js' %}"></script>
 
-    <script>
-    {% if not user.is_authenticated %}
-        $(document).ready(function (){
-            $('a[class="nav-link dropdown-toggle"]').attr("class","nav-link dropdown-toggle not-allowed disabled");
-            $('div[class="dropdown-menu"]').remove()
-        })
-    {% endif %}
-    </script>
+
 
 </body>
 
