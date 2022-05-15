@@ -150,7 +150,7 @@ def ajouter(request):
                             datedemarcation=datedec, dateparrainageretraite=dateretr, numcnopsaf=numcnopsaf,
                             numcnopsim=numcnopsim, rib=rib, ancienneteadmi=ancadmi, administrationapp=adminiapp,
                             situationfamilialear=situatar, photo=photo, sexe=sexe, age=age, lastupdate=datetime.date.today(),
-                                           ppr = ppr, statut=statut)
+                                           ppr=ppr, statut=statut)
         objperso.save()
 
         objservice = Service(idservice=service)
@@ -301,8 +301,11 @@ def ajouter_conjoint(request):
         cin = request.POST["cin"]
         daten = request.POST["daten"]
         lieun = request.POST["lieun"]
+        fonction = request.POST["fonction"]
+        ppr = request.POST.get("ppr", None)
+
         personnelcin = request.POST["personnelcin"]
-        obj1 = Conjoint(nomar=nomar, nomfr=nomfr, cin=cin, prenomar=prenomar, prenomfr=prenomfr, lieunaissance=lieun, datenaissance=daten)
+        obj1 = Conjoint(nomar=nomar, nomfr=nomfr, cin=cin, prenomar=prenomar, prenomfr=prenomfr, lieunaissance=lieun, datenaissance=daten, ppr=ppr, fonction=fonction)
         obj1.save()
         pers = Personnel.objects.filter(cin=personnelcin).first()
         con = Conjoint.objects.filter(cin=cin).first()
@@ -333,6 +336,9 @@ def modifier_conjoint(request,id):
         objconjoint.cin = request.POST["cin"]
         objconjoint.datenaissance = request.POST["daten"]
         objconjoint.lieunaissance = request.POST["lieun"]
+        objconjoint.ppr = request.POST.get("ppr", None)
+        objconjoint.fonction = request.POST["fonction"]
+
         suc = "yes"
         objconjoint.save()
     return render(request, "GestionPersonnel/modifier_conjoint.html", {'conjoint': conjoint,'suc':suc})
