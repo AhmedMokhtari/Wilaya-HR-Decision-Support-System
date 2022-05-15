@@ -15,7 +15,7 @@
                         </div>
                         <div class="media-body">
                             <h3 class="mb-2">{{  hommes }}</h3>
-                            <div class="mb-0">Hommes</div>
+                            <div class="mb-0">ذكر</div>
                         </div>
                     </div>
                 </div>
@@ -30,7 +30,7 @@
                         </div>
                         <div class="media-body">
                             <h3 class="mb-2">{{ femmes }}</h3>
-                            <div class="mb-0">Femmes</div>
+                            <div class="mb-0">أنثى</div>
                         </div>
                     </div>
                 </div>
@@ -45,7 +45,7 @@
                         </div>
                         <div class="media-body">
                             <h3 class="mb-2">{{administrationOne}}</h3>
-                            <div class="mb-0">AdministrationOne</div>
+                            <div class="mb-0">مجلس العمالة</div>
                         </div>
                     </div>
                 </div>
@@ -60,7 +60,7 @@
                         </div>
                         <div class="media-body">
                             <h3 class="mb-2">{{ administrationTwo }}</h3>
-                            <div class="mb-0">AdministrationTwo</div>
+                            <div class="mb-0">العمالة</div>
                         </div>
                     </div>
                 </div>
@@ -75,7 +75,7 @@
                         </div>
                         <div class="media-body">
                             <h3 class="mb-2">{{personnels}}</h3>
-                            <div class="mb-0">Nombre Total du personnel </div>
+                            <div class="mb-0">العدد الاجمالي للموضفين </div>
                         </div>
                     </div>
                 </div>
@@ -114,9 +114,9 @@
                         <thead>
                             <tr>
                                 <th>-</th>
-                                <td>AdministrationOne</td>
-                                <td>AdministrationTwo</td>
-                                <td>Total</td>
+                                <td>مجلس العمالة</td>
+                                <td>العمالة</td>
+                                <td>المجموع</td>
                             </tr>
                         </thead>
                         <tbody>
@@ -154,23 +154,21 @@
         <div class="col-12 col-sm-8 d-flex">
             <div class="card flex-fill">
                 <div class="card-header">
-                    <h5 class="card-title mb-0">Modification <span class="float-right">رهن الاشارة</span></h5>
+                    <h5 class="card-title mb-0"><span class="float-right">رهن الاشارة</span></h5>
                 </div>
                 <table id="datatables-dashboard-projects2"  class="table table-striped my-0 text-center">
                     <thead>
                         <tr>
-                            <th>Cin - ر.ب.و</th>
-                            <th class="d-none d-xl-table-cell">Nom Complet</th>
+                            <th>ر.ب.و</th>
                             <th>الاسم الكامل</th>
-                            <th class="d-none d-md-table-cell">Tele - هاتف</th>
-                            <th class="d-none d-md-table-cell">la dernière modification - أخر تحديت</th>
+                            <th class="d-none d-md-table-cell">هاتف</th>
+                            <th class="d-none d-md-table-cell"> أخر تحديت</th>
                         </tr>
                     </thead>
                     <tbody>
                     {% for perso in personnelslastup %}
                         <tr>
                             <td>{{ perso.cin }}</td>
-                            <td>{{ perso.nomfr }} - {{ perso.prenomfr }}</td>
                             <td class="d-none d-xl-table-cell">{{ perso.nomar }} - {{ perso.prenomar }}</td>
                             <td class="d-none d-xl-table-cell">{{ perso.tele }}</td>
                             <td><span class="badge badge-success">{{ perso.lastupdate }}</span></td>
@@ -193,11 +191,11 @@
               <div class="table-responsive">
                   <table class="table table-striped ">
                       <thead>
-                      <th>cin</th>
-                      <th>nom</th>
-                      <th>nom</th>
-                      <th>age</th>
-                      <th>info</th>
+                          <th>ر.ب.و</th>
+                          <th>الاسم الكامل</th>
+                          <th class="d-none d-md-table-cell">هاتف</th>
+                          <th class="d-none d-md-table-cell">العمر</th>
+                          <th>معلومات</th>
                       </thead>
                       <tbody id="modalsdata">
 
@@ -377,8 +375,6 @@
 				autoWidth: false,
 			});
 		});
-
-
 	</script>
     <script>
         var chart = JSC.chart('chartDiv', {
@@ -467,7 +463,7 @@
                     $("#modalsdata").empty()
                     for(var i = 0; i < data.departretraite.length; i++)
                     {
-                        $("#modalsdata").append('<tr><td>'+data.departretraite[i].cin+'</td><td>'+data.departretraite[i].nomfr+'</td><td>'+data.departretraite[i].nomar+'</td><td>'+data.departretraite[i].age+'</td><td><a href="/personnel/info/'+data.departretraite[i].idpersonnel+'" class="btn btn-success m-1"><i class="fa-solid fa-eye fa-lg " ></i></a></td></tr>')
+                        $("#modalsdata").append('<tr><td>'+data.departretraite[i].cin+'</td><td>'+data.departretraite[i].nomfr+'</td><td>'+data.departretraite[i].nomar+'</td><td>'+data.departretraite[i].age+'</td><td><a href="/personnel/info/'+data.departretraite[i].idpersonnel+'" class="btn bg-gray m-1"><i class="fa-solid fa-arrow-up-right-from-square"></i></i></a></td></tr>')
                     }
                     console.log(data)
 

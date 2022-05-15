@@ -87,9 +87,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'mssql',
         'NAME': 'ProjetWilaya',
-        'USER': 'mokhta',
-        'PASSWORD': '123',
-        'HOST': 'DESKTOP-ANBD5NF',
+        'USER': 'zaka',
+        'PASSWORD': 'zaka',
+        'HOST': 'DESKTOP-J4H5HNC',
         'PORT': '',
         'OPTIONS': {
             'driver': 'ODBC Driver 17 for SQL Server',
@@ -134,10 +134,13 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR,'static')
+
 MEDIA_URL='/images/PersonPhoto/'
+
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'ProjetWilaya/static')
 ]
+
 MEDIA_ROOT=os.path.join(BASE_DIR,'static/images/PersonPhoto/')
 
 # Default primary key field type

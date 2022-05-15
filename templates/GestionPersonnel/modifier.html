@@ -3,6 +3,14 @@
     {% load static %}
     {% block title %}{% endblock title %}
     <link rel="stylesheet" href="{% static 'css/all.min.css' %}"/>
+    <script>
+     window.onload = function ()
+        {
+            document.getElementsByClassName('btn btn-secondary sw-btn-prev')[0].innerHTML = "السابق";
+            document.getElementsByClassName('btn btn-secondary sw-btn-next')[0].innerHTML = "التالي";
+            document.getElementsByClassName('btn-toolbar sw-toolbar sw-toolbar-bottom justify-content-end')[0].setAttribute("dir","ltr")
+        }
+    </script>
 <form method="post">
         {% csrf_token %}
     <div id="smartwizard-default-primary" class="wizard wizard-primary mb-4">
@@ -28,7 +36,7 @@
                                 </div>
                             </div>
                         </div>
-
+                        <br>
                         <div class="row">
                             <div class="col-md">
                                 <label class="col-form-label float-right" for="prenomar">الاسم الشخصي :</label>
@@ -40,7 +48,7 @@
                                 <input type="text" class="form-control text-center" name="prenomfr" value="{{ personnel.prenomfr }}"  required>
                             </div>
                         </div>
-
+                        <br>
                         <div class="row">
                                 <div class="col-md">
                                     <label class="col-form-label float-right" for="nomfr"> الاسم العائلي :</label>
@@ -77,6 +85,8 @@
                             </div>
                         </div>
 
+                    <br>
+
                         <div class="row">
                             <div class="col-md">
                                 <label class="col-form-label float-right" for="daten"> تاريخ الازدياد :</label>
@@ -84,6 +94,8 @@
                                 <input type="date" class="form-control text-center" name="daten" value="{{ personnel.datenaissance|date:'Y-m-d' }}" required>
                             </div>
                         </div>
+
+                    <br>
 
                         <div class="row">
                             <div class="col-md">
@@ -97,6 +109,8 @@
                             </div>
                         </div>
 
+                    <br>
+
                         <div class="row">
                             <div class="col-md">
                                 <label class="col-form-label float-right" for="sexe"> الجنس :</label>
@@ -107,6 +121,8 @@
                                 </select>
                             </div>
                         </div>
+
+                    <br>
 
                         <div class="row">
                             <div class="col-md">
@@ -120,6 +136,8 @@
                             </div>
                         </div>
 
+                    <br>
+
                         <div class="row">
                             <div class="col-md">
                                 <label class="col-form-label float-right" for="email"> البريد الالكتروني :</label>
@@ -127,6 +145,8 @@
                                 <input type="text" class="form-control text-center" name="email" value="{{ personnel.email }}"  required>
                             </div>
                         </div>
+
+                    <br>
 
                         <div class="row">
                             <div class="col-md">
@@ -152,6 +172,8 @@
                                 </div>
                             </div>
 
+                    <br>
+
                             <div class="row">
                                 <div class="col-md">
                                     <label class="col-form-label float-right" for="adminiapp"> الإدارة :</label>
@@ -163,6 +185,8 @@
                                 </div>
                             </div>
 
+                    <br>
+
                             <div class="row">
                                 <div class="col-md">
                                     <label class="col-form-label float-right" for="numiden"> الرقم المالي :</label>
@@ -170,6 +194,8 @@
                                     <input type="text" class="form-control text-center" name="numiden" value="{{ personnel.numerofinancier }}" required>
                                 </div>
                             </div>
+
+                    <br>
 
                             <div class="row">
                                 <div class="col-md">
@@ -179,6 +205,7 @@
                                 </div>
                             </div>
 
+                    <br>
 
                             <div class="row">
                                 <div class="col-md">
@@ -188,6 +215,8 @@
                                 </div>
                             </div>
 
+                    <br>
+
                             <div class="row">
                                 <div class="col-md">
                                     <label class="col-form-label float-right" for="ancadmi"> الأقدمية الإدارية :</label>
@@ -195,6 +224,8 @@
                                     <input type="text" class="form-control text-center" name="ancadmi" value="{{ personnel.ancienneteadmi }}" required>
                                 </div>
                             </div>
+
+                    <br>
 
                             <div class="row">
                                 <div class="col-md">
@@ -209,6 +240,9 @@
                                     <input type="date" class="form-control text-center" name="datedec" value="{{ personnel.datedemarcation|date:'Y-m-d' }}" required>
                                 </div>
                             </div>
+
+                    <br>
+
                             <div class="row">
                                 <div class="col-md">
                                     <label class="col-form-label float-right" for="dateretr"> تاريخ الإحالة على التقاعد :</label>
@@ -217,6 +251,12 @@
                                 </div>
                             </div>
 
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="card-body">
+
                             <div class="row">
                                 <div class="col-md">
                                     <label class="col-form-label float-right" for="ancadmi"> الأقدمية الإدارية :</label>
@@ -224,11 +264,6 @@
                                     <input type="text" class="form-control text-center" name="ancadmi" value="{{ personnel.ancienneteadmi }}" required>
                                 </div>
                             </div>
-                    </div>
-                </div>
-
-                <div class="col-md-6">
-                    <div class="card-body">
 
                         <div class="row">
                             <div class="col-md">
@@ -237,6 +272,8 @@
                                  <input type="text" class="form-control text-center" name="numcnopsaf" value="{{ personnel.numcnopsaf }}" required>
                             </div>
 
+                    <br>
+
                             <div class="col-md">
                                 <label class="col-form-label float-right" for="numcnopsim"> رفم كنوبس أ.م :</label>
                                 <label class="col-form-label" dir="ltr" for="numcnopsim">Numéro cnops im :</label>
@@ -244,13 +281,7 @@
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col-md">
-                                <label class="col-form-label float-right" for="ancadmi"> الأقدمية الإدارية :</label>
-                                <label class="col-form-label" dir="ltr" for="ancadmi">Ancienneté administrative :</label>
-                                <input type="text" class="form-control text-center" name="ancadmi" value="{{ personnel.ancienneteadmi }}" required>
-                            </div>
-                        </div>
+                    <br>
 
                         <div class="row">
                             <div class="col-md">
@@ -259,6 +290,18 @@
                                 <input type="text" class="form-control text-center" name="ancadmi" value="{{ personnel.ancienneteadmi }}" required>
                             </div>
                         </div>
+
+                    <br>
+
+                        <div class="row">
+                            <div class="col-md">
+                                <label class="col-form-label float-right" for="ancadmi"> الأقدمية الإدارية :</label>
+                                <label class="col-form-label" dir="ltr" for="ancadmi">Ancienneté administrative :</label>
+                                <input type="text" class="form-control text-center" name="ancadmi" value="{{ personnel.ancienneteadmi }}" required>
+                            </div>
+                        </div>
+
+                    <br>
 
                         <div class="row">
                             <div class="col-md">
@@ -435,12 +478,6 @@
 </div>
 </form>
 <script>
-        window.onload = function ()
-        {
-            document.getElementsByClassName('btn btn-secondary sw-btn-prev')[0].innerHTML = "السابق";
-            document.getElementsByClassName('btn btn-secondary sw-btn-next')[0].innerHTML = "التالي";
-            document.getElementsByClassName('btn-toolbar sw-toolbar sw-toolbar-bottom justify-content-end')[0].setAttribute("dir","ltr")
-        }
 
         $(function() {
 			$("#smartwizard-default-primary").smartWizard({

@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 
-<!-- Mirrored from colorlib.com/polygon/admindek/default/index.html by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 12 Dec 2019 16:07:52 GMT -->
 <!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
 <head>
     {% load static %}
@@ -21,6 +20,15 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo&display=swap" rel="stylesheet">
+
+    <script>
+        {% if not user.is_authenticated %}
+            $(document).ready(function (){
+                $('a[class="nav-link dropdown-toggle"]').attr("class","nav-link dropdown-toggle not-allowed disabled");
+                $('div[class="dropdown-menu"]').remove()
+            })
+        {% endif %}
+    </script>
 <style>
     .not-allowed {cursor: not-allowed;}
 </style>
@@ -154,7 +162,7 @@
             $('div[class="dropdown-menu"]').remove()
         })
     {% endif %}
-    </script>
+</script>
 <script data-cfasync="false" src="{% static 'js/email-decode.min.js' %}"></script>
 <script type="d2d1d6e2f87cbebdf4013b26-text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
 <script type="d2d1d6e2f87cbebdf4013b26-text/javascript" src="{% static 'js/jquery-ui.min.js' %}"></script>
