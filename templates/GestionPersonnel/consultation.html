@@ -67,13 +67,13 @@
 
                         <div class="col-3">
                             <label class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="inline-radios-example" value="option1">
+                                <input class="form-check-input" type="radio" name="radioGenre" value="Homme"/>
                                 <span class="form-check-label"> &nbsp; ذكر </span>
                             </label>
                         </div>
                         <div class="col-3">
                             <label class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="inline-radios-example" value="option2">
+                                <input class="form-check-input" type="radio" name="radioGenre" value="Femme"/>
                                 <span class="form-check-label">  &nbsp; أنثى </span>
                             </label>
                         </div>
@@ -98,6 +98,7 @@
                                 <th>ر.ب.و</th>
                                 <th>ب.ب.ر</th>
                                 <th>الاسم الكامل</th>
+                                <th>Genre</th>
                                 <th>الميزانية</th>
                                 <th>قسم</th>
                                  <th>الرتبة</th>
@@ -110,6 +111,7 @@
                                         <td>{{ personnel.Cin }}</td>
                                         <td>{{ personnel.Ppr }}</td>
                                         <td>{{personnel.NomFr}} - {{ personnel.PrenomFr }}</td>
+                                        <td>{{personnel.Sexe}}</td>
                                         <td>{{ personnel.AdministrationApp }} </td>
                                         <td>{{ personnel.LibelleDivisionFr }}</td>
                                         <td>{{ personnel.GradeFr }}</td>

@@ -5,7 +5,7 @@ $(document).ready(datatb);
 function datatb() {
      datatbl= $('#table').DataTable(
 	    {
-            "lengthMenu": [[10, 25, 50,75,100, -1], [10, 25, 50,75,100, "الكل"]],
+            "lengthMenu": [[20, 25, 50,75,100, -1], [10, 25, 50,75,100, "الكل"]],
 	        dom: 'Blfrtip',
             language:{
                 "decimal":        "",
@@ -68,12 +68,15 @@ function datatb() {
      let division = document.getElementById("div").value;
      let budget = document.getElementById("budget").value;
      let grade = document.getElementById("grade").value;
+     let genre=$('input[name="radioGenre"]:checked').val();
      let ancienneteAdmi = 1;
      let ancienneteAdmiValue=1;
      let idDivision = 1;
      let idDivisionValue=1;
      let idGrade = 1;
      let idGradeValue=1;
+     let genreName=1;
+     let genreValue=1;
      if(e.target.name=="budget"){
         if(division!=""){
             if(division==-1){
@@ -91,6 +94,15 @@ function datatb() {
             }else{
                 idGrade = "IdGrade";
                 idGradeValue=grade;
+            }
+        }
+        if(genre!=undefined){
+            if(genre=="Homme"){
+                genreName = "Sexe";
+                genreValue="Homme";
+            }else{
+                genreName = "Sexe";
+                genreValue="Femme";
             }
         }
          if(e.target.value==-1){
@@ -121,6 +133,15 @@ function datatb() {
                 idGradeValue=grade;
             }
         }
+        if(genre!=undefined){
+            if(genre=="Homme"){
+                genreName = "Sexe";
+                genreValue="Homme";
+            }else{
+                genreName = "Sexe";
+                genreValue="Femme";
+            }
+        }
         if(e.target.value==-1){
                 idDivision = 1;
                 idDivisionValue=1;
@@ -148,6 +169,15 @@ function datatb() {
                 idDivisionValue=division;
             }
         }
+        if(genre!=undefined){
+            if(genre=="Homme"){
+                genreName = "Sexe";
+                genreValue="Homme";
+            }else{
+                genreName = "Sexe";
+                genreValue="Femme";
+            }
+        }
         if(e.target.value==-1){
                 idGrade = 1;
                 idGradeValue=1;
@@ -156,7 +186,45 @@ function datatb() {
             idGradeValue=e.target.value;
         }
     }
-    let values=ancienneteAdmi+"-"+ancienneteAdmiValue+"-"+idDivision+"-"+idDivisionValue+"-"+idGrade+"-"+idGradeValue;
+    if(e.target.name=="radioGenre"){
+        if(budget!=""){
+            if(budget==-1){
+                ancienneteAdmi = 1;
+                ancienneteAdmiValue=1;
+            }else{
+                ancienneteAdmi = "AdministrationApp";
+                ancienneteAdmiValue=budget;
+            }
+        }
+         if(division!=""){
+            if(division==-1){
+                idDivision = 1;
+                idDivisionValue=1;
+            }else{
+                idDivision = "IdDivision";
+                idDivisionValue=division;
+            }
+        }
+        if(grade!=""){
+            if(grade==-1){
+                idGrade = 1;
+                idGradeValue=1;
+            }else{
+                idGrade = "IdGrade";
+                idGradeValue=grade;
+            }
+        }
+        if(e.target.value=="Homme"){
+            genreName = "Sexe";
+                genreValue="Homme";
+        }else{
+            genreName = "Sexe";
+            genreValue="Femme";
+        }
+    }
+    let values=ancienneteAdmi+"-"+ancienneteAdmiValue+"-"+idDivision+"-"+idDivisionValue+"-"+idGrade+"-"+idGradeValue+"-"+genreName+"-"+genreValue;
+   console.log(e.target.value)
+   console.log(genre)
     ajaxPerso(values)
      let table=$('#table').DataTable()
     table.clear().destroy();
@@ -182,7 +250,8 @@ function datatb() {
                  table.row.add([
                     item.Cin ,
                     item.Ppr,
-                    item.NomFr,
+                    item.NomFr+"-"+item.PrenomFr,
+                    item.Sexe,
                     item.AdministrationApp,
                     item.LibelleDivisionFr,
                     item.GradeFr,
