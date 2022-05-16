@@ -1,3 +1,7 @@
+.shadow{
+    box-shadow: 0 0.3rem 0.9rem rgb(5 92 98 / 14%) !important;
+    border-radius: 8px !important;
+}
 .tablechange {
     overflow-x: auto;
 }

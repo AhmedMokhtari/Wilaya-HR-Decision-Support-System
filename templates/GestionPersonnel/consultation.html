@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200&family=Montserrat:wght@800;900&display=swap" rel="stylesheet">
     <!-- CSS only -->
     <div class="col-12 col-xl-12">
-        <div class="card">
+        <div class="card shadow">
             <form method="get" id="formsearch">
                 <div class="card-header text-right">
                     <h3 class="text-right"><strong>البحث</strong></h3>
@@ -53,7 +53,7 @@
                               <i class="dropdown icon"></i>
                               <div class="default text">الرتبة</div>
                               <div class="menu">
-                                  <div class="item" data-value="-1">All</div>
+                                  <div class="item" data-value="-1">الكل</div>
                                   {% for grade in grades %}
                                      <div class="item" data-value="{{ grade.idgrade }}">{{ grade.gradefr }}</div>
                                   {% endfor %}
@@ -85,13 +85,11 @@
     <form method="POST">
     {% csrf_token %}
         <div class="col-12 col-xl-12">
-            <div class="card">
+            <div class="card shadow">
                 <div class="card-header">
                     <h3 class="text-right"><strong>الموضفين</strong></h3>
                     <h6 class="card-subtitle text-muted text-right">معلومات الموضفين</h6>
                     <br>
-
-
                 </div>
                 <div class="col-12 col-lg-12 col-xxl-12 d-flex tablechange">
                     <table class="table table-striped text-center" id="table">
