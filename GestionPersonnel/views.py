@@ -60,7 +60,7 @@ def get_json_perso_data(request, *args, **kwargs):
     from t1,t2 ,Service S ,Personnel P,Division D,Grade G where   t1.IdPersonnel# = t2.IdPersonnel#  and  t1.RowNumber = t2.RowNumber  and
     t1.RowNumber=1 AND S.IdService=t1.IdService# AND P.IdPersonnel=t1.IdPersonnel# AND D.IdDivision=S.IdDivision# AND G.IdGrade=t2.IdGrade# AND {reqAncienteAdmi} AND {reqDivision} AND {reqGrade}  '''.format(reqAncienteAdmi=reqAncienteAdmi,reqDivision=reqDivision,reqGrade=reqGrade)
     cursor.execute(req)
-    rows = dictfetchall(cursor)
+    rows = list(dictfetchall(cursor))
     objpersonnel = list(Personnel.objects.filter(ancienneteadmi=selected_obj).values())
     return JsonResponse({'data':rows})
 

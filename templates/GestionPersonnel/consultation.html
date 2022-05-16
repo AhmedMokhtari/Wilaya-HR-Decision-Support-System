@@ -4,22 +4,17 @@
     <title>{% block title %} معلومات {% endblock title %}</title>
     <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/all.min.css' %}"/>
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/semantic.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styleconsultation.css' %}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200&family=Montserrat:wght@800;900&display=swap" rel="stylesheet">
-    <style>
-    h3{
-        font-family: "Cairo ExtraLight"
-    }
-
-    </style>
     <!-- CSS only -->
     <div class="col-12 col-xl-12">
         <div class="card">
             <form method="get" id="formsearch">
                 <div class="card-header text-right">
-                    <h3 class="text-right"><strong>البحت</strong></h3>
+                    <h3 class="text-right"><strong>البحث</strong></h3>
                     <hr>
                     <div class="row">
                         <div class="col-3">
@@ -95,19 +90,10 @@
                     <h3 class="text-right"><strong>الموضفين</strong></h3>
                     <h6 class="card-subtitle text-muted text-right">معلومات الموضفين</h6>
                     <br>
-                    <div class="text-center">
-                        <div class="col-sm-3 float-left">
-                           <input class="form-control" id="search" placeholder="بحث..... ">
-                        </div>
 
-                        <div class="col-sm-2 text-right">
-                            <a href="{% url 'ajouterp' %}" class="btn btn-transparent m-1"><i style="color: green" class="fa-solid fa-circle-plus fa-2xl" ></i></a>
-                            <a  class="btn btn-transparent m-1" id="export" href="{% url 'export_perso_xls' %}"><i style="color: green" class="fa-solid fa-file-csv fa-2xl" ></i></a>
-                        </div>
-                    </div>
 
                 </div>
-                <div class="col-12 col-lg-12 col-xxl-12 d-flex">
+                <div class="col-12 col-lg-12 col-xxl-12 d-flex tablechange">
                     <table class="table table-striped text-center" id="table">
                         <thead>
                             <tr>
@@ -116,11 +102,11 @@
                                 <th>الميزانية</th>
                                 <th>قسم</th>
                                  <th>الرتبة</th>
-                                <th>معلومات</th>
+                                <th></th>
                             </tr>
                         </thead>
                         <tbody id="tbody">
-                            {% for personnel in personnels %}
+                          {% for personnel in personnels %}
                                   <tr class="tb-colon"  >
                                         <td>{{ personnel.Cin }}</td>
                                         <td>{{personnel.NomFr}} - {{ personnel.PrenomFr }}</td>
@@ -130,223 +116,29 @@
                                         <td><a href="info/${idp}" class="btn btn-success m-1"><i class="fa-solid fa-arrow-up-right-from-square fa-lg " ></i></a><a href="modifier/${idp}"class="btn btn-warning btn-icon  mx-1"><i class="fa-solid fa-pen-to-square fa-lg"></i></a> </td>
                                   </tr>
                             {% endfor %}
+                       <!-- <tr class="tb-colon"  >
+                                        <td>sdh}}</td>
+                                        <td>d</td>
+                                        <td>d </td>
+                                        <td>fdg</td>
+                                        <td></td>
+                                        <td><a href="info/" class="btn btn-success m-1"><i class="fa-solid fa-arrow-up-right-from-square fa-lg " ></i></a><a href="modifier/" class="btn btn-warning btn-icon  mx-1"><i class="fa-solid fa-pen-to-square fa-lg"></i></a> </td>
+                                  </tr>-->
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </form>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.4.1/semantic.min.js"></script>
-      <script>
- $('.ui.dropdown').dropdown({
-    forceSelection: false
-});
- function search() {
-    let $rows = $('#table #tbody tr');
-    let val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
-
-    $rows.show().filter(function() {
-        let text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
-        return !~text.indexOf(val);
-    }).hide();
-}
-$(document).on("keyup", "#search",search);
- document.getElementById('formsearch').addEventListener('change', e=>{
-     let division = document.getElementById("div").value;
-     let budget = document.getElementById("budget").value;
-     let grade = document.getElementById("grade").value;
-     let ancienneteAdmi = 1;
-     let ancienneteAdmiValue=1;
-     let idDivision = 1;
-     let idDivisionValue=1;
-     let idGrade = 1;
-     let idGradeValue=1;
-     if(e.target.name=="budget"){
-        if(division!=""){
-            if(division==-1){
-                idDivision = 1;
-                idDivisionValue=1;
-            }else{
-                idDivision = "IdDivision";
-                idDivisionValue=division;
-            }
-        }
-         if(grade!=""){
-            if(grade==-1){
-                idGrade = 1;
-                idGradeValue=1;
-            }else{
-                idGrade = "IdGrade";
-                idGradeValue=grade;
-            }
-        }
-         if(e.target.value==-1){
-               ancienneteAdmi = 1;
-               ancienneteAdmiValue=1;
-        }else{
-            ancienneteAdmi="AdministrationApp";
-            ancienneteAdmiValue=e.target.value;
-        }
-
-    }
-     if(e.target.name=="div"){
-        if(budget!=""){
-            if(budget==-1){
-                ancienneteAdmi = 1;
-                ancienneteAdmiValue=1;
-            }else{
-                ancienneteAdmi = "AdministrationApp";
-                ancienneteAdmiValue=budget;
-            }
-        }
-         if(grade!=""){
-            if(grade==-1){
-                idGrade = 1;
-                idGradeValue=1;
-            }else{
-                idGrade = "IdGrade";
-                idGradeValue=grade;
-            }
-        }
-        if(e.target.value==-1){
-                idDivision = 1;
-                idDivisionValue=1;
-        }else{
-            idDivision = "IdDivision";
-            idDivisionValue=e.target.value;
-        }
-    }
-     if(e.target.name=="grade"){
-        if(budget!=""){
-            if(budget==-1){
-                ancienneteAdmi = 1;
-                ancienneteAdmiValue=1;
-            }else{
-                ancienneteAdmi = "AdministrationApp";
-                ancienneteAdmiValue=budget;
-            }
-        }
-         if(division!=""){
-            if(division==-1){
-                idDivision = 1;
-                idDivisionValue=1;
-            }else{
-                idDivision = "IdDivision";
-                idDivisionValue=division;
-            }
-        }
-        if(e.target.value==-1){
-                idGrade = 1;
-                idGradeValue=1;
-        }else{
-            idGrade = "IdGrade";
-            idGradeValue=e.target.value;
-        }
-    }
-    let values=ancienneteAdmi+"-"+ancienneteAdmiValue+"-"+idDivision+"-"+idDivisionValue+"-"+idGrade+"-"+idGradeValue;
-    console.log(e.target.value)
-    ajaxPerso(values);
-})
- function ajaxPerso(selectedbudget){
-    $.ajax({
-        type: 'GET',
-        url: `perso-json/${selectedbudget}/`,
-        success: function(response){
-            console.log(response.data)
-            const persoData = response.data
-            let tb = document.getElementById('tbody');
-            tb.innerHTML=""
-            localStorage.setItem("budget",selectedbudget);
-            persoData.map(item=>{
-                let tableBody = $('tbody');
-                let personnel;
-                let idp = item.IdPersonnel;
-                personnel=`<tr class="tb-colon" >
-                                <td>${item.Cin}</td>
-                                <td>${item.NomFr} - ${item.PrenomFr}</td>
-                                <td>${item.AdministrationApp} </td>
-                                <td>${item.LibelleDivisionFr}</td>
-                                <td>${item.GradeFr}</td>
-<td><a href="info/${idp}" class="btn btn-success m-1"><i class="fa-solid fa-arrow-up-right-from-square fa-lg " ></i></a><a href="modifier/${idp}"class="btn btn-warning btn-icon  mx-1"><i class="fa-solid fa-pen-to-square fa-lg"></i></a> </td>                              </tr>`
-                tableBody.append(personnel)
-            })
-
-        },
-        error: function(error){
-            console.log(error)
-        }
-    })
-}
-{% comment %}function ajaxBudget(selectedbudget){
-    $.ajax({
-        type: 'GET',
-        url: `perso-json/${selectedbudget}/`,
-        success: function(response){
-            console.log(response.data)
-            const persoData = response.data
-            let tb = document.getElementById('tbody');
-            tb.innerHTML=""
-            localStorage.setItem("budget",selectedbudget);
-            persoData.map(item=>{
-                let tableBody = $('tbody');
-                let personnel;
-                personnel=`<tr class="tb-colon"  >
-                                <td>${item.Cin}</td>
-                                <td>${item.NomFr} - ${item.PrenomFr}</td>
-                                  <td>${item.LibelleDivisionFr}</td>
-                                  <td>${item.ancienneteAdmi} </td>
-                                  <td><a class="btn btn-success m-1"><i class="fa-solid fa-eye fa-lg " ></i></a><a><button class="btn btn-warning btn-icon  mx-1"><i class="fa-solid fa-pen fa-xs mx-1"></i></button></a> </td>
-                              </tr>`
-                tableBody.append(personnel)
-            })
-
-        },
-        error: function(error){
-            console.log(error)
-        }
-    })
-}
-function ajaxDivison(selectedDivision){
-    $.ajax({
-        type: 'GET',
-        url: `persodivison-json/${selectedDivision}/`,
-        success: function(response){
-            console.log(response.data)
-            const persoData = response.data
-            let tb = document.getElementById('tbody');
-            tb.innerHTML=""
-            localStorage.setItem("Div",selectedDivision);
-            persoData.map(item=>{
-                let tableBody = $('tbody');
-                let personnel;
-                personnel=`<tr class="tb-colon"  >
-                                <td>${item.Cin}</td>
-                                <td>${item.NomFr} - ${item.PrenomFr}</td>
-                                  <td>${item.LibelleDivisionFr}</td>
-                                  <td>${item.ancienneteAdmi} </td>
-                                  <td><a class="btn btn-success m-1"><i class="fa-solid fa-eye fa-lg " ></i></a><a><button class="btn btn-warning btn-icon  mx-1"><i class="fa-solid fa-pen fa-xs mx-1"></i></button></a> </td>
-                              </tr>`
-                tableBody.append(personnel)
-            })
-
-        },
-        error: function(error){
-            console.log(error)
-        }
-    })
-}
-
-document.getElementById('budget').addEventListener('change', e=>{
-    console.log(e.target.value)
-    const selectedPerso = e.target.value
-    ajaxBudget(selectedPerso);
-
-})
-document.getElementById('div').addEventListener('change', e=>{
-    console.log(e.target.value)
-    const selectedDiv = e.target.value
-    ajaxDivison(selectedDiv);
-
-}){% endcomment %}
-    </script>
+<script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'js/buttons.flash.min.js' %}"></script>
+<script src="{% static 'js/jszip.min.js' %}"></script>
+<script src="{% static 'js/pdfmake.min.js' %}"></script>
+<script src="{% static 'js/vfs_fonts.js' %}"></script>
+<script src="{% static 'js/buttons.html5.min.js' %}"></script>
+<script src="{% static 'js/buttons.print.min.js' %}"></script>
+<script src="{% static 'js/xlsx.full.min.js' %}"></script>
+<script src="{% static 'js/semantic.min.js' %}"></script>
+<script src="{% static 'js/scriptConsultation.js' %}"></script>
 {% endblock %}
