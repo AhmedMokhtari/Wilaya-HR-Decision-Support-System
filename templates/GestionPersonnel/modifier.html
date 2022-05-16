@@ -392,20 +392,19 @@
                 <div class="col-md-4">
                     <div>
                     <br>
-                        <h5 class="card-title">Conjoint :<span class="float-right">: الزوج</span></h5>
+                        <h5 class="card-title" dir="ltr">Conjoint :<span class="float-right">: الزوج</span></h5>
+
                         <table class="table table-striped text-center">
                         <thead>
                             <tr>
-                                <th>Nom Complet</th>
                                 <th>الاسم الكامل</th>
-                                <th>D-naissance - تاريخ الازدياد</th>
-                                <th>Action</th>
+                                <th>تاريخ الازدياد</th>
+                                <th>تعديل</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for conjoint in conjoints %}
-                              <tr class="tb-colon"  >
-                                <td>{{ conjoint.nomfr }} - {{conjoint.prenomfr}}</td>
+                              <tr class="tb-colon">
                                 <td>{{conjoint.nomar}} - {{ conjoint.prenomar }}</td>
                                 <td>{{ conjoint.datenaissance|date:'Y-m-d' }}</td>
                                 <td><a onclick="red( '/personnel/modifier_conjoint', '{{  conjoint.idconjoint }}')"  class="btn btn-warning btn-icon  mx-1"><i class="fa-solid fa-pen fa-xs mx-1"></i></a> </td>
@@ -420,20 +419,18 @@
                 <div class="col-md-4">
                     <div>
                     <br>
-                        <h5 class="card-title">Enfants :<span class="float-right">: الاطفال</span></h5>
+                        <h5 class="card-title" dir="ltr">Enfants :<span class="float-right">: الاطفال</span></h5>
                         <table class="table table-striped text-center">
                             <thead>
                                 <tr>
-                                    <th>Nom Complet</th>
                                     <th>الاسم الكامل</th>
-                                    <th>D-naissance - تاريخ الازدياد</th>
-                                    <th>Action</th>
+                                    <th>تاريخ الازدياد</th>
+                                    <th>تعديل</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for enfant in enfants %}
                                   <tr class="tb-colon"  >
-                                    <td>{{ enfant.nomfr }} - {{enfant.prenomfr}}</td>
                                     <td>{{ enfant.nomar}} - {{ enfant.prenomar }}</td>
                                     <td>{{ personnel.datenaissance|date:'Y-m-d' }}</td>
                                     <td><a  onclick="red( '/personnel/modifier_enfant', '{{ enfant.idenfant }}')" class="btn btn-warning btn-icon  mx-1"><i class="fa-solid fa-pen fa-xs mx-1"></i></a> </td>
@@ -448,20 +445,18 @@
                 <div class="col-md-4">
                     <div>
                     <br>
-                        <h5 class="card-title">Diplômes :<span class="float-right">: ديبلومات</span></h5>
+                        <h5 class="card-title" dir="ltr">Diplômes :<span class="float-right">: ديبلومات</span></h5>
                         <table class="table table-striped text-center">
                             <thead>
                                 <tr>
-                                    <th>Diplôme</th>
                                     <th>ديبلوم</th>
-                                    <th>التخصص - Spécialité</th>
-                                    <th>Action</th>
+                                    <th>التخصص</th>
+                                    <th>تعديل</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for diplome in diplomes %}
                                   <tr class="tb-colon"  >
-                                    <td>{{ diplome.diplomefr }}</td>
                                     <td>{{ diplome.diplomear}}</td>
                                     <td>{{ diplome.specialitefr }} - {{ diplome.specialitear }}</td>
                                     <td><a onclick="red( '/personnel/modifier_diplome', '{{ diplome.iddiplome }}')" class="btn btn-warning btn-icon  mx-1"><i class="fa-solid fa-pen fa-xs mx-1"></i></a> </td>
@@ -530,7 +525,7 @@
         function red (link,val)
         {
             var data = link+"/"+val;
-            window.open(data,link,'width=500,height=900');
+            window.open(data,link,'width=620,height=550');
         }
 </script>
 {% endblock content %}

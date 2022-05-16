@@ -4,9 +4,7 @@
     <meta charset="UTF-8">
     <title>Conjoint - الزوج</title>
     {% load static  %}
-    <style>
-    body {width:500px!important;height:500px!important;}
-    </style>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/utilespersonnel' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
     <script type="d2d1d6e2f87cbebdf4013b26-text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
     <script>
@@ -38,51 +36,53 @@
                   <div class="modal-body">
                             {% csrf_token %}
 
-                             <p>
-                                 <label class="col-form-label" for="prenomfr">Prénom :</label>
-                                 <input type="text" name="prenomfr" class="form-control" value="{{ conjoint.prenomfr }}">
-                             </p>
+                      <div class="row">
+                              <div class="col-sm">
+                                  <label class="col-form-label" for="prenomfr">Prénom :</label><input type="text" name="prenomfr" value="{{ conjoint.prenomfr }}" class="form-control">
+                              </div>
+                              <div class="col-sm">
+                                  <label class="col-form-label float-right" for="prenomar" >: الاسم الشخصي</label><input type="text"  value="{{ conjoint.prenomar }}"  name="prenomar" class="form-control">
+                              </div>
+                          </div>
 
-                              <p>
-                                 <label class="col-form-label float-right" for="prenomar" >: الاسم الشخصي</label>
-                                  <input type="text"  name="prenomar" class="form-control" value="{{ conjoint.prenomar }}">
-                             </p>
+                          <div class="row">
+                              <div class="col-sm">
+                                  <label class="col-form-label" for="nomfr">Nom :</label><input type="text" name="nomfr" value="{{ conjoint.nomfr }}"  class="form-control">
+                              </div>
+                              <div class="col-sm">
+                                  <label class="col-form-label float-right" for="nomar" >: الاسم العائلي</label><input value="{{ conjoint.nomar }}" type="text" name="nomar" class="form-control">
+                              </div>
+                          </div>
 
-                              <p>
-                                 <label class="col-form-label" for="nomfr">Nom :</label><input type="text" name="nomfr" class="form-control" value="{{ conjoint.nomfr }}">
-                             </p>
 
-                              <p>
-                                 <label class="col-form-label float-right" for="nomar" >: الاسم العائلي</label>
-                                  <input type="text" name="nomar" class="form-control" value="{{ conjoint.nomar }}">
-                              </p>
+                          <p>
+                             <label class="col-form-label" for="cin">Cin :</label> <label class="col-form-label float-right" >: ر.ب.و</label><input type="text" value="{{ conjoint.cin }}"  name="cin" class="form-control">
+                          </p>
 
-                              <p>
-                                 <label class="col-form-label" for="cin">Cin :</label> <label class="col-form-label float-right" >: ر.ب.و</label>
-                                  <input type="text"  name="cin" class="form-control" value="{{ conjoint.cin }}" readonly>
-                              </p>
+                          <p>
+                             <label class="col-form-label" for="daten">Date de naissance :</label> <label class="col-form-label float-right" for="daten" >: تاريخ الازدياد</label><input type="date" name="daten" value="{{ conjoint.datenaissance|date:'Y-m-d' }}" class="form-control">
+                          </p>
 
-                              <p>
-                                 <label class="col-form-label" for="daten">Date de naissance :</label> <label class="col-form-label float-right" for="daten" >: تاريخ الازدياد</label>
-                                  <input type="date" name="daten" class="form-control" value="{{ conjoint.datenaissance|date:'Y-m-d' }}">
-                             </p>
+                          <p>
+                             <label class="col-form-label" for="lieun">lieu de naissance :</label> <label class="col-form-label float-right" for="lieun">: مكان الازدياد</label><input type="text"   name="lieun" value="{{ conjoint.lieunaissance }}" class="form-control">
+                          </p>
 
-                              <p>
-                                 <label class="col-form-label" for="fonction">Fonction :</label> <label class="col-form-label float-right" for="fonction">: المهنة</label>
-                                 <select type="text" id="fonction" name="fonction" class="form-control" required>
+                         <p>
+                             <label class="col-form-label" for="fonction">Fonction :</label> <label class="col-form-label float-right" for="fonction">: المهنة</label>
+                             <select type="text" id="fonction" name="fonction" class="form-control" required>
                                      <option {% if conjoint.fonction == 'Public' %} selected {% endif %} value="Public">Public</option>
                                      <option {% if conjoint.fonction == 'Privé' %} selected {% endif %} value="Privé">Privé</option>
-                                 </select>
-                             </p>
+                             </select>
+                         </p>
 
-                            <p id="ppr"  {% if conjoint.fonction == "Privé" %} hidden{% endif %}>
+                         <p id="ppr" {% if conjoint.fonction == "Privé" %} hidden{% endif %}>
+                            <label class="col-form-label" for="ppr">PPR :</label> <label class="col-form-label float-right" for="ppr">: ب.ب.ر</label><input  type="text" name="ppr" class="form-control" >
+                         </p>
+
+                          <p id="ppr"  {% if conjoint.fonction == "Privé" %} hidden{% endif %}>
                                 <label class="col-form-label" for="ppr">PPR :</label> <label class="col-form-label float-right" for="ppr">: ب.ب.ر</label><input  type="text" name="ppr" value="{{ conjoint.ppr }}" class="form-control" >
-                            </p>
+                          </p>
 
-                              <p>
-                                 <label class="col-form-label" for="lieun">lieu de naissance :</label> <label class="col-form-label float-right" for="lieun">: مكان الازدياد</label>
-                                  <input type="text" name="lieun" class="form-control" value="{{ conjoint.lieunaissance }}">
-                             </p>
 
                   </div>
                     {% if suc == 'yes' %}
@@ -100,7 +100,7 @@
                         </script>
                     {% endif %}
                   <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Enregistrer | حفظ</button>
+                    <button type="submit" class="btn btn-primary"> حفظ</button>
                   </div>
             </form>
       </div>

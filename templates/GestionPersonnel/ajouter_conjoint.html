@@ -4,10 +4,8 @@
     <meta charset="UTF-8">
     <title>Conjoint - الزوج</title>
     {% load static  %}
-    <style>
-    body {width:500px!important;height:500px!important;}
-    </style>
     <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/utilespersonnel' %}">
     <script type="d2d1d6e2f87cbebdf4013b26-text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
      <script>
         window.onload = function (){
@@ -37,51 +35,51 @@
             <form action="" method="POST">
                   <div class="modal-body">
                             {% csrf_token %}
+                      <div class="row">
+                          <div class="col-sm">
+                              <label class="col-form-label" for="prenomfr">Prénom :</label><input type="text" name="prenomfr" class="form-control">
+                          </div>
+                          <div class="col-sm">
+                              <label class="col-form-label float-right" for="prenomar" >: الاسم الشخصي</label><input type="text"  name="prenomar" class="form-control">
+                          </div>
+                      </div>
 
-                             <p>
-                                 <label class="col-form-label" for="prenomfr">Prénom :</label><input type="text" name="prenomfr" class="form-control">
-                             </p>
+                      <div class="row">
+                          <div class="col-sm">
+                              <label class="col-form-label" for="nomfr">Nom :</label><input type="text" name="nomfr"  class="form-control">
+                          </div>
+                          <div class="col-sm">
+                              <label class="col-form-label float-right" for="nomar" >: الاسم العائلي</label><input type="text" name="nomar" class="form-control">
+                          </div>
+                      </div>
 
-                              <p>
-                                 <label class="col-form-label float-right" for="prenomar" >: الاسم الشخصي</label><input type="text"  name="prenomar" class="form-control">
-                             </p>
+                      <p>
+                         <label class="col-form-label" for="cin">Cin :</label> <label class="col-form-label float-right" >: ر.ب.و</label><input type="text"  name="cin" class="form-control">
+                      </p>
 
-                              <p>
-                                 <label class="col-form-label" for="nomfr">Nom :</label><input type="text" name="nomfr"  class="form-control">
-                             </p>
+                      <p>
+                         <label class="col-form-label" for="daten">Date de naissance :</label> <label class="col-form-label float-right" for="daten" >: تاريخ الازدياد</label><input type="date" name="daten" class="form-control">
+                      </p>
 
-                              <p>
-                                 <label class="col-form-label float-right" for="nomar" >: الاسم العائلي</label><input type="text" name="nomar" class="form-control">
-                              </p>
+                      <p>
+                         <label class="col-form-label" for="lieun">lieu de naissance :</label> <label class="col-form-label float-right" for="lieun">: مكان الازدياد</label><input type="text"   name="lieun" class="form-control">
+                      </p>
 
-                              <p>
-                                 <label class="col-form-label" for="cin">Cin :</label> <label class="col-form-label float-right" >: ر.ب.و</label><input type="text"  name="cin" class="form-control">
-                              </p>
+                     <p>
+                         <label class="col-form-label" for="fonction">Fonction :</label> <label class="col-form-label float-right" for="fonction">: المهنة</label>
+                         <select type="text" id="fonction" name="fonction" class="form-control" required>
+                             <option value="Public">Public</option>
+                             <option value="Privé">Privé</option>
+                         </select>
+                     </p>
 
-                              <p>
-                                 <label class="col-form-label" for="daten">Date de naissance :</label> <label class="col-form-label float-right" for="daten" >: تاريخ الازدياد</label><input type="date" name="daten" class="form-control">
-                             </p>
+                     <p id="ppr">
+                        <label class="col-form-label" for="ppr">PPR :</label> <label class="col-form-label float-right" for="ppr">: ب.ب.ر</label><input  type="text" name="ppr" class="form-control" >
+                     </p>
 
-                            <p>
-                                <label class="col-form-label" for="lieun">lieu de naissance :</label> <label class="col-form-label float-right" for="lieun">: مكان الازدياد</label><input type="text"   name="lieun" class="form-control">
-                            </p>
-
-                             <p>
-                                 <label class="col-form-label" for="fonction">Fonction :</label> <label class="col-form-label float-right" for="fonction">: المهنة</label>
-                                 <select type="text" id="fonction" name="fonction" class="form-control" required>
-                                     <option value="Public">Public</option>
-                                     <option value="Privé">Privé</option>
-                                 </select>
-                             </p>
-
-                            <p id="ppr">
-                                <label class="col-form-label" for="ppr">PPR :</label> <label class="col-form-label float-right" for="ppr">: ب.ب.ر</label><input  type="text" name="ppr" class="form-control" >
-                            </p>
-
-                            <p>
-                                 <label class="col-form-label" for="prenomfr">Personnel Cin :</label><input type="text"  name="personnelcin" readonly class="form-control" value="{{ personnel }}">
-                            </p>
-
+                     <p>
+                         <label class="col-form-label" for="prenomfr">Personnel Cin :</label><input type="text"  name="personnelcin" readonly class="form-control" value="{{ personnel }}">
+                     </p>
                   </div>
                     {% if conjoint.cin %}
                         <div class="alert alert-success alert-dismissible fade show" role="alert" >

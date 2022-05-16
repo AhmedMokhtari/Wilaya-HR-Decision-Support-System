@@ -8,9 +8,10 @@
     body {width:500px!important;height:500px!important;}
     </style>
     <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/utilespersonnel' %}">
     <script type="d2d1d6e2f87cbebdf4013b26-text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
 </head>
-<body>
+<body style="margin: 0 auto;">
 
   <div class="modal-dialog" role="document">
     <div class="modal-content">
@@ -21,38 +22,43 @@
             <form action="" method="POST">
                   <div class="modal-body">
                             {% csrf_token %}
-
-                             <p>
-                                 <label class="col-form-label" for="prenomfr">Prénom :</label>
+                        <div class="row">
+                            <div class="col-sm">
+                                <label class="col-form-label" for="prenomfr">Prénom :</label>
                                  <input type="text" name="prenomfr" class="form-control" value="{{ enfant.prenomfr }}">
-                             </p>
-
-                              <p>
-                                 <label class="col-form-label float-right" for="prenomar" >: الاسم الشخصي</label>
+                            </div>
+                            <div class="col-sm">
+                                <label class="col-form-label float-right" for="prenomar" >: الاسم الشخصي</label>
                                   <input type="text"  name="prenomar" class="form-control" value="{{ enfant.prenomar }}">
-                             </p>
-
-                              <p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm">
                                  <label class="col-form-label" for="nomfr">Nom :</label><input type="text" name="nomfr"  class="form-control" value="{{ enfant.nomfr }}">
-                             </p>
+                             </div>
 
-                              <p>
+                              <div class="col-sm">
                                  <label class="col-form-label float-right" for="nomar" >: الاسم العائلي</label>
                                   <input type="text" name="nomar" class="form-control" value="{{ enfant.nomar }}">
-                              </p>
-
-                             <p>
+                              </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm">
                                  <label class="col-form-label" for="lieun">lieu de naissance :</label>
                                  <input type="text" name="lieunfr" class="form-control" value="{{ enfant.lieunaissancefr }}">
-                             </p>
+                             </div>
 
-                             <p>
+                             <div class="col-sm">
                                  <label class="col-form-label float-right" for="lieun">: مكان الازدياد</label>
                                  <input type="text" name="lieunar" class="form-control" value="{{ enfant.lieunaissancear }}">
-                             </p>
+                             </div>
+                        </div>
+
+
+
 
                               <p>
-                                 <label class="col-form-label" for="lienj">Lien juridique :</label> <label class="col-form-label float-right" >: ر.ب.و</label>
+                                 <label class="col-form-label" for="lienj">Lien juridique :</label> <label class="col-form-label float-right" >: الرابط القانوني</label>
                                   <input type="text"  name="lienj" class="form-control" value="{{ enfant.lienjuridique }}">
                               </p>
 
@@ -87,7 +93,7 @@
                     {% endif %}
 
                   <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Enregistrer - حفظ</button>
+                    <button type="submit" class="btn btn-primary">حفظ</button>
                   </div>
             </form>
       </div>
