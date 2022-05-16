@@ -580,9 +580,9 @@ def taboardpersonnel(request):
     cinqdepartretraite = []
     while i < 5:
         data = {'cinqdepartretraite' : Personnel.objects.filter(dateparrainageretraite__year=datetime.datetime.now().year - i).count(),
-                'an' : datetime.datetime.now().year - i,
-                'cinqdepartretraiteone': Personnel.objects.filter(administrationapp='one').filter(dateparrainageretraite__year=datetime.datetime.now().year - i).count(),
-                'cinqdepartretraitetwo' : Personnel.objects.filter(administrationapp='two').filter(dateparrainageretraite__year=datetime.datetime.now().year - i).count()
+                'an' : datetime.datetime.now().year + i,
+                'cinqdepartretraiteone': Personnel.objects.filter(administrationapp='one').filter(dateparrainageretraite__year=datetime.datetime.now().year + i).count(),
+                'cinqdepartretraitetwo' : Personnel.objects.filter(administrationapp='two').filter(dateparrainageretraite__year=datetime.datetime.now().year + i).count()
                 }
         cinqdepartretraite.append(data)
         i = i + 1
