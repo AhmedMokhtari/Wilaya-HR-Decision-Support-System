@@ -5,7 +5,7 @@ $(document).ready(datatb);
 function datatb() {
      datatbl= $('#table').DataTable(
 	    {
-            "lengthMenu": [[20, 25, 50,75,100, -1], [10, 25, 50,75,100, "الكل"]],
+            "lengthMenu": [[5, 25, 50,75,100, -1],[5, 25, 50,75,100, "الكل"]],
 	        dom: 'Blfrtip',
             language:{
                 "decimal":        "",

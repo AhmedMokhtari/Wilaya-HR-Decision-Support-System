@@ -270,8 +270,8 @@
 
                                     <div class="row">
                                         <div class="col-md">
-                                            <label class="col-form-label float-right" for="numiden"> الرقم المالي :</label>
-                                            <label class="col-form-label" dir="ltr" for="numiden">Numéro d'identification fiscale :</label>
+                                            <label class="col-form-label float-right" for="numiden"> رقم المنصب المالي :</label>
+                                            <label class="col-form-label" dir="ltr" for="numiden">N° de poste budgétaire :</label>
                                             <input type="text" class="form-control text-center" name="numiden" required>
                                         </div>
                                     </div>
@@ -280,8 +280,8 @@
 
                                     <div class="row">
                                         <div class="col-md">
-                                            <label class="col-form-label float-right" for="statut"> الحالة :</label>
-                                            <label class="col-form-label" dir="ltr" for="statut">Statut :</label>
+                                            <label class="col-form-label float-right" for="statut"> الوضعية النظامية :</label>
+                                            <label class="col-form-label" dir="ltr" for="statut">Situation statutaire :</label>
                                             <input type="text" class="form-control text-center" name="statut" required>
                                         </div>
                                     </div>
@@ -318,7 +318,7 @@
 
                                         <div class="col-md">
                                             <label class="col-form-label float-right" for="datedec"> تاريخ الترسيم :</label>
-                                            <label class="col-form-label" dir="ltr" for="datedec">Date de démarcation :</label>
+                                            <label class="col-form-label" dir="ltr" for="datedec">Date de titularisation :</label>
                                              <input type="date" class="form-control text-center" name="datedec" required>
                                         </div>
                                     </div>
@@ -352,7 +352,7 @@
                                 <hr>
                                     <div class="row">
                                         <div class="col-md">
-                                            <label class="col-form-label float-right" for="dateservice"> تاريخ التكليف :</label>
+                                            <label class="col-form-label float-right" for="dateservice"> تاريخ التعيين :</label>
                                             <label class="col-form-label" dir="ltr" for="dateservice">Date d'affectation :</label>
                                              <input type="date" class="form-control text-center" name="dateservice" value="" required>
                                         </div>
@@ -371,13 +371,13 @@
                                     <hr>
                                     <div class="row">
                                         <div class="col-md">
-                                            <label class="col-form-label float-right" for="dategrade"> تاريخ التكليف :</label>
-                                            <label class="col-form-label" dir="ltr" for="dategrade">Date d'affectation :</label>
+                                            <label class="col-form-label float-right" for="dategrade"> تاريخ التعيين :</label>
+                                            <label class="col-form-label" dir="ltr" for="dategrade">Date de changement de grade :</label>
                                              <input type="date" class="form-control text-center" name="dategrade" value="" required>
                                         </div>
 
                                         <div class="col-md">
-                                            <label class="col-form-label float-right" for="grade"> المرتبة :</label>
+                                            <label class="col-form-label float-right" for="grade"> الدرجة :</label>
                                             <label class="col-form-label" dir="ltr" for="grade">Grade :</label>
                                             <select class="form-control text-center" name="grade"  required>
                                                 {% for grade in grades %}
@@ -412,7 +412,7 @@
                         <div class="col-12 col-lg-12 col-xxl-12">
                             <div class="card flex-fill">
 								<div class="card-body"><!--data-toggle="modal" data-target="#defaultModalSuccess"-->
-                                <center><button type="submit" class="btn btn-success"   style="font-size: 130%">Ajouter - اضافة</button></center>
+                                <center><button type="submit" class="btn btn-success"   style="font-size: 130%">Enregistrer - تسجيل</button></center>
 
                                     <div class="modal fade" id="defaultModalSuccess" tabindex="-1" role="dialog" aria-hidden="true">
 										<div class="modal-dialog" role="document">
@@ -477,7 +477,7 @@
 							<h1 class="display-1 font-weight-bold" style="color: red">401</h1>
 							<p class="h1"></p>
 							<p class="h2 font-weight-normal mt-3 mb-4"  style="color: red">ليس لديكم الحق للولوج لهته الصفحة</p>
-							<a href="dashboard-default.html" class="btn btn-primary btn-lg">الرجوع</a>
+							<a href="{% url 'consultation' %}" class="btn btn-primary btn-lg">الرجوع</a>
 						</div>
 					</div>
 				</div>
