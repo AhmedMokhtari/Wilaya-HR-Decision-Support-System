@@ -98,6 +98,7 @@
                         <thead>
                             <tr>
                                 <th>ر.ب.و</th>
+                                <th>ب.ب.ر</th>
                                 <th>الاسم الكامل</th>
                                 <th>الميزانية</th>
                                 <th>قسم</th>
@@ -109,11 +110,12 @@
                           {% for personnel in personnels %}
                                   <tr class="tb-colon"  >
                                         <td>{{ personnel.Cin }}</td>
+                                        <td>{{ personnel.Ppr }}</td>
                                         <td>{{personnel.NomFr}} - {{ personnel.PrenomFr }}</td>
                                         <td>{{ personnel.AdministrationApp }} </td>
                                         <td>{{ personnel.LibelleDivisionFr }}</td>
                                         <td>{{ personnel.GradeFr }}</td>
-                                        <td><a href="info/${idp}" class="btn btn-success m-1"><i class="fa-solid fa-arrow-up-right-from-square fa-lg " ></i></a><a href="modifier/${idp}"class="btn btn-warning btn-icon  mx-1"><i class="fa-solid fa-pen-to-square fa-lg"></i></a> </td>
+                                        <td><a href="{% url 'info' personnel.IdPersonnel %}" class="btn btn-success m-1"><i class="fa-solid fa-arrow-up-right-from-square fa-lg " ></i></a><a href="{% url 'modifier' personnel.IdPersonnel %}"class="btn btn-warning btn-icon  mx-1"><i class="fa-solid fa-pen-to-square fa-lg"></i></a> </td>
                                   </tr>
                             {% endfor %}
                        <!-- <tr class="tb-colon"  >

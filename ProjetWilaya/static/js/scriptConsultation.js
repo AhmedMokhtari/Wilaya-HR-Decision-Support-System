@@ -181,6 +181,7 @@ function datatb() {
                 let idp = item.IdPersonnel;
                  table.row.add([
                     item.Cin ,
+                    item.Ppr,
                     item.NomFr,
                     item.AdministrationApp,
                     item.LibelleDivisionFr,
