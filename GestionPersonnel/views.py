@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from .models import Personnel, Conjoint, Conjointpersonnel, \
     Service, Servicepersonnel, Grade, \
-    Gradepersonnel, Enfant, Diplome, Fonction, Fonctionpersonnel,Division
+    Gradepersonnel, Enfant, Diplome, Fonction, Fonctionpersonnel,Division, Echellon, Echelle
 from django.contrib.auth.decorators import login_required
 from fpdf import FPDF
 from django.http import HttpResponse, JsonResponse
@@ -93,6 +93,8 @@ def info(request,id):
     return render(request, 'GestionPersonnel/info.html', {'personnel': personnel, 'conjoints': conjoints, 'conjointsinperso': conjointsinperso,
                                                           'Serviii': zip(Services, serviperso), 'diplomes':diplomes, "enfants":enfants})
 
+
+
 # ajouter -------------------------------.
 @login_required(login_url='/connexion')
 def ajouter(request):
@@ -100,6 +102,7 @@ def ajouter(request):
     services = Service.objects.all()
     grades = Grade.objects.all()
     fonctions = Fonction.objects.all()
+    echellons = Echellon.objects.all()
 
     if(request.method == 'POST'):
         nomfr = request.POST["nomfr"]
@@ -136,6 +139,8 @@ def ajouter(request):
         age = calculate_age(daten)
         ppr = request.POST["ppr"]
         statut = request.POST["statut"]
+        echellon = request.POST["echellon"]
+        dateechellon = request.POST["dateechellon"]
 
         if (int(request.POST.get('situationfar', None)) == 1):
             situatar = "متزوج(ة)"
@@ -157,13 +162,20 @@ def ajouter(request):
                                            ppr=ppr, statut=statut)
         objperso.save()
 
+
+
         objservice = Service(idservice=service)
         objgrade = Grade(idgrade=grade)
         objfonction = Fonction(idfonction=fonction)
+        objechellon = Echellon(idechellon=echellon)
+
 
         objfonctionperso = Fonctionpersonnel.objects.create(idpersonnel_field=objperso, idfonction_field=objfonction, datefonction=datefonction)
         objserviceperso = Servicepersonnel.objects.create(idpersonnel_field=objperso, idservice_field=objservice, dateaffectation=dateservice)
-        objgradeperso = Gradepersonnel.objects.create(idpersonnel_field=objperso, idgrade_field=objgrade, dategrade=dategrade)
+        objgradeperso = Gradepersonnel.objects.create(idpersonnel_field=objperso, idgrade_field=objgrade, dategrade=dategrade,
+                                                      idechellon_field=objechellon, dateechellon=dateechellon)
+
+
 
         objfonctionperso.save()
         objserviceperso.save()
@@ -171,9 +183,8 @@ def ajouter(request):
 
         conjoints = Conjointpersonnel.objects.filter(idpersonnel_field=objperso.idpersonnel).all()
 
-        return render(request, 'GestionPersonnel/ajouter.html', {'personnel': objperso})
-    else:
-        return render(request, 'GestionPersonnel/ajouter.html', {'services': services, 'grades': grades, 'fonctions': fonctions})
+
+    return render(request, 'GestionPersonnel/ajouter.html', {'services': services, 'grades': grades, 'fonctions': fonctions, 'echellons' : echellons })
 
 
 
@@ -634,4 +645,5 @@ def taboardpersonnel(request):
             'personnelslastup': personnelslastup,
             'cinqdepartretraite' : cinqdepartretraite,
         })
+
 

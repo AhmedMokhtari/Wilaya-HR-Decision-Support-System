@@ -372,7 +372,7 @@
                                     <div class="row">
                                         <div class="col-md">
                                             <label class="col-form-label float-right" for="dategrade"> تاريخ التعيين :</label>
-                                            <label class="col-form-label" dir="ltr" for="dategrade">Date de changement de grade :</label>
+                                            <label class="col-form-label" dir="ltr" for="dategrade">Changement de grade :</label>
                                              <input type="date" class="form-control text-center" name="dategrade" value="" required>
                                         </div>
 
@@ -386,6 +386,25 @@
                                             </select>
                                         </div>
                                     </div>
+                                <br>
+                                    <div class="row">
+                                        <div class="col-md">
+                                            <label class="col-form-label float-right" for="dateechellon"> تاريخ التعيين :</label>
+                                            <label class="col-form-label" dir="ltr" for="dateechellon">Changement d'echellon :</label>
+                                             <input type="date" class="form-control text-center" name="dateechellon" required>
+                                        </div>
+
+                                        <div class="col-md">
+                                            <label class="col-form-label float-right" for="echellon"> الرتبة :</label>
+                                            <label class="col-form-label" dir="ltr" for="echellon">Echellon :</label>
+                                            <select class="form-control text-center" name="echellon"  required>
+                                                {% for echellon in echellons %}
+                                                    <option value="{{ echellon.idechellon }}">{{ echellon.echellon }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+
                                     <br>
                                     <hr>
                                     <div class="row">
