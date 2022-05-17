@@ -1,6 +1,7 @@
 {% extends 'menu.html' %}
 {% block content %}
   {% load static %}
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/all.min.css' %}"/>
     <style>
     body{
@@ -85,14 +86,14 @@
                    <div class="col-md-6 ">
                         <div class="card p-3 h-100 shadow">
                               <div class="card-body">
-                                  <h3 class="mb-4">Personnel Information</h3>
+                                  <h3 class="mb-4">معلومات شخصية</h3>
                                   <div class="d-flex flex-column align-items-center text-center">
                                                 <img style="width: 180px;height: 180px" src="{{ personnel.photo.url }}" alt="Admin" class="rounded-circle mb-3" width="150">
                                                 </div>
                                   <div class="mt-3 my-4">
                                       <div class="row">
                                             <div class="col-sm-5">
-                                               <h6 class="mb-0 ">Cin</h6>
+                                               <h6 class="mb-0 ">ر.ب.و</h6>
                                              </div>
                                              <div class="col-sm-7 text-secondary ">
                                                   {{ personnel.cin }}
@@ -101,7 +102,7 @@
                                       <hr>
                                       <div class="row">
                                              <div class="col-sm-5">
-                                                 <h6 class="mb-0">Prenom</h6>
+                                                 <h6 class="mb-0">الإسم الشخصي</h6>
                                              </div>
                                              <div class="col-sm-7 text-secondary">
                                                     {{ personnel.prenomfr }}
@@ -110,7 +111,7 @@
                                       <hr>
                                       <div class="row">
                                            <div class="col-sm-5">
-                                               <h6 class="mb-0">Nom</h6>
+                                               <h6 class="mb-0">الإسم العائلي</h6>
                                             </div>
                                            <div class="col-sm-7 text-secondary">
                                                  {{ personnel.nomfr }}
@@ -119,7 +120,7 @@
                                       <hr>
                                       <div class="row">
                                           <div class="col-sm-5">
-                                              <h6 class="mb-0">Lieu De Naissence</h6>
+                                              <h6 class="mb-0">مكان الإزدياد</h6>
                                          </div>
                                          <div class="col-sm-7 text-secondary">
                                             {{ personnel.lieunaissancefr}}
@@ -128,7 +129,7 @@
                                        <hr>
                                       <div class="row">
                                                 <div class="col-sm-5">
-                                                  <h6 class="mb-0">Address</h6>
+                                                  <h6 class="mb-0">العنوان</h6>
                                                 </div>
                                                 <div class="col-sm-7 text-secondary">
                                                   {{ personnel.adressefr }}
@@ -137,7 +138,7 @@
                                        <hr>
                                       <div class="row">
                                                 <div class="col-sm-5">
-                                                  <h6 class="mb-0">Situation familiale :</h6>
+                                                  <h6 class="mb-0">الوضعية العائلية :</h6>
                                                 </div>
                                                 <div class="col-sm-7 text-secondary">
                                                     {{ personnel.situationfamiliale }}
@@ -146,7 +147,7 @@
                                        <hr>
                                       <div class="row">
                                                 <div class="col-sm-5">
-                                                  <h6 class="mb-0">Tele :</h6>
+                                                  <h6 class="mb-0">الهاتف :</h6>
                                                 </div>
                                                 <div class="col-sm-7 text-secondary">
                                                   {{ personnel.tele }}
@@ -155,7 +156,7 @@
                                        <hr>
                                       <div class="row">
                                                 <div class="col-sm-5">
-                                                  <h6 class="mb-0">Email :</h6>
+                                                  <h6 class="mb-0">البريد اللإلكتروني :</h6>
                                                 </div>
                                                 <div class="col-sm-7 text-secondary">
                                                   {{ personnel.email }}
@@ -164,7 +165,7 @@
                                         <hr>
                                        <div class="row">
                                             <div class="col-sm-5">
-                                                  <h6 class="mb-0"> Conjoint :</h6>
+                                                  <h6 class="mb-0"> الزوج :</h6>
                                             </div>
                                             <div class="col-sm-7 text-secondary">
                                                 <button class="badge badge-secondary" style="border: none" data-toggle="modal" data-target="#conjointmodel"> <i class="fa-solid fa-eye fa-xl"></i></button>
@@ -173,7 +174,7 @@
                                         <hr>
                                        <div class="row">
                                             <div class="col-sm-5">
-                                                  <h6 class="mb-0"> Enfant :</h6>
+                                                  <h6 class="mb-0"> الأطفال :</h6>
                                             </div>
                                             <div class="col-sm-7 text-secondary">
                                                 <button class="badge badge-secondary" style="border: none" data-toggle="modal" data-target="#enfantmodel"> <i class="fa-solid fa-eye fa-xl"></i></button>
@@ -182,7 +183,7 @@
                                         <hr>
                                        <div class="row">
                                             <div class="col-sm-5">
-                                                  <h6 class="mb-0"> Diplome :</h6>
+                                                  <h6 class="mb-0"> الشهادة :</h6>
                                             </div>
                                             <div class="col-sm-7 text-secondary">
                                                 <button class="badge badge-secondary" style="border: none" data-toggle="modal" data-target="#diplomemodel"> <i class="fa-solid fa-eye fa-xl"></i></button>
@@ -191,7 +192,7 @@
                                         <hr>
                                        <div class="row">
                                             <div class="col-sm-5">
-                                                  <h6 class="mb-0"> Formtaion :</h6>
+                                                  <h6 class="mb-0"> الدورة :</h6>
                                             </div>
                                             <div class="col-sm-7 text-secondary">
                                                 <button class="badge badge-secondary" style="border: none" data-toggle="modal" data-target="#formationmodel"> <i class="fa-solid fa-eye fa-xl"></i></button>
@@ -205,10 +206,10 @@
                    <div class="col-md-6">
                          <div class="card p-3 h-100 shadow">
                               <div class="card-body   ">
-                                   <h3 class="mb-4">Professional Information</h3>
+                                   <h3 class="mb-4">معلومات مهنية</h3>
                                    <div class="row">
                                         <div class="col-sm-5">
-                                            <h6 class="mb-0">Numéro d'identification fiscale</h6>
+                                            <h6 class="mb-0">الرقم المالي</h6>
                                         </div>
                                         <div class="col-sm-7 text-secondary">
                                             {{ personnel.numerofinancier }}
@@ -217,7 +218,7 @@
                                    <hr>
                                    <div class="row">
                                         <div class="col-sm-5">
-                                          <h6 class="mb-0">Date de recrutement :</h6>
+                                          <h6 class="mb-0">تاريخ التوضيف :</h6>
                                          </div>
                                         <div class="col-sm-7 text-secondary">
                                             {{ personnel.daterecrutement}}
@@ -226,7 +227,7 @@
                                    <hr>
                                    <div class="row">
                                         <div class="col-sm-5">
-                                          <h6 class="mb-0">Date de démarcation :</h6>
+                                          <h6 class="mb-0">تاريخ الترسيم :</h6>
                                         </div>
                                         <div class="col-sm-7 text-secondary">
                                             {{personnel.datedemarcation}}
@@ -235,7 +236,7 @@
                                    <hr>
                                    <div class="row">
                                         <div class="col-sm-5">
-                                          <h6 class="mb-0">Date de départ à la retraite :</h6>
+                                          <h6 class="mb-0">تاريخ  الإحالة على التقاعد :</h6>
                                         </div>
                                         <div class="col-sm-7 text-secondary">
                                             {{ personnel.daterarrainageretraite}}
@@ -244,7 +245,7 @@
                                    <hr>
                                    <div class="row">
                                         <div class="col-sm-5">
-                                          <h6 class="mb-0">Numéro cnopsAf :</h6>
+                                          <h6 class="mb-0">رقم كنوبس أف :</h6>
                                         </div>
                                         <div class="col-sm-7 text-secondary">
                                             {{personnel.numcnopsaf }}
@@ -253,7 +254,7 @@
                                    <hr>
                                    <div class="row">
                                         <div class="col-sm-5">
-                                          <h6 class="mb-0">Numéro cnopsIm :</h6>
+                                          <h6 class="mb-0">رقم كنوبس أم :</h6>
                                         </div>
                                         <div class="col-sm-7 text-secondary">
                                             {{ personnel.numcnopsim }}
@@ -262,7 +263,7 @@
                                    <hr>
                                    <div class="row">
                                         <div class="col-sm-5">
-                                          <h6 class="mb-0">RIB :</h6>
+                                          <h6 class="mb-0">ر.ي.ب :</h6>
                                         </div>
                                         <div class="col-sm-7 text-secondary">
                                             {{ personnel.rib }}
@@ -271,7 +272,7 @@
                                    <hr>
                                    <div class="row">
                                         <div class="col-sm-5">
-                                              <h6 class="mb-0">Ancienneté administrative  :</h6>
+                                              <h6 class="mb-0">الأقدمية الإدارية  :</h6>
                                         </div>
                                         <div class="col-sm-7 text-secondary">
                                             {{ personnel.ancienneteadmi }}
@@ -280,7 +281,7 @@
                                    <hr>
                                    <div class="row">
                                         <div class="col-sm-5">
-                                              <h6 class="mb-0">Administration App :</h6>
+                                              <h6 class="mb-0">الميزانية :</h6>
                                         </div>
                                         <div class="col-sm-7 text-secondary">
                                             {{ personnel.administrationapp }}
@@ -289,7 +290,7 @@
                                    <hr>
                                    <div class="row">
                                         <div class="col-sm-5">
-                                              <h6 class="mb-0"> Grade :</h6>
+                                              <h6 class="mb-0"> الترقية :</h6>
                                         </div>
                                         <div class="col-sm-7 text-secondary">
                                             <button class="badge badge-secondary" style="border: none" data-toggle="modal" data-target="#grademodel"> <i class="fa-solid fa-eye fa-xl"></i></button>
@@ -298,7 +299,7 @@
                                    <hr>
                                    <div class="row">
                                         <div class="col-sm-5">
-                                              <h6 class="mb-0"> Service :</h6>
+                                              <h6 class="mb-0"> الخدمات :</h6>
                                         </div>
                                         <div class="col-sm-7 text-secondary">
                                             <button class="badge badge-secondary" style="border: none" data-toggle="modal" data-target="#servicemodel"> <i class="fa-solid fa-eye fa-xl"></i></button>
