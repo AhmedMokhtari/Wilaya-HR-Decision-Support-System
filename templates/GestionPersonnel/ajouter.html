@@ -503,7 +503,7 @@
 
             window.onload = function ()
             {
-                const sel= document.getElementById('statutgrade')
+                const sel= document.getElementById('statutgrade');
                 sel.onchange = function ()
                 {
                     $("#grade option").remove();
@@ -511,9 +511,8 @@
                     $.ajax(
                     {
                         type:"POST",
-                        url: "{% url 'ajaxajouter' %}",
+                        url: "{% url 'ajaxajouterloadgrade' %}",
                         data:{statutgrade: sel.value},
-
                         success: function(data)
                         {
                             console.log(data)
@@ -521,10 +520,31 @@
                             {
                                 $("#grade").append(`<option value="${data.grades[i].idgrade}">${data.grades[i].gradear}</option>`);
                             }
-
                         }
                     });
                 }
+
+                const selgrade = document.getElementById('grade');
+                slegrade.onchange = function ()
+                {
+                    $("#grade option").remove();
+                    $('#op1').remove()
+                    $.ajax(
+                    {
+                        type:"POST",
+                        url: "{% url 'ajaxajouterloadechellon' %}",
+                        data:{statutgrade: sel.value , grade:selgrade.value},
+                        success: function(data)
+                        {
+                            console.log(data)
+                            for(var i = 0; i < data.grades.length; i++)
+                            {
+                                $("#grade").append(`<option value="${data.grades[i].idgrade}">${data.grades[i].gradear}</option>`);
+                            }
+                        }
+                    });
+                }
+
             }
 	</script>
 {% else %}

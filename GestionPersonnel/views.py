@@ -100,11 +100,26 @@ def info(request,id):
 
 # ajouter -------------------------------.
 @csrf_exempt
-def ajaxajouter(request):
+def ajaxajouterloadgrade(request):
     statutgrade = Statutgrade.objects.get(idstatutgrade=request.POST.get('statutgrade', None))
     objstatutgrade = {"grades": list(Grade.objects.filter(idstatutgrade_field=statutgrade).values('idgrade','gradear','gradefr'))}
     return JsonResponse(objstatutgrade,safe=False)
 
+# ajouter -------------------------------.
+@csrf_exempt
+def ajaxajouterloadechellon(request):
+
+    statutgrade = Statutgrade.objects.get(idstatutgrade=request.POST.get('statutgrade', None))
+    grade =Grade.objects.get(idgrade=request.POST.get('statutgrade', None))
+    objgrade = Grade.objects.filter(idstatutgrade_field=statutgrade).filter(idgrade=grade).first()
+    if(statutgrade.statutgradefr == 'Administrateurs MI' or statutgrade.statutgradefr == 'Administrateurs AC'):
+        if(grade.idechelle_field.echelle == '10' or grade.idechelle_field.echelle == '11'):
+            echellon = ['1','2','3','4','5','6','7','8','9','10','11','EXP']
+        elif(grade.idechelle_field.echelle == 'HE'):
+            echellon = ['1', '2', '3', '4', '5', '6']
+
+
+    return JsonResponse(objstatutgrade,safe=False)
 
 @login_required(login_url='/connexion')
 def ajouter(request):
@@ -192,7 +207,7 @@ def ajouter(request):
 
         conjoints = Conjointpersonnel.objects.filter(idpersonnel_field=objperso.idpersonnel).all()
 
-
+        return render(request,'GestionPersonnel/ajouter.html', {'personnel': objperso})
     return render(request, 'GestionPersonnel/ajouter.html', {'services': services, 'grades': grades, 'fonctions': fonctions, 'echellons' : echellons, 'statutgrades':statutgrades })
 
 
