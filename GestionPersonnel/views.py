@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from .models import Personnel, Conjoint, Conjointpersonnel, \
     Service, Servicepersonnel, Grade, \
-    Gradepersonnel, Enfant, Diplome, Fonction, Fonctionpersonnel,Division, Echellon, Echelle
+    Gradepersonnel, Enfant, Diplome, Fonction, Fonctionpersonnel,Division, Echellon, Echelle, Statutgrade
 from django.contrib.auth.decorators import login_required
 from fpdf import FPDF
 from django.http import HttpResponse, JsonResponse
@@ -93,9 +93,14 @@ def info(request,id):
     return render(request, 'GestionPersonnel/info.html', {'personnel': personnel, 'conjoints': conjoints, 'conjointsinperso': conjointsinperso,
                                                           'Serviii': zip(Services, serviperso), 'diplomes':diplomes, "enfants":enfants})
 
-
-
 # ajouter -------------------------------.
+@csrf_exempt
+def ajaxajouter(request):
+    statutgrade = Statutgrade.objects.get(idstatutgrade=request.POST.get('statutgrade', None))
+    objstatutgrade = {"grades": list(Grade.objects.filter(idstatutgrade_field=statutgrade).values('idgrade','gradear','gradefr'))}
+    return JsonResponse(objstatutgrade,safe=False)
+
+
 @login_required(login_url='/connexion')
 def ajouter(request):
 
@@ -103,6 +108,7 @@ def ajouter(request):
     grades = Grade.objects.all()
     fonctions = Fonction.objects.all()
     echellons = Echellon.objects.all()
+    statutgrades = Statutgrade.objects.all()
 
     if(request.method == 'POST'):
         nomfr = request.POST["nomfr"]
@@ -162,8 +168,6 @@ def ajouter(request):
                                            ppr=ppr, statut=statut)
         objperso.save()
 
-
-
         objservice = Service(idservice=service)
         objgrade = Grade(idgrade=grade)
         objfonction = Fonction(idfonction=fonction)
@@ -184,7 +188,7 @@ def ajouter(request):
         conjoints = Conjointpersonnel.objects.filter(idpersonnel_field=objperso.idpersonnel).all()
 
 
-    return render(request, 'GestionPersonnel/ajouter.html', {'services': services, 'grades': grades, 'fonctions': fonctions, 'echellons' : echellons })
+    return render(request, 'GestionPersonnel/ajouter.html', {'services': services, 'grades': grades, 'fonctions': fonctions, 'echellons' : echellons, 'statutgrades':statutgrades })
 
 
 
@@ -569,7 +573,7 @@ def ajaxtaboardpersonnel(request):
                       'departretraite' : list(Personnel.objects.filter(dateparrainageretraite__year=date).values('cin','nomar','nomfr','age','idpersonnel')),
                       'departretraitetwocount' : departretraitetwocount,
                       'departretraiteonecount': departretraiteonecount}
-    json_data = json.dumps(departretraite)
+
     return JsonResponse(departretraite,safe=False)
 
 

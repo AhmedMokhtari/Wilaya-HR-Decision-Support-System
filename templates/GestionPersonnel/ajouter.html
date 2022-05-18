@@ -369,6 +369,20 @@
                                     </div>
                                     <br>
                                     <hr>
+
+                                    <div class="row">
+                                        <div class="col-md">
+                                            <label class="col-form-label float-right" for="statutgrade"> الدرجة :</label>
+                                            <label class="col-form-label" dir="ltr" for="statutgrade">Status Grades :</label>
+                                            <select class="form-control text-center" name="statutgrade" id="statutgrade" required>
+                                                    <option  id="op1" selected></option>
+                                                {% for statut in statutgrades %}
+                                                    <option value="{{ statut.idstatutgrade }}">{{ statut.statutgradear }}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                    </div>
+
                                     <div class="row">
                                         <div class="col-md">
                                             <label class="col-form-label float-right" for="dategrade"> تاريخ التعيين :</label>
@@ -379,10 +393,8 @@
                                         <div class="col-md">
                                             <label class="col-form-label float-right" for="grade"> الدرجة :</label>
                                             <label class="col-form-label" dir="ltr" for="grade">Grade :</label>
-                                            <select class="form-control text-center" name="grade"  required>
-                                                {% for grade in grades %}
-                                                    <option value="{{ grade.idgrade }}">{{ grade.gradefr }} - {{ grade.gradear }}</option>
-                                                {% endfor %}
+                                            <select class="form-control text-center" name="grade" id="grade"  required>
+
                                             </select>
                                         </div>
                                     </div>
@@ -485,6 +497,33 @@
                 else
                 {
                     alert("il faut ajouter d'abord le personnel")
+                }
+            }
+
+
+            window.onload = function ()
+            {
+                const sel= document.getElementById('statutgrade')
+                sel.onchange = function ()
+                {
+                    $("#grade option").remove();
+                    $('#op1').remove()
+                    $.ajax(
+                    {
+                        type:"POST",
+                        url: "{% url 'ajaxajouter' %}",
+                        data:{statutgrade: sel.value},
+
+                        success: function(data)
+                        {
+                            console.log(data)
+                            for(var i = 0; i < data.grades.length; i++)
+                            {
+                                $("#grade").append('<option>'+data.grades[i].gradear+'</option>')
+                            }
+
+                        }
+                    });
                 }
             }
 	</script>
