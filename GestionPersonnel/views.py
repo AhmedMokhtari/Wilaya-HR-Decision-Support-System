@@ -34,7 +34,12 @@ def consultation(request):
     grade = Grade.objects.all();
     personnels = {'personnels': rows, 'divs': division, 'grades': grade}
     return render(request, 'GestionPersonnel/consultation.html', personnels)
-
+#perso info img
+def persoinfoimg(request) :
+    division = Division.objects.all();
+    grade = Grade.objects.all();
+    personnels = { 'divs': division, 'grades': grade}
+    return render(request, 'GestionPersonnel/persoinfoimg.html',personnels)
 
 # filter -------------------------------.
 @login_required(login_url='/connexion')
@@ -59,7 +64,7 @@ def get_json_perso_data(request, *args, **kwargs):
     t2 as(
     select IdGrade#,IdPersonnel#,DateGrade, ROW_NUMBER()  OVER ( PARTITION BY IdPersonnel# ORDER BY IdPersonnel#,DateGrade desc ) RowNumber from GradePersonnel
     )
-    select P.IdPersonnel,P.Sexe,P.Ppr, P.NomFr , P.PrenomFr,P.Cin,D.LibelleDivisionFr, S.LibelleServiceFr ,P.AdministrationApp ,t1.IdService#,t1.DateAffectation,t2.IdGrade#,t2.DateGrade,G.GradeFr
+    select P.IdPersonnel,P.Sexe,P.Ppr, P.NomFr , P.PrenomFr,P.Cin,P.photo,D.LibelleDivisionFr, S.LibelleServiceFr ,P.AdministrationApp ,t1.IdService#,t1.DateAffectation,t2.IdGrade#,t2.DateGrade,G.GradeFr,S.LibelleServiceFr
     from t1,t2 ,Service S ,Personnel P,Division D,Grade G where   t1.IdPersonnel# = t2.IdPersonnel#  and  t1.RowNumber = t2.RowNumber  and
     t1.RowNumber=1 AND S.IdService=t1.IdService# AND P.IdPersonnel=t1.IdPersonnel# AND D.IdDivision=S.IdDivision# AND G.IdGrade=t2.IdGrade# AND {reqAncienteAdmi} AND {reqDivision} AND {reqGrade}  AND {reqGenre} '''.format(reqAncienteAdmi=reqAncienteAdmi,reqDivision=reqDivision,reqGrade=reqGrade,reqGenre=reqgenre)
     cursor.execute(req)

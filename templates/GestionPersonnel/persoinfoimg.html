@@ -1,0 +1,100 @@
+{% extends 'menu.html' %}
+{% block content %}
+    {% load static %}
+    <title>{% block title %} معلومات {% endblock title %}</title>
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/all.min.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/semantic.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styleconsultation.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200&family=Montserrat:wght@800;900&display=swap" rel="stylesheet">
+    <!-- CSS only -->
+    <div class="col-12 col-xl-12">
+        <div class="card shadow">
+            <form method="get" id="formsearch">
+                <div class="card-header text-right">
+                    <h3 class="text-right"><strong>البحث</strong></h3>
+                    <hr>
+                    <div class="row">
+                        <div class="col-3">
+                            <label class="col-form-label">الميزانية :</label>
+                            <div class="ui selection dropdown mr-5 text-right">
+                                <input type="hidden" name="budget" id="budget">
+                                <i class="dropdown icon"></i>
+                                <div class="default text">الميزانية</div>
+                                <div class="menu">
+                                    <div class="item" data-value="-1">الكل</div>
+                                    <div class="item">Général</div>
+                                    <div class="item">Préfectoral</div>
+                                </div>
+                            </div>
+                        </div>
+
+                         <div class="col-3">
+                            <label class="col-form-label">القسم :</label>
+                            <div class="ui selection dropdown mr-5 text-right">
+                              <input type="hidden" name="div" id="div">
+                              <i class="dropdown icon"></i>
+                              <div class="default text">القسم</div>
+                              <div class="menu">
+                                  <div class="item" data-value="-1">الكل</div>
+                                  {% for div in divs %}
+                                        <div class="item" data-value="{{ div.iddivision }}">{{ div.libelledivisionfr }}</div>
+                                  {% endfor %}
+                              </div>
+                            </div>
+                         </div>
+
+                        <div class="col-3">
+                            <label class="col-form-label">الرتبة :</label>
+                            <div class="ui selection dropdown mr-5 text-right">
+                              <input type="hidden" name="grade" id="grade">
+                              <i class="dropdown icon"></i>
+                              <div class="default text">الرتبة</div>
+                              <div class="menu">
+                                  <div class="item" data-value="-1">الكل</div>
+                                  {% for grade in grades %}
+                                     <div class="item" data-value="{{ grade.idgrade }}">{{ grade.gradefr }}</div>
+                                  {% endfor %}
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-1"><label class="col-form-label block">الجنس &nbsp;:</label></div>
+
+                        <div class="col-3">
+                            <label class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="radioGenre" value="Homme"/>
+                                <span class="form-check-label"> &nbsp; ذكر </span>
+                            </label>
+                        </div>
+                        <div class="col-3">
+                            <label class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="radioGenre" value="Femme"/>
+                                <span class="form-check-label">  &nbsp; أنثى </span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="col-12 col-xl-12 ">
+            <div class="card shadow p-3">
+                <div class="card-header">
+                    <h3 class="text-right" style="font-weight: bold;font-size: 20px;"><strong>الموضفين</strong></h3>
+                    <br>
+                </div>
+                <div class="col-12 col-lg-12 col-xxl-12 d-flex ">
+                    <div class="row" id="imglist">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+<script src="{% static 'js/semantic.min.js' %}"></script>
+<script src="{% static 'js/scriptinfoimg.js' %}"></script>
+{% endblock %} 
