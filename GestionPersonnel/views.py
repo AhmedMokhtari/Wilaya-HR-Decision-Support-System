@@ -99,27 +99,66 @@ def info(request,id):
                                                           'Serviii': zip(Services, serviperso), 'diplomes':diplomes, "enfants":enfants})
 
 # ajouter -------------------------------.
+@login_required(login_url='/connexion')
 @csrf_exempt
 def ajaxajouterloadgrade(request):
     statutgrade = Statutgrade.objects.get(idstatutgrade=request.POST.get('statutgrade', None))
     objstatutgrade = {"grades": list(Grade.objects.filter(idstatutgrade_field=statutgrade).values('idgrade','gradear','gradefr'))}
     return JsonResponse(objstatutgrade,safe=False)
 
-# ajouter -------------------------------.
+@login_required(login_url='/connexion')
 @csrf_exempt
 def ajaxajouterloadechellon(request):
 
     statutgrade = Statutgrade.objects.get(idstatutgrade=request.POST.get('statutgrade', None))
-    grade =Grade.objects.get(idgrade=request.POST.get('statutgrade', None))
-    objgrade = Grade.objects.filter(idstatutgrade_field=statutgrade).filter(idgrade=grade).first()
-    if(statutgrade.statutgradefr == 'Administrateurs MI' or statutgrade.statutgradefr == 'Administrateurs AC'):
-        if(grade.idechelle_field.echelle == '10' or grade.idechelle_field.echelle == '11'):
-            echellon = ['1','2','3','4','5','6','7','8','9','10','11','EXP']
-        elif(grade.idechelle_field.echelle == 'HE'):
+    objgrade =Grade.objects.get(idgrade=request.POST.get('grade', None))
+    grade = Grade.objects.filter(idstatutgrade_field=statutgrade).filter(idgrade=objgrade.idgrade).first()
+    echellon = []
+    indice = []
+    if(statutgrade.statutgradefr == 'Administrateurs MI'):
+        if(grade.idechelle_field.echelle == '10'):
+            indice = ['275', '300', '329', '355', '380','402','428','460','484','512','564']
+            echellon = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'EXP']
+        elif (grade.idechelle_field.echelle == '11'):
+            indice = ['336', '369', '406', '436', '476', '509', '542', '578', '610', '639','704']
+            echellon = ['1','2','3','4','5','6','7','8','9','10','EXP']
+        else:
+            indice = ['704', '746', '779', '812', '840', '870']
+            echellon = ['1', '2', '3', '4', '5', '6']
+    elif(statutgrade.statutgradefr == 'Administrateurs AC'):
+        if (grade.idechelle_field.echelle == '10'):
+            indice = ['275', '300', '326', '351', '377', '402', '428', '456', '484', '512', '564']
+            echellon = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'EXP']
+        elif (grade.idechelle_field.echelle == '11'):
+            indice = ['336', '369', '403', '436', '472', '509', '542', '574', '606', '639', '704']
+            echellon = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'EXP']
+        else:
+            indice = ['704', '746', '779', '812', '840', '870']
             echellon = ['1', '2', '3', '4', '5', '6']
 
+    elif(statutgrade.statutgradefr == "Ingénieur et Architectes"):
+        if(grade.gradefr == "Ingénieur d'Etat 1er grade"  or grade.gradefr == "Architecte 1er grade" ):
+            indice = ['336','369','403','436','472']
+            echellon = ['1', '2', '3', '4', '5']
+        elif(grade.gradefr == "Ingénieur d'application 1er grade"):
+            indice = ['275', '300', '326', '351', '377']
+            echellon = ['1', '2', '3', '4', '5']
+        elif(grade.gradefr == "Architecte en chef grade principal" or grade.gradefr == "Ingénieur d'Etat grade principal" ):
+            indice = ['870', '900', '930', '960', '990']
+            echellon = ['1', '2', '3', '4', '5']
+        elif(grade.gradefr=="Ingénieur d'Etat grade principal" or grade.gradefr == "Architecte grade principal"):
+            indice = ['509', '542', '574', '606', '639', '704']
+            echellon = ['1', '2', '3', '4', '5', '6']
+        elif(grade.gradefr == "Ingénieur en chef 1er grade" or grade.gradefr == "Architecte en chef 1er grade"):
+            indice = ['704', '746', '779', '812', '840', '870']
+            echellon = ['1', '2', '3', '4', '5', '6']
+        elif(grade.gradefr == "Ingénieur d'application grade principal"):
+            indice = ['402', '428', '456', '484', '512', '564']
+            echellon = ['1', '2', '3', '4', '5', '6']
 
-    return JsonResponse(objstatutgrade,safe=False)
+    data = {'echellon': echellon, 'indice': indice}
+
+    return JsonResponse(data, safe=False)
 
 @login_required(login_url='/connexion')
 def ajouter(request):
@@ -141,8 +180,6 @@ def ajouter(request):
         lieunfr = request.POST["lieunfr"]
         tele = request.POST["tele"]
         email = request.POST["email"]
-        situatfr = request.POST.get('situationffr', None)
-        situatar = request.POST.get('situationfar', None)
         adressear= request.POST["adressear"]
         adressefr = request.POST["adressefr"]
         numiden = request.POST["numiden"]
@@ -167,6 +204,7 @@ def ajouter(request):
         statut = request.POST["statut"]
         echellon = request.POST["echellon"]
         dateechellon = request.POST["dateechellon"]
+        indice = request.POST.get('indice', None)
 
         if (int(request.POST.get('situationfar', None)) == 1):
             situatar = "متزوج(ة)"
@@ -191,13 +229,12 @@ def ajouter(request):
         objservice = Service(idservice=service)
         objgrade = Grade(idgrade=grade)
         objfonction = Fonction(idfonction=fonction)
-        objechellon = Echellon(idechellon=echellon)
-
+        objechellon = Echellon.objects.get(echellon = echellon)
 
         objfonctionperso = Fonctionpersonnel.objects.create(idpersonnel_field=objperso, idfonction_field=objfonction, datefonction=datefonction)
         objserviceperso = Servicepersonnel.objects.create(idpersonnel_field=objperso, idservice_field=objservice, dateaffectation=dateservice)
         objgradeperso = Gradepersonnel.objects.create(idpersonnel_field=objperso, idgrade_field=objgrade, dategrade=dategrade,
-                                                      idechellon_field=objechellon, dateechellon=dateechellon)
+                                                      idechellon_field=objechellon, dateechellon=dateechellon, indice=indice )
 
 
 
@@ -570,6 +607,7 @@ def printpdf(req,id):
    ##response.TransmitFile(pathtofile);
    return (response)
 
+@login_required(login_url='/connexion')
 @csrf_exempt
 def ajaxtaboardpersonnel(request):
 
