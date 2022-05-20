@@ -135,7 +135,6 @@ def ajaxajouterloadechellon(request):
         else:
             indice = ['704', '746', '779', '812', '840', '870']
             echellon = ['1', '2', '3', '4', '5', '6']
-
     elif(statutgrade.statutgradefr == "Ingénieur et Architectes"):
         if(grade.gradefr == "Ingénieur d'Etat 1er grade"  or grade.gradefr == "Architecte 1er grade" ):
             indice = ['336','369','403','436','472']
@@ -155,9 +154,34 @@ def ajaxajouterloadechellon(request):
         elif(grade.gradefr == "Ingénieur d'application grade principal"):
             indice = ['402', '428', '456', '484', '512', '564']
             echellon = ['1', '2', '3', '4', '5', '6']
+    elif(statutgrade.statutgradefr=="Techniciens" or statutgrade.statutgradefr=="Rédacteurs"):
+        if(grade.idechelle_field.echelle == "8"):
+            indice = ['207', '224', '241', '259', '276', '293', '311', '332', '353', '373']
+            echellon = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
+        elif(grade.idechelle_field.echelle == "9"):
+            indice = ['235', '253', '274', '296', '317', '339', '361', '382', '404', '438']
+            echellon = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
+        elif(grade.idechelle_field.echelle == "10"):
+            indice = ['275', '300', '326', '351', '377', '402', '428', '456', '484', '512', '564']
+            echellon = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11']
+        elif (grade.idechelle_field.echelle == "11"):
+            indice = ['336','369','403','436','472', '509', '542', '574', '606', '639', '675', '704', '690', '704']
+            echellon = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13']
+    elif (statutgrade.statutgradefr == "Adjoints Administratifs" or statutgrade.statutgradefr == "Adjoints Techniques"):
+        if (grade.idechelle_field.echelle == "8"):
+            indice = ['207', '224', '241', '259', '276', '293', '311', '332', '353', '373']
+            echellon = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
+        elif (grade.idechelle_field.echelle == "7"):
+            indice = ['177', '193', '208', '225', '242', '260', '277', '291', '305', '318']
+            echellon = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
+        elif (grade.idechelle_field.echelle == "6"):
+            indice = ['153', '161', '173', '185', '197', '209', '222', '236', '249', '262']
+            echellon = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
+        elif (grade.idechelle_field.echelle == "5"):
+            indice = ['137', '141', '150', '157', '165', '174', '183', '192', '201', '220']
+            echellon = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']
 
     data = {'echellon': echellon, 'indice': indice}
-
     return JsonResponse(data, safe=False)
 
 @login_required(login_url='/connexion')

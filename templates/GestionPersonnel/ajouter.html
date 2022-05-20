@@ -570,6 +570,7 @@
                 selgrade.onchange = function ()
                 {
                     $("#echellon option").remove();
+                    $("#indice option").remove();
                     $('#op2').remove()
                     $.ajax(
                     {
@@ -590,10 +591,6 @@
                         }
                     });
                 }
-
-
-
-
 
                  function loadindice()
                 {
