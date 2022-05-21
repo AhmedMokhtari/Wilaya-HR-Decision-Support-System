@@ -192,6 +192,7 @@ def ajouter(request):
     fonctions = Fonction.objects.all()
     echellons = Echellon.objects.all()
     statutgrades = Statutgrade.objects.all()
+    entite
 
     if(request.method == 'POST'):
         nomfr = request.POST["nomfr"]

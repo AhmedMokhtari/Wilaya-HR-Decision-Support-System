@@ -184,16 +184,58 @@ class Enfant(models.Model):
         db_table = 'Enfant'
 
 # -------------------------------------------------------
+class Entite(models.Model):
+    identite = models.AutoField(db_column='IdEntite', primary_key=True)  # Field name made lowercase.
+    libelleentitenar = models.CharField(db_column='LibelleEntitenAr', max_length=100, db_collation='French_CI_AS', blank=True, null=True)  # Field name made lowercase.
+    libelleentitefr = models.CharField(db_column='LibelleEntiteFr', max_length=100, db_collation='French_CI_AS', blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'Entite'
+# -------------------------------------------------------
+class District(models.Model):
+    iddistrict = models.AutoField(db_column='IdDistrict', primary_key=True)  # Field name made lowercase.
+    libelledistrictar = models.CharField(db_column='LibelleDistrictAr', max_length=100, db_collation='French_CI_AS', blank=True, null=True)  # Field name made lowercase.
+    libelledistrictfr = models.CharField(db_column='LibelleDistrictFr', max_length=100, db_collation='French_CI_AS', blank=True, null=True)  # Field name made lowercase.
+    identite_field = models.ForeignKey('Entite', models.DO_NOTHING, db_column='IdEntite#', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
+
+    class Meta:
+        managed = False
+        db_table = 'District'
+
+# -------------------------------------------------------
+class Annexe(models.Model):
+    idannexe = models.AutoField(db_column='IdAnnexe', primary_key=True)  # Field name made lowercase.
+    libelleannexear = models.CharField(db_column='LibelleAnnexeAr', max_length=20, db_collation='French_CI_AS', blank=True, null=True)  # Field name made lowercase.
+    libelleannexefr = models.CharField(db_column='LibelleAnnexeFr', max_length=20, db_collation='French_CI_AS', blank=True, null=True)  # Field name made lowercase.
+    iddistrict_field = models.ForeignKey('District', models.DO_NOTHING, db_column='IdDistrict#', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
+
+    class Meta:
+        managed = False
+        db_table = 'Annexe'
+
+# -------------------------------------------------------
+class Annexepersonnel(models.Model):
+    idannexepersonnel = models.AutoField(db_column='IdAnnexePersonnel', primary_key=True)  # Field name made lowercase.
+    idannexe_field = models.ForeignKey(Annexe, models.DO_NOTHING, db_column='IdAnnexe#', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
+    idpersonnel_field = models.ForeignKey('Personnel', models.DO_NOTHING, db_column='IdPersonnel#', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
+    dateaffectation = models.DateTimeField(db_column='DateAffectation', blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'AnnexePersonnel'
+# -------------------------------------------------------
 class Division(models.Model):
-    iddivision = models.AutoField(db_column='IdDivision', primary_key=True)
-    libelledivisionar = models.CharField(db_column='LibelleDivisionAr', max_length=100, db_collation='French_CI_AS', blank=True, null=True)
-    libelledivisionfr = models.CharField(db_column='LibelleDivisionFr', max_length=100, db_collation='French_CI_AS', blank=True, null=True)
+    iddivision = models.AutoField(db_column='IdDivision', primary_key=True)  # Field name made lowercase.
+    libelledivisionar = models.CharField(db_column='LibelleDivisionAr', max_length=100, db_collation='French_CI_AS', blank=True, null=True)  # Field name made lowercase.
+    libelledivisionfr = models.CharField(db_column='LibelleDivisionFr', max_length=100, db_collation='French_CI_AS', blank=True, null=True)  # Field name made lowercase.
+    identite_field = models.ForeignKey('Entite', models.DO_NOTHING, db_column='IdEntite#', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
 
     class Meta:
         managed = False
         db_table = 'Division'
-    def __str__(self):
-        return self.libelledivisionfr
+
+
 
 # -------------------------------------------------------
 class Service(models.Model):
@@ -207,6 +249,8 @@ class Service(models.Model):
         db_table = 'Service'
     def __str__(self):
         return self.libelleservicefr
+
+
 # -------------------------------------------------------
 class Servicepersonnel(models.Model):
     idservicepersonnel = models.AutoField(db_column='IdServicePersonnel', primary_key=True)
@@ -219,7 +263,27 @@ class Servicepersonnel(models.Model):
         db_table = 'ServicePersonnel'
         unique_together = (('idservice_field', 'idpersonnel_field'),)
 
+# -------------------------------------------------------
+class Pashalik(models.Model):
+    idpashalik = models.AutoField(db_column='IdPashalik', primary_key=True)  # Field name made lowercase.
+    libellepashalikar = models.CharField(db_column='LibellePashalikAr', max_length=100, db_collation='French_CI_AS', blank=True, null=True)  # Field name made lowercase.
+    libellepashalikfr = models.CharField(db_column='LibellePashalikFr', max_length=100, db_collation='French_CI_AS', blank=True, null=True)  # Field name made lowercase.
+    identite_field = models.ForeignKey(Entite, models.DO_NOTHING, db_column='IdEntite#', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
 
+    class Meta:
+        managed = False
+        db_table = 'Pashalik'
+
+# -------------------------------------------------------
+class Pashalikpersonnel(models.Model):
+    idpashalikpersonnel = models.AutoField(db_column='IdPashalikPersonnel', primary_key=True)  # Field name made lowercase.
+    idpashalik_field = models.ForeignKey(Pashalik, models.DO_NOTHING, db_column='IdPashalik#', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
+    idpersonnel_field = models.ForeignKey('Personnel', models.DO_NOTHING, db_column='IdPersonnel#', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
+    dateaffectation = models.DateTimeField(db_column='DateAffectation', blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'PashalikPersonnel'
 # -------------------------------------------------------
 class Diplome(models.Model):
     iddiplome = models.AutoField(db_column='IdDiplome', primary_key=True)  # Field name made lowercase.

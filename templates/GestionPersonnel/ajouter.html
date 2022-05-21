@@ -348,6 +348,18 @@
                                                     <div class="tab-pane active" id="tab-1" role="tabpanel">
                                                         <div class="row">
                                                             <div class="col-md">
+                                                                <label class="col-form-label float-right" for="entite"> الكيان :</label>
+                                                                <label class="col-form-label" dir="ltr" for="entite">Entité :</label>
+                                                                <select class="form-control text-center" name="entite"  required>
+                                                                    {% for entite in entites %}
+                                                                        <option value="{{ service.idservice }}">{{ service.libelleservicefr }} - {{ service.libelleservicear }}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row">
+                                                            <div class="col-md">
                                                                 <label class="col-form-label float-right" for="dateservice"> تاريخ التعيين :</label>
                                                                 <label class="col-form-label" dir="ltr" for="dateservice">Date d'affectation :</label>
                                                                  <input type="date" class="form-control text-center" name="dateservice" value="" required>
@@ -363,6 +375,7 @@
                                                                 </select>
                                                             </div>
                                                         </div>
+
                                                     </div>
 
                                                     <div class="tab-pane" id="tab-2" role="tabpanel">
