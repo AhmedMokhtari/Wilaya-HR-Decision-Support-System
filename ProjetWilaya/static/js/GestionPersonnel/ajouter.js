@@ -29,6 +29,11 @@
 
 window.onload = function ()
 {
+    //data
+    $(".divisiondiv").show();
+     $(".districtdiv").hide();
+     $(".pashalikdiv").hide();
+     $(".districtpashalikdiv").hide();
   //cardheader1
     const donneperso = document.getElementById('donneperso')
     donneperso.onmouseover = function (){
@@ -59,6 +64,55 @@ window.onload = function ()
     $("input[type='image']").click(function() {
         $("input[id='photo']").click();
     });
+
+     //entite
+    const selentite= document.getElementById('entite');
+    selentite.onchange= function ()
+    {
+        if(selentite.value == "Entite1")
+        {
+             $(".divisiondiv").show();
+             $(".districtpashalikdiv").hide();
+             $(".districtdiv").hide();
+             $(".pashalikdiv").hide();
+
+        }
+        else
+        {
+            if(selentite.value == "Entite2")
+            {
+
+                $(".districtpashalikdiv").show();
+                $(".divisiondiv").hide();
+                $(".districtdiv").hide();
+                $(".pashalikdiv").hide();
+                $(".districtdiv").show();
+            }
+        }
+    }
+
+    //district
+
+    const seldistrictpash= document.getElementById('districtpashalik');
+    seldistrictpash.onchange= function ()
+    {
+        if(seldistrictpash.value == "District")
+        {
+             $(".divisiondiv").hide();
+             $(".districtpashalikdiv").show();
+             $(".districtdiv").show();
+             $(".pashalikdiv").hide();
+
+
+            if(seldistrictpash.value == "Pashalik")
+            {
+                 $(".divisiondiv").hide();
+                 $(".districtpashalikdiv").show();
+                 $(".districtdiv").hide();
+                 $(".pashalikdiv").show();
+            }
+        }
+    }
 
     //ajaxstatutgrade
     const sel= document.getElementById('statutgrade');

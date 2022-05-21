@@ -1,7 +1,5 @@
 from django.shortcuts import render
-from .models import Personnel, Conjoint, Conjointpersonnel, \
-    Service, Servicepersonnel, Grade, \
-    Gradepersonnel, Enfant, Diplome, Fonction, Fonctionpersonnel,Division, Echellon, Echelle, Statutgrade
+from .models import *
 from django.contrib.auth.decorators import login_required
 from fpdf import FPDF
 from django.http import HttpResponse, JsonResponse
@@ -192,7 +190,10 @@ def ajouter(request):
     fonctions = Fonction.objects.all()
     echellons = Echellon.objects.all()
     statutgrades = Statutgrade.objects.all()
-    entite
+    entites = Entite.objects.all()
+    pashaliks = Pashalik.objects.all()
+    districts = District.objects.all()
+    divisions = Division.objects.all()
 
     if(request.method == 'POST'):
         nomfr = request.POST["nomfr"]
@@ -270,7 +271,10 @@ def ajouter(request):
         conjoints = Conjointpersonnel.objects.filter(idpersonnel_field=objperso.idpersonnel).all()
 
         return render(request,'GestionPersonnel/ajouter.html', {'personnel': objperso})
-    return render(request, 'GestionPersonnel/ajouter.html', {'services': services, 'grades': grades, 'fonctions': fonctions, 'echellons' : echellons, 'statutgrades':statutgrades })
+    return render(request, 'GestionPersonnel/ajouter.html', {'services': services, 'grades': grades, 'fonctions': fonctions,
+                                                             'echellons': echellons, 'statutgrades': statutgrades,
+                                                             'entites': entites, 'pashaliks': pashaliks,
+                                                             'districts': districts, 'divisions': divisions})
 
 
 

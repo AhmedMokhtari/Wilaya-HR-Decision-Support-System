@@ -350,14 +350,64 @@
                                                             <div class="col-md">
                                                                 <label class="col-form-label float-right" for="entite"> الكيان :</label>
                                                                 <label class="col-form-label" dir="ltr" for="entite">Entité :</label>
-                                                                <select class="form-control text-center" name="entite"  required>
+                                                                <select class="form-control text-center" id="entite" name="entite"  required>
                                                                     {% for entite in entites %}
-                                                                        <option value="{{ service.idservice }}">{{ service.libelleservicefr }} - {{ service.libelleservicear }}</option>
+                                                                        <option>{{ entite.libelleentitefr}}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <br class="divisiondiv">
+                                                        <div class="row divisiondiv">
+                                                            <div class="col-md">
+                                                                <label class="col-form-label float-right" for="division"> القسم :</label>
+                                                                <label class="col-form-label" dir="ltr" for="division">Division :</label>
+                                                                <select class="form-control text-center" id="division" name="division"  required>
+                                                                    {% for division in divisions %}
+                                                                        <option value="{{ division.iddivision }}">{{ division.libelledivisionfr }}</option>
                                                                     {% endfor %}
                                                                 </select>
                                                             </div>
                                                         </div>
 
+                                                        <br class="districtpashalikdiv">
+                                                        <div class="row districtpashalikdiv"><br>
+                                                            <div class="col-md">
+                                                                <label class="col-form-label float-right" for="districtpashalik"> المقاطعة :</label>
+                                                                <label class="col-form-label" dir="ltr" for="districtpashalik">District pashalik :</label>
+                                                                <select class="form-control text-center" id="districtpashalik" name="districtpashalik"  required>
+                                                                    <option>District</option>
+                                                                    <option>Pashalik</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <br class="districtdiv">
+                                                        <div class="row districtdiv">
+                                                            <div class="col-md">
+                                                                <label class="col-form-label float-right" for="district"> المقاطعة :</label>
+                                                                <label class="col-form-label" dir="ltr" for="district">District :</label>
+                                                                <select class="form-control text-center" id="district" name="district"  required>
+                                                                    {% for district in districts %}
+                                                                        <option value="{{ district.iddistrict }}">{{ district.libelledistrictfr }}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <br class="pashalikdiv">
+                                                        <div class="row pashalikdiv">
+                                                            <div class="col-md">
+                                                                <label class="col-form-label float-right" for="pashalik"> الباشوية :</label>
+                                                                <label class="col-form-label" dir="ltr" for="pashalik">Pashalik :</label>
+                                                                <select class="form-control text-center" id="pashalik" name="pashalik"  required>
+                                                                    {% for pashalik in pashaliks %}
+                                                                        <option value="{{ pashalik.idpashalik }}">{{ pashalik.libellepashalikfr}}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <br>
                                                         <div class="row">
                                                             <div class="col-md">
                                                                 <label class="col-form-label float-right" for="dateservice"> تاريخ التعيين :</label>
