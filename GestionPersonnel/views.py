@@ -234,9 +234,7 @@ def ajouter(request):
         ancadmi = request.POST["ancadmi"]
         adminiapp = request.POST["adminiapp"]
         photo = request.POST["photo"]
-        dateservice = request.POST["dateservice"]
         dategrade = request.POST["dategrade"]
-        service = request.POST["service"]
         grade = request.POST["grade"]
         fonction = request.POST["fonction"]
         datefonction = request.POST["datefonction"]
@@ -258,6 +256,10 @@ def ajouter(request):
             situatar = "بدون"
             situatfr = "célibataire(e)"
 
+
+
+
+
         objperso= Personnel.objects.create(nomar=nomar, nomfr=nomfr, cin=cin, prenomar=prenomar, prenomfr=prenomfr,
                             lieunaissancear=lieunar, lieunaissancefr=lieunfr, datenaissance=daten,
                             tele=tele, email=email, situationfamilialefr=situatfr, adressear=adressear,
@@ -268,20 +270,34 @@ def ajouter(request):
                                            ppr=ppr, statut=statut)
         objperso.save()
 
-        objservice = Service(idservice=service)
+        if (request.POST.get('entite', None) == "Entite1"):
+            service = request.POST["service"]
+            dateservice = request.POST["dateservice"]
+            objservice = Service(idservice=service)
+            objserviceperso = Servicepersonnel.objects.create(idpersonnel_field=objperso, idservice_field=objservice,
+                                                              dateaffectation=dateservice)
+            objserviceperso.save()
+        elif (request.POST.get('entite', None) == "Entite2"):
+            if(request.POST.get('districtpashalik', None) == "District"):
+                annexe = request.POST["annexe"]
+                datesannexe= request.POST["dateannexe"]
+                objannexe = Annexe(idannexe=annexe)
+                objannexeperso = Annexepersonnel.objects.create(idpersonnel_field=objperso, idannexe_field=objannexe, dateaffectation=datesannexe)
+                objannexeperso.save()
+
+
         objgrade = Grade(idgrade=grade)
         objfonction = Fonction(idfonction=fonction)
         objechellon = Echellon.objects.get(echellon = echellon)
 
         objfonctionperso = Fonctionpersonnel.objects.create(idpersonnel_field=objperso, idfonction_field=objfonction, datefonction=datefonction)
-        objserviceperso = Servicepersonnel.objects.create(idpersonnel_field=objperso, idservice_field=objservice, dateaffectation=dateservice)
+
         objgradeperso = Gradepersonnel.objects.create(idpersonnel_field=objperso, idgrade_field=objgrade, dategrade=dategrade,
                                                       idechellon_field=objechellon, dateechellon=dateechellon, indice=indice )
 
 
 
         objfonctionperso.save()
-        objserviceperso.save()
         objgradeperso.save()
 
         conjoints = Conjointpersonnel.objects.filter(idpersonnel_field=objperso.idpersonnel).all()

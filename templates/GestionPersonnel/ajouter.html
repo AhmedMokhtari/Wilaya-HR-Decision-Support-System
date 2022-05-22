@@ -362,7 +362,7 @@
                                                             <div class="col-md">
                                                                 <label class="col-form-label float-right" for="division"> القسم :</label>
                                                                 <label class="col-form-label" dir="ltr" for="division">Division :</label>
-                                                                <select class="form-control text-center" id="division" name="division"  required>
+                                                                <select class="form-control text-center" id="division" name="division">
                                                                     <option id="op3"></option>
                                                                     {% for division in divisions %}
                                                                         <option value="{{ division.iddivision }}">{{ division.libelledivisionfr }}</option>
@@ -376,7 +376,7 @@
                                                             <div class="col-md">
                                                                 <label class="col-form-label float-right" for="districtpashalik"> المقاطعة :</label>
                                                                 <label class="col-form-label" dir="ltr" for="districtpashalik">District pashalik :</label>
-                                                                <select class="form-control text-center" id="districtpashalik" name="districtpashalik"  required>
+                                                                <select class="form-control text-center" id="districtpashalik" name="districtpashalik">
                                                                     <option>District</option>
                                                                     <option>Pashalik</option>
                                                                 </select>
@@ -388,7 +388,7 @@
                                                             <div class="col-md">
                                                                 <label class="col-form-label float-right" for="district"> المقاطعة :</label>
                                                                 <label class="col-form-label" dir="ltr" for="district">District :</label>
-                                                                <select class="form-control text-center" id="district" name="district"  required>
+                                                                <select class="form-control text-center" id="district" name="district">
                                                                     <option id="op0"></option>
                                                                     {% for district in districts %}
                                                                         <option value="{{ district.iddistrict }}">{{ district.libelledistrictfr }}</option>
@@ -402,7 +402,7 @@
                                                             <div class="col-md">
                                                                 <label class="col-form-label float-right" for="pashalik"> الباشوية :</label>
                                                                 <label class="col-form-label" dir="ltr" for="pashalik">Pashalik :</label>
-                                                                <select class="form-control text-center" id="pashalik" name="pashalik"  required>
+                                                                <select class="form-control text-center" id="pashalik" name="pashalik">
                                                                     {% for pashalik in pashaliks %}
                                                                         <option value="{{ pashalik.idpashalik }}">{{ pashalik.libellepashalikfr}}</option>
                                                                     {% endfor %}
@@ -415,7 +415,7 @@
                                                             <div class="col-md">
                                                                 <label class="col-form-label float-right" for="annexe"> ملحقة إدارية :</label>
                                                                 <label class="col-form-label" dir="ltr" for="annexe">Annexe :</label>
-                                                                <select class="form-control text-center" id="annexe" name="annexe"  required>
+                                                                <select class="form-control text-center" id="annexe" name="annexe">
 
                                                                 </select>
                                                             </div>
@@ -423,7 +423,7 @@
                                                             <div class="col-md">
                                                                 <label class="col-form-label float-right" for="dateannexe"> تاريخ التعيين :</label>
                                                                 <label class="col-form-label" dir="ltr" for="dateannexe">Date d'affectation :</label>
-                                                                 <input type="date" class="form-control text-center" name="dateannexe" required>
+                                                                 <input type="date" class="form-control text-center" name="dateannexe">
                                                             </div>
                                                         </div>
 
@@ -432,18 +432,16 @@
                                                             <div class="col-md">
                                                                 <label class="col-form-label float-right" for="service"> إدارة :</label>
                                                                 <label class="col-form-label" dir="ltr" for="service">Service :</label>
-                                                                <select class="form-control text-center" id="service" name="service"  required>
+                                                                <select class="form-control text-center" id="service" name="service">
 
                                                                 </select>
                                                             </div>
-
                                                             <div class="col-md">
                                                                 <label class="col-form-label float-right" for="dateservice"> تاريخ التعيين :</label>
                                                                 <label class="col-form-label" dir="ltr" for="dateservice">Date d'affectation :</label>
-                                                                 <input type="date" class="form-control text-center" name="dateservice" value="" required>
+                                                                 <input type="date" class="form-control text-center" name="dateservice">
                                                             </div>
                                                         </div>
-
                                                     </div>
 
                                                     <div class="tab-pane" id="tab-2" role="tabpanel">

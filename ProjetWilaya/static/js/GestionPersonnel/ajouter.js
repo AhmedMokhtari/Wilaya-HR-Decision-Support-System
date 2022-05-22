@@ -37,6 +37,15 @@ window.onload = function ()
      $(".annexediv").hide();
      $(".servicediv").hide();
 
+     $("#districtpashalik").prop('required',false);
+     $("#pashalik").prop('required',false);
+     $("#district").prop('required',false);
+     $("#annexe").prop('required',false);
+     $("#dateannexe").prop('required',false);
+     $("#division").prop('required',true);
+     $("#service").prop('required',true);
+     $("#dateservice").prop('required',true);
+
   //cardheader1
     const donneperso = document.getElementById('donneperso')
     donneperso.onmouseover = function (){
@@ -80,6 +89,16 @@ window.onload = function ()
              $(".pashalikdiv").hide();
              $(".annexediv").hide();
 
+             $("#districtpashalik").prop('required',false);
+             $("#pashalik").prop('required',false);
+             $("#district").prop('required',false);
+             $("#annexe").prop('required',false);
+             $("#dateannexe").prop('required',false);
+             $("#division").prop('required',true);
+             $("#service").prop('required',true);
+             $("#dateservice").prop('required',true);
+
+
         }
         else
         {
@@ -91,6 +110,15 @@ window.onload = function ()
                 $(".districtdiv").show();
                 $(".annexediv").hide();
                 $(".servicediv").hide();
+
+                $("#districtpashalik").prop('required',true);
+                $("#pashalik").prop('required',false);
+                 $("#district").prop('required',true);
+                 $("#annexe").prop('required',true);
+                 $("#dateannexe").prop('required',true);
+                 $("#division").prop('required',false);
+                 $("#service").prop('required',false);
+                 $("#dateservice").prop('required',false);
             }
         }
     }
@@ -106,6 +134,15 @@ window.onload = function ()
              $(".pashalikdiv").hide();
              $(".servicediv").hide();
 
+             $("#districtpashalik").prop('required',true);
+             $("#pashalik").prop('required',false);
+             $("#district").prop('required',true);
+             $("#annexe").prop('required',true);
+             $("#dateannexe").prop('required',true);
+             $("#division").prop('required',false);
+             $("#service").prop('required',false);
+             $("#dateservice").prop('required',false);
+
         }
         else{
 
@@ -116,6 +153,15 @@ window.onload = function ()
                  $(".pashalikdiv").show();
                  $(".annexediv").hide();
                  $(".servicediv").hide();
+
+                 $("#districtpashalik").prop('required',true);
+                 $("#pashalik").prop('required',true);
+                 $("#district").prop('required',false);
+                 $("#annexe").prop('required',false);
+                 $("#dateannexe").prop('required',false);
+                 $("#division").prop('required',false);
+                 $("#service").prop('required',false);
+                 $("#dateservice").prop('required',false);
 
             }
         }
