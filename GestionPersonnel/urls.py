@@ -23,5 +23,7 @@ urlpatterns = [
     path('ajaxtaboardpersonnel', views.ajaxtaboardpersonnel, name='ajaxtaboardpersonnel'),
     path('ajaxajouterloadgrade', views.ajaxajouterloadgrade, name='ajaxajouterloadgrade'),
     path('ajaxajouterloadechellon', views.ajaxajouterloadechellon, name='ajaxajouterloadechellon'),
+    path('ajaxajouterloadannexe', views.ajaxajouterloadannexe, name='ajaxajouterloadannexe'),
+    path('ajaxajouterloadsevice', views.ajaxajouterloadsevice, name='ajaxajouterloadsevice'),
     path('export/xls', views.export_perso_csv, name='export_perso_xls'),
 ]

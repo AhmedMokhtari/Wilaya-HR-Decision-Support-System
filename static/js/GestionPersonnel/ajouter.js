@@ -1,10 +1,8 @@
-window.onload = function ()
-{
+
     var image = document.getElementById("image");
 
     // La fonction previewPicture
     var previewPicture  = function (e) {
-
         // e.files contient un objet FileList
         const [picture] = e.files
 
@@ -14,7 +12,8 @@ window.onload = function ()
             image.src = URL.createObjectURL(picture)
         }
     }
-    function red (link)
+
+    function red(link)
     {
         var val = document.getElementsByName('cin')[0].value;
         if(val != "")
@@ -28,6 +27,13 @@ window.onload = function ()
         }
     }
 
+window.onload = function ()
+{
+    //data
+    $(".divisiondiv").show();
+     $(".districtdiv").hide();
+     $(".pashalikdiv").hide();
+     $(".districtpashalikdiv").hide();
   //cardheader1
     const donneperso = document.getElementById('donneperso')
     donneperso.onmouseover = function (){
@@ -59,6 +65,52 @@ window.onload = function ()
         $("input[id='photo']").click();
     });
 
+     //entite
+    const selentite= document.getElementById('entite');
+    selentite.onchange= function ()
+    {
+        if(selentite.value == "Entite1")
+        {
+             $(".divisiondiv").show();
+             $(".districtpashalikdiv").hide();
+             $(".districtdiv").hide();
+             $(".pashalikdiv").hide();
+
+        }
+        else
+        {
+            if(selentite.value == "Entite2")
+            {
+
+                $(".districtpashalikdiv").show();
+                $(".divisiondiv").hide();
+                $(".pashalikdiv").hide();
+                $(".districtdiv").show();
+            }
+        }
+    }
+
+    //district
+    const seldistrictpash= document.getElementById('districtpashalik');
+    seldistrictpash.onchange= function()
+    {
+        if(seldistrictpash.value == "District")
+        {
+             $(".divisiondiv").hide();
+             $(".districtdiv").show();
+             $(".pashalikdiv").hide();
+
+        else{
+
+            if(seldistrictpash.value == "Pashalik")
+            {
+                 $(".divisiondiv").hide();
+                 $(".districtdiv").hide();
+                 $(".pashalikdiv").show();
+            }
+        }
+    }
+
     //ajaxstatutgrade
     const sel= document.getElementById('statutgrade');
     sel.onchange= function ()
@@ -68,7 +120,7 @@ window.onload = function ()
         $.ajax(
         {
             type:"POST",
-            url: "{% url 'ajaxajouterloadgrade' %}",
+            url: url1,
             data:{statutgrade: sel.value},
             success: function(data)
             {
@@ -95,7 +147,7 @@ window.onload = function ()
         $.ajax(
         {
             type:"POST",
-            url: "{% url 'ajaxajouterloadechellon' %}",
+            url: url2,
             data:{statutgrade: sel.value , grade:selgrade.value},
             success: function(data)
             {

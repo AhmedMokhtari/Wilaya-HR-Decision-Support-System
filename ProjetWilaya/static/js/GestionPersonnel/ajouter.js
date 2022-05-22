@@ -34,6 +34,9 @@ window.onload = function ()
      $(".districtdiv").hide();
      $(".pashalikdiv").hide();
      $(".districtpashalikdiv").hide();
+     $(".annexediv").hide();
+     $(".servicediv").hide();
+
   //cardheader1
     const donneperso = document.getElementById('donneperso')
     donneperso.onmouseover = function (){
@@ -75,43 +78,91 @@ window.onload = function ()
              $(".districtpashalikdiv").hide();
              $(".districtdiv").hide();
              $(".pashalikdiv").hide();
+             $(".annexediv").hide();
 
         }
         else
         {
             if(selentite.value == "Entite2")
             {
-
                 $(".districtpashalikdiv").show();
                 $(".divisiondiv").hide();
-                $(".districtdiv").hide();
                 $(".pashalikdiv").hide();
                 $(".districtdiv").show();
+                $(".annexediv").hide();
+                $(".servicediv").hide();
             }
         }
     }
 
     //district
-
     const seldistrictpash= document.getElementById('districtpashalik');
-    seldistrictpash.onchange= function ()
+    seldistrictpash.onchange= function()
     {
         if(seldistrictpash.value == "District")
         {
              $(".divisiondiv").hide();
-             $(".districtpashalikdiv").show();
              $(".districtdiv").show();
              $(".pashalikdiv").hide();
+             $(".servicediv").hide();
 
+        }
+        else{
 
             if(seldistrictpash.value == "Pashalik")
             {
                  $(".divisiondiv").hide();
-                 $(".districtpashalikdiv").show();
                  $(".districtdiv").hide();
                  $(".pashalikdiv").show();
+                 $(".annexediv").hide();
+                 $(".servicediv").hide();
+
             }
         }
+    }
+
+    const seldistrict= document.getElementById('district');
+    seldistrict.onchange= function()
+    {
+        $(".annexediv").show();
+        $("#annexe option").remove();
+        $('#op0').remove()
+        $.ajax(
+        {
+            type:"POST",
+            url: url0,
+            data:{ district: seldistrict.value},
+            success: function(data)
+            {
+                for(var i = 0; i < data.annexes.length; i++)
+                {
+                    $("#annexe").append(`<option value="${data.annexes[i].idannexe}">${data.annexes[i].libelleannexefr}</option>`);
+
+                }
+            }
+        });
+    }
+
+    const seldivision= document.getElementById('division');
+    seldivision.onchange= function()
+    {
+        $(".servicediv").show();
+        $("#service option").remove();
+        $('#op3').remove()
+        $.ajax(
+        {
+            type:"POST",
+            url: url3,
+            data:{ division: seldivision.value},
+            success: function(data)
+            {
+                for(var i = 0; i < data.services.length; i++)
+                {
+                    $("#service").append(`<option value="${data.services[i].idservice}">${data.services[i].libelleservicefr}</option>`);
+
+                }
+            }
+        });
     }
 
     //ajaxstatutgrade

@@ -96,7 +96,23 @@ def info(request,id):
     return render(request, 'GestionPersonnel/info.html', {'personnel': personnel, 'conjoints': conjoints, 'conjointsinperso': conjointsinperso,
                                                           'Serviii': zip(Services, serviperso), 'diplomes':diplomes, "enfants":enfants})
 
+
 # ajouter -------------------------------.
+
+@login_required(login_url='/connexion')
+@csrf_exempt
+def ajaxajouterloadsevice(request):
+    division = Division.objects.get(iddivision=request.POST.get('division', None))
+    objservice = {"services": list(Service.objects.filter(iddivision_field=division).values('idservice','libelleservicear','libelleservicefr'))}
+    return JsonResponse(objservice, safe=False)
+
+@login_required(login_url='/connexion')
+@csrf_exempt
+def ajaxajouterloadannexe(request):
+    district = District.objects.get(iddistrict=request.POST.get('district', None))
+    objannexe = {"annexes": list(Annexe.objects.filter(iddistrict_field=district).values('idannexe','libelleannexear','libelleannexefr'))}
+    return JsonResponse(objannexe, safe=False)
+
 @login_required(login_url='/connexion')
 @csrf_exempt
 def ajaxajouterloadgrade(request):
