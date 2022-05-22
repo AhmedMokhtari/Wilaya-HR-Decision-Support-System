@@ -34,6 +34,18 @@ window.onload = function ()
      $(".districtdiv").hide();
      $(".pashalikdiv").hide();
      $(".districtpashalikdiv").hide();
+     $(".annexediv").hide();
+     $(".servicediv").hide();
+
+     $("#districtpashalik").prop('required',false);
+     $("#pashalik").prop('required',false);
+     $("#district").prop('required',false);
+     $("#annexe").prop('required',false);
+     $("#dateannexe").prop('required',false);
+     $("#division").prop('required',true);
+     $("#service").prop('required',true);
+     $("#dateservice").prop('required',true);
+
   //cardheader1
     const donneperso = document.getElementById('donneperso')
     donneperso.onmouseover = function (){
@@ -75,17 +87,38 @@ window.onload = function ()
              $(".districtpashalikdiv").hide();
              $(".districtdiv").hide();
              $(".pashalikdiv").hide();
+             $(".annexediv").hide();
+
+             $("#districtpashalik").prop('required',false);
+             $("#pashalik").prop('required',false);
+             $("#district").prop('required',false);
+             $("#annexe").prop('required',false);
+             $("#dateannexe").prop('required',false);
+             $("#division").prop('required',true);
+             $("#service").prop('required',true);
+             $("#dateservice").prop('required',true);
+
 
         }
         else
         {
             if(selentite.value == "Entite2")
             {
-
                 $(".districtpashalikdiv").show();
                 $(".divisiondiv").hide();
                 $(".pashalikdiv").hide();
                 $(".districtdiv").show();
+                $(".annexediv").hide();
+                $(".servicediv").hide();
+
+                $("#districtpashalik").prop('required',true);
+                $("#pashalik").prop('required',false);
+                 $("#district").prop('required',true);
+                 $("#annexe").prop('required',true);
+                 $("#dateannexe").prop('required',true);
+                 $("#division").prop('required',false);
+                 $("#service").prop('required',false);
+                 $("#dateservice").prop('required',false);
             }
         }
     }
@@ -99,7 +132,18 @@ window.onload = function ()
              $(".divisiondiv").hide();
              $(".districtdiv").show();
              $(".pashalikdiv").hide();
+             $(".servicediv").hide();
 
+             $("#districtpashalik").prop('required',true);
+             $("#pashalik").prop('required',false);
+             $("#district").prop('required',true);
+             $("#annexe").prop('required',true);
+             $("#dateannexe").prop('required',true);
+             $("#division").prop('required',false);
+             $("#service").prop('required',false);
+             $("#dateservice").prop('required',false);
+
+        }
         else{
 
             if(seldistrictpash.value == "Pashalik")
@@ -107,8 +151,64 @@ window.onload = function ()
                  $(".divisiondiv").hide();
                  $(".districtdiv").hide();
                  $(".pashalikdiv").show();
+                 $(".annexediv").hide();
+                 $(".servicediv").hide();
+
+                 $("#districtpashalik").prop('required',true);
+                 $("#pashalik").prop('required',true);
+                 $("#district").prop('required',false);
+                 $("#annexe").prop('required',false);
+                 $("#dateannexe").prop('required',false);
+                 $("#division").prop('required',false);
+                 $("#service").prop('required',false);
+                 $("#dateservice").prop('required',false);
+
             }
         }
+    }
+
+    const seldistrict= document.getElementById('district');
+    seldistrict.onchange= function()
+    {
+        $(".annexediv").show();
+        $("#annexe option").remove();
+        $('#op0').remove()
+        $.ajax(
+        {
+            type:"POST",
+            url: url0,
+            data:{ district: seldistrict.value},
+            success: function(data)
+            {
+                for(var i = 0; i < data.annexes.length; i++)
+                {
+                    $("#annexe").append(`<option value="${data.annexes[i].idannexe}">${data.annexes[i].libelleannexefr}</option>`);
+
+                }
+            }
+        });
+    }
+
+    const seldivision= document.getElementById('division');
+    seldivision.onchange= function()
+    {
+        $(".servicediv").show();
+        $("#service option").remove();
+        $('#op3').remove()
+        $.ajax(
+        {
+            type:"POST",
+            url: url3,
+            data:{ division: seldivision.value},
+            success: function(data)
+            {
+                for(var i = 0; i < data.services.length; i++)
+                {
+                    $("#service").append(`<option value="${data.services[i].idservice}">${data.services[i].libelleservicefr}</option>`);
+
+                }
+            }
+        });
     }
 
     //ajaxstatutgrade

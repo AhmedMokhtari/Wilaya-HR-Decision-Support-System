@@ -121,6 +121,15 @@ window.onload = function ()
                  $("#dateservice").prop('required',false);
             }
         }
+        if(document.getElementById("op3") == null)
+         {
+             $("#division").append('<option id="op3" selected></option>')
+         }
+        if(document.getElementById("op0") == null)
+         {
+             $("#district").append('<option id="op0" selected></option>')
+         }
+
     }
 
     //district
@@ -143,6 +152,7 @@ window.onload = function ()
              $("#service").prop('required',false);
              $("#dateservice").prop('required',false);
 
+
         }
         else{
 
@@ -162,6 +172,12 @@ window.onload = function ()
                  $("#division").prop('required',false);
                  $("#service").prop('required',false);
                  $("#dateservice").prop('required',false);
+
+                 if(document.getElementById("op0") == null)
+                 {
+                     $("#district").append('<option id="op0" selected></option>')
+                 }
+
 
             }
         }
