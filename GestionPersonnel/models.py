@@ -224,18 +224,49 @@ class Annexepersonnel(models.Model):
     class Meta:
         managed = False
         db_table = 'AnnexePersonnel'
+
 # -------------------------------------------------------
+class Caidat(models.Model):
+    idcaidat = models.AutoField(db_column='IdCaidat', primary_key=True)
+    libellecaidatar = models.CharField(db_column='LibelleCaidatAr', max_length=20, db_collation='French_CI_AS', blank=True, null=True)
+    libellecaidatfr = models.CharField(db_column='LibelleCaidatFr', max_length=20, db_collation='French_CI_AS', blank=True, null=True)
+    idcercle_field = models.ForeignKey('Cercle', models.DO_NOTHING, db_column='IdCercle#', blank=True, null=True)
+    class Meta:
+        managed = False
+        db_table = 'Caidat'
+
+
+
+class Caidatpersonnel(models.Model):
+    idcaidatpersonnel = models.AutoField(db_column='IdCaidatPersonnel', primary_key=True)
+    idcaidat_field = models.ForeignKey(Caidat, models.DO_NOTHING, db_column='IdCaidat#', blank=True, null=True)
+    idpersonnel_field = models.ForeignKey('Personnel', models.DO_NOTHING, db_column='IdPersonnel#', blank=True, null=True)
+    dateaffectation = models.DateTimeField(db_column='DateAffectation', blank=True, null=True)
+    class Meta:
+        managed = False
+        db_table = 'CaidatPersonnel'
+
+
+class Cercle(models.Model):
+    idcercle = models.AutoField(db_column='IdCercle', primary_key=True)
+    libellecerclear = models.CharField(db_column='LibelleCercleAr', max_length=100, db_collation='French_CI_AS', blank=True, null=True)
+    libellecerclefr = models.CharField(db_column='LibelleCercleFr', max_length=100, db_collation='French_CI_AS', blank=True, null=True)
+    identite_field = models.ForeignKey('Entite', models.DO_NOTHING, db_column='IdEntite#', blank=True, null=True)
+    class Meta:
+        managed = False
+        db_table = 'Cercle'
+
+# -------------------------------------------------------
+
 class Division(models.Model):
-    iddivision = models.AutoField(db_column='IdDivision', primary_key=True)  # Field name made lowercase.
-    libelledivisionar = models.CharField(db_column='LibelleDivisionAr', max_length=100, db_collation='French_CI_AS', blank=True, null=True)  # Field name made lowercase.
-    libelledivisionfr = models.CharField(db_column='LibelleDivisionFr', max_length=100, db_collation='French_CI_AS', blank=True, null=True)  # Field name made lowercase.
-    identite_field = models.ForeignKey('Entite', models.DO_NOTHING, db_column='IdEntite#', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
+    iddivision = models.AutoField(db_column='IdDivision', primary_key=True)
+    libelledivisionar = models.CharField(db_column='LibelleDivisionAr', max_length=100, db_collation='French_CI_AS', blank=True, null=True)
+    libelledivisionfr = models.CharField(db_column='LibelleDivisionFr', max_length=100, db_collation='French_CI_AS', blank=True, null=True)
+    identite_field = models.ForeignKey('Entite', models.DO_NOTHING, db_column='IdEntite#', blank=True, null=True)
 
     class Meta:
         managed = False
         db_table = 'Division'
-
-
 
 # -------------------------------------------------------
 class Service(models.Model):

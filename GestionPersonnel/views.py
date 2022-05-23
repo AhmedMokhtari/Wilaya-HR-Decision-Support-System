@@ -98,6 +98,12 @@ def info(request,id):
 
 
 # ajouter -------------------------------.
+@login_required(login_url='/connexion')
+@csrf_exempt
+def ajaxajouterloadcaida(request):
+    cercle = Cercle.objects.get(idcercle=request.POST.get('cercle', None))
+    objcaida = {"caidas": list(Caidat.objects.filter(idcercle_field=cercle).values('idcaidat','libellecaidatar','libellecaidatfr'))}
+    return JsonResponse(objcaida, safe=False)
 
 @login_required(login_url='/connexion')
 @csrf_exempt
@@ -210,6 +216,7 @@ def ajouter(request):
     pashaliks = Pashalik.objects.all()
     districts = District.objects.all()
     divisions = Division.objects.all()
+    cercles = Cercle.objects.all()
 
     if(request.method == 'POST'):
         nomfr = request.POST["nomfr"]
@@ -284,7 +291,13 @@ def ajouter(request):
                 objannexe = Annexe(idannexe=annexe)
                 objannexeperso = Annexepersonnel.objects.create(idpersonnel_field=objperso, idannexe_field=objannexe, dateaffectation=datesannexe)
                 objannexeperso.save()
-
+            elif(request.POST.get('districtpashalik', None) == "Pashalik"):
+                pashalik = request.POST["annexe"]
+                datepashalik = request.POST["datepashalik"]
+                objpashalik = Pashalik(idpashalik=pashalik)
+                objpashalikperso = Pashalikpersonnel.objects.create(idpersonnel_field=objperso, idpashalik_field=objpashalik, dateaffectation=datepashalik)
+            elif((request.POST.get('districtpashalik', None) == "Cercle")):
+                caidat = request.POST["caida"]
 
         objgrade = Grade(idgrade=grade)
         objfonction = Fonction(idfonction=fonction)
@@ -306,7 +319,7 @@ def ajouter(request):
     return render(request, 'GestionPersonnel/ajouter.html', {'services': services, 'grades': grades, 'fonctions': fonctions,
                                                              'echellons': echellons, 'statutgrades': statutgrades,
                                                              'entites': entites, 'pashaliks': pashaliks,
-                                                             'districts': districts, 'divisions': divisions})
+                                                             'districts': districts, 'divisions': divisions, 'cercles': cercles})
 
 
 

@@ -379,7 +379,39 @@
                                                                 <select class="form-control text-center" id="districtpashalik" name="districtpashalik">
                                                                     <option>District</option>
                                                                     <option>Pashalik</option>
+                                                                    <option>Cercle</option>
                                                                 </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <br class="cerclediv">
+                                                        <div class="row cerclediv">
+                                                            <div class="col-md">
+                                                                <label class="col-form-label float-right" for="cercle"> الدائرة :</label>
+                                                                <label class="col-form-label" dir="ltr" for="cercle">Cercle :</label>
+                                                                <select class="form-control text-center" id="cercle" name="district">
+                                                                    <option id="op4"></option>
+                                                                    {% for cercle in cercles %}
+                                                                        <option value="{{ cercle.idcercle }}">{{ cercle.libellecerclefr }}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <br class="caidadiv">
+                                                        <div class="row caidadiv">
+                                                            <div class="col-md">
+                                                                <label class="col-form-label float-right" for="caida"> القيادة :</label>
+                                                                <label class="col-form-label" dir="ltr" for="caida">Caida :</label>
+                                                                <select class="form-control text-center" id="caida" name="district">
+
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="col-md">
+                                                                <label class="col-form-label float-right" for="datecaida"> تاريخ التعيين :</label>
+                                                                <label class="col-form-label" dir="ltr" for="datecaida">Date d'affectation :</label>
+                                                                 <input type="date" class="form-control text-center" name="datecaida">
                                                             </div>
                                                         </div>
 
@@ -407,6 +439,12 @@
                                                                         <option value="{{ pashalik.idpashalik }}">{{ pashalik.libellepashalikfr}}</option>
                                                                     {% endfor %}
                                                                 </select>
+                                                            </div>
+
+                                                            <div class="col-md">
+                                                                <label class="col-form-label float-right" for="datepashalik"> تاريخ التعيين :</label>
+                                                                <label class="col-form-label" dir="ltr" for="datepashalik">Date d'affectation :</label>
+                                                                 <input type="date" class="form-control text-center" name="datepashalik">
                                                             </div>
                                                         </div>
                                                         <br class="annexediv">
@@ -568,11 +606,11 @@
              {% endif %}
         </form>
       <script>
-
       var url0 = "{% url 'ajaxajouterloadannexe' %}"
        var url1 = "{% url 'ajaxajouterloadgrade' %}";
        var url2 = "{% url 'ajaxajouterloadechellon' %}";
        var url3 = "{% url 'ajaxajouterloadsevice' %}";
+       const url4 = "{% url 'ajaxajouterloadcaida' %}";
       </script>
       <script type="text/javascript" src="{% static 'js/GestionPersonnel/ajouter.js' %}"></script>
 {% else %}

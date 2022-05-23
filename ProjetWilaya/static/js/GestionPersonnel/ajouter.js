@@ -36,6 +36,8 @@ window.onload = function ()
      $(".districtpashalikdiv").hide();
      $(".annexediv").hide();
      $(".servicediv").hide();
+      $(".cerclediv").hide();
+      $(".caidadiv").hide();
 
      $("#districtpashalik").prop('required',false);
      $("#pashalik").prop('required',false);
@@ -88,6 +90,8 @@ window.onload = function ()
              $(".districtdiv").hide();
              $(".pashalikdiv").hide();
              $(".annexediv").hide();
+             $(".cerclediv").hide();
+             $(".caidadiv").hide();
 
              $("#districtpashalik").prop('required',false);
              $("#pashalik").prop('required',false);
@@ -119,16 +123,25 @@ window.onload = function ()
                  $("#division").prop('required',false);
                  $("#service").prop('required',false);
                  $("#dateservice").prop('required',false);
+                 $(".cerclediv").prop('required',false);
+                 $(".caidadiv").prop('required',false);
             }
         }
         if(document.getElementById("op3") == null)
          {
-             $("#division").append('<option id="op3" selected></option>')
+             $("#division").append('<option id="op3" selected></option>');
+
          }
-        if(document.getElementById("op0") == null)
-         {
-             $("#district").append('<option id="op0" selected></option>')
-         }
+         else {
+            if (document.getElementById("op0") == null) {
+                $("#district").append('<option id="op0" selected></option>');
+            } else {
+                if (document.getElementById("op4") == null) {
+                    $("#cercle").append('<option id="op4" selected></option>');
+                }
+            }
+        }
+
 
     }
 
@@ -142,6 +155,8 @@ window.onload = function ()
              $(".districtdiv").show();
              $(".pashalikdiv").hide();
              $(".servicediv").hide();
+             $(".cerclediv").hide();
+             $(".caidadiv").hide();
 
              $("#districtpashalik").prop('required',true);
              $("#pashalik").prop('required',false);
@@ -151,7 +166,12 @@ window.onload = function ()
              $("#division").prop('required',false);
              $("#service").prop('required',false);
              $("#dateservice").prop('required',false);
-
+             $("#cercle").prop('required',false);
+             $("#caida").prop('required',false);
+             if (document.getElementById("op4") == null)
+             {
+                 $("#cercle").append('<option id="op4" selected></option>');
+             }
 
         }
         else{
@@ -163,6 +183,8 @@ window.onload = function ()
                  $(".pashalikdiv").show();
                  $(".annexediv").hide();
                  $(".servicediv").hide();
+                 $(".cerclediv").hide();
+                 $(".caidadiv").hide();
 
                  $("#districtpashalik").prop('required',true);
                  $("#pashalik").prop('required',true);
@@ -172,13 +194,50 @@ window.onload = function ()
                  $("#division").prop('required',false);
                  $("#service").prop('required',false);
                  $("#dateservice").prop('required',false);
+                 $("#cercle").prop('required',false);
+                  $("#caida").prop('required',false);
 
                  if(document.getElementById("op0") == null)
                  {
                      $("#district").append('<option id="op0" selected></option>')
                  }
+                 else {
+                     if (document.getElementById("op4") == null)
+                     {
+                        $("#cercle").append('<option id="op4" selected></option>');
+                    }
+                 }
 
 
+            }
+            else
+            {
+                if(seldistrictpash.value == "Cercle")
+                {
+                    $(".divisiondiv").hide();
+                     $(".districtdiv").hide();
+                     $(".pashalikdiv").hide();
+                     $(".annexediv").hide();
+                     $(".servicediv").hide();
+                     $(".cerclediv").show();
+                     $(".caidadiv").hide();
+
+                    $("#districtpashalik").prop('required',true);
+                     $("#pashalik").prop('required',false);
+                     $("#district").prop('required',false);
+                     $("#annexe").prop('required',false);
+                     $("#dateannexe").prop('required',false);
+                     $("#division").prop('required',false);
+                     $("#service").prop('required',false);
+                     $("#dateservice").prop('required',false);
+                     $("#cercle").prop('required',true);
+                     $("#caida").prop('required',true);
+
+                     if(document.getElementById("op0") == null)
+                     {
+                         $("#district").append('<option id="op0" selected></option>')
+                     }
+                }
             }
         }
     }
@@ -199,6 +258,28 @@ window.onload = function ()
                 for(var i = 0; i < data.annexes.length; i++)
                 {
                     $("#annexe").append(`<option value="${data.annexes[i].idannexe}">${data.annexes[i].libelleannexefr}</option>`);
+
+                }
+            }
+        });
+    }
+
+    const selcercle= document.getElementById('cercle');
+    selcercle.onchange= function()
+    {
+        $(".caidadiv").show();
+        $("#caida option").remove();
+        $('#op4').remove()
+        $.ajax(
+        {
+            type:"POST",
+            url: url4,
+            data:{ cercle: selcercle.value},
+            success: function(data)
+            {
+                for(var i = 0; i < data.caidas.length; i++)
+                {
+                    $("#caida").append(`<option value="${data.caidas[i].idcaidat}">${data.caidas[i].libellecaidatfr}</option>`);
 
                 }
             }
