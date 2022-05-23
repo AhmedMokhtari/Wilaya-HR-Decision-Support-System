@@ -12,7 +12,7 @@ function datatb() {
                 "emptyTable":     "لا يوجد معلومات",
                 "info":           "<span class='btn btn-danger' style='color: white;font-size: 16px;'> <span class='' >العدد الإجمالي :</span> _TOTAL_</span>",
                 "infoEmpty":      "إضهار 0 من 0 ",
-                "infoFiltered":   "(filtered from _MAX_ total entries)",
+                "infoFiltered":   "",
                 "infoPostFix":    "",
                 "thousands":      ",",
                 "lengthMenu":     " _MENU_      ",

@@ -1,0 +1,370 @@
+{% extends 'menu.html' %}
+{% block content %}
+    {% load static %}
+    <link href="{% static 'css/absenceajouter.css' %}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/all.min.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/semantic.min.css' %}">
+   <section  class="container-fluidd-flex mt-3 absence p-3 " style="background-color: white !important;">
+        <div class="col-12 col-xl-12">
+        <div class="card shadow">
+            <form method="get" id="formsearch">
+                <div class="card-header text-right">
+                    <h3 class="text-right"><strong>البحث</strong></h3>
+                    <hr>
+                    <div class="row">
+                        <div class="col-3">
+                            <label class="col-form-label">الميزانية :</label>
+                            <div class="ui selection dropdown mr-5 text-right">
+                                <input type="hidden" name="budget" id="budget">
+                                <i class="dropdown icon"></i>
+                                <div class="default text">الميزانية</div>
+                                <div class="menu">
+                                    <div class="item" data-value="-1">الكل</div>
+                                    <div class="item">Général</div>
+                                    <div class="item">Préfectoral</div>
+                                </div>
+                            </div>
+                        </div>
+
+                         <div class="col-3">
+                            <label class="col-form-label">القسم :</label>
+                            <div class="ui selection dropdown mr-5 text-right">
+                              <input type="hidden" name="div" id="div">
+                              <i class="dropdown icon"></i>
+                              <div class="default text">القسم</div>
+                              <div class="menu">
+                                  <div class="item" data-value="-1">الكل</div>
+                                  {% for div in divs %}
+                                        <div class="item" data-value="{{ div.iddivision }}">{{ div.libelledivisionfr }}</div>
+                                  {% endfor %}
+                              </div>
+                            </div>
+                         </div>
+
+                        <div class="col-3">
+                            <label class="col-form-label">الرتبة :</label>
+                            <div class="ui selection dropdown mr-5 text-right">
+                              <input type="hidden" name="grade" id="grade">
+                              <i class="dropdown icon"></i>
+                              <div class="default text">الرتبة</div>
+                              <div class="menu">
+                                  <div class="item" data-value="-1">الكل</div>
+                                  {% for grade in grades %}
+                                     <div class="item" data-value="{{ grade.idgrade }}">{{ grade.gradefr }}</div>
+                                  {% endfor %}
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-1"><label class="col-form-label block">الجنس &nbsp;:</label></div>
+
+                        <div class="col-3">
+                            <label class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="radioGenre" value="Homme"/>
+                                <span class="form-check-label"> &nbsp; ذكر </span>
+                            </label>
+                        </div>
+                        <div class="col-3">
+                            <label class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="radioGenre" value="Femme"/>
+                                <span class="form-check-label">  &nbsp; أنثى </span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    </section>
+     <section class="container-fluidd-flex mt-3 absence " style="background-color: white !important;">
+              <form method="POST">
+              {% csrf_token %}
+                  <div class="row p-2">
+                        <div class="col-12 col-sm-12 d-flex">
+                            <div class="card flex-fill">
+                                <div class="card-header">
+                                    <h5 class="card-title mb-0">En Cours</h5>
+                                </div>
+                                <table id="datatables-dashboard-projects"  class="table table-striped my-0 text-center">
+                                    <thead>
+                                        <tr>
+                                            <th class="d-none d-xl-table-cell">الاسم الكامل</th>
+                                            <th>النوع</th>
+                                            <th>تاريخ البداية </th>
+                                            <th> تاريخ النهاية</th>
+                                            <th>عدد الأيام</th>
+                                            <th>الأيام الباقية</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% now "Y-m-d" as todays %}
+                                    {% for item,a in congesEnCours %}
+                                        <tr >
+                                            <td>{{ item.idconge}}</td>
+                                            <td>{{ item.type_conge }}</td>
+                                            <td class="d-none d-xl-table-cell">{{ item.datedebut|date:'Y-m-d' }} </td>
+                                            <td class="d-none d-xl-table-cell">{{ item.dateretour|date:'Y-m-d' }}</td>
+                                            <td>{{ item.nbjour}}</td>
+                                            <td>{{ a.joursrestan}}</td>
+                                            <td class="collapsing">
+                                                <a href="{% url 'stopeconge' item.idconge %}" class="btn btn-danger">توقيف</a>
+                                             </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                  </div>
+              </form>
+    </section>
+    <section class="container-fluidd-flex mt-3 absence " style="background-color: white !important;">
+              <form method="POST">
+              {% csrf_token %}
+                  <div class="row p-2">
+                        <div class="col-12 col-sm-12 d-flex">
+                            <div class="card flex-fill">
+                                <div class="card-header">
+                                    <h5 class="card-title mb-0">En Cours Fini</h5>
+                                </div>
+                                <table id="tableEnCoursFini"  class="table table-striped my-0 text-center">
+                                    <thead>
+                                        <tr>
+                                            <th class="d-none d-xl-table-cell">الاسم الكامل</th>
+                                            <th>النوع</th>
+                                            <th>تاريخ البداية </th>
+                                            <th> تاريخ النهاية</th>
+                                            <th>عدد الأيام</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% now "Y-m-d" as todays %}
+                                    {% for item in enCoursFini %}
+                                        <tr id="{{ item.IdConge }}">
+                                            <td>{{ item.IdPersonnel  }}</td>
+                                            <td>{{ item.type_conge }}</td>
+                                            <td class="d-none d-xl-table-cell">{{ item.dateDebut|date:'Y-m-d' }} </td>
+                                            <td class="d-none d-xl-table-cell">{{ item.dateRetour|date:'Y-m-d' }}</td>
+                                            <td>{{ item.nbJour}}</td>
+                                            <td class="collapsing">
+                                                <div class="ui fitted slider checkbox">
+                                                  <input type="checkbox" name="check" value="{{ item.IdConge }}"> <label></label>
+                                                </div>
+                                             </td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                          <div class="float-left">
+                              <a class="btn btn-success mx-3" id="update" style="color:white; font-size: 17px;" >تاكيد الدخول</a>
+                          </div>
+                      <!--<div class="col-12 col-sm-8 d-flex">
+                               <table class="ui compact celled definition table">
+                                        <thead>
+                                          <tr>
+                                            <th></th>
+                                            <th>Name</th>
+                                            <th>Registration Date</th>
+                                            <th>E-mail address</th>
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          <tr>
+                                            <td class="collapsing">
+                                              <div class="ui fitted slider checkbox">
+                                                <input type="checkbox"> <label></label>
+                                              </div>
+                                            </td>
+                                            <td>John Lilki</td>
+                                            <td>September 14, 2013</td>
+                                            <td>jhlilk22@yahoo.com</td>
+                                          </tr>
+                                          <tr>
+                                            <td class="collapsing">
+                                              <div class="ui fitted slider checkbox">
+                                                <input type="checkbox"> <label></label>
+                                              </div>
+                                            </td>
+                                            <td>Jamie Harington</td>
+                                            <td>January 11, 2014</td>
+                                            <td>jamieharingonton@yahoo.com</td>
+                                          </tr>
+                                          <tr>
+                                            <td class="collapsing">
+                                              <div class="ui fitted slider checkbox">
+                                                <input type="checkbox"> <label></label>
+                                              </div>
+                                            </td>
+                                            <td>Jill Lewis</td>
+                                            <td>May 11, 2014</td>
+                                            <td>jilsewris22@yahoo.com</td>
+                                          </tr>
+                                        </tbody>
+                                        <tfoot class="full-width">
+                                          <tr>
+                                            <th></th>
+                                            <th colspan="4">
+                                              <div class="ui small button">
+                                                Approve
+                                              </div>
+                                              <div class="ui small  disabled button">
+                                                Approve All
+                                              </div>
+                                            </th>
+                                          </tr>
+                                        </tfoot>
+                                      </table>
+                              </div>-->
+                  </div>
+              </form>
+    </section>
+    <script src="{% static 'js/semantic.min.js' %}"></script>
+    <script>
+    let table = document.getElementById("table");
+    function resetTable(){
+              let table = document.getElementById("table");
+              for(let i=1;i<table.rows.length;i++){
+                table.rows[i].removeAttribute("style");
+              }
+         }
+    function reseet(){
+          document.getElementById("formsearch").reset();
+          resetTable();
+             }
+    function typeCon(arg){
+         reseet();
+         for(let i=1;i<table.rows.length;i++){
+                 if(table.rows[i].cells[1].textContent!=arg.text){
+                   table.rows[i].style.display="none";
+                 }
+             }
+    }
+    function statu(arg){
+        reseet();
+         for(let i=1;i<table.rows.length;i++){
+                 if(table.rows[i].cells[5].textContent!=arg.text){
+                   table.rows[i].style.display="none";
+                 }
+             }
+    }
+    function dateCheck(from,to,check) {
+            if((check.getTime() <= to.getTime() && check.getTime() >= from.getTime()-85400000)) {
+                // 86,400,000 is 1 day in millisecond
+                return true;
+            }
+            return false;
+         }
+    function calcDate(){
+             let date1=new Date(document.getElementById("date1").value);
+             let date2=new Date(document.getElementById("date2").value);
+             let table = document.getElementById("table");
+             for(let i=1;i<table.rows.length;i++){
+                 let val =new Date(table.rows[i].cells[2].innerHTML)
+                 if(!(dateCheck(date1,date2,val))){
+                   table.rows[i].style.display="none";
+                 }
+             }
+             totalJours();
+             justification();
+             noJustification();
+             totalAbsence();
+         }
+    $(function() {
+			$("#datatables-dashboard-projects").DataTable({
+				 "lengthMenu": [[5, 25, 50,75,100, -1],[5, 25, 50,75,100, "الكل"]],
+                searching: false,
+                language:{
+                    "decimal":        "",
+                    "emptyTable":     "لا يوجد معلومات",
+                    "info":           "",
+                    "infoEmpty":      "إضهار 0 من 0 ",
+                    "infoFiltered":   "",
+                    "infoPostFix":    "",
+                    "thousands":      ",",
+                    "lengthMenu":     " _MENU_      ",
+                    "loadingRecords": "جار التحميل ...",
+                    "processing":     "",
+                    "search":         "",
+                    "zeroRecords":    "لا يوجد معلومات",
+                    "paginate": {
+                        "first":      "الأخير",
+                        "last":       "الاول",
+                        "next":       "التالي",
+                        "previous":   "السابق"
+                    },
+                    "aria": {
+                        "sortAscending":  ": activate to sort column ascending",
+                        "sortDescending": ": activate to sort column descending"
+                    }
+            },
+			});
+            $("#tableEnCoursFini").DataTable({
+				 "lengthMenu": [[5, 25, 50,75,100, -1],[5, 25, 50,75,100, "الكل"]],
+                searching: false,
+                language:{
+                    "decimal":        "",
+                    "emptyTable":     "لا يوجد معلومات",
+                    "info":           "",
+                    "infoEmpty":      "إضهار 0 من 0 ",
+                    "infoFiltered":   "",
+                    "infoPostFix":    "",
+                    "thousands":      ",",
+                    "lengthMenu":     " _MENU_      ",
+                    "loadingRecords": "جار التحميل ...",
+                    "processing":     "",
+                    "search":         "",
+                    "zeroRecords":    "لا يوجد معلومات",
+                    "paginate": {
+                        "first":      "الأخير",
+                        "last":       "الاول",
+                        "next":       "التالي",
+                        "previous":   "السابق"
+                    },
+                    "aria": {
+                        "sortAscending":  ": activate to sort column ascending",
+                        "sortDescending": ": activate to sort column descending"
+                    }
+            },
+			});
+		});
+
+    let $rows = $('#table tbody tr');
+         $('#search').keyup(function() {
+            let val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+            $rows.show().filter(function() {
+                let text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+                return !~text.indexOf(val);
+            }).hide();
+        });
+    document.getElementById('update').addEventListener('click', e=>{
+     let id=[];
+     $(':checkbox:checked').each(function (i){
+         id[i]=$(this).val();
+     })
+     console.log(id);
+     csrf=$('input[name=csrfmiddlewaretoken]').val()
+     $.ajax({
+        type: 'POST',
+        url: './congeencours',
+         data:{
+            id,
+            csrfmiddlewaretoken:csrf,
+         },
+        success: function(response){
+
+        },
+        error: function(error){
+            console.log(error)
+        }
+    })
+
+})
+
+    </script>
+{% endblock %}

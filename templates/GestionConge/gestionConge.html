@@ -1,0 +1,224 @@
+{% extends 'menu.html' %}
+{% block content %}
+    {% load static %}
+    <link href="{% static 'css/absenceajouter.css' %}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/all.min.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/semantic.min.css' %}">
+    <section  class="container-fluidd-flex mt-3 absence p-3 " style="background-color: white !important;">
+        <div class="col-12 col-xl-12">
+        <div class="card shadow">
+            <form method="get" id="formsearch">
+                <div class="card-header text-right">
+                    <h3 class="text-right"><strong>البحث</strong></h3>
+                    <hr>
+                    <div class="row">
+                        <div class="col-3">
+                            <label class="col-form-label">الميزانية :</label>
+                            <div class="ui selection dropdown mr-5 text-right">
+                                <input type="hidden" name="budget" id="budget">
+                                <i class="dropdown icon"></i>
+                                <div class="default text">الميزانية</div>
+                                <div class="menu">
+                                    <div class="item" data-value="-1">الكل</div>
+                                    <div class="item">Général</div>
+                                    <div class="item">Préfectoral</div>
+                                </div>
+                            </div>
+                        </div>
+
+                         <div class="col-3">
+                            <label class="col-form-label">القسم :</label>
+                            <div class="ui selection dropdown mr-5 text-right">
+                              <input type="hidden" name="div" id="div">
+                              <i class="dropdown icon"></i>
+                              <div class="default text">القسم</div>
+                              <div class="menu">
+                                  <div class="item" data-value="-1">الكل</div>
+                                  {% for div in divs %}
+                                        <div class="item" data-value="{{ div.iddivision }}">{{ div.libelledivisionfr }}</div>
+                                  {% endfor %}
+                              </div>
+                            </div>
+                         </div>
+
+                        <div class="col-3">
+                            <label class="col-form-label">الرتبة :</label>
+                            <div class="ui selection dropdown mr-5 text-right">
+                              <input type="hidden" name="grade" id="grade">
+                              <i class="dropdown icon"></i>
+                              <div class="default text">الرتبة</div>
+                              <div class="menu">
+                                  <div class="item" data-value="-1">الكل</div>
+                                  {% for grade in grades %}
+                                     <div class="item" data-value="{{ grade.idgrade }}">{{ grade.gradefr }}</div>
+                                  {% endfor %}
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-1"><label class="col-form-label block">الجنس &nbsp;:</label></div>
+
+                        <div class="col-3">
+                            <label class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="radioGenre" value="Homme"/>
+                                <span class="form-check-label"> &nbsp; ذكر </span>
+                            </label>
+                        </div>
+                        <div class="col-3">
+                            <label class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="radioGenre" value="Femme"/>
+                                <span class="form-check-label">  &nbsp; أنثى </span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    </section>
+    <section class="container-fluidd-flex mt-3 absence " style="background-color: white !important;">
+                <h1 class="h3  px-5 pt-3">Congés <span class="float-right">إجازة</span> </h1>
+        <div class="row">
+                 <section class="p-3">
+                  <form class="form-inline justify-content-around" id="formsearch">
+                    <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3 ">
+                       <input type="search" id="search" class="form-control " autocomplete="off" placeholder="بحث .....">
+                    </div>
+                    <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-3">
+                         <div class="dropdown m-3">
+                              <button class="btn btn-primary dropdown-toggle" type="button" id="typeconge" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                نوع
+                              </button>
+                              <div class="dropdown-menu" aria-labelledby="typeconge">
+                                <a class="dropdown-item"onclick="typeCon(this)" >Maladie</a>
+                                <a class="dropdown-item" onclick="typeCon(this)">Normal</a>
+                              </div>
+                            </div>
+                         <div class="dropdown ">
+                              <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                الحالة
+                              </button>
+                              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" onclick="statu(this)" >Terminer</a>
+                                <a class="dropdown-item" onclick="statu(this)" >En Cours</a>
+                                <a class="dropdown-item" onclick="statu(this)">Pas Commencer</a>
+                              </div>
+                            </div>
+                    </div>
+                    <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-2">
+                        <input type="date" id="date1" class="form-control" >
+                    </div>
+                    <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-2">
+                        <input type="date" id="date2" class="form-control" >
+                    </div>
+                    <div class="form-group col-xs-12 col-sm-6 col-md-4 col-lg-2">
+                        <button type="button" onclick="calcDate()" class="btn-search"><i class="fa-solid fa-search"></i></button>
+                         <button type="button" onclick="reseet()" class="btn btn-outline-infos "><i class="fa-solid fa-arrow-rotate-left fa-lg"></i></button>
+                    </div>
+                  </form>
+                 </section>
+                 <section class="abs-data mt-3">
+                <table id="table" class="table table-hover">
+                    <thead style="background-color: #005effeb;color: white">
+                      <tr>
+                        <th scope="col">الاسم الكامل</th>
+                        <th scope="col">نوع الإجازة</th>
+                        <th scope="col">تارخ البداية</th>
+                        <th scope="col">تاريخ النهاية</th>
+                        <th scope="col">عدد الأيام</th>
+                        <th scope="col">الحالة</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                     {% for cng in conges %}
+                                  <tr class="tb-colon">
+                                      <td>{{ cng.idpersonnel_field }}</td>
+                                      <td>{{ cng.type_conge }}</td>
+                                      <td>{{ cng.datedebut|date:"M d, Y" }}</td>
+                                      <td>{{cng.dateretour|date:"M d, Y"}} </td>
+                                      <td>{{cng.nbjour}} </td>
+                                    {% if cng.statut == 'Pas Commencer' %}
+                                       <td><span class="badge badge-primary p-2">Pas Commencer</span></td>
+                                    {% elif  cng.statut == 'Terminer' %}
+                                           <td><span class="badge badge-success p-2">Terminer</span></td>
+                                    {% else %}
+                                        <td><span class="badge badge-warning p-2">En Cours</span></td>
+                                    {% endif %}
+                                  </tr>
+                                {% endfor %}
+                    </tbody>
+                  </table>
+            </section>
+                </div>
+    </section>
+    <script src="{% static 'js/semantic.min.js' %}"></script>
+    <script>
+    let table = document.getElementById("table");
+    function resetTable(){
+              let table = document.getElementById("table");
+              for(let i=1;i<table.rows.length;i++){
+                table.rows[i].removeAttribute("style");
+              }
+         }
+    function reseet(){
+          document.getElementById("formsearch").reset();
+          resetTable();
+             }
+    function typeCon(arg){
+         reseet();
+         for(let i=1;i<table.rows.length;i++){
+                 if(table.rows[i].cells[1].textContent!=arg.text){
+                   table.rows[i].style.display="none";
+                 }
+             }
+    }
+    function statu(arg){
+        reseet();
+         for(let i=1;i<table.rows.length;i++){
+                 if(table.rows[i].cells[5].textContent!=arg.text){
+                   table.rows[i].style.display="none";
+                 }
+             }
+    }
+    function dateCheck(from,to,check) {
+            if((check.getTime() <= to.getTime() && check.getTime() >= from.getTime()-85400000)) {
+                // 86,400,000 is 1 day in millisecond
+                return true;
+            }
+            return false;
+         }
+    function calcDate(){
+             let date1=new Date(document.getElementById("date1").value);
+             let date2=new Date(document.getElementById("date2").value);
+             let table = document.getElementById("table");
+             for(let i=1;i<table.rows.length;i++){
+                 let val =new Date(table.rows[i].cells[2].innerHTML)
+                 if(!(dateCheck(date1,date2,val))){
+                   table.rows[i].style.display="none";
+                 }
+             }
+             totalJours();
+             justification();
+             noJustification();
+             totalAbsence();
+         }
+    $(function() {
+			$("#datatables-dashboard-projects").DataTable({
+				pageLength: 6,
+				lengthChange: false,
+				bFilter: false,
+				autoWidth: false
+			});
+		});
+    let $rows = $('#table tbody tr');
+         $('#search').keyup(function() {
+            let val = $.trim($(this).val()).replace(/ +/g, ' ').toLowerCase();
+            $rows.show().filter(function() {
+                let text = $(this).text().replace(/\s+/g, ' ').toLowerCase();
+                return !~text.indexOf(val);
+            }).hide();
+        });
+    </script>
+{% endblock %}

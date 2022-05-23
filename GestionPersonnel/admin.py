@@ -7,6 +7,7 @@ from import_export.admin import ImportExportModelAdmin
 class PersonnelImportExport(ImportExportModelAdmin):
     pass
 admin.site.register(Fonction)
+admin.site.register(ParametrageRetraite)
 admin.site.register(Grade)
 admin.site.register(Gradepersonnel)
 admin.site.register(Concours)

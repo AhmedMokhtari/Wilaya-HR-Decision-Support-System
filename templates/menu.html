@@ -281,10 +281,11 @@
                   الرخص
                 </a>
                 <div class="dropdown-menu" aria-labelledby="conges">
-                  <a class="dropdown-item" href="{% static 'ajouterp' %}">إضافة</a>
+                  <a class="dropdown-item" href="{% url 'conge' %}">إضافة</a>
                   <a class="dropdown-item" href="#"></a>
                   <div class="dropdown-divider"></div>
-                  <a class="dropdown-item" href="#">لوحة القيادة</a>
+                  <a class="dropdown-item" href="{% url 'congeencours' %}"> الرخص الحالية</a>
+                  <a class="dropdown-item" href="{% url 'ajouterconje' %}">لوحة القيادة</a>
                 </div>
               </li>
 

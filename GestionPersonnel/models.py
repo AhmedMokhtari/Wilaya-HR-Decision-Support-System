@@ -330,3 +330,13 @@ class Diplome(models.Model):
         managed = False
         db_table = 'Diplome'
 
+#---------------
+
+class ParametrageRetraite(models.Model):
+    idparametrageretraite = models.AutoField(db_column='IdParametrageRetraite', primary_key=True)
+    nbannee = models.IntegerField(db_column='NbAnnee', blank=True, null=True)
+    nbmois = models.IntegerField(db_column='NbMois', blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'ParametrageRetraite'

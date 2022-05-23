@@ -1,8 +1,8 @@
 from io import BytesIO
 import base64
 import matplotlib.pyplot as plt
-from datetime import datetime
-from .models import Personnel
+from datetime import datetime,timedelta
+from .models import Personnel,ParametrageRetraite
 from django.db.models import Q
 
 def get_graph():
@@ -39,3 +39,13 @@ def dictfetchall(cursor):
         dict(zip(columns, row))
         for row in cursor.fetchall()
     ]
+
+def dateRetraiteCalc(daten):
+    date1 = datetime.fromisoformat(daten)
+    year = ParametrageRetraite.objects.all().last().nbannee
+    month = ParametrageRetraite.objects.all().last().nbmois
+    if month is not None:
+        dateretraite = date1 + timedelta(days=(year * 365 + month * 30))
+    else:
+        dateretraite = date1 + timedelta(days=year * 365)
+    return dateretraite

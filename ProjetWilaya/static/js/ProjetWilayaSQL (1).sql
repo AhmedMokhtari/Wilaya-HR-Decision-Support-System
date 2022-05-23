@@ -4,32 +4,6 @@ use ProjetWilaya
 
 
 
--- Creating table 'Echelle'
-CREATE TABLE [dbo].[Echelle] (
-    [IdEchelle] int primary key IDENTITY(1,1),
-    [Echelle] int,
-);
-GO
-
-ALTER TABLE Conge
-ADD Statut nvarchar(55);
-
-update Personnel set photo='steve.jpg'
-
--- Creating table 'Echellon'
-CREATE TABLE [dbo].[Echellon] (
-    [IdEchellon] int primary key IDENTITY(1,1),
-    [Echellon] nvarchar(30),
-    [IdEchelle#] int foreign key references [dbo].[Echelle] (IdEchelle)
-);
-GO
--- Creating table 'Grade'
-CREATE TABLE [dbo].[Grade] (
-    [IdGrade] int primary key IDENTITY(1,1),
-    [GradeAr] nvarchar(30),
-    [GradeFr] nvarchar(30),
-);
-GO
 
 -- Creating table 'Diplome'
 CREATE TABLE [dbo].[Diplome] (
@@ -44,13 +18,98 @@ CREATE TABLE [dbo].[Diplome] (
 );
 GO
 
-select *from Personnel
+-- Creating table 'Entite'
+CREATE TABLE [dbo].[Entite] (
+    [IdEntite] int primary key IDENTITY(1,1),
+    [LibelleEntitenAr] nvarchar(100),
+    [LibelleEntiteFr] nvarchar(100)
+);
+GO
+
+-- Creating table 'Cercle'
+CREATE TABLE [dbo].[Cercle] (
+    [IdCercle] int primary key IDENTITY(1,1),
+    [LibelleCercleAr] nvarchar(100),
+    [LibelleCercleFr] nvarchar(100),
+	[IdEntite#] int foreign key references  [dbo].[Entite] ([IdEntite])
+);
+GO
+
+-- Creating table 'Caidat'
+CREATE TABLE [dbo].[Caidat] (
+    [IdCaidat] int primary key IDENTITY(1,1),
+    [LibelleCaidatAr] nvarchar(20),
+    [LibelleCaidatFr] nvarchar(20),
+    [IdCercle#] int foreign key references  [dbo].[Cercle] ([IdCercle])
+);
+
+-- Creating table 'CaidatPersonnel'
+CREATE TABLE [dbo].[CaidatPersonnel] (
+    
+	[IdCaidatPersonnel] int primary key identity(1,1),
+    [IdCaidat#] int foreign key references [dbo].[Caidat]([IdCaidat]),
+	[IdPersonnel#] int foreign key references [dbo].[Personnel]([IdPersonnel]),
+    [DateAffectation] datetime,
+    
+);
+GO
+
+
+-- Creating table 'Pashalik'
+CREATE TABLE [dbo].[Pashalik] (
+    [IdPashalik] int primary key IDENTITY(1,1),
+    [LibellePashalikAr] nvarchar(100),
+    [LibellePashalikFr] nvarchar(100),
+	[IdEntite#] int foreign key references  [dbo].[Entite] ([IdEntite])
+);
+GO
+
+-- Creating table 'PashalikPersonnel'
+CREATE TABLE [dbo].[PashalikPersonnel] (
+    
+	[IdPashalikPersonnel] int primary key identity(1,1),
+    [IdPashalik#] int foreign key references [dbo].[Pashalik]([IdPashalik]),
+	[IdPersonnel#] int foreign key references [dbo].[Personnel]([IdPersonnel]),
+    [DateAffectation] datetime,
+    
+);
+GO
+
+-- Creating table 'District'
+CREATE TABLE [dbo].[District] (
+    [IdDistrict] int primary key IDENTITY(1,1),
+    [LibelleDistrictAr] nvarchar(100),
+    [LibelleDistrictFr] nvarchar(100),
+	[IdEntite#] int foreign key references  [dbo].[Entite] ([IdEntite])
+);
+GO
+
+-- Creating table 'Annexe'
+CREATE TABLE [dbo].[Annexe] (
+    [IdAnnexe] int primary key IDENTITY(1,1),
+    [LibelleAnnexeAr] nvarchar(20),
+    [LibelleAnnexeFr] nvarchar(20),
+    [IdDistrict#] int foreign key references  [dbo].[District] ([IdDistrict])
+);
+GO
+
+-- Creating table 'AnnexePersonnel'
+CREATE TABLE [dbo].[AnnexePersonnel] (
+    
+	[IdAnnexePersonnel] int primary key identity(1,1),
+    [IdAnnexe#] int foreign key references [dbo].[Annexe]([IdAnnexe]),
+	[IdPersonnel#] int foreign key references [dbo].[Personnel]([IdPersonnel]),
+    [DateAffectation] datetime,
+    
+);
+GO
 
 -- Creating table 'Division'
 CREATE TABLE [dbo].[Division] (
     [IdDivision] int primary key IDENTITY(1,1),
     [LibelleDivisionAr] nvarchar(100),
-    [LibelleDivisionFr] nvarchar(100)
+    [LibelleDivisionFr] nvarchar(100),
+	[IdEntite#] int foreign key references  [dbo].[Entite] ([IdEntite])
 );
 GO
 
@@ -60,6 +119,18 @@ CREATE TABLE [dbo].[Service] (
     [LibelleServiceAr] nvarchar(20),
     [LibelleServiceFr] nvarchar(20),
     [IdDivision#] int foreign key references  [dbo].[Division] ([IdDivision])
+);
+GO
+Drop table Division
+
+-- Creating table 'ServicePersonnel'
+CREATE TABLE [dbo].[ServicePersonnel] (
+    
+	[IdServicePersonnel] int primary key identity(1,1),
+    [IdService#] int foreign key references [dbo].[Service]([IdService]),
+	[IdPersonnel#] int foreign key references [dbo].[Personnel]([IdPersonnel]),
+    [DateAffectation] datetime,
+    
 );
 GO
 
@@ -131,11 +202,11 @@ CREATE TABLE [dbo].[Conge] (
     [type_conge] nvarchar(30),
     [dateDebut] datetime,
 	[dateRetour] datetime,
-	[annee] int DEFAULT YEAR(GETDATE()),
     [nbJour] int,
-	[Statu] varchar(55) DEFAULT 'Pas Commencer',
     [IdPersonnel#] int foreign key references [dbo].[Personnel]([IdPersonnel])
 );
+GO
+
 -- Creating table 'Stage'
 CREATE TABLE [dbo].[Stage] (
     [IdStage] int primary key IDENTITY(1,1),
@@ -213,28 +284,55 @@ CREATE TABLE [dbo].[Enfant] (
 );
 GO
 
+-- Creating table 'Echelle'
+CREATE TABLE [dbo].[Echelle] (
+    [IdEchelle] int primary key IDENTITY(1,1),
+    [Echelle] nvarchar(15),
+);
+GO
+
+
+
+-- Creating table 'Echellon'
+CREATE TABLE [dbo].[Echellon] (
+    [IdEchellon] int primary key IDENTITY(1,1),
+    [Echellon] nvarchar(30),
+);
+GO
+
+
+-- Creating table 'StatutGrade'
+CREATE TABLE [dbo].[StatutGrade](
+[idStatutGrade] int  primary key IDENTITY(1,1),
+[StatutGradeFr] nvarchar(30),
+[StatutGradeAr] nvarchar(30),
+);
+
+-- Creating table 'Grade'
+CREATE TABLE [dbo].[Grade] (
+    [IdGrade] int primary key IDENTITY(1,1),
+    [GradeAr] nvarchar(30),
+    [GradeFr] nvarchar(30),
+	idStatutGrade# int foreign key references StatutGrade(idStatutGrade),
+	idEchelle# int foreign key references Echelle(idEchelle),
+);
+GO
+
+
 -- Creating table 'GradePersonnel'
 CREATE TABLE [dbo].[GradePersonnel] (
 	[IdGradePersonnel] int primary key identity(1,1),
     [IdGrade#] int foreign key references [dbo].[Grade]([IdGrade]),
     [IdPersonnel#] int foreign key references [dbo].[Personnel]([IdPersonnel]),
     [DateGrade] datetime,
-    [ChangementDeGrade] varchar(100),
-	[IdConcours#] int foreign key references [dbo].[Concours]([IdConcours]),
+    [ChangementDeGrade] nvarchar(100),
 	idEchellon# int foreign key references Echellon(idEchellon),
+	[Indice] nvarchar(15),
+	[DateEchellon] datetime,
+	[ChangementDEchellon] nvarchar(100),
 );
 GO
 
--- Creating table 'ServicePersonnel'
-CREATE TABLE [dbo].[ServicePersonnel] (
-    
-	[IdServicePersonnel] int primary key identity(1,1),
-    [IdService#] int foreign key references [dbo].[Service]([IdService]),
-	[IdPersonnel#] int foreign key references [dbo].[Personnel]([IdPersonnel]),
-    [DateAffectation] datetime,
-    
-);
-GO
 
 -- Creating table 'FonctionPersonnel'
 CREATE TABLE [dbo].[FonctionPersonnel] (
@@ -265,8 +363,6 @@ CREATE TABLE [dbo].[ThematiqueFormationPersonnel] (
     
 );
 GO
-
-
 
 -- Creating table 'PositionPersonnel'
 CREATE TABLE [dbo].[PositionPersonnel] (
