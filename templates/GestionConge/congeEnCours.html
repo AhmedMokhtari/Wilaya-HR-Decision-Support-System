@@ -95,7 +95,8 @@
                                             <th>تاريخ البداية </th>
                                             <th> تاريخ النهاية</th>
                                             <th>عدد الأيام</th>
-                                            <th>الأيام الباقية</th>
+                                            <th>الأيام المتبقية</th>
+                                             <th>الأيام المتبقية في الإجازة</th>
                                             <th></th>
                                         </tr>
                                     </thead>
@@ -109,6 +110,7 @@
                                             <td class="d-none d-xl-table-cell">{{ item.dateretour|date:'Y-m-d' }}</td>
                                             <td>{{ item.nbjour}}</td>
                                             <td>{{ a.joursrestan}}</td>
+                                            <td>{{ a.joursrestanConge }}</td>
                                             <td class="collapsing">
                                                 <a href="{% url 'stopeconge' item.idconge %}" class="btn btn-danger">توقيف</a>
                                              </td>

@@ -240,7 +240,7 @@ def ajouter(request):
         rib = request.POST["rib"]
         ancadmi = request.POST["ancadmi"]
         adminiapp = request.POST["adminiapp"]
-        photo = request.POST["photo"]
+        photo = request.FILES.get('photo')
         dategrade = request.POST["dategrade"]
         grade = request.POST["grade"]
         fonction = request.POST["fonction"]

@@ -74,19 +74,33 @@ def GestionCongeEnCours(request):
     congesEncour = Conge.objects.filter(Q1 & Q2)
     print(congesEncour)
     listdate =[]
+    dateelimine = DateElimine.objects.all()
     for a in congesEncour:
         d1 = datetime.strptime(str(a.dateretour.strftime('%Y/%m/%d')), "%Y/%m/%d")
         d2 = datetime.strptime(str(date.today().strftime('%Y/%m/%d')), "%Y/%m/%d")
         delta = d1 - d2;
-        b={'joursrestan':delta.days}
+        datedecom = a.dateretour
+        a2 = datetime.strptime(str(datedecom.strftime('%Y/%m/%d')), "%Y/%m/%d")
+        a1 = datetime.now()
+        data = [s.dateelimine.date() for s in dateelimine]
+        datenbjours = np.busday_count(a1.date(), a2.date(), holidays=data)
+        b={'joursrestan':delta.days,'joursrestanConge':datenbjours}
         listdate.append(b);
+    print(b)
+    print(listdate)
     cursor = connection.cursor()
     cursor.execute('''select * from Conge where Statut='En Cours' and dateRetour <= GETDATE() ''')
     EncourFini = dictfetchall(cursor)
     if(request.method=='POST'):
         id=request.POST.getlist('id[]')
         Conge.objects.filter(idconge__in=id).update(statut='Terminer')
-
+    '''dateelimine = DateElimine.objects.all()
+    datedecom = congesEncour.dateretour
+    a1 = datetime.strptime(str(datedecom.strftime('%Y/%m/%d')), "%Y/%m/%d")
+    a2 = datetime.now()
+    data = [s.dateelimine.date() for s in dateelimine]
+    datenbjours = np.busday_count(a1.date(), a2.date(), holidays=data)
+    objconge.nbjour = datenbjours;'''
     return render(request, 'GestionConge/congeEnCours.html', {'congesEnCours':zip(congesEncour,listdate),'enCoursFini':EncourFini})
 
 

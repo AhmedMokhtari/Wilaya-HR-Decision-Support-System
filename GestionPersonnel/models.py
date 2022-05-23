@@ -36,7 +36,7 @@ class Personnel(models.Model):
     numcnopsaf = models.CharField(db_column='NumCnopsAf', max_length=50, db_collation='French_CI_AS', blank=True, null=True)
     numcnopsim = models.CharField(db_column='NumCnopsIm', max_length=50, db_collation='French_CI_AS', blank=True, null=True)
     administrationapp = models.CharField(db_column='AdministrationApp', max_length=50, db_collation='French_CI_AS', blank=True, null=True)
-    photo = models.ImageField(upload_to="photos")
+    photo = models.ImageField(upload_to="")
     age = models.IntegerField(db_column='Age', blank=True, null=True)
     lastupdate = models.DateField(db_column='LastUpdate', blank=True, null=True)
     statut = models.CharField(db_column='Statut', max_length=40, db_collation='French_CI_AS', blank=True, null=True)
