@@ -6,8 +6,7 @@
     <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/all.min.css' %}"/>
 
-    <style>
-
+     <style>
         #donneperso{
             background-color: #D42D1E;
         }
@@ -21,221 +20,12 @@
         #photo{
             display: none;
         }
-
     </style>
-  {% if request.user|has_group:"GestionPersonnel" %}
-     <form action="" method="POST">
+    {% if request.user|has_group:"GestionPersonnel" %}
+        <form action="" method="POST">
         {% csrf_token %}
-            {% if personnel.cin %}
+
                 <div class="row">
-                    <div class="col-sm-8 col-lg-6 d-flex">
-                        <div class="card flex-fill">
-                            <div class="card-header">
-                                <br>
-                                <h4 class="text-center">
-                                    Données personnelles - معلومات شخصية
-                                </h4>
-                                <hr>
-                            </div>
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md">
-                                        <label class="col-form-label float-right" for="cin"> ر.ب.و :</label>
-                                        <label class="col-form-label" dir="ltr" for="cin">Cin :</label>
-                                        <input type="text" class="form-control" name="cin" value="{{ personnel.cin }}" readonly  required>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md">
-                                        <label class="col-form-label float-right" for="cin">الزوج :</label>
-                                        <label class="col-form-label" dir="ltr" for="cin">Conjoint :</label>
-                                        <center>
-                                            <a class="btn text-center col-md-12 btna" onclick="red('ajouter_conjoint')" id="addfe">
-                                                <i class="fa fa-plus"></i>
-                                            </a>
-                                        </center>
-                                    </div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-md">
-                                        <label class="col-form-label float-right" for="cin">الاطفال :</label>
-                                        <label class="col-form-label" dir="ltr" for="cin">Enfants :</label>
-                                        <center>
-                                        <a class="btn text-center col-md-12 btna" onclick="red('ajouter_enfant')">
-                                            <i class="fa fa-plus"></i>
-                                        </a>
-                                        </center>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-sm-8 col-lg-6 d-flex">
-                        <div class="card flex-fill">
-                            <div class="card-header">
-                                <br>
-                                <h4 class="text-center">
-                                    Données personnelles - معلومات شخصية
-                                </h4>
-                                <hr>
-                            </div>
-                            <div class="card-body">
-
-                                <div class="row">
-                                    <div class="col-md">
-                                        <label class="col-form-label float-right" for="cin">ديبلومات :</label>
-                                        <label class="col-form-label" dir="ltr" for="cin">Diplômes :</label>
-                                        <center>
-                                        <a class="btn text-center col-md-12 btna" onclick="red('ajouter_diplome')">
-                                            <i class="fa fa-plus"></i>
-                                        </a>
-                                        </center>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            {% else %}
-                <div class="row">
-                    <div class="col-sm-12 col-lg-12 d-flex">
-                        <div class="card flex-fill">
-                            <div class="card-header d-flex h-25" id="donneperso">
-                                <h3 class="card-title text-center text-white" dir="ltr">
-                                    Données Personnelles - معلومات شخصية
-                                </h3>
-                            </div>
-                            <hr>
-
-                            <div class="card-body" id="persocard">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <div class="text-center">
-                                                <div class="mt-2">
-
-                                                    <input type="image" src="{% static 'images/genericpersonnel.webp' %}" id="image" class="rounded-circle img-responsive mt-2" width="124" height="124"/>
-                                                    <input type="file" name="photo" id="photo"  onchange="previewPicture(this)"/>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md">
-                                                <label class="col-form-label float-right" for="prenomar">الاسم الشخصي :</label>
-                                                <input type="text" class="form-control text-center" name="prenomar"   required>
-                                            </div>
-
-                                            <div class="col-md">
-                                                <label for="prenomfr" class="col-form-label" dir="ltr">Prénom :</label>
-                                                <input type="text" class="form-control text-center" name="prenomfr"   required>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md">
-                                                <label class="col-form-label float-right" for="nomfr"> الاسم العائلي :</label>
-                                                <input type="text" class="form-control text-center" name="nomfr"   required>
-                                            </div>
-
-                                            <div class="col-md">
-                                                <label for="nomar" class="col-form-label" dir="ltr">Nom :</label>
-                                                <input type="text" class="form-control text-center" name="nomar"   required>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md">
-                                                <label class="col-form-label float-right" for="lieunar"> مكان الازدياد :</label>
-                                                <input type="text" class="form-control text-center" name="lieunar"   required>
-                                            </div>
-
-                                            <div class="col-md">
-                                                <label for="lieunfr" class="col-form-label" dir="ltr">lieu de naissance :</label>
-                                                <input type="text" class="form-control text-center" name="lieunfr"   required>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md">
-                                                <label class="col-form-label float-right" for="adressear"> العنوان :</label>
-                                                <input type="text" class="form-control text-center" name="adressear"   required>
-                                            </div>
-
-                                            <div class="col-md">
-                                                <label for="adressefr" class="col-form-label" dir="ltr">Adresse :</label>
-                                                <input type="text" class="form-control text-center" name="adressefr"   required>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <br>
-                                        <br>
-                                        <div class="row">
-                                            <div class="col-md">
-                                                <label class="col-form-label float-right" for="situationfar"> الوضع العائلي :</label>
-                                                <label class="col-form-label" dir="ltr" for="situationfar">Situation familiale :</label>
-                                                <select class="form-control text-center" name="situationfar"   required>
-                                                    <option value="1">متزوج(ة)-marié(e)</option>
-                                                    <option value="2">مطلق(ة)-divorcé(e)</option>
-                                                    <option value="3">بدون-célibataire(e)</option>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md">
-                                                <label class="col-form-label float-right" for="sexe"> الجنس :</label>
-                                                <label class="col-form-label" dir="ltr" for="sexe">Sexe :</label>
-                                                <select class="form-control  text-center" name="sexe"   required>
-                                                    <option>Homme-ذكر</option>
-                                                    <option>Femme-أنثى</option>
-                                                </select>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md">
-                                                <label class="col-form-label float-right" for="daten"> تاريخ الازدياد :</label>
-                                                <label class="col-form-label" dir="ltr" for="daten">Date de naissance :</label>
-                                                <input type="date" class="form-control text-center" name="daten"  required>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md">
-                                                <label class="col-form-label float-right" for="cin"> ر.ب.و :</label>
-                                                <label class="col-form-label" dir="ltr" for="cin">Cin :</label>
-                                                <input type="text" class="form-control text-center" name="cin"  required>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md">
-                                                <label class="col-form-label float-right" for="email"> البريد الالكتروني :</label>
-                                                <label class="col-form-label" dir="ltr" for="email">Email :</label>
-                                                <input type="text" class="form-control text-center" name="email"  required>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md">
-                                                <label class="col-form-label float-right" for="tele"> الهاتف :</label>
-                                                <label class="col-form-label" dir="ltr" for="tele">Tele :</label>
-                                                <input type="text" class="form-control text-center" name="tele"  required>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-
                     <div class="col-sm-12 col-lg-12 d-flex">
                         <div class="card flex-fill">
                              <div class="card-header d-flex h-25" id="donneprof" style="background-color: #D42D1E;">
@@ -249,14 +39,6 @@
                                     <div class="col-md-6">
                                         <div class="row">
                                             <div class="col-md">
-                                                <label class="col-form-label float-right" for="ppr"> ب,ب.ر :</label>
-                                                <label class="col-form-label" dir="ltr" for="ppr">PPR :</label>
-                                                <input type="text" class="form-control text-center" name="ppr" required>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md">
                                                 <label class="col-form-label float-right" for="adminiapp"> الإدارة :</label>
                                                 <label class="col-form-label" dir="ltr" for="adminiapp">Administration :</label>
                                                 <select class="form-control  text-center" name="adminiapp" required>
@@ -265,76 +47,7 @@
                                                 </select>
                                             </div>
                                         </div>
-
-                                        <div class="row">
-                                            <div class="col-md">
-                                                <label class="col-form-label float-right" for="numiden"> رقم المنصب المالي :</label>
-                                                <label class="col-form-label" dir="ltr" for="numiden">N° de poste budgétaire :</label>
-                                                <input type="text" class="form-control text-center" name="numiden" required>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md">
-                                                <label class="col-form-label float-right" for="statut"> الوضعية النظامية :</label>
-                                                <label class="col-form-label" dir="ltr" for="statut">Situation statutaire :</label>
-                                                <input type="text" class="form-control text-center" name="statut" required>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md">
-                                                <label class="col-form-label float-right" for="rib"> ر.ي.ب :</label>
-                                                <label class="col-form-label" dir="ltr" for="rib">Rib :</label>
-                                                <input type="text" class="form-control text-center" name="rib" pattern="^(0|[1-9][0-9]*)$" required>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md">
-                                                <label class="col-form-label float-right" for="ancadmi"> الأقدمية الإدارية :</label>
-                                                <label class="col-form-label" dir="ltr" for="ancadmi">Ancienneté administrative :</label>
-                                                <input type="text" class="form-control text-center" name="ancadmi" required>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md">
-                                                <label class="col-form-label float-right" for="daterec"> تاريخ التوظيف :</label>
-                                                <label class="col-form-label" dir="ltr" for="daterec">Date de recrutement :</label>
-                                                <input type="date" class="form-control text-center" name="daterec" required>
-                                            </div>
-
-                                            <div class="col-md">
-                                                <label class="col-form-label float-right" for="datedec"> تاريخ الترسيم :</label>
-                                                <label class="col-form-label" dir="ltr" for="datedec">Date de titularisation :</label>
-                                                 <input type="date" class="form-control text-center" name="datedec" required>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md">
-                                                <label class="col-form-label float-right" for="dateretr"> تاريخ الإحالة على التقاعد :</label>
-                                                <label class="col-form-label" dir="ltr" for="dateretr">Date de départ à la retraite :</label>
-                                                 <input type="date" class="form-control text-center" name="dateretr" required>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md">
-                                                <label class="col-form-label float-right" for="numcnopsaf"> رفم كنوبس أ.ف :</label>
-                                                <label class="col-form-label" dir="ltr" for="numcnopsaf">Numéro cnops af :</label>
-                                                 <input type="text" class="form-control text-center" name="numcnopsaf" required>
-                                            </div>
-
-                                            <div class="col-md">
-                                                <label class="col-form-label float-right" for="numcnopsim"> رفم كنوبس أ.م :</label>
-                                                <label class="col-form-label" dir="ltr" for="numcnopsim">Numéro cnops im :</label>
-                                                 <input type="text" class="form-control text-center" name="numcnopsim" required>
-                                            </div>
-                                        </div>
                                     </div>
-
                                     <div class="col-md-6">
                                         <div class="col-12 col-lg-12">
                                             <div class="tab" style="background-color: whitesmoke">
@@ -602,32 +315,6 @@
                         </div>
                     </div>
                 </div>
-             {% endif %}
         </form>
-      <script>
-      var url0 = "{% url 'ajaxajouterloadannexe' %}"
-       var url1 = "{% url 'ajaxajouterloadgrade' %}";
-       var url2 = "{% url 'ajaxajouterloadechellon' %}";
-       var url3 = "{% url 'ajaxajouterloadsevice' %}";
-       const url4 = "{% url 'ajaxajouterloadcaida' %}";
-      </script>
-      <script type="text/javascript" src="{% static 'js/GestionPersonnel/ajouter.js' %}"></script>
-{% else %}
-      <div class="row h-100">
-				<div class="col-sm-10 col-md-8 col-lg-6 mx-auto d-table h-100">
-					<div class="d-table-cell align-middle">
-						<div class="text-center">
-							<h1 class="display-1 font-weight-bold" style="color: red">401</h1>
-							<p class="h1"></p>
-							<p class="h2 font-weight-normal mt-3 mb-4"  style="color: red">ليس لديكم الحق للولوج لهته الصفحة</p>
-							<a href="{% url 'consultation' %}" class="btn btn-primary btn-lg">الرجوع</a>
-						</div>
-					</div>
-				</div>
-			</div>
-{% endif %}
-{% endblock %}
-
-
-
-
+    {% endif %}
+{% endblock content %}

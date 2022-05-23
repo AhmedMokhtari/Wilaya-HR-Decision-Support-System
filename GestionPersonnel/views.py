@@ -277,14 +277,14 @@ def ajouter(request):
                                            ppr=ppr, statut=statut)
         objperso.save()
 
-        if (request.POST.get('entite', None) == "Entite1"):
+        if (request.POST.get('entite', None) == "Le Secrétaire General"):
             service = request.POST["service"]
             dateservice = request.POST["dateservice"]
             objservice = Service(idservice=service)
             objserviceperso = Servicepersonnel.objects.create(idpersonnel_field=objperso, idservice_field=objservice,
                                                               dateaffectation=dateservice)
             objserviceperso.save()
-        elif (request.POST.get('entite', None) == "Entite2"):
+        elif (request.POST.get('entite', None) == "Commandement"):
             if(request.POST.get('districtpashalik', None) == "District"):
                 annexe = request.POST["annexe"]
                 datesannexe= request.POST["dateannexe"]
@@ -296,12 +296,17 @@ def ajouter(request):
                 datepashalik = request.POST["datepashalik"]
                 objpashalik = Pashalik(idpashalik=pashalik)
                 objpashalikperso = Pashalikpersonnel.objects.create(idpersonnel_field=objperso, idpashalik_field=objpashalik, dateaffectation=datepashalik)
+                objpashalikperso.save()
             elif((request.POST.get('districtpashalik', None) == "Cercle")):
                 caidat = request.POST["caida"]
+                datecaidat = request.POST["datecaida"]
+                objcaidat = Caidat(idcaidat=caidat)
+                objcaidatperso = Caidatpersonnel.objects.create(idpersonnel_field=objperso, idcaidat_field=objcaidat, dateaffectation=datecaidat)
+                objcaidatperso.save()
 
         objgrade = Grade(idgrade=grade)
         objfonction = Fonction(idfonction=fonction)
-        objechellon = Echellon.objects.get(echellon = echellon)
+        objechellon = Echellon.objects.get(echellon=echellon)
 
         objfonctionperso = Fonctionpersonnel.objects.create(idpersonnel_field=objperso, idfonction_field=objfonction, datefonction=datefonction)
 

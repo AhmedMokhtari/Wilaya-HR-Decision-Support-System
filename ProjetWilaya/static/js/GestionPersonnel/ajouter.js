@@ -83,7 +83,7 @@ window.onload = function ()
     const selentite= document.getElementById('entite');
     selentite.onchange= function ()
     {
-        if(selentite.value == "Entite1")
+        if(selentite.value == "Le Secrétaire General")
         {
              $(".divisiondiv").show();
              $(".districtpashalikdiv").hide();
@@ -101,12 +101,10 @@ window.onload = function ()
              $("#division").prop('required',true);
              $("#service").prop('required',true);
              $("#dateservice").prop('required',true);
-
-
         }
         else
         {
-            if(selentite.value == "Entite2")
+            if(selentite.value == "Commandement")
             {
                 $(".districtpashalikdiv").show();
                 $(".divisiondiv").hide();
