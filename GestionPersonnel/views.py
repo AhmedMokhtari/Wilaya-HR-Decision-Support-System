@@ -263,7 +263,11 @@ def ajouter(request):
             situatar = "بدون"
             situatfr = "célibataire(e)"
 
-        objperso=Personnel.objects.create(nomar=nomar, nomfr=nomfr, cin=cin, prenomar=prenomar, prenomfr=prenomfr,
+
+
+
+
+        objperso= Personnel.objects.create(nomar=nomar, nomfr=nomfr, cin=cin, prenomar=prenomar, prenomfr=prenomfr,
                             lieunaissancear=lieunar, lieunaissancefr=lieunfr, datenaissance=daten,
                             tele=tele, email=email, situationfamilialefr=situatfr, adressear=adressear,
                             adressefr=adressefr, numerofinancier=numiden, daterecrutement=daterec,
@@ -281,9 +285,8 @@ def ajouter(request):
                                                               dateaffectation=dateservice)
             objserviceperso.save()
 
-            objperso1 = Personnel.objects.get(idpersonnel=objperso.idpersonnel)
-            objperso1.organisme = "Service"
-            objperso1.save()
+            objperso.organisme = "Service"
+            objperso.save()
 
         elif (request.POST.get('entite', None) == "Commandement"):
             if(request.POST.get('districtpashalik', None) == "District"):
@@ -303,9 +306,8 @@ def ajouter(request):
                 objpashalikperso = Pashalikpersonnel.objects.create(idpersonnel_field=objperso, idpashalik_field=objpashalik, dateaffectation=datepashalik)
                 objpashalikperso.save()
 
-                objperso1 = Personnel.objects.get(idpersonnel=objperso.idpersonnel)
-                objperso1.organisme = "pashalik"
-                objperso1.save()
+                objperso.organisme = "pashalik"
+                objperso.save()
 
             elif((request.POST.get('districtpashalik', None) == "Cercle")):
                 caidat = request.POST["caida"]
@@ -314,10 +316,8 @@ def ajouter(request):
                 objcaidatperso = Caidatpersonnel.objects.create(idpersonnel_field=objperso, idcaidat_field=objcaidat, dateaffectation=datecaidat)
                 objcaidatperso.save()
 
-                objperso1 = Personnel.objects.get(idpersonnel=objperso.idpersonnel)
-                objperso1.organisme = "Caida"
-                objperso1.save()
-
+                objperso.organisme = "Caida"
+                objperso.save()
         objgrade = Grade(idgrade=grade)
         objfonction = Fonction(idfonction=fonction)
         objechellon = Echellon.objects.get(echellon=echellon)
