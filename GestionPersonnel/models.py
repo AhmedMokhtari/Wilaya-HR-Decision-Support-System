@@ -41,7 +41,7 @@ class Personnel(models.Model):
     lastupdate = models.DateField(db_column='LastUpdate', blank=True, null=True)
     statut = models.CharField(db_column='Statut', max_length=40, db_collation='French_CI_AS', blank=True, null=True)
     ppr = models.CharField(db_column='Ppr', max_length=30, db_collation='French_CI_AS', blank=True, null=True)
-    #annexe = models.CharField(db_column='Annexe', max_length=40, db_collation='French_CI_AS', blank=True, null=True)
+    organisme = models.CharField(db_column='Organisme', max_length=80, db_collation='French_CI_AS', blank=True, null=True)
 
     class Meta:
         managed = False

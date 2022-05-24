@@ -263,11 +263,7 @@ def ajouter(request):
             situatar = "بدون"
             situatfr = "célibataire(e)"
 
-
-
-
-
-        objperso= Personnel.objects.create(nomar=nomar, nomfr=nomfr, cin=cin, prenomar=prenomar, prenomfr=prenomfr,
+        objperso=Personnel.objects.create(nomar=nomar, nomfr=nomfr, cin=cin, prenomar=prenomar, prenomfr=prenomfr,
                             lieunaissancear=lieunar, lieunaissancefr=lieunfr, datenaissance=daten,
                             tele=tele, email=email, situationfamilialefr=situatfr, adressear=adressear,
                             adressefr=adressefr, numerofinancier=numiden, daterecrutement=daterec,
@@ -284,6 +280,11 @@ def ajouter(request):
             objserviceperso = Servicepersonnel.objects.create(idpersonnel_field=objperso, idservice_field=objservice,
                                                               dateaffectation=dateservice)
             objserviceperso.save()
+
+            objperso1 = Personnel.objects.get(idpersonnel=objperso.idpersonnel)
+            objperso1.organisme = "Service"
+            objperso1.save()
+
         elif (request.POST.get('entite', None) == "Commandement"):
             if(request.POST.get('districtpashalik', None) == "District"):
                 annexe = request.POST["annexe"]
@@ -291,18 +292,31 @@ def ajouter(request):
                 objannexe = Annexe(idannexe=annexe)
                 objannexeperso = Annexepersonnel.objects.create(idpersonnel_field=objperso, idannexe_field=objannexe, dateaffectation=datesannexe)
                 objannexeperso.save()
+
+                objperso.organisme = "Annexe"
+                objperso.save()
+
             elif(request.POST.get('districtpashalik', None) == "Pashalik"):
-                pashalik = request.POST["annexe"]
+                pashalik = request.POST["pashalik"]
                 datepashalik = request.POST["datepashalik"]
                 objpashalik = Pashalik(idpashalik=pashalik)
                 objpashalikperso = Pashalikpersonnel.objects.create(idpersonnel_field=objperso, idpashalik_field=objpashalik, dateaffectation=datepashalik)
                 objpashalikperso.save()
+
+                objperso1 = Personnel.objects.get(idpersonnel=objperso.idpersonnel)
+                objperso1.organisme = "pashalik"
+                objperso1.save()
+
             elif((request.POST.get('districtpashalik', None) == "Cercle")):
                 caidat = request.POST["caida"]
                 datecaidat = request.POST["datecaida"]
                 objcaidat = Caidat(idcaidat=caidat)
                 objcaidatperso = Caidatpersonnel.objects.create(idpersonnel_field=objperso, idcaidat_field=objcaidat, dateaffectation=datecaidat)
                 objcaidatperso.save()
+
+                objperso1 = Personnel.objects.get(idpersonnel=objperso.idpersonnel)
+                objperso1.organisme = "Caida"
+                objperso1.save()
 
         objgrade = Grade(idgrade=grade)
         objfonction = Fonction(idfonction=fonction)
