@@ -83,7 +83,7 @@ window.onload = function ()
     const selentite= document.getElementById('entite');
     selentite.onchange= function ()
     {
-        if(selentite.value == "Le Secrétaire General")
+        if(selentite.value == "Secrétariat général")
         {
              $(".divisiondiv").show();
              $(".districtpashalikdiv").hide();

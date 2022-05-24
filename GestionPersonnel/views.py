@@ -273,7 +273,7 @@ def ajouter(request):
                                            ppr=ppr, statut=statut)
         objperso.save()
 
-        if (request.POST.get('entite', None) == "Le Secrétaire General"):
+        if (request.POST.get('entite', None) == "Secrétariat général"):
             service = request.POST["service"]
             dateservice = request.POST["dateservice"]
             objservice = Service(idservice=service)

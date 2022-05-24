@@ -83,7 +83,7 @@ window.onload = function ()
     const selentite= document.getElementById('entite');
     selentite.onchange= function ()
     {
-        if(selentite.value == "Entite1")
+        if(selentite.value == "Secrétariat général")
         {
              $(".divisiondiv").show();
              $(".districtpashalikdiv").hide();
@@ -101,12 +101,10 @@ window.onload = function ()
              $("#division").prop('required',true);
              $("#service").prop('required',true);
              $("#dateservice").prop('required',true);
-
-
         }
         else
         {
-            if(selentite.value == "Entite2")
+            if(selentite.value == "Commandement")
             {
                 $(".districtpashalikdiv").show();
                 $(".divisiondiv").hide();
@@ -168,7 +166,10 @@ window.onload = function ()
              $("#dateservice").prop('required',false);
              $("#cercle").prop('required',false);
              $("#caida").prop('required',false);
-
+             if (document.getElementById("op4") == null)
+             {
+                 $("#cercle").append('<option id="op4" selected></option>');
+             }
 
         }
         else{
@@ -198,6 +199,12 @@ window.onload = function ()
                  {
                      $("#district").append('<option id="op0" selected></option>')
                  }
+                 else {
+                     if (document.getElementById("op4") == null)
+                     {
+                        $("#cercle").append('<option id="op4" selected></option>');
+                    }
+                 }
 
 
             }
@@ -223,6 +230,11 @@ window.onload = function ()
                      $("#dateservice").prop('required',false);
                      $("#cercle").prop('required',true);
                      $("#caida").prop('required',true);
+
+                     if(document.getElementById("op0") == null)
+                     {
+                         $("#district").append('<option id="op0" selected></option>')
+                     }
                 }
             }
         }
@@ -265,7 +277,7 @@ window.onload = function ()
             {
                 for(var i = 0; i < data.caidas.length; i++)
                 {
-                    $("#caida").append(`<option value="${data.caidas[i].idcaida}">${data.caidas[i].libellecaidafr}</option>`);
+                    $("#caida").append(`<option value="${data.caidas[i].idcaidat}">${data.caidas[i].libellecaidatfr}</option>`);
 
                 }
             }
