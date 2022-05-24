@@ -263,10 +263,6 @@ def ajouter(request):
             situatar = "بدون"
             situatfr = "célibataire(e)"
 
-
-
-
-
         objperso= Personnel.objects.create(nomar=nomar, nomfr=nomfr, cin=cin, prenomar=prenomar, prenomfr=prenomfr,
                             lieunaissancear=lieunar, lieunaissancefr=lieunfr, datenaissance=daten,
                             tele=tele, email=email, situationfamilialefr=situatfr, adressear=adressear,
@@ -318,6 +314,7 @@ def ajouter(request):
 
                 objperso.organisme = "Caida"
                 objperso.save()
+
         objgrade = Grade(idgrade=grade)
         objfonction = Fonction(idfonction=fonction)
         objechellon = Echellon.objects.get(echellon=echellon)
