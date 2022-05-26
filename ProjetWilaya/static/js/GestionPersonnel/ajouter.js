@@ -49,29 +49,35 @@ window.onload = function ()
      $("#dateservice").prop('required',true);
 
   //cardheader1
-    const donneperso = document.getElementById('donneperso')
-    donneperso.onmouseover = function (){
-        donneperso.setAttribute("style","background-color: #eb3121;")
-    }
-    donneperso.onmouseout= function (){
-        donneperso.setAttribute("style","background-color: #D42D1E;")
-    }
-    donneperso.onclick= function (){
-        $('#persocard').fadeToggle()
-        donneperso.setAttribute("class","card-header d-flex h-75")
+    const donneperso = document.getElementById('donneperso');
+    if(donneperso!=null)
+    {
+        donneperso.onmouseover = function (){
+            donneperso.setAttribute("style","background-color: #eb3121;")
+        }
+        donneperso.onmouseout= function (){
+            donneperso.setAttribute("style","background-color: #D42D1E;")
+        }
+        donneperso.onclick= function (){
+            $('#persocard').fadeToggle()
+            donneperso.setAttribute("class","card-header d-flex h-75")
+        }
     }
 
+
     //cardheader1
-    const donneprof = document.getElementById('donneprof')
-    donneprof.onmouseover = function (){
-        donneprof.setAttribute("style","background-color: #eb3121;")
-    }
-    donneprof.onmouseout= function (){
-        donneprof.setAttribute("style","background-color: #D42D1E;")
-    }
-    donneprof.onclick= function (){
-        $('#procard').fadeToggle()
-        donneprof.setAttribute("class","card-header d-flex h-75")
+    const donneprof = document.getElementById('donneprof');
+    if(donneprof!=null) {
+        donneprof.onmouseover = function () {
+            donneprof.setAttribute("style", "background-color: #eb3121;")
+        }
+        donneprof.onmouseout = function () {
+            donneprof.setAttribute("style", "background-color: #D42D1E;")
+        }
+        donneprof.onclick = function () {
+            $('#procard').fadeToggle()
+            donneprof.setAttribute("class", "card-header d-flex h-75")
+        }
     }
 
     //imageload

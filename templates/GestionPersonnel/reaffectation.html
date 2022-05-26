@@ -2,39 +2,49 @@
 {% block content %}
 {% load static %}
     {% load has_group %}
-    <title> {% block title %}إضافة{% endblock title %}</title>
+    <title> {% block title %}إعادة التعيين{% endblock title %}</title>
     <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/all.min.css' %}"/>
-
-     <style>
-        #donneperso{
-            background-color: #D42D1E;
-        }
-        div#donneperso:hover{
-            background-color: #eb3121;
-        }
-        .btna{
-            background-color: transparent;
-            border: 1px solid darkgreen;
-        }
-        #photo{
-            display: none;
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200&family=Montserrat:wght@800;900&display=swap" rel="stylesheet">
+    <style>
+        h3{
+            font-family: "Cairo ExtraLight"
         }
     </style>
+
     {% if request.user|has_group:"GestionPersonnel" %}
         <form action="" method="POST">
         {% csrf_token %}
-
                 <div class="row">
                     <div class="col-sm-12 col-lg-12 d-flex">
                         <div class="card flex-fill">
                              <div class="card-header d-flex h-25" id="donneprof" style="background-color: #D42D1E;">
                                 <h3 class="card-title text-center text-white"  dir="ltr">
-                                    Données Professionnel - معلومات مهنية
+                                    إعادة التعيين
                                 </h3>
                             </div>
                             <hr>
                             <div class="card-body" id="procard">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="row">
+                                            <div class="col-md">
+                                                <label class="col-form-label float-right" for="adminiapp"> الموضف :</label>
+                                                <label class="col-form-label" dir="ltr" for="adminiapp">Personnel :</label>
+                                                <select class="form-control  text-center" name="adminiapp" required>
+                                                    {% for perso in personnels %}
+                                                        <option id="{{ perso.idpersonnel }}">{{ perso.cin }}  - {{ perso.nomar }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <br>
+                            <hr>
+                            <br>
                                 <div class="row">
                                     <div class="col-md-6">
                                         <div class="row">
@@ -48,6 +58,7 @@
                                             </div>
                                         </div>
                                     </div>
+
                                     <div class="col-md-6">
                                         <div class="col-12 col-lg-12">
                                             <div class="tab" style="background-color: whitesmoke">
@@ -288,10 +299,9 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="col-12 col-lg-12 col-xxl-12">
                         <div class="card flex-fill">
-                            <div class="card-body"><!--data-toggle="modal" data-target="#defaultModalSuccess"-->
+                            <div class="card-body">
                             <center><button type="submit" class="btn btn-success"   style="font-size: 130%">Enregistrer - تسجيل</button></center>
                                 <div class="modal fade" id="defaultModalSuccess" tabindex="-1" role="dialog" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
@@ -316,5 +326,13 @@
                     </div>
                 </div>
         </form>
+        <script>
+          var url0 = "{% url 'ajaxajouterloadannexe' %}"
+           var url1 = "{% url 'ajaxajouterloadgrade' %}";
+           var url2 = "{% url 'ajaxajouterloadechellon' %}";
+           var url3 = "{% url 'ajaxajouterloadsevice' %}";
+           const url4 = "{% url 'ajaxajouterloadcaida' %}";
+        </script>
+        <script type="text/javascript" src="{% static 'js/GestionPersonnel/ajouter.js' %}"></script>
     {% endif %}
 {% endblock content %}

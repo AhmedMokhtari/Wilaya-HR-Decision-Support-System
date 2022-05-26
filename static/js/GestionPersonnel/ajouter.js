@@ -50,29 +50,24 @@ window.onload = function ()
 
   //cardheader1
     const donneperso = document.getElementById('donneperso')
-    donneperso.onmouseover = function (){
-        donneperso.setAttribute("style","background-color: #eb3121;")
-    }
-    donneperso.onmouseout= function (){
-        donneperso.setAttribute("style","background-color: #D42D1E;")
-    }
-    donneperso.onclick= function (){
-        $('#persocard').fadeToggle()
-        donneperso.setAttribute("class","card-header d-flex h-75")
+    if(donneperso != null)
+    {
+        //cardheader1
+        const donneprof = document.getElementById('donneprof')
+        donneprof.onmouseover = function (){
+            donneprof.setAttribute("style","background-color: #eb3121;")
+        }
+        donneprof.onmouseout= function (){
+            donneprof.setAttribute("style","background-color: #D42D1E;")
+        }
+        donneprof.onclick= function (){
+            $('#procard').fadeToggle()
+            donneprof.setAttribute("class","card-header d-flex h-75")
+        }
+
     }
 
-    //cardheader1
-    const donneprof = document.getElementById('donneprof')
-    donneprof.onmouseover = function (){
-        donneprof.setAttribute("style","background-color: #eb3121;")
-    }
-    donneprof.onmouseout= function (){
-        donneprof.setAttribute("style","background-color: #D42D1E;")
-    }
-    donneprof.onclick= function (){
-        $('#procard').fadeToggle()
-        donneprof.setAttribute("class","card-header d-flex h-75")
-    }
+
 
     //imageload
     $("input[type='image']").click(function() {

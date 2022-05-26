@@ -306,6 +306,19 @@ class Pashalik(models.Model):
         db_table = 'Pashalik'
 
 # -------------------------------------------------------
+class Reafectation(models.Model):
+    idreafectation = models.AutoField(db_column='IdReafectation', primary_key=True)  # Field name made lowercase.
+    libellereafectationar = models.CharField(db_column='LibelleReafectationAr', max_length=20, db_collation='French_CI_AS', blank=True, null=True)  # Field name made lowercase.
+    libellereafectationfr = models.CharField(db_column='LibelleReafectationFr', max_length=20, db_collation='French_CI_AS', blank=True, null=True)  # Field name made lowercase.
+    idorganismeparent = models.IntegerField(db_column='IdOrganismeParent', blank=True, null=True)  # Field name made lowercase.
+    organisme = models.CharField(db_column='Organisme', max_length=80, db_collation='French_CI_AS', blank=True, null=True)  # Field name made lowercase.
+    datereafectation = models.DateTimeField(db_column='DateReafectation', blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'Reafectation'
+
+# -------------------------------------------------------
 class Pashalikpersonnel(models.Model):
     idpashalikpersonnel = models.AutoField(db_column='IdPashalikPersonnel', primary_key=True)  # Field name made lowercase.
     idpashalik_field = models.ForeignKey(Pashalik, models.DO_NOTHING, db_column='IdPashalik#', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.

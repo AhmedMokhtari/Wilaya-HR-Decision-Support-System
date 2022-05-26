@@ -360,12 +360,9 @@ def modifier(request, id):
         ancadmi = request.POST["ancadmi"]
         adminiapp = request.POST["adminiapp"]
         photo = request.POST["photo"]
-        dateservice = request.POST["dateservice"]
-        dategrade = request.POST["dategrade"]
-        service = request.POST["service"]
-        grade = request.POST["grade"]
-        fonction = request.POST["fonction"]
-        datefonction = request.POST["datefonction"]
+        #service = request.POST["service"]
+        #grade = request.POST["grade"]
+        #fonction = request.POST["fonction"]
         sexe = request.POST["sexe"]
         age = calculate_age(daten)
         ppr = request.POST["ppr"]
@@ -408,10 +405,11 @@ def modifier(request, id):
         objperso2.lastupdate = datetime.date.today()
         objperso2.save()
 
-        objservice = Service(idservice=service)
+        """objservice = Service(idservice=service)
         objgrade = Grade(idgrade=grade)
         objfonction = Fonction(idfonction=fonction)
 
+        
         if not Fonctionpersonnel.objects.filter(idpersonnel_field=objperso2).filter(idfonction_field=objfonction):
             objfonctionperso = Fonctionpersonnel(idpersonnel_field=objperso2, idfonction_field=objfonction,
                                                  datefonction=datefonction)
@@ -424,37 +422,104 @@ def modifier(request, id):
 
         if not Gradepersonnel.objects.filter(idpersonnel_field=objperso2).filter(idgrade_field=objgrade):
             objgradeperso = Gradepersonnel(idpersonnel_field=objperso2, idgrade_field=objgrade, dategrade=dategrade)
-            objgradeperso.save()
+            objgradeperso.save()"""
 
     objperso = Personnel.objects.get(idpersonnel=id)
 
     conjointsinperso = Conjointpersonnel.objects.filter(idpersonnel_field=id)
     conjoints = Conjoint.objects.filter(idconjoint__in=conjointsinperso.values_list('idconjoint_field', flat=True))
 
-    serviceperso = Servicepersonnel.objects.filter(idpersonnel_field=id).values_list('idservice_field', flat=True)
-    servicelast = Service.objects.filter(idservice__in=serviceperso).last()
-    servicepersolast = Servicepersonnel.objects.get(idpersonnel_field=objperso, idservice_field=servicelast)
 
-    gradeperso = Gradepersonnel.objects.filter(idpersonnel_field=id).values_list('idgrade_field', flat=True)
-    gradelast = Grade.objects.filter(idgrade__in=gradeperso).last()
-    gradepersolast = Gradepersonnel.objects.get(idpersonnel_field=objperso, idgrade_field=gradelast)
+    #   serviceperso = Servicepersonnel.objects.filter(idpersonnel_field=id).values_list('idservice_field', flat=True)
+    #    servicelast = Service.objects.filter(idservice__in=serviceperso).last()
+    #   servicepersolast = Servicepersonnel.objects.get(idpersonnel_field=objperso, idservice_field=servicelast)
 
-    fonctionperso = Fonctionpersonnel.objects.filter(idpersonnel_field=id).values_list('idfonction_field', flat=True)
-    fonctionlast = Fonction.objects.filter(idfonction__in=fonctionperso).last()
-    fonctionpersolast = Fonctionpersonnel.objects.get(idpersonnel_field=objperso, idfonction_field=fonctionlast)
+    #    gradeperso = Gradepersonnel.objects.filter(idpersonnel_field=id).values_list('idgrade_field', flat=True)
+    #    gradelast = Grade.objects.filter(idgrade__in=gradeperso).last()
+    #    gradepersolast = Gradepersonnel.objects.get(idpersonnel_field=objperso, idgrade_field=gradelast)
 
-    services = Service.objects.all()
-    grades = Grade.objects.all()
-    fonctions = Fonction.objects.all()
+    #    fonctionperso = Fonctionpersonnel.objects.filter(idpersonnel_field=id).values_list('idfonction_field', flat=True)
+    #    fonctionlast = Fonction.objects.filter(idfonction__in=fonctionperso).last()
+    #    fonctionpersolast = Fonctionpersonnel.objects.get(idpersonnel_field=objperso, idfonction_field=fonctionlast)
+
+    #services = Service.objects.all()
+    #grades = Grade.objects.all()
+    #fonctions = Fonction.objects.all()
+
     enfants = Enfant.objects.filter(idconjoint_field__in=conjointsinperso.values_list('idconjoint_field', flat=True))
     diplomes = Diplome.objects.filter(idpersonnel_field=id)
 
     return render(request, 'GestionPersonnel/modifier.html',
-                      {'personnel': objperso, 'conjoints': conjoints, 'services': services,
-                       'grades': grades, 'fonctions':fonctions, 'servicelast': servicelast,
-                       'gradelast': gradelast,'fonctionlast': fonctionlast,
-                       'fonctionpersolast': fonctionpersolast,'servicepersolast':servicepersolast,
-                       'gradepersolast':gradepersolast, 'enfants':enfants, 'diplomes':diplomes})
+                      {'personnel': objperso, 'conjoints': conjoints,
+                       #'services': services,'grades': grades, 'fonctions':fonctions, 'servicelast': servicelast,
+                       #'gradelast': gradelast,'fonctionlast': fonctionlast,
+                       #'fonctionpersolast': fonctionpersolast,'servicepersolast':servicepersolast,'gradepersolast':gradepersolast,
+                       'enfants': enfants, 'diplomes': diplomes})
+
+
+# Reafectation -----------------------------------
+@login_required(login_url='/connexion')
+def reafectation(request):
+
+    services = Service.objects.all()
+    grades = Grade.objects.all()
+    fonctions = Fonction.objects.all()
+    echellons = Echellon.objects.all()
+    statutgrades = Statutgrade.objects.all()
+    entites = Entite.objects.all()
+    pashaliks = Pashalik.objects.all()
+    districts = District.objects.all()
+    divisions = Division.objects.all()
+    cercles = Cercle.objects.all()
+    personnels = Personnel.objects.all()
+
+    if request.method == 'POST':
+        objperso = Personnel.objects.get(request.POST.get("personnel"))
+        if (request.POST.get('entite', None) == "Secrétariat général"):
+            service = request.POST["service"]
+            dateservice = request.POST["dateservice"]
+            objservice = Service(idservice=service)
+            objserviceperso = Servicepersonnel.objects.create(idpersonnel_field=objperso, idservice_field=objservice,
+                                                              dateaffectation=dateservice)
+            objserviceperso.save()
+
+            objperso.organisme = "Service"
+            objperso.save()
+
+        elif (request.POST.get('entite', None) == "Commandement"):
+            if(request.POST.get('districtpashalik', None) == "District"):
+                annexe = request.POST["annexe"]
+                datesannexe= request.POST["dateannexe"]
+                objannexe = Annexe(idannexe=annexe)
+                objannexeperso = Annexepersonnel.objects.create(idpersonnel_field=objperso, idannexe_field=objannexe, dateaffectation=datesannexe)
+                objannexeperso.save()
+
+                objperso.organisme = "Annexe"
+                objperso.save()
+
+            elif(request.POST.get('districtpashalik', None) == "Pashalik"):
+                pashalik = request.POST["pashalik"]
+                datepashalik = request.POST["datepashalik"]
+                objpashalik = Pashalik(idpashalik=pashalik)
+                objpashalikperso = Pashalikpersonnel.objects.create(idpersonnel_field=objperso, idpashalik_field=objpashalik, dateaffectation=datepashalik)
+                objpashalikperso.save()
+
+                objperso.organisme = "pashalik"
+                objperso.save()
+
+            elif((request.POST.get('districtpashalik', None) == "Cercle")):
+                caidat = request.POST["caida"]
+                datecaidat = request.POST["datecaida"]
+                objcaidat = Caidat(idcaidat=caidat)
+                objcaidatperso = Caidatpersonnel.objects.create(idpersonnel_field=objperso, idcaidat_field=objcaidat, dateaffectation=datecaidat)
+                objcaidatperso.save()
+
+                objperso.organisme = "Caida"
+                objperso.save()
+    return render(request, 'GestionPersonnel/reaffectation.html',{'services': services, 'grades': grades, 'fonctions': fonctions,
+                                                             'echellons': echellons, 'statutgrades': statutgrades,
+                                                             'entites': entites, 'pashaliks': pashaliks,
+                                                             'districts': districts, 'divisions': divisions, 'cercles': cercles, 'personnels': personnels })
 
 # conjoint -----------------------------------
 @login_required(login_url='/connexion')
