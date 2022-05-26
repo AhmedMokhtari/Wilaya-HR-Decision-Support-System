@@ -275,6 +275,7 @@ def ajouter(request):
 
         if (request.POST.get('entite', None) == "Secrétariat général"):
             service = request.POST["service"]
+            division = request.POST.get('division',None)
             dateservice = request.POST["dateservice"]
             objservice = Service(idservice=service)
             objserviceperso = Servicepersonnel.objects.create(idpersonnel_field=objperso, idservice_field=objservice,
@@ -287,6 +288,7 @@ def ajouter(request):
         elif (request.POST.get('entite', None) == "Commandement"):
             if(request.POST.get('districtpashalik', None) == "District"):
                 annexe = request.POST["annexe"]
+
                 datesannexe= request.POST["dateannexe"]
                 objannexe = Annexe(idannexe=annexe)
                 objannexeperso = Annexepersonnel.objects.create(idpersonnel_field=objperso, idannexe_field=objannexe, dateaffectation=datesannexe)
@@ -459,9 +461,13 @@ def modifier(request, id):
 
 # Reafectation -----------------------------------
 @login_required(login_url='/connexion')
-def reafectation(request):
+@csrf_exempt
+def ajaxloadpersonnel(request):
+    personnel = list(Personnel.objects.filter(idpersonnel=request.POST.get('personnel',None)).values('idpersonnel'))
+    return JsonResponse(personnel, safe=False)
 
-    services = Service.objects.all()
+@login_required(login_url='/connexion')
+def reafectation(request):
     grades = Grade.objects.all()
     fonctions = Fonction.objects.all()
     echellons = Echellon.objects.all()
@@ -476,47 +482,42 @@ def reafectation(request):
     if request.method == 'POST':
         objperso = Personnel.objects.get(request.POST.get("personnel"))
         if (request.POST.get('entite', None) == "Secrétariat général"):
-            service = request.POST["service"]
-            dateservice = request.POST["dateservice"]
-            objservice = Service(idservice=service)
-            objserviceperso = Servicepersonnel.objects.create(idpersonnel_field=objperso, idservice_field=objservice,
-                                                              dateaffectation=dateservice)
-            objserviceperso.save()
-
-            objperso.organisme = "Service"
-            objperso.save()
+            objservice = Service(idservice=request.POST.get('service',None))
+            objReaffectationserv = Reafectation.objects.create(idpersonnel_field=objperso, libellereafectationfr=objservice.libelleservicefr,
+                                                          libellereafectationar=objservice.libelleservicear,
+                                                          dateaffectation=request.POST.get('dateaffectation',None),
+                                                          idorganismeparent=objservice.idservice)
+            objReaffectationserv.save()
 
         elif (request.POST.get('entite', None) == "Commandement"):
             if(request.POST.get('districtpashalik', None) == "District"):
-                annexe = request.POST["annexe"]
-                datesannexe= request.POST["dateannexe"]
-                objannexe = Annexe(idannexe=annexe)
-                objannexeperso = Annexepersonnel.objects.create(idpersonnel_field=objperso, idannexe_field=objannexe, dateaffectation=datesannexe)
-                objannexeperso.save()
+                datesannexe= request.POST.get('dateannexe', None)
+                objannexe = Annexe(idannexe=request.POST.get('annexe',None))
+                objReaffectationanne = Reafectation.objects.create(idpersonnel_field=objperso, libellereafectationar=objannexe.libelleannexear
+                                                             ,libellereafectationfr=objannexe.libelleannexefr,idorganismeparent=objannexe.idannexe
+                                                             , dateaffectation=datesannexe)
+                objReaffectationanne.save()
 
-                objperso.organisme = "Annexe"
-                objperso.save()
+
 
             elif(request.POST.get('districtpashalik', None) == "Pashalik"):
-                pashalik = request.POST["pashalik"]
-                datepashalik = request.POST["datepashalik"]
+                pashalik = request.POST.get('pashalik', None)
+                datepashalik = request.POST.get('datepashalik', None)
                 objpashalik = Pashalik(idpashalik=pashalik)
-                objpashalikperso = Pashalikpersonnel.objects.create(idpersonnel_field=objperso, idpashalik_field=objpashalik, dateaffectation=datepashalik)
-                objpashalikperso.save()
-
-                objperso.organisme = "pashalik"
-                objperso.save()
+                objReafectationpash = Reafectation.objects.create(idpersonnel_field=objperso, libellereafectationfr=objpashalik.libellepashalikfr
+                                                                  ,libellereafectationar=objpashalik.libellepashalikar,idorganismeparent=objpashalik.idpashalik, dateaffectation=datepashalik)
+                objReafectationpash.save()
 
             elif((request.POST.get('districtpashalik', None) == "Cercle")):
-                caidat = request.POST["caida"]
-                datecaidat = request.POST["datecaida"]
+                caidat = request.POST.get('caida', None)
+                datecaidat = request.POST.get('datecaida', None)
                 objcaidat = Caidat(idcaidat=caidat)
-                objcaidatperso = Caidatpersonnel.objects.create(idpersonnel_field=objperso, idcaidat_field=objcaidat, dateaffectation=datecaidat)
-                objcaidatperso.save()
+                objReafectationcaidat = Reafectation.objects.create(idpersonnel_field=objperso, libellereafectationar=objcaidat.libellecaidatar
+                                                                    ,libellereafectationfr=objcaidat.libellecaidatfr
+                                                                    ,idorganismeparent=objcaidat.idcaidat, dateaffectation=datecaidat)
+                objReafectationcaidat.save()
 
-                objperso.organisme = "Caida"
-                objperso.save()
-    return render(request, 'GestionPersonnel/reaffectation.html',{'services': services, 'grades': grades, 'fonctions': fonctions,
+    return render(request, 'GestionPersonnel/reaffectation.html',{'grades': grades, 'fonctions': fonctions,
                                                              'echellons': echellons, 'statutgrades': statutgrades,
                                                              'entites': entites, 'pashaliks': pashaliks,
                                                              'districts': districts, 'divisions': divisions, 'cercles': cercles, 'personnels': personnels })

@@ -309,6 +309,7 @@ class Pashalik(models.Model):
 class Reafectation(models.Model):
     idreafectation = models.AutoField(db_column='IdReafectation', primary_key=True)  # Field name made lowercase.
     libellereafectationar = models.CharField(db_column='LibelleReafectationAr', max_length=20, db_collation='French_CI_AS', blank=True, null=True)  # Field name made lowercase.
+    idpersonnel_field = models.ForeignKey(Personnel, models.DO_NOTHING, db_column='IdPersonnel#')
     libellereafectationfr = models.CharField(db_column='LibelleReafectationFr', max_length=20, db_collation='French_CI_AS', blank=True, null=True)  # Field name made lowercase.
     idorganismeparent = models.IntegerField(db_column='IdOrganismeParent', blank=True, null=True)  # Field name made lowercase.
     organisme = models.CharField(db_column='Organisme', max_length=80, db_collation='French_CI_AS', blank=True, null=True)  # Field name made lowercase.

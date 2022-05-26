@@ -49,25 +49,36 @@ window.onload = function ()
      $("#dateservice").prop('required',true);
 
   //cardheader1
-    const donneperso = document.getElementById('donneperso')
-    if(donneperso != null)
+    const donneperso = document.getElementById('donneperso');
+    if(donneperso!=null)
     {
-        //cardheader1
-        const donneprof = document.getElementById('donneprof')
-        donneprof.onmouseover = function (){
-            donneprof.setAttribute("style","background-color: #eb3121;")
+        donneperso.onmouseover = function (){
+            donneperso.setAttribute("style","background-color: #eb3121;")
         }
-        donneprof.onmouseout= function (){
-            donneprof.setAttribute("style","background-color: #D42D1E;")
+        donneperso.onmouseout= function (){
+            donneperso.setAttribute("style","background-color: #D42D1E;")
         }
-        donneprof.onclick= function (){
-            $('#procard').fadeToggle()
-            donneprof.setAttribute("class","card-header d-flex h-75")
+        donneperso.onclick= function (){
+            $('#persocard').fadeToggle()
+            donneperso.setAttribute("class","card-header d-flex h-75")
         }
-
     }
 
 
+    //cardheader1
+    const donneprof = document.getElementById('donneprof');
+    if(donneprof!=null) {
+        donneprof.onmouseover = function () {
+            donneprof.setAttribute("style", "background-color: #eb3121;")
+        }
+        donneprof.onmouseout = function () {
+            donneprof.setAttribute("style", "background-color: #D42D1E;")
+        }
+        donneprof.onclick = function () {
+            $('#procard').fadeToggle()
+            donneprof.setAttribute("class", "card-header d-flex h-75")
+        }
+    }
 
     //imageload
     $("input[type='image']").click(function() {
@@ -303,60 +314,83 @@ window.onload = function ()
 
     //ajaxstatutgrade
     const sel= document.getElementById('statutgrade');
-    sel.onchange= function ()
-    {
-        $("#grade option").remove();
-        $('#op1').remove()
-        $.ajax(
-        {
-            type:"POST",
-            url: url1,
-            data:{statutgrade: sel.value},
-            success: function(data)
-            {
-                $("#grade").append(`<option  id="op2" selected></option>`);
-                for(var i = 0; i < data.grades.length; i++)
+    if(sel != null) {
+        sel.onchange = function () {
+            $("#grade option").remove();
+            $('#op1').remove()
+            $.ajax(
                 {
-                    $("#grade").append(`<option value="${data.grades[i].idgrade}">${data.grades[i].gradefr}</option>`);
+                    type: "POST",
+                    url: url1,
+                    data: {statutgrade: sel.value},
+                    success: function (data) {
+                        $("#grade").append(`<option  id="op2" selected></option>`);
+                        for (var i = 0; i < data.grades.length; i++) {
+                            $("#grade").append(`<option value="${data.grades[i].idgrade}">${data.grades[i].gradefr}</option>`);
 
-                }
-            }
-        });
+                        }
+                    }
+                });
+        }
     }
 
     //ajaxechellon
     const selgrade = document.getElementById('grade');
     var  selechellon = document.getElementById('echellon');
     var selindice = document.getElementById('indice');
-
-    selgrade.onchange = function ()
+    if(selgrade!=null)
     {
-        $("#echellon option").remove();
-        $("#indice option").remove();
-        $('#op2').remove()
-        $.ajax(
+        selgrade.onchange = function ()
         {
-            type:"POST",
-            url: url2,
-            data:{statutgrade: sel.value , grade:selgrade.value},
-            success: function(data)
+            $("#echellon option").remove();
+            $("#indice option").remove();
+            $('#op2').remove()
+            $.ajax(
             {
-                for(var i = 0; i < data.echellon.length; i++)
+                type:"POST",
+                url: url2,
+                data:{statutgrade: sel.value , grade:selgrade.value},
+                success: function(data)
                 {
-                    $("#echellon").append(`<option>${data.echellon[i]}</option>`);
-                    $("#indice").append(`<option>${data.indice[i]}</option>`);
+                    for(var i = 0; i < data.echellon.length; i++)
+                    {
+                        $("#echellon").append(`<option>${data.echellon[i]}</option>`);
+                        $("#indice").append(`<option>${data.indice[i]}</option>`);
+                    }
+
+                    selindice.selectedIndex = 0;
+                    document.getElementById('dpindice').value = selindice.options[0].text
+
                 }
-
-                selindice.selectedIndex = 0;
-                document.getElementById('dpindice').value = selindice.options[0].text
-
-            }
-        });
+            });
+        }
     }
-     function loadindice()
+
+    function loadindice()
     {
         selindice.selectedIndex = selechellon.selectedIndex;
         document.getElementById('dpindice').value = selindice.options[selindice.selectedIndex].text
     }
-    selechellon.addEventListener('change', loadindice);
+    if(selechellon!=null){
+        selechellon.addEventListener('change', loadindice);
+    }
+
+    //ajaxloadpersonnel
+    var selpersonnel= document.getElementById('personnel');
+    if (selpersonnel!=null)
+    {
+       selpersonnel.onchange =  function(){
+            $("#table tr").remove();
+            $.ajax(
+            {
+                type:"POST",
+                url: url5,
+                data:{personnel: selpersonnel.value},
+                success: function(data)
+                {
+                    console.log(data)
+                }
+            });
+        }
+    }
 }

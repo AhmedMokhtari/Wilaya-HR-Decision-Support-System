@@ -26,6 +26,7 @@ urlpatterns = [
     path('ajaxajouterloadannexe', views.ajaxajouterloadannexe, name='ajaxajouterloadannexe'),
     path('ajaxajouterloadsevice', views.ajaxajouterloadsevice, name='ajaxajouterloadsevice'),
     path('ajaxajouterloadcaida', views.ajaxajouterloadcaida, name='ajaxajouterloadcaida'),
+    path('ajaxloadpersonnel', views.ajaxloadpersonnel, name='ajaxloadpersonnel'),
     path('reafectation', views.reafectation, name='reafectation'),
     path('export/xls', views.export_perso_csv, name='export_perso_xls'),
 ]
