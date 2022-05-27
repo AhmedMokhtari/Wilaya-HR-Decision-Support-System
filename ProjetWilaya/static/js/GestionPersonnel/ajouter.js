@@ -28,7 +28,7 @@
     }
 
     //ajaxloadpersonnel
-    var selpersonnel= document.getElementById('personnel');
+    var selpersonnel = document.getElementById('personnel');
     if (selpersonnel!=null)
     {
        selpersonnel.onchange =  function(){
@@ -43,7 +43,6 @@
                     $("#table").append(`<tr><th> الإسم الكامل :</th><td>'++'</td></tr>'+
                                                 '<tr><th>ب.ب.ر :</th><td>+1234123123123</td></tr> <tr><th>  الدرجة :</th><td>The Wiz</td></tr>'+
                                                 '<tr><th>الرتبة :</th><td>angelica@ramos.com</td></tr><tr><th>Status</th><td><span class="badge badge-success">Active</span></td></tr>`);
-
                     console.log(data);
                 }
             });
@@ -52,7 +51,6 @@
 
 window.onload = function ()
 {
-
     //data
     $(".divisiondiv").show();
      $(".districtdiv").hide();
@@ -153,6 +151,7 @@ window.onload = function ()
                  $(".cerclediv").prop('required',false);
                  $(".caidadiv").prop('required',false);
             }
+
         }
         if(document.getElementById("op3") == null)
          {
@@ -168,8 +167,6 @@ window.onload = function ()
                 }
             }
         }
-
-
     }
 
     //district
@@ -197,6 +194,7 @@ window.onload = function ()
              $("#caida").prop('required',false);
              if (document.getElementById("op4") == null)
              {
+
                  $("#cercle").append('<option id="op4" selected></option>');
              }
 

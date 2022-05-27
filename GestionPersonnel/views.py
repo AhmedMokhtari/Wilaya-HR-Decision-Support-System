@@ -8,7 +8,7 @@ import datetime
 import csv
 import pandas as pd
 import seaborn as sns
-from .utils import calculate_age, get_graph, count_age_int, dictfetchall
+from .utils import calculate_age, get_graph, count_age_int, dictfetchall, dateRetraiteCalc
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 import json
@@ -345,7 +345,7 @@ def ajouter(request):
         numiden = request.POST["numiden"]
         daterec = request.POST["daterec"]
         datedec = request.POST["datedec"]
-        dateretr = request.POST["dateretr"]
+        dateretr = dateRetraiteCalc(daten)
         numcnopsaf = request.POST["numcnopsaf"]
         numcnopsim = request.POST["numcnopsim"]
         rib = request.POST["rib"]
