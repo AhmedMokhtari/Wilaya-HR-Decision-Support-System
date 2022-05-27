@@ -27,8 +27,32 @@
         }
     }
 
+    //ajaxloadpersonnel
+    var selpersonnel= document.getElementById('personnel');
+    if (selpersonnel!=null)
+    {
+       selpersonnel.onchange =  function(){
+            $("#table tr").remove();
+            $.ajax(
+            {
+                type:"POST",
+                url: url5,
+                data:{ personnel: selpersonnel.value},
+                success: function(data)
+                {
+                    $("#table").append(`<tr><th> الإسم الكامل :</th><td>'++'</td></tr>'+
+                                                '<tr><th>ب.ب.ر :</th><td>+1234123123123</td></tr> <tr><th>  الدرجة :</th><td>The Wiz</td></tr>'+
+                                                '<tr><th>الرتبة :</th><td>angelica@ramos.com</td></tr><tr><th>Status</th><td><span class="badge badge-success">Active</span></td></tr>`);
+
+                    console.log(data);
+                }
+            });
+        }
+    }
+
 window.onload = function ()
 {
+
     //data
     $(".divisiondiv").show();
      $(".districtdiv").hide();
@@ -79,7 +103,6 @@ window.onload = function ()
             donneprof.setAttribute("class", "card-header d-flex h-75")
         }
     }
-
     //imageload
     $("input[type='image']").click(function() {
         $("input[id='photo']").click();
@@ -364,33 +387,13 @@ window.onload = function ()
                 }
             });
         }
-    }
-
-    function loadindice()
-    {
-        selindice.selectedIndex = selechellon.selectedIndex;
-        document.getElementById('dpindice').value = selindice.options[selindice.selectedIndex].text
-    }
-    if(selechellon!=null){
-        selechellon.addEventListener('change', loadindice);
-    }
-
-    //ajaxloadpersonnel
-    var selpersonnel= document.getElementById('personnel');
-    if (selpersonnel!=null)
-    {
-       selpersonnel.onchange =  function(){
-            $("#table tr").remove();
-            $.ajax(
-            {
-                type:"POST",
-                url: url5,
-                data:{personnel: selpersonnel.value},
-                success: function(data)
-                {
-                    console.log(data)
-                }
-            });
+        function loadindice()
+        {
+            selindice.selectedIndex = selechellon.selectedIndex;
+            document.getElementById('dpindice').value = selindice.options[selindice.selectedIndex].text
         }
+         selechellon.addEventListener('change', loadindice);
+
     }
+
 }

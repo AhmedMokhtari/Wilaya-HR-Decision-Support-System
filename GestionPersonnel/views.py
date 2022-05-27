@@ -191,7 +191,7 @@ def ajaxajouterloadechellon(request):
         else:
             indice = ['704', '746', '779', '812', '840', '870']
             echellon = ['1', '2', '3', '4', '5', '6']
-    elif(statutgrade.statutgradefr == "Ingénieur et Architectes"):
+    elif(statutgrade.statutgradefr == "Ingénieurs et Architectes"):
         if(grade.gradefr == "Ingénieur d'Etat 1er grade"  or grade.gradefr == "Architecte 1er grade" ):
             indice = ['336','369','403','436','472']
             echellon = ['1', '2', '3', '4', '5']

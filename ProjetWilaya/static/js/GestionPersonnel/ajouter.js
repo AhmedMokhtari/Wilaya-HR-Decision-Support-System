@@ -44,7 +44,7 @@
                                                 '<tr><th>ب.ب.ر :</th><td>+1234123123123</td></tr> <tr><th>  الدرجة :</th><td>The Wiz</td></tr>'+
                                                 '<tr><th>الرتبة :</th><td>angelica@ramos.com</td></tr><tr><th>Status</th><td><span class="badge badge-success">Active</span></td></tr>`);
 
-                    console.log(data)
+                    console.log(data);
                 }
             });
         }
@@ -103,7 +103,6 @@ window.onload = function ()
             donneprof.setAttribute("class", "card-header d-flex h-75")
         }
     }
-
     //imageload
     $("input[type='image']").click(function() {
         $("input[id='photo']").click();
@@ -340,6 +339,7 @@ window.onload = function ()
     const sel= document.getElementById('statutgrade');
     if(sel != null) {
         sel.onchange = function () {
+
             $("#grade option").remove();
             $('#op1').remove()
             $.ajax(
@@ -348,10 +348,10 @@ window.onload = function ()
                     url: url1,
                     data: {statutgrade: sel.value},
                     success: function (data) {
+                        console.log(data)
                         $("#grade").append(`<option  id="op2" selected></option>`);
                         for (var i = 0; i < data.grades.length; i++) {
                             $("#grade").append(`<option value="${data.grades[i].idgrade}">${data.grades[i].gradefr}</option>`);
-
                         }
                     }
                 });
@@ -376,6 +376,7 @@ window.onload = function ()
                 data:{statutgrade: sel.value , grade:selgrade.value},
                 success: function(data)
                 {
+                    console.log(data)
                     for(var i = 0; i < data.echellon.length; i++)
                     {
                         $("#echellon").append(`<option>${data.echellon[i]}</option>`);
@@ -388,15 +389,12 @@ window.onload = function ()
                 }
             });
         }
-    }
-
-    function loadindice()
-    {
-        selindice.selectedIndex = selechellon.selectedIndex;
-        document.getElementById('dpindice').value = selindice.options[selindice.selectedIndex].text
-    }
-    if(selechellon!=null){
-        selechellon.addEventListener('change', loadindice);
+        function loadindice()
+        {
+            selindice.selectedIndex = selechellon.selectedIndex;
+            document.getElementById('dpindice').value = selindice.options[selindice.selectedIndex].text;
+        }
+         selechellon.addEventListener('change', loadindice);
     }
 
 }
