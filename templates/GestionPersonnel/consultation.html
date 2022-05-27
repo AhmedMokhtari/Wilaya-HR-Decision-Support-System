@@ -93,7 +93,7 @@
                 </div>
                 <div class="col-12 col-lg-12 col-xxl-12 d-flex tablechange">
                     <table class="table table-striped text-center" id="table">
-                        <thead>
+                        <thead style="background-color: #ED2B33FF;color: white">
                             <tr>
                                 <th>ر.ب.و</th>
                                 <th>ب.ب.ر</th>
@@ -101,12 +101,12 @@
                                 <th>الجنس</th>
                                 <th>الميزانية</th>
                                 <th>قسم</th>
-                                 <th>الرتبة</th>
+                                 <th>الدرجة</th>
                                 <th></th>
                             </tr>
                         </thead>
                         <tbody id="tbody">
-                          {% for personnel in personnels %}
+                        <!--  {% for personnel in personnels %}
                                   <tr class="tb-colon"  >
                                         <td>{{ personnel.Cin }}</td>
                                         <td>{{ personnel.Ppr }}</td>
@@ -116,6 +116,38 @@
                                         <td>{{ personnel.LibelleDivisionFr }}</td>
                                         <td>{{ personnel.GradeFr }}</td>
                                         <td><a href="{% url 'info' personnel.IdPersonnel %}" class="btn btn-success m-1"><i class="fa-solid fa-arrow-up-right-from-square fa-lg " ></i></a><a href="{% url 'modifier' personnel.IdPersonnel %}"class="btn btn-warning btn-icon  mx-1"><i class="fa-solid fa-pen-to-square fa-lg"></i></a> </td>
+                                  </tr>
+                            {% endfor %}-->
+                        <!--  {% for personnel in gradeperso %}
+                                  <tr class="tb-colon"  >
+                                        <td>{{ personnel.idpersonnel_field__cin }}</td>
+                                        <td>{{ personnel.idpersonnel_field__ppr }}</td>
+                                        <td>{{personnel.idpersonnel_field__nomfr}} - {{ personnel.idpersonnel_field__prenomfr }}</td>
+                                        <td>{{ personnel.idpersonnel_field__sexe }} </td>
+                                        <td>{{personnel.idpersonnel_field__administrationapp}}</td>
+                                        <td>{{ personnel.idgrade_field__idstatutgrade_field__statutgradefr }}</td>
+                                        <td>{{ personnel.idgrade_field__gradefr }}</td>
+                                         <td>{{ personnel.idpersonnel_field__organisme }}</td>
+                                  </tr>
+                            {% endfor %}-->
+                         {% for personnel in listPerso %}
+                                  <tr class="tb-colon"  >
+                                        <td>{{ personnel.cin }}</td>
+                                        <td>{{ personnel.ppr }}</td>
+                                        <td>{{personnel.nomfr}} - {{ personnel.prenomfr }}</td>
+                                        <td>{{ personnel.sexe }} </td>
+                                        <td>{{personnel.administrationapp}}</td>
+                                      {% if 'idservice_field__libelleservicefr' in personnel %}
+                                          <td>{{ personnel.idservice_field__libelleservicear }}</td>
+                                      {% elif 'idannexe_field__libelleannexefr' in personnel %}
+                                          <td>{{ personnel.idannexe_field__libelleannexefr  }}</td>
+                                      {% elif 'idcaidat_field__libellecaidatfr' in personnel %}
+                                          <td>{{ personnel.idcaidat_field__libellecaidatfr }}</td>
+                                      {% elif 'idpashalik_field__libellepashalikfr' in personnel %}
+                                          <td>{{ personnel.idpashalik_field__libellepashalikfr }}</td>
+                                      {% endif %}
+                                      <td>{{ personnel.idgrade_field__gradefr }}</td>
+                                      <td><a href="{% url 'personnelinfo' personnel.idpersonnel %}" class="btn btn-success m-1"><i class="fa-solid fa-arrow-up-right-from-square fa-lg " ></i></a><a href="{% url 'modifier' personnel.idpersonnel %}"class="btn btn-warning btn-icon  mx-1"><i class="fa-solid fa-pen-to-square fa-lg"></i></a> </td>
                                   </tr>
                             {% endfor %}
                         </tbody>

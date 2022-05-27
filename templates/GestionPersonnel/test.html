@@ -1,0 +1,293 @@
+{% extends 'menu.html' %}
+{% block content %}
+{% load static %}
+    {% load has_group %}
+    <title> {% block title %}إضافة{% endblock title %}</title>
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/all.min.css' %}"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200&family=Montserrat:wght@800;900&display=swap" rel="stylesheet">
+
+    <style>
+     
+
+    </style>
+     <form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+                
+                <div class="row">
+                    <div class="col-sm-12 col-lg-12 d-flex">
+                        <div class="card flex-fill">
+                            <div class="card-header d-flex h-25" id="donneperso">
+                                
+                            </div>
+                            <hr>
+                        </div>
+
+                    </div>
+
+                    <div class="col-sm-12 col-lg-12 d-flex">
+                        <div class="card flex-fill">
+                             <div class="card-header d-flex h-25" id="donneprof" style="background-color: #D42D1E;">
+                                
+                            </div>
+                            <hr>
+                            <div class="card-body" id="procard">
+                                <div class="row">
+                                    
+
+                                    <div class="col-md-6">
+                                        <div class="col-12 col-lg-12">
+                                            <div class="tab" style="background-color: whitesmoke">
+                                        
+                                                <div class="" >
+                                                    <div class="" id="tab-1" role="">
+                                                        <div class="row">
+                                                            <div class="col-md">
+                                                                <label class="col-form-label float-right" for="entite"> الكيان :</label>
+                                                                <label class="col-form-label" dir="ltr" for="entite">Entité :</label>
+                                                                <select class="form-control text-center" id="entite" name="entite"  required>
+                                                                    {% for entite in entites %}
+                                                                        <option>{{ entite.libelleentitefr}}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <br class="divisiondiv">
+                                                        <div class="row divisiondiv">
+                                                            <div class="col-md">
+                                                                <label class="col-form-label float-right" for="division"> القسم :</label>
+                                                                <label class="col-form-label" dir="ltr" for="division">Division :</label>
+                                                                <select class="form-control text-center" id="division" name="division">
+                                                                    <option id="op3"></option>
+                                                                    {% for division in divisions %}
+                                                                        <option value="{{ division.iddivision }}">{{ division.libelledivisionfr }}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <br class="districtpashalikdiv">
+                                                        <div class="row districtpashalikdiv">
+                                                            <div class="col-md">
+                                                                <label class="col-form-label float-right" for="districtpashalik"> المقاطعة :</label>
+                                                                <label class="col-form-label" dir="ltr" for="districtpashalik">District pashalik :</label>
+                                                                <select class="form-control text-center" id="districtpashalik" name="districtpashalik">
+                                                                    <option>District</option>
+                                                                    <option>Pashalik</option>
+                                                                    <option>Cercle</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <br class="cerclediv">
+                                                        <div class="row cerclediv">
+                                                            <div class="col-md">
+                                                                <label class="col-form-label float-right" for="cercle"> الدائرة :</label>
+                                                                <label class="col-form-label" dir="ltr" for="cercle">Cercle :</label>
+                                                                <select class="form-control text-center" id="cercle" name="district">
+                                                                    <option id="op4"></option>
+                                                                    {% for cercle in cercles %}
+                                                                        <option value="{{ cercle.idcercle }}">{{ cercle.libellecerclefr }}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <br class="caidadiv">
+                                                        <div class="row caidadiv">
+                                                            <div class="col-md">
+                                                                <label class="col-form-label float-right" for="caida"> القيادة :</label>
+                                                                <label class="col-form-label" dir="ltr" for="caida">Caida :</label>
+                                                                <select class="form-control text-center" id="caida" name="district">
+
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="col-md">
+                                                                <label class="col-form-label float-right" for="datecaida"> تاريخ التعيين :</label>
+                                                                <label class="col-form-label" dir="ltr" for="datecaida">Date d'affectation :</label>
+                                                                 <input type="date" class="form-control text-center" name="datecaida">
+                                                            </div>
+                                                        </div>
+
+                                                        <br class="districtdiv">
+                                                        <div class="row districtdiv">
+                                                            <div class="col-md">
+                                                                <label class="col-form-label float-right" for="district"> المقاطعة :</label>
+                                                                <label class="col-form-label" dir="ltr" for="district">District :</label>
+                                                                <select class="form-control text-center" id="district" name="district">
+                                                                    <option id="op0"></option>
+                                                                    {% for district in districts %}
+                                                                        <option value="{{ district.iddistrict }}">{{ district.libelledistrictfr }}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <br class="pashalikdiv">
+                                                        <div class="row pashalikdiv">
+                                                            <div class="col-md">
+                                                                <label class="col-form-label float-right" for="pashalik"> الباشوية :</label>
+                                                                <label class="col-form-label" dir="ltr" for="pashalik">Pashalik :</label>
+                                                                <select class="form-control text-center" id="pashalik" name="pashalik">
+                                                                    {% for pashalik in pashaliks %}
+                                                                        <option value="{{ pashalik.idpashalik }}">{{ pashalik.libellepashalikfr}}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="col-md">
+                                                                <label class="col-form-label float-right" for="datepashalik"> تاريخ التعيين :</label>
+                                                                <label class="col-form-label" dir="ltr" for="datepashalik">Date d'affectation :</label>
+                                                                 <input type="date" class="form-control text-center" name="datepashalik">
+                                                            </div>
+                                                        </div>
+                                                        <br class="annexediv">
+                                                        <div class="row annexediv">
+
+                                                            <div class="col-md">
+                                                                <label class="col-form-label float-right" for="annexe"> ملحقة إدارية :</label>
+                                                                <label class="col-form-label" dir="ltr" for="annexe">Annexe :</label>
+                                                                <select class="form-control text-center" id="annexe" name="annexe">
+
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="col-md">
+                                                                <label class="col-form-label float-right" for="dateannexe"> تاريخ التعيين :</label>
+                                                                <label class="col-form-label" dir="ltr" for="dateannexe">Date d'affectation :</label>
+                                                                 <input type="date" class="form-control text-center" name="dateannexe">
+                                                            </div>
+                                                        </div>
+
+                                                        <br class="servicediv">
+                                                        <div class="row servicediv">
+                                                            <div class="col-md">
+                                                                <label class="col-form-label float-right" for="service"> إدارة :</label>
+                                                                <label class="col-form-label" dir="ltr" for="service">Service :</label>
+                                                                <select class="form-control text-center" id="service" name="service">
+
+                                                                </select>
+                                                            </div>
+                                                            <div class="col-md">
+                                                                <label class="col-form-label float-right" for="dateservice"> تاريخ التعيين :</label>
+                                                                <label class="col-form-label" dir="ltr" for="dateservice">Date d'affectation :</label>
+                                                                 <input type="date" class="form-control text-center" name="dateservice">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="tab-pane" id="tab-2" role="tabpanel">
+                                                        <div class="row">
+                                                            <div class="col-md">
+                                                                <label class="col-form-label float-right" for="statutgrade"> الدرجة :</label>
+                                                                <label class="col-form-label" dir="ltr" for="statutgrade">Status Grades :</label>
+                                                                <select class="form-control text-center" name="statutgrade" id="statutgrade" required>
+                                                                        <option  id="op1" selected></option>
+                                                                    {% for statut in statutgrades %}
+                                                                        <option value="{{ statut.idstatutgrade }}">{{ statut.statutgradear }}</option>
+                                                                    {% endfor %}
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <br>
+                                                        <div class="row">
+
+                                                            <div class="col-md">
+                                                                <label class="col-form-label float-right" for="grade"> الدرجة :</label>
+                                                                <label class="col-form-label" dir="ltr" for="grade">Grade :</label>
+                                                                <select class="form-control text-center" name="grade" id="grade"  required>
+
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <br>
+                                                        <div class="row">
+                                                            <div class="col-md">
+                                                                <label class="col-form-label float-right" for="dategrade"> تاريخ التعيين :</label>
+                                                                <label class="col-form-label" dir="ltr" for="dategrade">Changement de grade :</label>
+                                                                 <input type="date" class="form-control text-center" name="dategrade" value="" required>
+                                                            </div>
+                                                        </div>
+                                                        <br>
+                                                        <div class="row">
+                                                            <div class="col-md-3" hidden>
+                                                                <label class="col-form-label float-right" for="indice"> رمز :</label>
+                                                                <label class="col-form-label" dir="ltr" for="indice">Indice :</label>
+                                                                <select class="form-control text-center" id="indice" name="indice" readonly>
+
+                                                                </select>
+                                                            </div>
+
+                                                            <div class="col-md-3">
+                                                                <label class="col-form-label float-right" for="indice"> رمز :</label>
+                                                                <label class="col-form-label" dir="ltr" for="indice">Indice :</label>
+                                                                <input class="form-control text-center" id="dpindice"  readonly>
+                                                            </div>
+
+                                                            <div class="col-md">
+                                                                <label class="col-form-label float-right" for="echellon"> الرتبة :</label>
+                                                                <label class="col-form-label" dir="ltr" for="echellon">Echellon :</label>
+                                                                <select class="form-control text-center" id="echellon" name="echellon" required>
+
+
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        <br>
+                                                        <div class="row">
+                                                            <div class="col-md">
+                                                                <label class="col-form-label float-right" for="dateechellon"> تاريخ التعيين :</label>
+                                                                <label class="col-form-label" dir="ltr" for="dateechellon">Changement d'echellon :</label>
+                                                                 <input type="date" class="form-control text-center" name="dateechellon" required>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="tab-pane" id="tab-3" role="tabpanel">
+                                                        <div class="row">
+                                                            <div class="col-md">
+                                                                <label class="col-form-label float-right" for="datefonction"> تاريخ المهمة :</label>
+                                                                <label class="col-form-label" dir="ltr" for="datefonction">Date Fonction :</label>
+                                                                 <input type="date" class="form-control text-center" name="datefonction" required>
+                                                            </div>
+
+                                                            <div class="col-md">
+                                                                <label class="col-form-label float-right" for="grade"> المهمة :</label>
+                                                                <label class="col-form-label" dir="ltr" for="grade">Fonction :</label>
+                                                                <select class="form-control text-center" name="fonction"  required>
+                                                                {% for fonction in fonctions %}
+                                                                    <option value="{{fonction.idfonction}}">{{ fonction.libellefonctionfr }} - {{ fonction.libellefontionar }}</option>
+                                                                {% endfor %}
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+        </form>
+      <script>
+      var url0 = "{% url 'ajaxajouterloadannexe' %}"
+       var url1 = "{% url 'ajaxajouterloadgrade' %}";
+       var url2 = "{% url 'ajaxajouterloadechellon' %}";
+       var url3 = "{% url 'ajaxajouterloadsevice' %}";
+       const url4 = "{% url 'ajaxajouterloadcaida' %}";
+      </script>
+      <script type="text/javascript" src="{% static 'js/GestionPersonnel/ajouter.js' %}"></script>
+      
+{% endblock %}
+
+
+
+

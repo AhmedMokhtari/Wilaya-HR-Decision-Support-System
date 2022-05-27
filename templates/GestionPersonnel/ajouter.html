@@ -25,6 +25,9 @@
         #photo{
             display: none;
         }
+         .col-md-6 .row .col-md{
+            margin: 8px 0 !important;
+        }
     </style>
 
   {% if request.user|has_group:"GestionPersonnel" %}
@@ -312,13 +315,13 @@
                                             </div>
                                         </div>
 
-                                        <div class="row">
+                                       <!-- <div class="row">
                                             <div class="col-md">
                                                 <label class="col-form-label float-right" for="dateretr"> تاريخ الإحالة على التقاعد :</label>
                                                 <label class="col-form-label" dir="ltr" for="dateretr">Date de départ à la retraite :</label>
                                                  <input type="date" class="form-control text-center" name="dateretr" required>
                                             </div>
-                                        </div>
+                                        </div>-->
 
                                         <div class="row">
                                             <div class="col-md">

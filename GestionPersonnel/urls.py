@@ -29,4 +29,6 @@ urlpatterns = [
     path('ajaxloadpersonnel', views.ajaxloadpersonnel, name='ajaxloadpersonnel'),
     path('reafectation', views.reafectation, name='reafectation'),
     path('export/xls', views.export_perso_csv, name='export_perso_xls'),
+    path('test', views.testfilter, name='test'),
+    path('personnelinfo/<int:id>', views.personnelinfo, name='personnelinfo'),
 ]
