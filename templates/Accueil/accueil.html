@@ -1,6 +1,7 @@
 {% extends 'menu.html' %}
 {% block content %}
     {% load static %}
+    {% load has_group %}
     <title> {% block title %}الرئيسية{% endblock title %}</title>
     <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/all.min.css' %}"/>
@@ -12,8 +13,6 @@
          font-family: "Cairo ExtraLight";
          font-weight: bold;
      }
-
-
      .card-body:hover{
          background-color:#47BAC1;
          transform: scale(1.05);
@@ -26,11 +25,20 @@
          color: white;
 
      }
-
-
-
-
+     .not-allowed {cursor: not-allowed;}
     </style>
+
+     <script>
+        $(document).ready(function (){
+            $('a[class="nav-link dropdown-toggle"]').remove()
+            $('.footer').attr("class","footer fixed-bottom")
+
+            {% if not request.user|has_group:"GestionPersonnel" %}
+                $('#perso').attr("class","card-body d-flex flex-column text-decoration-none not-allowed");
+                $('#perso').attr("href","");
+            {% endif %}
+        })
+    </script>
 
     <div class="container">
         <div class="row py-4">
@@ -47,7 +55,7 @@
 
             <div class="col-sm-4 mb-3 mb-md-0">
                 <div class="card text-center h-100">
-                    <a class="card-body d-flex flex-column text-decoration-none" href="{% url 'accueil' %}">
+                    <a class="card-body d-flex flex-column text-decoration-none" id="perso" href="{% url 'consultation' %}">
                         <div class="mb-4">
                             <span class="display-4"><i class="fa-solid fa-user"></i></span>
                         </div>
@@ -103,10 +111,5 @@
             </div>
         </div>
     </div>
-    <script>
-        $(document).ready(function (){
-            $('a[class="nav-link dropdown-toggle"]').remove()
-            $('.footer').attr("class","footer fixed-bottom")
-        })
-    </script>
+
 {% endblock content %}
