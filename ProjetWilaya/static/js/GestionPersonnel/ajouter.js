@@ -51,24 +51,35 @@
 
 window.onload = function ()
 {
-    //data
-    $(".divisiondiv").show();
-     $(".districtdiv").hide();
-     $(".pashalikdiv").hide();
-     $(".districtpashalikdiv").hide();
-     $(".annexediv").hide();
-     $(".servicediv").hide();
-      $(".cerclediv").hide();
-      $(".caidadiv").hide();
 
-     $("#districtpashalik").prop('required',false);
-     $("#pashalik").prop('required',false);
-     $("#district").prop('required',false);
-     $("#annexe").prop('required',false);
-     $("#dateannexe").prop('required',false);
-     $("#division").prop('required',true);
-     $("#service").prop('required',true);
-     $("#dateservice").prop('required',true);
+    function frontivision(){
+        $(".divisiondiv").show();
+         $(".districtpashalikdiv").hide();
+         $(".districtdiv").hide();
+         $(".pashalikdiv").hide();
+         $(".annexediv").hide();
+         $(".cerclediv").hide();
+         $(".caidadiv").hide();
+          $(".servicediv").hide();
+
+         $("#districtpashalik").prop('required',false);
+         $("#pashalik").prop('required',false);
+         $("#district").prop('required',false);
+         $("#annexe").prop('required',false);
+         $("#dateannexe").prop('required',false);
+         $("#division").prop('required',true);
+         $("#service").prop('required',true);
+         $("#dateservice").prop('required',true);
+    }
+
+    const selentite= document.getElementById('entite');
+    //data
+    frontivision();
+    ajaxdivision();
+    if(document.getElementById("op3") == null)
+    {
+        $("#division").append('<option id="op3" selected></option>');
+    }
 
   //cardheader1
     const donneperso = document.getElementById('donneperso');
@@ -106,28 +117,33 @@ window.onload = function ()
         $("input[id='photo']").click();
     });
 
-     //entite
-    const selentite= document.getElementById('entite');
+    //entite
+
+    function ajaxdivision(){
+        $("#division option").remove();
+        $.ajax(
+        {
+            type:"POST",
+            url: url6,
+            data:{ entite: selentite.value},
+            success: function(data)
+            {
+                console.log(data)
+                for(var i = 0; i < data.divisions.length; i++)
+                {
+                    $("#division").append(`<option value="${data.divisions[i].iddivision}">${data.divisions[i].libelledivisionfr}</option>`);
+                }
+            }
+        });
+    }
+
+
     selentite.onchange= function ()
     {
         if(selentite.value == "Secrétariat général")
         {
-             $(".divisiondiv").show();
-             $(".districtpashalikdiv").hide();
-             $(".districtdiv").hide();
-             $(".pashalikdiv").hide();
-             $(".annexediv").hide();
-             $(".cerclediv").hide();
-             $(".caidadiv").hide();
-
-             $("#districtpashalik").prop('required',false);
-             $("#pashalik").prop('required',false);
-             $("#district").prop('required',false);
-             $("#annexe").prop('required',false);
-             $("#dateannexe").prop('required',false);
-             $("#division").prop('required',true);
-             $("#service").prop('required',true);
-             $("#dateservice").prop('required',true);
+             frontivision();
+             ajaxdivision();
         }
         else
         {
@@ -150,6 +166,13 @@ window.onload = function ()
                  $("#dateservice").prop('required',false);
                  $(".cerclediv").prop('required',false);
                  $(".caidadiv").prop('required',false);
+
+            }
+            else{
+                if(selentite.value == "Dai" || selentite.value == "Cabinet" || selentite.value == "Dsic"){
+                    frontivision();
+                    ajaxdivision();
+                }
             }
 
         }
@@ -232,8 +255,6 @@ window.onload = function ()
                         $("#cercle").append('<option id="op4" selected></option>');
                     }
                  }
-
-
             }
             else
             {

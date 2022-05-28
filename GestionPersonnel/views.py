@@ -136,6 +136,13 @@ def info(request,id):
 # ajouter -------------------------------.
 @login_required(login_url='/connexion')
 @csrf_exempt
+def ajaxajouterloaddivision(request):
+    entite = Entite.objects.get(libelleentitefr=request.POST['entite'])
+    objdivision = {"divisions": list(Division.objects.filter(identite_field=entite).values('iddivision','libelledivisionar','libelledivisionfr'))}
+    return JsonResponse(objdivision, safe=False)
+
+@login_required(login_url='/connexion')
+@csrf_exempt
 def ajaxajouterloadcaida(request):
     cercle = Cercle.objects.get(idcercle=request.POST.get('cercle', None))
     objcaida = {"caidas": list(Caidat.objects.filter(idcercle_field=cercle).values('idcaidat','libellecaidatar','libellecaidatfr'))}

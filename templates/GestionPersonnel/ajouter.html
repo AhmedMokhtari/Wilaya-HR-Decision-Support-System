@@ -366,9 +366,6 @@
                                                                 <label class="col-form-label" dir="ltr" for="division">Division :</label>
                                                                 <select class="form-control text-center" id="division" name="division">
                                                                     <option id="op3"></option>
-                                                                    {% for division in divisions %}
-                                                                        <option value="{{ division.iddivision }}">{{ division.libelledivisionfr }}</option>
-                                                                    {% endfor %}
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -613,6 +610,7 @@
        var url2 = "{% url 'ajaxajouterloadechellon' %}";
        var url3 = "{% url 'ajaxajouterloadsevice' %}";
        const url4 = "{% url 'ajaxajouterloadcaida' %}";
+       const url6 = "{% url 'ajaxajouterloaddivision' %}"
       </script>
       <script type="text/javascript" src="{% static 'js/GestionPersonnel/ajouter.js' %}"></script>
 {% else %}
