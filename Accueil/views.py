@@ -32,3 +32,9 @@ def connexion(request):
 @login_required(login_url='/connexion')
 def test(request):
     return render(request, 'Accueil/test.html')
+
+
+# Create your views here.
+@login_required(login_url='/connexion')
+def accueil(request):
+  return render(request, 'Accueil/accueil.html')
