@@ -35,8 +35,19 @@
 
             {% if not request.user|has_group:"GestionPersonnel" %}
                 $('#perso').attr("class","card-body d-flex flex-column text-decoration-none not-allowed");
-                $('#perso').attr("href","");
+                $('#perso').attr("href","#");
             {% endif %}
+
+            {% if not request.user|has_group:"GestionAbsence" %}
+                $('#abc').attr("class","card-body d-flex flex-column text-decoration-none not-allowed");
+                $('#abc').attr("href","#");
+            {% endif %}
+
+            {% if not request.user|has_group:"GestionConge" %}
+                $('#conge').attr("class","card-body d-flex flex-column text-decoration-none not-allowed");
+                $('#conge').attr("href","#");
+            {% endif %}
+
         })
     </script>
 
@@ -66,7 +77,7 @@
 
             <div class="col-sm-4 mb-3 mb-md-0">
                 <div class="card text-center h-100">
-                    <a class="card-body d-flex flex-column text-decoration-none" href="{% url 'conge' %}">
+                    <a class="card-body d-flex flex-column text-decoration-none" href="{% url 'conge' %}" id="conge">
                         <div class="mb-4">
                             <span class="display-4"><i class="fa-solid fa-calendar"></i></span>
                         </div>
@@ -90,7 +101,7 @@
 
             <div class="col-sm-4 mb-3 mb-md-0">
                 <div class="card text-center h-100">
-                    <a class="card-body d-flex flex-column text-decoration-none" href="">
+                    <a class="card-body d-flex flex-column text-decoration-none" href="" id="abc">
                         <div class="mb-4">
                             <span class="display-4"><i class="fa-solid fa-address-card"></i></span>
                         </div>

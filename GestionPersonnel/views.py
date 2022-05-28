@@ -132,6 +132,79 @@ def info(request,id):
     return render(request, 'GestionPersonnel/info.html', {'personnel': personnel, 'conjoints': conjoints, 'conjointsinperso': conjointsinperso,
                                                           'Serviii': zip(Services, serviperso), 'diplomes':diplomes, "enfants":enfants})
 
+def testfilter(request):
+    services = Service.objects.all()
+    grades = Grade.objects.all()
+    fonctions = Fonction.objects.all()
+    echellons = Echellon.objects.all()
+    statutgrades = Statutgrade.objects.all()
+    entites = Entite.objects.all()
+    pashaliks = Pashalik.objects.all()
+    districts = District.objects.all()
+    divisions = Division.objects.all()
+    cercles = Cercle.objects.all()
+    return render(request, 'GestionPersonnel/test.html',
+                  {'services': services, 'grades': grades, 'fonctions': fonctions,
+                   'echellons': echellons, 'statutgrades': statutgrades,
+                   'entites': entites, 'pashaliks': pashaliks,
+                   'districts': districts, 'divisions': divisions, 'cercles': cercles})
+
+def personnelinfo(request,id):
+    services = Service.objects.all()
+    grades = Gradepersonnel.objects.filter(idpersonnel_field=id).values('idgrade_field__gradefr',
+                                                                        'idgrade_field__gradear',
+                                                                        'idgrade_field__idstatutgrade_field__statutgradefr',
+                                                                        'idechellon_field__echellon',
+                                                                        'indice',
+                                                                        'dateechellon',
+                                                                        'changementdechellon',)
+    fonctions = Fonctionpersonnel.objects.filter(idpersonnel_field=id).values('idfonction_field__libellefontionar',
+                                                                        'idfonction_field__libellefonctionfr',
+                                                                        'datefonction')
+    conjoints= Conjointpersonnel.objects.filter(idpersonnel_field=id).values('idconjoint_field__cin',
+                                                                        'idconjoint_field__nomar',
+                                                                        'idconjoint_field__nomfr',
+                                                                        'idconjoint_field__prenomar',
+                                                                        'idconjoint_field__prenomfr',
+                                                                        'idconjoint_field__datenaissance',
+                                                                        'idconjoint_field__lieunaissance',
+                                                                        'idconjoint_field__ppr',
+                                                                        )
+    conjointid=Conjointpersonnel.objects.filter(idpersonnel_field=id).values('idconjoint_field')
+    enfants = Enfant.objects.filter(idconjoint_field__in=conjointid).values('nomar',
+                                                                 'nomfr',
+                                                                 'prenomfr',
+                                                                 'prenomar',
+                                                                 'datenaissance',
+                                                                 'lieunaissancear',
+                                                                 'lieunaissancefr',
+                                                                 'idconjoint_field__cin',
+                                                                 'idconjoint_field__nomar',
+                                                                 'idconjoint_field__nomfr',
+                                                                  'idconjoint_field__prenomar',
+                                                                  'idconjoint_field__prenomfr',
+                                                                  'idconjoint_field__datenaissance',
+                                                                  'idconjoint_field__lieunaissance',
+                                                                  'idconjoint_field__ppr',
+                                                                              )
+    diploms = Diplome.objects.filter(idpersonnel_field=id).values('diplomefr',
+                                                                        'diplomear',
+                                                                        'etablissement',
+                                                                        'specialitear',
+                                                                        'specialitefr',
+                                                                        'datediplome')
+    entites = Entite.objects.all()
+    pashaliks = Pashalik.objects.all()
+    districts = District.objects.all()
+    divisions = Division.objects.all()
+    cercles = Cercle.objects.all()
+    persoinfo=Personnel.objects.get(idpersonnel=id);
+    return render(request, 'GestionPersonnel/personnelinfo.html',
+                  {'services': services, 'grades': grades, 'fonctions': fonctions,
+                   'conjoints': conjoints, 'enfants': enfants,
+                   'entites': entites, 'pashaliks': pashaliks,
+                   'districts': districts, 'divisions': divisions, 'diploms': diploms,'persoinfo':persoinfo})
+
 
 # ajouter -------------------------------.
 @login_required(login_url='/connexion')
@@ -247,81 +320,6 @@ def ajaxajouterloadechellon(request):
     data = {'echellon': echellon, 'indice': indice}
     return JsonResponse(data, safe=False)
 
-def testfilter(request):
-    services = Service.objects.all()
-    grades = Grade.objects.all()
-    fonctions = Fonction.objects.all()
-    echellons = Echellon.objects.all()
-    statutgrades = Statutgrade.objects.all()
-    entites = Entite.objects.all()
-    pashaliks = Pashalik.objects.all()
-    districts = District.objects.all()
-    divisions = Division.objects.all()
-    cercles = Cercle.objects.all()
-    return render(request, 'GestionPersonnel/test.html',
-                  {'services': services, 'grades': grades, 'fonctions': fonctions,
-                   'echellons': echellons, 'statutgrades': statutgrades,
-                   'entites': entites, 'pashaliks': pashaliks,
-                   'districts': districts, 'divisions': divisions, 'cercles': cercles})
-
-def personnelinfo(request,id):
-    services = Service.objects.all()
-    grades = Gradepersonnel.objects.filter(idpersonnel_field=id).values('idgrade_field__gradefr',
-                                                                        'idgrade_field__gradear',
-                                                                        'idgrade_field__idstatutgrade_field__statutgradefr',
-                                                                        'idechellon_field__echellon',
-                                                                        'indice',
-                                                                        'dateechellon',
-                                                                        'changementdechellon',)
-    fonctions = Fonctionpersonnel.objects.filter(idpersonnel_field=id).values('idfonction_field__libellefontionar',
-                                                                        'idfonction_field__libellefonctionfr',
-                                                                        'datefonction')
-    conjoints= Conjointpersonnel.objects.filter(idpersonnel_field=id).values('idconjoint_field__cin',
-                                                                        'idconjoint_field__nomar',
-                                                                        'idconjoint_field__nomfr',
-                                                                        'idconjoint_field__prenomar',
-                                                                        'idconjoint_field__prenomfr',
-                                                                        'idconjoint_field__datenaissance',
-                                                                        'idconjoint_field__lieunaissance',
-                                                                        'idconjoint_field__ppr',
-                                                                        )
-    conjointid=Conjointpersonnel.objects.filter(idpersonnel_field=id).values('idconjoint_field')
-    enfants = Enfant.objects.filter(idconjoint_field__in=conjointid).values('nomar',
-                                                                 'nomfr',
-                                                                 'prenomfr',
-                                                                 'prenomar',
-                                                                 'datenaissance',
-                                                                 'lieunaissancear',
-                                                                 'lieunaissancefr',
-                                                                 'idconjoint_field__cin',
-                                                                 'idconjoint_field__nomar',
-                                                                 'idconjoint_field__nomfr',
-                                                                  'idconjoint_field__prenomar',
-                                                                  'idconjoint_field__prenomfr',
-                                                                  'idconjoint_field__datenaissance',
-                                                                  'idconjoint_field__lieunaissance',
-                                                                  'idconjoint_field__ppr',
-                                                                              )
-    diploms = Diplome.objects.filter(idpersonnel_field=id).values('diplomefr',
-                                                                        'diplomear',
-                                                                        'etablissement',
-                                                                        'specialitear',
-                                                                        'specialitefr',
-                                                                        'datediplome')
-    entites = Entite.objects.all()
-    pashaliks = Pashalik.objects.all()
-    districts = District.objects.all()
-    divisions = Division.objects.all()
-    cercles = Cercle.objects.all()
-    persoinfo=Personnel.objects.get(idpersonnel=id);
-    return render(request, 'GestionPersonnel/personnelinfo.html',
-                  {'services': services, 'grades': grades, 'fonctions': fonctions,
-                   'conjoints': conjoints, 'enfants': enfants,
-                   'entites': entites, 'pashaliks': pashaliks,
-                   'districts': districts, 'divisions': divisions, 'diploms': diploms,'persoinfo':persoinfo})
-
-
-
 @login_required(login_url='/connexion')
 def ajouter(request):
 
@@ -422,7 +420,7 @@ def ajouter(request):
                 objpashalikperso = Pashalikpersonnel.objects.create(idpersonnel_field=objperso, idpashalik_field=objpashalik, dateaffectation=datepashalik)
                 objpashalikperso.save()
 
-                objperso.organisme = "pashalik"
+                objperso.organisme = "Pashalik"
                 objperso.save()
 
             elif((request.POST.get('districtpashalik', None) == "Cercle")):

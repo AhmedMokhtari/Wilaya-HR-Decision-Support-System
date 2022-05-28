@@ -4,6 +4,7 @@
 <!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
 <head>
     {% load static %}
+    {% load has_group %}
     <meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -55,6 +56,7 @@
                   </a>
               </li>
 
+            {% if request.user|has_group:"GestionPersonnel" %}
               <li class="nav-item dropdown" >
                 <a class="nav-link dropdown-toggle" href="#" id="personnel" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <i class="fa fa-user-o">
@@ -70,6 +72,8 @@
                   <a class="dropdown-item" href="{% url 'persoinfo' %}">  توزيع الموضفين</a>
                 </div>
               </li>
+            {% endif %}
+            {% if request.user|has_group:"GestionConge" %}
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="conges" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <i class="fa fa-briefcase">
@@ -85,6 +89,9 @@
                   <a class="dropdown-item" href="{% url 'ajouterconje' %}">لوحة القيادة</a>
                 </div>
               </li>
+            {% endif %}
+
+            {% if request.user|has_group:"GestionAbsence" %}
               <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <i class="fa fa-envelope-o">
@@ -100,6 +107,7 @@
                 </div>
               </li>
             </ul>
+          {% endif %}
 <!--
             <ul class="navbar-nav ">
               <li class="nav-item">
