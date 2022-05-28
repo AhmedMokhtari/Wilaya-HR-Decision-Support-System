@@ -28,7 +28,7 @@
     }
 
     //ajaxloadpersonnel
-    var selpersonnel= document.getElementById('personnel');
+    var selpersonnel = document.getElementById('personnel');
     if (selpersonnel!=null)
     {
        selpersonnel.onchange =  function(){
@@ -43,7 +43,6 @@
                     $("#table").append(`<tr><th> الإسم الكامل :</th><td>'++'</td></tr>'+
                                                 '<tr><th>ب.ب.ر :</th><td>+1234123123123</td></tr> <tr><th>  الدرجة :</th><td>The Wiz</td></tr>'+
                                                 '<tr><th>الرتبة :</th><td>angelica@ramos.com</td></tr><tr><th>Status</th><td><span class="badge badge-success">Active</span></td></tr>`);
-
                     console.log(data);
                 }
             });
@@ -53,24 +52,34 @@
 window.onload = function ()
 {
 
-    //data
-    $(".divisiondiv").show();
-     $(".districtdiv").hide();
-     $(".pashalikdiv").hide();
-     $(".districtpashalikdiv").hide();
-     $(".annexediv").hide();
-     $(".servicediv").hide();
-      $(".cerclediv").hide();
-      $(".caidadiv").hide();
+    function frontivision(){
+        $(".divisiondiv").show();
+         $(".districtpashalikdiv").hide();
+         $(".districtdiv").hide();
+         $(".pashalikdiv").hide();
+         $(".annexediv").hide();
+         $(".cerclediv").hide();
+         $(".caidadiv").hide();
+          $(".servicediv").hide();
 
-     $("#districtpashalik").prop('required',false);
-     $("#pashalik").prop('required',false);
-     $("#district").prop('required',false);
-     $("#annexe").prop('required',false);
-     $("#dateannexe").prop('required',false);
-     $("#division").prop('required',true);
-     $("#service").prop('required',true);
-     $("#dateservice").prop('required',true);
+         $("#districtpashalik").prop('required',false);
+         $("#pashalik").prop('required',false);
+         $("#district").prop('required',false);
+         $("#annexe").prop('required',false);
+         $("#dateannexe").prop('required',false);
+         $("#division").prop('required',true);
+         $("#service").prop('required',true);
+         $("#dateservice").prop('required',true);
+    }
+
+    const selentite= document.getElementById('entite');
+    //data
+    frontivision();
+    ajaxdivision();
+    if(document.getElementById("op3") == null)
+    {
+        $("#division").append('<option id="op3" selected></option>');
+    }
 
   //cardheader1
     const donneperso = document.getElementById('donneperso');
@@ -80,7 +89,7 @@ window.onload = function ()
             donneperso.setAttribute("style","background-color: #eb3121;")
         }
         donneperso.onmouseout= function (){
-            donneperso.setAttribute("style","background-color: #D42D1E;")
+            donneperso.setAttribute("style","background-color: #47BAC1;")
         }
         donneperso.onclick= function (){
             $('#persocard').fadeToggle()
@@ -96,7 +105,7 @@ window.onload = function ()
             donneprof.setAttribute("style", "background-color: #eb3121;")
         }
         donneprof.onmouseout = function () {
-            donneprof.setAttribute("style", "background-color: #D42D1E;")
+            donneprof.setAttribute("style", "background-color: #47BAC1;")
         }
         donneprof.onclick = function () {
             $('#procard').fadeToggle()
@@ -108,28 +117,33 @@ window.onload = function ()
         $("input[id='photo']").click();
     });
 
-     //entite
-    const selentite= document.getElementById('entite');
+    //entite
+
+    function ajaxdivision(){
+        $("#division option").remove();
+        $.ajax(
+        {
+            type:"POST",
+            url: url6,
+            data:{ entite: selentite.value},
+            success: function(data)
+            {
+                console.log(data)
+                for(var i = 0; i < data.divisions.length; i++)
+                {
+                    $("#division").append(`<option value="${data.divisions[i].iddivision}">${data.divisions[i].libelledivisionfr}</option>`);
+                }
+            }
+        });
+    }
+
+
     selentite.onchange= function ()
     {
         if(selentite.value == "Secrétariat général")
         {
-             $(".divisiondiv").show();
-             $(".districtpashalikdiv").hide();
-             $(".districtdiv").hide();
-             $(".pashalikdiv").hide();
-             $(".annexediv").hide();
-             $(".cerclediv").hide();
-             $(".caidadiv").hide();
-
-             $("#districtpashalik").prop('required',false);
-             $("#pashalik").prop('required',false);
-             $("#district").prop('required',false);
-             $("#annexe").prop('required',false);
-             $("#dateannexe").prop('required',false);
-             $("#division").prop('required',true);
-             $("#service").prop('required',true);
-             $("#dateservice").prop('required',true);
+             frontivision();
+             ajaxdivision();
         }
         else
         {
@@ -152,7 +166,15 @@ window.onload = function ()
                  $("#dateservice").prop('required',false);
                  $(".cerclediv").prop('required',false);
                  $(".caidadiv").prop('required',false);
+
             }
+            else{
+                if(selentite.value == "Dai" || selentite.value == "Cabinet" || selentite.value == "Dsic"){
+                    frontivision();
+                    ajaxdivision();
+                }
+            }
+
         }
         if(document.getElementById("op3") == null)
          {
@@ -168,8 +190,6 @@ window.onload = function ()
                 }
             }
         }
-
-
     }
 
     //district
@@ -197,6 +217,7 @@ window.onload = function ()
              $("#caida").prop('required',false);
              if (document.getElementById("op4") == null)
              {
+
                  $("#cercle").append('<option id="op4" selected></option>');
              }
 
@@ -234,8 +255,6 @@ window.onload = function ()
                         $("#cercle").append('<option id="op4" selected></option>');
                     }
                  }
-
-
             }
             else
             {
@@ -339,6 +358,7 @@ window.onload = function ()
     const sel= document.getElementById('statutgrade');
     if(sel != null) {
         sel.onchange = function () {
+
             $("#grade option").remove();
             $('#op1').remove()
             $.ajax(
@@ -347,10 +367,10 @@ window.onload = function ()
                     url: url1,
                     data: {statutgrade: sel.value},
                     success: function (data) {
+                        console.log(data)
                         $("#grade").append(`<option  id="op2" selected></option>`);
                         for (var i = 0; i < data.grades.length; i++) {
                             $("#grade").append(`<option value="${data.grades[i].idgrade}">${data.grades[i].gradefr}</option>`);
-
                         }
                     }
                 });
@@ -375,6 +395,7 @@ window.onload = function ()
                 data:{statutgrade: sel.value , grade:selgrade.value},
                 success: function(data)
                 {
+                    console.log(data)
                     for(var i = 0; i < data.echellon.length; i++)
                     {
                         $("#echellon").append(`<option>${data.echellon[i]}</option>`);
@@ -390,10 +411,9 @@ window.onload = function ()
         function loadindice()
         {
             selindice.selectedIndex = selechellon.selectedIndex;
-            document.getElementById('dpindice').value = selindice.options[selindice.selectedIndex].text
+            document.getElementById('dpindice').value = selindice.options[selindice.selectedIndex].text;
         }
          selechellon.addEventListener('change', loadindice);
-
     }
 
 }
