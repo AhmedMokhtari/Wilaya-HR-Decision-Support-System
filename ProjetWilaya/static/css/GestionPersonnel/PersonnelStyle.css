@@ -1,0 +1,30 @@
+h3{
+            font-family: "Cairo ExtraLight";
+            font-weight: bold;
+        }
+        #donneperso{
+            background-color: #47BAC1;
+            border-radius: 5px;
+        }
+
+        #donneprof{
+            background-color: #47BAC1;
+            border-radius: 5px;
+        }
+        .btn{
+            background-color: #47BAC1;
+            font-weight: bold;
+            font-family: "Cairo ExtraLight";
+            color: white;
+        }
+
+        .btna{
+            background-color: transparent;
+            border: 1px solid darkgreen;
+        }
+        #photo{
+            display: none;
+        }
+         .col-md-6 .row .col-md{
+            margin: 8px 0 !important;
+        }

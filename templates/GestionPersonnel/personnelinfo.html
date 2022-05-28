@@ -3,6 +3,7 @@
 {% load static %}
     {% load has_group %}
     <title> {% block title %}إضافة{% endblock title %}</title>
+     <link rel="stylesheet" href="{% static 'css/GestionPersonnel/PersonnelStyle.css' %}">
     <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/all.min.css' %}"/>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,26 +12,11 @@
 
     <style>
         input {
-            color: white !important;
-            background-color: #00A4CCFF !important;
+            color: black !important;
+            background-color: #ebfeff !important;
             border-radius: 8px !important;
         }
-        h3{
-            font-family: "Cairo ExtraLight"
-        }
-        #donneperso{
-            background-color: #F95700EE;
-        }
-        div#donneperso:hover{
-            background-color: #F95700EE;
-        }
-        .btna{
-            background-color: transparent;
-            border: 1px solid darkgreen;
-        }
-        #photo{
-            display: none;
-        }
+
         .col-md-6 .row .col-md{
             margin: 8px 0 !important;
         }
@@ -38,419 +24,425 @@
   {% if request.user|has_group:"GestionPersonnel" %}
      <form action="" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-                
-                <div class="row">
-                    <div class="col-sm-12 col-lg-12 d-flex">
-                        <div class="card flex-fill">
-                            <div class="card-header d-flex h-25 p-3" id="donneperso" style="background-color: #F95700FF;border-radius: 5px;">
-                                <h2 class="card-title text-center text-white" dir="ltr">
-                                    معلومات شخصية
-                                </h2>
-                            </div>
-                            <hr>
-
-                            <div class="card-body" id="persocard">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <div class="text-center">
-                                                <div class="mt-2">
-                                                    <img  src="{{persoinfo.photo.url}}" id="image" class="rounded-circle img-responsive mt-2" width="170" height="170"/>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md">
-                                                <label class="col-form-label float-right" for="prenomar">الاسم الشخصي :</label>
-                                                <input type="text" class="form-control text-center " name="prenomar" readonly value="{{ persoinfo.prenomar}}" >
-                                            </div>
-
-                                            <div class="col-md">
-                                                <label for="prenomfr" class="col-form-label" dir="ltr">Prénom :</label>
-                                                <input type="text" class="form-control text-center " name="prenomfr" value="{{ persoinfo.prenomfr}}" readonly>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md ">
-                                                <label class="col-form-label float-right" for="nomfr"> الاسم العائلي :</label>
-                                                <input type="text" class="form-control text-center " name="nomfr" value="{{ persoinfo.nomar}}" readonly>
-                                            </div>
-
-                                            <div class="col-md ">
-                                                <label for="nomar" class="col-form-label" dir="ltr">Nom :</label>
-                                                <input type="text" class="form-control text-center " name="nomar" value="{{ persoinfo.nomfr}}" readonly>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md ">
-                                                <label class="col-form-label float-right" for="lieunar"> مكان الازدياد :</label>
-                                                <input type="text" class="form-control text-center" name="lieunar"  value="{{ persoinfo.lieunaissancear}}"  readonly>
-                                            </div>
-
-                                            <div class="col-md">
-                                                <label for="lieunfr" class="col-form-label" dir="ltr">lieu de naissance :</label>
-                                                <input type="text" class="form-control text-center" name="lieunfr"  value="{{ persoinfo.lieunaissancefr}}"  readonly>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md">
-                                                <label class="col-form-label float-right" for="adressear"> العنوان :</label>
-                                                <input type="text" class="form-control text-center" name="adressear"  value="{{ persoinfo.lieunaissancefr}}"  readonly>
-                                            </div>
-
-                                            <div class="col-md">
-                                                <label for="adressefr" class="col-form-label" dir="ltr">Adresse :</label>
-                                                <input type="text" class="form-control text-center" name="adressefr"  value="{{ persoinfo.lieunaissancefr}}"  readonly>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-md-6">
-                                        <br>
-                                        <br>
-                                        <div class="row">
-                                            <div class="col-md ">
-                                                <label class="col-form-label float-right" for="situationfar"> الوضع العائلي :</label>
-                                                <label class="col-form-label" dir="ltr" for="situationfar">Situation familiale :</label>
-                                                <input type="text" class="form-control text-center" name="situationfamilialear" value="{{ persoinfo.situationfamilialear}} - {{ persoinfo.situationfamilialefr}}"  readonly>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md">
-                                                <label class="col-form-label float-right" for="sexe"> الجنس :</label>
-                                                <label class="col-form-label" dir="ltr" for="sexe">Sexe :</label>
-                                                <input type="text" class="form-control text-center" name="sexe" value="{{ persoinfo.sexe}}"  readonly>
-
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md">
-                                                <label class="col-form-label float-right" for="daten"> تاريخ الازدياد :</label>
-                                                <label class="col-form-label" dir="ltr" for="daten">Date de naissance :</label>
-                                                <input type="text" class="form-control text-center" name="daten" value="{{ persoinfo.datenaissance|date:'Y-m-d'}}"  readonly>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md">
-                                                <label class="col-form-label float-right" for="cin"> ر.ب.و :</label>
-                                                <label class="col-form-label" dir="ltr" for="cin">Cin :</label>
-                                                <input type="text" class="form-control text-center" name="cin" value="{{ persoinfo.cin}}"  readonly>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md">
-                                                <label class="col-form-label float-right" for="email"> البريد الالكتروني :</label>
-                                                <label class="col-form-label" dir="ltr" for="email">Email :</label>
-                                                <input type="text" class="form-control text-center" name="email" value="{{ persoinfo.email}}"  readonly>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md">
-                                                <label class="col-form-label float-right" for="tele"> الهاتف :</label>
-                                                <label class="col-form-label" dir="ltr" for="tele">Tele :</label>
-                                                <input type="text" class="form-control text-center" name="tele" value="{{ persoinfo.tele}}"  readonly>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    
-                                  <div class="col-md-9 p-3">
-                                    <div class="col-12 col-lg-12">
-                                        <div class="tab" style="background-color: whitesmoke">
-                                            <ul class="nav nav-tabs" role="tablist">
-                                                <li class="nav-item"><a class="nav-link" href="#tab-4" data-toggle="tab" role="tab">الزوج</a></li>
-                                                <li class="nav-item"><a class="nav-link" href="#tab-5" data-toggle="tab" role="tab">الاطفال</a></li>
-                                                <li class="nav-item"><a class="nav-link" href="#tab-6" data-toggle="tab" role="tab">الديبلومات</a></li>
-                                            </ul>
-                                            <div class="tab-content" >
-                                                <div class="tab-pane active" id="tab-4" role="tabpanel">
-                                                    <table class="table table-hover">
-                                                        <thead>
-                                                          <tr>
-                                                            <th scope="col">ر.ب.و</th>
-                                                            <th scope="col">الاسم الكامل</th>
-                                                            <th scope="col">تاريخ الازدياد</th>
-                                                            <th scope="col">مكان الازدياد</th>
-                                                            <th scope="col"> ب.ب.ر</th>
-                                                          </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            {% for conjoint in conjoints %} 
-                                                                <tr>
-                                                                    <th>{{conjoint.cin}}</th>
-                                                                    <td>{{conjoint.nomar}} {{conjoint.prenomar}}</td>
-                                                                    <td>{{conjoint.datenaissance}}</td>
-                                                                    <td>{{conjoint.lieunaissance}}</td>
-                                                                    <td>{{conjoint.ppr}}</td>
-                                                                </tr>
-                                                            {% endfor%}                                                                
-                                                        </tbody>
-                                                      </table>
-                                                </div>
-                                                <div class="tab-pane" id="tab-5" role="tabpanel">
-                                                    <table class="table table-hover">
-                                                        <thead>
-                                                          <tr>
-                                                            <th scope="col">الاسم الكامل</th>
-                                                            <th scope="col">تاريخ الازدياد</th>
-                                                            <th scope="col">مكان الازدياد</th>
-                                                            <th scope="col">الزوج</th>
-                                                          </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                            {% for enfant in enfants%}
-                                                          <tr>
-                                                            <th>{{enfant.nomar}} {{enfant.prenomar}}</th>
-                                                            <td>{{enfant.datenaissance}}</td>
-                                                            <td>{{enfant.lieunaissancear}}</td>
-                                                            <td>{{enfant.idconjoint_field__nomar}} {{enfant.idconjoint_field__prenomar}}</td>
-                                                          </tr>
-                                                           {% endfor%}
-                                                        </tbody>
-                                                      </table>
-                                                </div>
-                                                <div class="tab-pane" id="tab-6" role="tabpanel">
-                                                    <table class="table table-hover">
-                                                        <thead>
-                                                          <tr>
-                                                            <th scope="col">الديبلوم</th>
-                                                            <th scope="col">المؤسسة</th>
-                                                            <th scope="col">التخصص</th>
-                                                            <th scope="col">تاريخ</th>
-                                                          </tr>
-                                                        </thead>
-                                                        <tbody>
-                                                          {% for diplom in diploms%}  
-                                                          <tr>
-                                                            <th>{{diplom.diplomear}}</th>
-                                                            <td>{{diplom.etablissement}}</td>
-                                                            <td>{{diplom.specialitear}}</td>
-                                                            <td>{{diplom.datediplome}}</td>
-                                                          </tr>
-                                                          {% endfor %}
-                                                        </tbody>
-                                                      </table>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div> 
-                                </div>
-                            </div>
+            <div class="row">
+                <div class="col-sm-12 col-lg-12 d-flex">
+                    <div class="card flex-fill">
+                        <div class="card-header d-flex h-25 p-3" id="donneperso">
+                            <h3 class=" text-center text-white" dir="ltr">
+                                معلومات شخصية
+                            </h3>
                         </div>
+                        <hr>
 
-                    </div>
-
-                    <div class="col-sm-12 col-lg-12 d-flex">
-                        <div class="card flex-fill">
-                             <div class="card-header d-flex h-25 p-3" id="donneprof" style="background-color: #F95700FF; border-radius: 5px;">
-                                <h2 class="card-title text-center text-white"  dir="ltr">
-                                    معلومات مهنية
-                                </h2>
-                            </div>
-                            <hr>
-                            <div class="card-body" id="procard">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="row">
-                                            <div class="col-md ">
-                                                <label class="col-form-label float-right" for="ppr"> ب,ب.ر :</label>
-                                                <label class="col-form-label" dir="ltr" for="ppr">PPR :</label>
-                                                <input type="text" class="form-control text-center" name="ppr" value="{{ persoinfo.ppr}}" readonly/>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md ">
-                                                <label class="col-form-label float-right" for="adminiapp"> الإدارة :</label>
-                                                <label class="col-form-label" dir="ltr" for="adminiapp">Administration :</label>
-                                                <input type="text" class="form-control text-center" name="adminiapp" value="{{ persoinfo.administrationapp}}" readonly/>
-                                            </div>
-                                        </div>
-
-                                        <div class="row ">
-                                            <div class="col-md ">
-                                                <label class="col-form-label float-right" for="numiden"> رقم المنصب المالي :</label>
-                                                <label class="col-form-label" dir="ltr" for="numiden">N° de poste budgétaire :</label>
-                                                <input type="text" class="form-control text-center" name="numiden" value="{{persoinfo.numerofinancier}}" readonly>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md">
-                                                <label class="col-form-label float-right" for="statut"> الوضعية النظامية :</label>
-                                                <label class="col-form-label" dir="ltr" for="statut">Situation statutaire :</label>
-                                                <input type="text" class="form-control text-center" name="statut" value="{{persoinfo.statut}}" readonly>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md ">
-                                                <label class="col-form-label float-right" for="rib"> ر.ي.ب :</label>
-                                                <label class="col-form-label" dir="ltr" for="rib">Rib :</label>
-                                                <input type="text" class="form-control text-center" name="rib" pattern="^(0|[1-9][0-9]*)$" value="{{persoinfo.rib}}" readonly>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md">
-                                                <label class="col-form-label float-right" for="ancadmi"> الأقدمية الإدارية :</label>
-                                                <label class="col-form-label" dir="ltr" for="ancadmi">Ancienneté administrative :</label>
-                                                <input type="text" class="form-control text-center" name="ancadmi" value="{{persoinfo.ancienneteadmi}}" readonly>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md">
-                                                <label class="col-form-label float-right" for="daterec"> تاريخ التوظيف :</label>
-                                                <label class="col-form-label" dir="ltr" for="daterec">Date de recrutement :</label>
-                                                <input type="text" class="form-control text-center" name="daterec" value="{{persoinfo.daterecrutement|date:'Y-m-d'}}" readonly>
-                                            </div>
-
-                                            <div class="col-md">
-                                                <label class="col-form-label float-right" for="datedec"> تاريخ الترسيم :</label>
-                                                <label class="col-form-label" dir="ltr" for="datedec">Date de titularisation :</label>
-                                                 <input type="text" class="form-control text-center" name="datedec" value="{{persoinfo.datedemarcation|date:'Y-m-d'}}" readonly>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md">
-                                                <label class="col-form-label float-right" for="dateretr"> تاريخ الإحالة على التقاعد :</label>
-                                                <label class="col-form-label" dir="ltr" for="dateretr">Date de départ à la retraite :</label>
-                                                 <input type="text" class="form-control text-center" name="dateretr" value="{{persoinfo.dateparrainageretraite|date:'Y-m-d'}}" readonly>
-                                            </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md">
-                                                <label class="col-form-label float-right" for="numcnopsaf"> رفم كنوبس أ.ف :</label>
-                                                <label class="col-form-label" dir="ltr" for="numcnopsaf">Numéro cnops af :</label>
-                                                 <input type="text" class="form-control text-center" name="numcnopsaf" value="{{persoinfo.numcnopsaf}}" readonly>
-                                            </div>
-
-                                            <div class="col-md">
-                                                <label class="col-form-label float-right" for="numcnopsim"> رفم كنوبس أ.م :</label>
-                                                <label class="col-form-label" dir="ltr" for="numcnopsim">Numéro cnops im :</label>
-                                                 <input type="text" class="form-control text-center" name="numcnopsim" value="{{persoinfo.numcnopsim}}" readonly>
+                        <div class="card-body" id="persocard">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <div class="text-center">
+                                            <div class="mt-2">
+                                                <img  src="{{persoinfo.photo.url}}" id="image" class="rounded-circle img-responsive mt-2" width="170" height="170"/>
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="row">
+                                        <div class="col-md">
+                                            <label class="col-form-label float-right" for="prenomar">الاسم الشخصي :</label>
+                                            <input type="text" class="form-control text-center " name="prenomar" readonly value="{{ persoinfo.prenomar}}" >
+                                        </div>
 
-                                  <div class="col-md-6">
-                                        <div class="col-12 col-lg-12">
-                                            <div class="tab" style="background-color: whitesmoke">
-                                                <ul class="nav nav-tabs" role="tablist">
-                                                    <li class="nav-item"><a class="nav-link active" href="#tab-1" data-toggle="tab" role="tab" aria-selected="true">التعيين</a></li>
-                                                    <li class="nav-item"><a class="nav-link" href="#tab-2" data-toggle="tab" role="tab" aria-selected="false">الدرجة والرتبة</a></li>
-                                                    <li class="nav-item"><a class="nav-link" href="#tab-3" data-toggle="tab" role="tab">المهمة</a></li>
+                                        <div class="col-md">
+                                            <label for="prenomfr" class="col-form-label" dir="ltr">Prénom :</label>
+                                            <input type="text" class="form-control text-center " name="prenomfr" value="{{ persoinfo.prenomfr}}" readonly>
+                                        </div>
+                                    </div>
 
+                                    <div class="row">
+                                        <div class="col-md ">
+                                            <label class="col-form-label float-right" for="nomfr"> الاسم العائلي :</label>
+                                            <input type="text" class="form-control text-center " name="nomfr" value="{{ persoinfo.nomar}}" readonly>
+                                        </div>
 
-                                                </ul>
-                                                <div class="tab-content" >
-                                                    <div class="tab-pane active" id="tab-1" role="tabpanel">
-                                                        <table class="table table-hover">
-                                                            <thead>
-                                                              <tr>
-                                                                <th scope="col">#</th>
-                                                                <th scope="col">First</th>
-                                                                <th scope="col">Last</th>
-                                                                <th scope="col">Handle</th>
-                                                              </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                              <tr>
-                                                                <th scope="row">1</th>
-                                                                <td>Mark</td>
-                                                                <td>Otto</td>
-                                                                <td>@mdo</td>
-                                                              </tr>
-                                                              <tr>
-                                                                <th scope="row">2</th>
-                                                                <td>Jacob</td>
-                                                                <td>Thornton</td>
-                                                                <td>@fat</td>
-                                                              </tr>
-                                                              <tr>
-                                                                <th scope="row">3</th>
-                                                                <td colspan="2">Larry the Bird</td>
-                                                                <td>@twitter</td>
-                                                              </tr>
-                                                            </tbody>
-                                                          </table>
-                                                    </div>
+                                        <div class="col-md ">
+                                            <label for="nomar" class="col-form-label" dir="ltr">Nom :</label>
+                                            <input type="text" class="form-control text-center " name="nomar" value="{{ persoinfo.nomfr}}" readonly>
+                                        </div>
+                                    </div>
 
-                                                    <div class="tab-pane" id="tab-2" role="tabpanel">
-                                                        <table class="table table-hover">
-                                                            <thead>
-                                                              <tr>
-                                                                <th scope="col">Grade</th>
-                                                                <th scope="col">Echellon</th>
-                                                                <th scope="col">Indice</th>
-                                                                <th scope="col">DateEchellon</th>
-                                                                <th scope="col">Changement De Grade</th>
-                                                              </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                {% for grade in grades %}
-                                                                    <tr>
-                                                                        <th >{{grade.idgrade_field__gradear}}</th>
-                                                                        <td>{{grade.idechellon_field__echellon}}</td>
-                                                                        <td>{{grade.indice}}</td>
-                                                                        <td>@{{grade.dateechellon}}</td>
-                                                                        <td>@{{grade.changementdechellon}}</td>
-                                                                    </tr>
-                                                                {% endfor %}    
-                                                            </tbody>
-                                                          </table>
-                                                    </div>
+                                    <div class="row">
+                                        <div class="col-md ">
+                                            <label class="col-form-label float-right" for="lieunar"> مكان الازدياد :</label>
+                                            <input type="text" class="form-control text-center" name="lieunar"  value="{{ persoinfo.lieunaissancear}}"  readonly>
+                                        </div>
 
-                                                    <div class="tab-pane" id="tab-3" role="tabpanel">
-                                                        <table class="table table-hover">
-                                                            <thead>
-                                                              <tr>
-                                                                <th scope="col">المهمة</th>
-                                                                <th scope="col">تاريخ المهمة</th>
-                                                              </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                              <tr>
-                                                                 {% for fonction in fonctions %}  
-                                                                    <td>{{fonction.idfonction_field__libellefontionar}}</td>
-                                                                    <td>{{fonction.datefonction}}</td>
-                                                                {% endfor %}
-                                                              </tr>
-                                                            </tbody>
-                                                          </table>
-                                                    </div>
-                                                        
-                                                </div>
+                                        <div class="col-md">
+                                            <label for="lieunfr" class="col-form-label" dir="ltr">lieu de naissance :</label>
+                                            <input type="text" class="form-control text-center" name="lieunfr"  value="{{ persoinfo.lieunaissancefr}}"  readonly>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md">
+                                            <label class="col-form-label float-right" for="adressear"> العنوان :</label>
+                                            <input type="text" class="form-control text-center" name="adressear"  value="{{ persoinfo.lieunaissancefr}}"  readonly>
+                                        </div>
+
+                                        <div class="col-md">
+                                            <label for="adressefr" class="col-form-label" dir="ltr">Adresse :</label>
+                                            <input type="text" class="form-control text-center" name="adressefr"  value="{{ persoinfo.lieunaissancefr}}"  readonly>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <br>
+                                    <br>
+                                    <div class="row">
+                                        <div class="col-md ">
+                                            <label class="col-form-label float-right" for="situationfar"> الوضع العائلي :</label>
+                                            <label class="col-form-label" dir="ltr" for="situationfar">Situation familiale :</label>
+                                            <input type="text" class="form-control text-center" name="situationfamilialear" value="{{ persoinfo.situationfamilialear}} - {{ persoinfo.situationfamilialefr}}"  readonly>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md">
+                                            <label class="col-form-label float-right" for="sexe"> الجنس :</label>
+                                            <label class="col-form-label" dir="ltr" for="sexe">Sexe :</label>
+                                            <input type="text" class="form-control text-center" name="sexe" value="{{ persoinfo.sexe}}"  readonly>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md">
+                                            <label class="col-form-label float-right" for="daten"> تاريخ الازدياد :</label>
+                                            <label class="col-form-label" dir="ltr" for="daten">Date de naissance :</label>
+                                            <input type="text" class="form-control text-center" name="daten" value="{{ persoinfo.datenaissance|date:'Y-m-d'}}"  readonly>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md">
+                                            <label class="col-form-label float-right" for="cin"> ر.ب.و :</label>
+                                            <label class="col-form-label" dir="ltr" for="cin">Cin :</label>
+                                            <input type="text" class="form-control text-center" name="cin" value="{{ persoinfo.cin}}"  readonly>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md">
+                                            <label class="col-form-label float-right" for="email"> البريد الالكتروني :</label>
+                                            <label class="col-form-label" dir="ltr" for="email">Email :</label>
+                                            <input type="text" class="form-control text-center" name="email" value="{{ persoinfo.email}}"  readonly>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md">
+                                            <label class="col-form-label float-right" for="tele"> الهاتف :</label>
+                                            <label class="col-form-label" dir="ltr" for="tele">Tele :</label>
+                                            <input type="text" class="form-control text-center" name="tele" value="{{ persoinfo.tele}}"  readonly>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+
+                              <div class="col-md-9 p-3">
+                                <div class="col-12 col-lg-12">
+                                    <div class="tab" style="background-color: whitesmoke">
+                                        <ul class="nav nav-tabs" role="tablist">
+                                            <li class="nav-item"><a class="nav-link" href="#tab-4" data-toggle="tab" role="tab">الزوج</a></li>
+                                            <li class="nav-item"><a class="nav-link" href="#tab-5" data-toggle="tab" role="tab">الاطفال</a></li>
+                                            <li class="nav-item"><a class="nav-link" href="#tab-6" data-toggle="tab" role="tab">الديبلومات</a></li>
+                                        </ul>
+                                        <div class="tab-content" >
+                                            <div class="tab-pane active" id="tab-4" role="tabpanel">
+                                                <table class="table table-hover">
+                                                    <thead>
+                                                      <tr>
+                                                        <th scope="col">ر.ب.و</th>
+                                                        <th scope="col">الاسم الكامل</th>
+                                                        <th scope="col">تاريخ الازدياد</th>
+                                                        <th scope="col">مكان الازدياد</th>
+                                                        <th scope="col"> ب.ب.ر</th>
+                                                      </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% for conjoint in conjoints %}
+                                                            <tr>
+                                                                <th>{{conjoint.cin}}</th>
+                                                                <td>{{conjoint.nomar}} {{conjoint.prenomar}}</td>
+                                                                <td>{{conjoint.datenaissance}}</td>
+                                                                <td>{{conjoint.lieunaissance}}</td>
+                                                                <td>{{conjoint.ppr}}</td>
+                                                            </tr>
+                                                        {% endfor%}
+                                                    </tbody>
+                                                  </table>
+                                            </div>
+                                            <div class="tab-pane" id="tab-5" role="tabpanel">
+                                                <table class="table table-hover">
+                                                    <thead>
+                                                      <tr>
+                                                        <th scope="col">الاسم الكامل</th>
+                                                        <th scope="col">تاريخ الازدياد</th>
+                                                        <th scope="col">مكان الازدياد</th>
+                                                        <th scope="col">الزوج</th>
+                                                      </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% for enfant in enfants%}
+                                                      <tr>
+                                                        <th>{{enfant.nomar}} {{enfant.prenomar}}</th>
+                                                        <td>{{enfant.datenaissance}}</td>
+                                                        <td>{{enfant.lieunaissancear}}</td>
+                                                        <td>{{enfant.idconjoint_field__nomar}} {{enfant.idconjoint_field__prenomar}}</td>
+                                                      </tr>
+                                                       {% endfor%}
+                                                    </tbody>
+                                                  </table>
+                                            </div>
+                                            <div class="tab-pane" id="tab-6" role="tabpanel">
+                                                <table class="table table-hover">
+                                                    <thead>
+                                                      <tr>
+                                                        <th scope="col">الديبلوم</th>
+                                                        <th scope="col">المؤسسة</th>
+                                                        <th scope="col">التخصص</th>
+                                                        <th scope="col">تاريخ</th>
+                                                      </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                      {% for diplom in diploms%}
+                                                      <tr>
+                                                        <th>{{diplom.diplomear}}</th>
+                                                        <td>{{diplom.etablissement}}</td>
+                                                        <td>{{diplom.specialitear}}</td>
+                                                        <td>{{diplom.datediplome}}</td>
+                                                      </tr>
+                                                      {% endfor %}
+                                                    </tbody>
+                                                  </table>
                                             </div>
                                         </div>
-                                    </div> 
+                                    </div>
                                 </div>
+                            </div>
                             </div>
                         </div>
                     </div>
 
                 </div>
+
+                <div class="col-sm-12 col-lg-12 d-flex">
+                    <div class="card flex-fill">
+                         <div class="card-header d-flex h-25 p-3" id="donneprof">
+                            <h3 class="text-center text-white"  dir="ltr">
+                                معلومات مهنية
+                            </h3>
+                        </div>
+                        <hr>
+                        <div class="card-body" id="procard">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md ">
+                                            <label class="col-form-label float-right" for="ppr"> ب,ب.ر :</label>
+                                            <label class="col-form-label" dir="ltr" for="ppr">PPR :</label>
+                                            <input type="text" class="form-control text-center" name="ppr" value="{{ persoinfo.ppr}}" readonly/>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md ">
+                                            <label class="col-form-label float-right" for="adminiapp"> الإدارة :</label>
+                                            <label class="col-form-label" dir="ltr" for="adminiapp">Administration :</label>
+                                            <input type="text" class="form-control text-center" name="adminiapp" value="{{ persoinfo.administrationapp}}" readonly/>
+                                        </div>
+                                    </div>
+
+                                    <div class="row ">
+                                        <div class="col-md ">
+                                            <label class="col-form-label float-right" for="numiden"> رقم المنصب المالي :</label>
+                                            <label class="col-form-label" dir="ltr" for="numiden">N° de poste budgétaire :</label>
+                                            <input type="text" class="form-control text-center" name="numiden" value="{{persoinfo.numerofinancier}}" readonly>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md">
+                                            <label class="col-form-label float-right" for="statut"> الوضعية النظامية :</label>
+                                            <label class="col-form-label" dir="ltr" for="statut">Situation statutaire :</label>
+                                            <input type="text" class="form-control text-center" name="statut" value="{{persoinfo.statut}}" readonly>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md ">
+                                            <label class="col-form-label float-right" for="rib"> ر.ي.ب :</label>
+                                            <label class="col-form-label" dir="ltr" for="rib">Rib :</label>
+                                            <input type="text" class="form-control text-center" name="rib" pattern="^(0|[1-9][0-9]*)$" value="{{persoinfo.rib}}" readonly>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md">
+                                            <label class="col-form-label float-right" for="ancadmi"> الأقدمية الإدارية :</label>
+                                            <label class="col-form-label" dir="ltr" for="ancadmi">Ancienneté administrative :</label>
+                                            <input type="text" class="form-control text-center" name="ancadmi" value="{{persoinfo.ancienneteadmi}}" readonly>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md">
+                                            <label class="col-form-label float-right" for="daterec"> تاريخ التوظيف :</label>
+                                            <label class="col-form-label" dir="ltr" for="daterec">Date de recrutement :</label>
+                                            <input type="text" class="form-control text-center" name="daterec" value="{{persoinfo.daterecrutement|date:'Y-m-d'}}" readonly>
+                                        </div>
+
+                                        <div class="col-md">
+                                            <label class="col-form-label float-right" for="datedec"> تاريخ الترسيم :</label>
+                                            <label class="col-form-label" dir="ltr" for="datedec">Date de titularisation :</label>
+                                             <input type="text" class="form-control text-center" name="datedec" value="{{persoinfo.datedemarcation|date:'Y-m-d'}}" readonly>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md">
+                                            <label class="col-form-label float-right" for="dateretr"> تاريخ الإحالة على التقاعد :</label>
+                                            <label class="col-form-label" dir="ltr" for="dateretr">Date de départ à la retraite :</label>
+                                             <input type="text" class="form-control text-center" name="dateretr" value="{{persoinfo.dateparrainageretraite|date:'Y-m-d'}}" readonly>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md">
+                                            <label class="col-form-label float-right" for="numcnopsaf"> رفم كنوبس أ.ف :</label>
+                                            <label class="col-form-label" dir="ltr" for="numcnopsaf">Numéro cnops af :</label>
+                                             <input type="text" class="form-control text-center" name="numcnopsaf" value="{{persoinfo.numcnopsaf}}" readonly>
+                                        </div>
+
+                                        <div class="col-md">
+                                            <label class="col-form-label float-right" for="numcnopsim"> رفم كنوبس أ.م :</label>
+                                            <label class="col-form-label" dir="ltr" for="numcnopsim">Numéro cnops im :</label>
+                                             <input type="text" class="form-control text-center" name="numcnopsim" value="{{persoinfo.numcnopsim}}" readonly>
+                                        </div>
+                                    </div>
+                                </div>
+
+                              <div class="col-md-6">
+                                    <div class="col-12 col-lg-12">
+                                        <div class="tab" style="background-color: whitesmoke">
+                                            <ul class="nav nav-tabs" role="tablist">
+                                                <li class="nav-item"><a class="nav-link active" href="#tab-1" data-toggle="tab" role="tab" aria-selected="true">التعيين</a></li>
+                                                <li class="nav-item"><a class="nav-link" href="#tab-2" data-toggle="tab" role="tab" aria-selected="false">الدرجة والرتبة</a></li>
+                                                <li class="nav-item"><a class="nav-link" href="#tab-3" data-toggle="tab" role="tab">المهمة</a></li>
+
+
+                                            </ul>
+                                            <div class="tab-content" >
+                                                <div class="tab-pane active" id="tab-1" role="tabpanel">
+                                                    <table class="table table-hover">
+                                                        <thead>
+                                                          <tr>
+                                                            <th scope="col">#</th>
+                                                            <th scope="col">First</th>
+                                                            <th scope="col">Last</th>
+                                                            <th scope="col">Handle</th>
+                                                          </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                          <tr>
+                                                            <th scope="row">1</th>
+                                                            <td>Mark</td>
+                                                            <td>Otto</td>
+                                                            <td>@mdo</td>
+                                                          </tr>
+                                                          <tr>
+                                                            <th scope="row">2</th>
+                                                            <td>Jacob</td>
+                                                            <td>Thornton</td>
+                                                            <td>@fat</td>
+                                                          </tr>
+                                                          <tr>
+                                                            <th scope="row">3</th>
+                                                            <td colspan="2">Larry the Bird</td>
+                                                            <td>@twitter</td>
+                                                          </tr>
+                                                        </tbody>
+                                                      </table>
+                                                </div>
+
+                                                <div class="tab-pane" id="tab-2" role="tabpanel">
+                                                    <table class="table table-hover">
+                                                        <thead>
+                                                          <tr>
+                                                            <th scope="col">Grade</th>
+                                                            <th scope="col">Echellon</th>
+                                                            <th scope="col">Indice</th>
+                                                            <th scope="col">DateEchellon</th>
+                                                            <th scope="col">Changement De Grade</th>
+                                                          </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {% for grade in grades %}
+                                                                <tr>
+                                                                    <th >{{grade.idgrade_field__gradear}}</th>
+                                                                    <td>{{grade.idechellon_field__echellon}}</td>
+                                                                    <td>{{grade.indice}}</td>
+                                                                    <td>@{{grade.dateechellon}}</td>
+                                                                    <td>@{{grade.changementdechellon}}</td>
+                                                                </tr>
+                                                            {% endfor %}
+                                                        </tbody>
+                                                      </table>
+                                                </div>
+
+                                                <div class="tab-pane" id="tab-3" role="tabpanel">
+                                                    <table class="table table-hover">
+                                                        <thead>
+                                                          <tr>
+                                                            <th scope="col">المهمة</th>
+                                                            <th scope="col">تاريخ المهمة</th>
+                                                          </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                          <tr>
+                                                             {% for fonction in fonctions %}
+                                                                <td>{{fonction.idfonction_field__libellefontionar}}</td>
+                                                                <td>{{fonction.datefonction}}</td>
+                                                            {% endfor %}
+                                                          </tr>
+                                                        </tbody>
+                                                      </table>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </form>
+      <script>
+      var url0 = "{% url 'ajaxajouterloadannexe' %}"
+       var url1 = "{% url 'ajaxajouterloadgrade' %}";
+       var url2 = "{% url 'ajaxajouterloadechellon' %}";
+       var url3 = "{% url 'ajaxajouterloadsevice' %}";
+       const url4 = "{% url 'ajaxajouterloadcaida' %}";
+       const url6 = "{% url 'ajaxajouterloaddivision' %}"
+      </script>
       <script type="text/javascript" src="{% static 'js/GestionPersonnel/ajouter.js' %}"></script>
 {% else %}
       <div class="row h-100">
 				<div class="col-sm-10 col-md-8 col-lg-6 mx-auto d-table h-100">
 					<div class="d-table-cell align-middle">
 						<div class="text-center">
-							<h1 class="display-1 font-weight-bold" style="color: red">401</h1>
+							<h1 class="display-1 font-weight-bold" style="color: #47BAC1">401</h1>
 							<p class="h1"></p>
 							<p class="h2 font-weight-normal mt-3 mb-4"  style="color: red">ليس لديكم الحق للولوج لهته الصفحة</p>
 							<a href="{% url 'consultation' %}" class="btn btn-primary btn-lg">الرجوع</a>
