@@ -121,6 +121,31 @@
                     <hr>
                     <br>
                     <div class="row">
+                       <div class="row mr-2">
+                            <div class="col-md-10">
+                                <label class="col-form-label float-right" for="statutgrade"> حالة الدرجة :</label>
+                                <select class="form-control text-center" name="statutgrade" id="statutgrade" required>
+                                        <option  id="op1" selected></option>
+                                    {% for statut in statutgrades %}
+                                        <option value="{{ statut.idstatutgrade }}">{{ statut.statutgradear }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label class="col-form-label float-right" for="grade"> الدرجة :</label>
+                                <select class="form-control text-center" name="grade" id="grade"  required>
+
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <hr>
+                    <br>
+                    <div class="row">
                         <div class="col-1"><label class="col-form-label form-check-inline">الجنس &nbsp;:</label></div>
                         <div class="col-3">
                             <label class="form-check form-check-inline">

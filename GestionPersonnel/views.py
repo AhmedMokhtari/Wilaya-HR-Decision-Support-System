@@ -78,7 +78,11 @@ def consultation(request):
 
     gradeperso = Gradepersonnel.objects.order_by('idpersonnel_field').values('idpersonnel_field','idpersonnel_field__cin','idpersonnel_field__ppr','idpersonnel_field__nomfr','idpersonnel_field__prenomfr','idpersonnel_field__administrationapp','idpersonnel_field__sexe','idpersonnel_field__organisme','idgrade_field__gradefr','idgrade_field__idstatutgrade_field__statutgradefr')
 
-    return render(request, 'GestionPersonnel/consultation.html', {'personnels': rows, 'divsions': divisions, 'grades': grade, 'gradeperso': gradeperso, 'listPerso': listPerso, 'entites': entites, 'pashaliks': pashaliks, 'districts':districts})
+    return render(request, 'GestionPersonnel/consultation.html', {'personnels': rows, 'divsions': divisions,
+                                                                  'grades': grade, 'gradeperso': gradeperso,
+                                                                  'listPerso': listPerso, 'entites': entites,
+                                                                  'pashaliks': pashaliks, 'districts':districts,
+                                                                  'statutgrades': statutgrades})
 
 #personnel information images -------------------------------.
 def persoinfoimg(request) :
