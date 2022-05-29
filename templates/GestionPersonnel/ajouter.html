@@ -293,13 +293,16 @@
                                             <div class="col-md">
                                                 <label class="col-form-label float-right" for="statut"> الوضعية النظامية :</label>
                                                 <label class="col-form-label" dir="ltr" for="statut">Situation statutaire :</label>
-                                                <input type="text" >
                                                 <select class="form-control text-center" name="statut" required>
-                                                    {% for statut in statutpersonnel  %}
-                                                        <option value="{{  }}">{{  }}</option>
+                                                    {% for statut in statuts  %}
+                                                        <option value="{{ statut.idstatut }}">{{ statut.libellestatutfr }}</option>
                                                     {% endfor %}
-
                                                 </select>
+                                            </div>
+                                            <div class="col-md">
+                                                <label class="col-form-label float-right" for="datestatut"> تاريخ الوضعية :</label>
+                                                <label class="col-form-label" dir="ltr" for="datestatut">Date Statut :</label>
+                                                <input type="date" class="form-control text-center" name="datestatut" required>
                                             </div>
                                         </div>
 

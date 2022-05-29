@@ -344,6 +344,7 @@ def ajouter(request):
     districts = District.objects.all()
     divisions = Division.objects.all()
     cercles = Cercle.objects.all()
+    statuts = Statut.objects.all()
 
     if(request.method == 'POST'):
         nomfr = request.POST["nomfr"]
@@ -369,6 +370,7 @@ def ajouter(request):
         adminiapp = request.POST["adminiapp"]
         photo = request.FILES.get('photo')
         dategrade = request.POST["dategrade"]
+        datestatut = request.POST["datestatut"]
         grade = request.POST["grade"]
         fonction = request.POST["fonction"]
         datefonction = request.POST["datefonction"]
@@ -390,19 +392,18 @@ def ajouter(request):
             situatar = "بدون"
             situatfr = "célibataire(e)"
 
-        objperso= Personnel.objects.create(nomar=nomar, nomfr=nomfr, cin=cin, prenomar=prenomar, prenomfr=prenomfr,
+        objperso = Personnel.objects.create(nomar=nomar, nomfr=nomfr, cin=cin, prenomar=prenomar, prenomfr=prenomfr,
                             lieunaissancear=lieunar, lieunaissancefr=lieunfr, datenaissance=daten,
                             tele=tele, email=email, situationfamilialefr=situatfr, adressear=adressear,
                             adressefr=adressefr, numerofinancier=numiden, daterecrutement=daterec,
                             datedemarcation=datedec, dateparrainageretraite=dateretr, numcnopsaf=numcnopsaf,
                             numcnopsim=numcnopsim, rib=rib, ancienneteadmi=ancadmi, administrationapp=adminiapp,
                             situationfamilialear=situatar, photo=photo, sexe=sexe, age=age, lastupdate=datetime.date.today(),
-                                           ppr=ppr, statut=statut)
+                                           ppr=ppr)
         objperso.save()
 
         if (request.POST.get('entite', None) == "Secrétariat général"):
             service = request.POST["service"]
-            division = request.POST.get('division',None)
             dateservice = request.POST["dateservice"]
             objservice = Service(idservice=service)
             objserviceperso = Servicepersonnel.objects.create(idpersonnel_field=objperso, idservice_field=objservice,
@@ -415,7 +416,6 @@ def ajouter(request):
         elif (request.POST.get('entite', None) == "Commandement"):
             if(request.POST.get('districtpashalik', None) == "District"):
                 annexe = request.POST["annexe"]
-
                 datesannexe= request.POST["dateannexe"]
                 objannexe = Annexe(idannexe=annexe)
                 objannexeperso = Annexepersonnel.objects.create(idpersonnel_field=objperso, idannexe_field=objannexe, dateaffectation=datesannexe)
@@ -446,10 +446,11 @@ def ajouter(request):
 
         objgrade = Grade(idgrade=grade)
         objfonction = Fonction(idfonction=fonction)
+        objstatut = Statut(idstatut=statut)
         objechellon = Echellon.objects.get(echellon=echellon)
 
         objfonctionperso = Fonctionpersonnel.objects.create(idpersonnel_field=objperso, idfonction_field=objfonction, datefonction=datefonction)
-
+        objstatutperso = Statutpersonnel.objects.create(idpersonnel_field=objperso, idstatut_field=objstatut, datestatut=datestatut)
         objgradeperso = Gradepersonnel.objects.create(idpersonnel_field=objperso, idgrade_field=objgrade, dategrade=dategrade,
                                                       idechellon_field=objechellon, dateechellon=dateechellon, indice=indice )
 
@@ -457,6 +458,7 @@ def ajouter(request):
 
         objfonctionperso.save()
         objgradeperso.save()
+        objstatutperso.save()
 
         conjoints = Conjointpersonnel.objects.filter(idpersonnel_field=objperso.idpersonnel).all()
 
@@ -464,7 +466,8 @@ def ajouter(request):
     return render(request, 'GestionPersonnel/ajouter.html', {'services': services, 'grades': grades, 'fonctions': fonctions,
                                                              'echellons': echellons, 'statutgrades': statutgrades,
                                                              'entites': entites, 'pashaliks': pashaliks,
-                                                             'districts': districts, 'divisions': divisions, 'cercles': cercles})
+                                                             'districts': districts, 'divisions': divisions, 'cercles': cercles,
+                                                             'statuts': statuts})
 
 
 # modifier -------------------------------.
@@ -494,7 +497,6 @@ def modifier(request, id):
         sexe = request.POST["sexe"]
         age = calculate_age(daten)
         ppr = request.POST["ppr"]
-        statut = request.POST["statut"]
 
         if (int(request.POST.get('situationfar', None)) == 1):
             situatar = "متزوج(ة)"
@@ -510,7 +512,6 @@ def modifier(request, id):
         objperso2.tele = tele
         objperso2.email = email
         objperso2.ppr = ppr
-        objperso2.statut = statut
         objperso2.numcnopsaf = numcnopsaf
         objperso2.numcnopsim = numcnopsim
         objperso2.adressefr = adressefr
