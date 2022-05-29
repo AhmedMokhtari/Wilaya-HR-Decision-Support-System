@@ -74,8 +74,11 @@ window.onload = function ()
 
     const selentite= document.getElementById('entite');
     //data
-    frontivision();
-    ajaxdivision();
+    if(selentite != null) {
+        frontivision();
+        ajaxdivision();
+    }
+
     if(document.getElementById("op3") == null)
     {
         $("#division").append('<option id="op3" selected></option>');
@@ -120,73 +123,66 @@ window.onload = function ()
     //entite
 
     function ajaxdivision(){
-        $("#division option").remove();
-        $.ajax(
-        {
-            type:"POST",
-            url: url6,
-            data:{ entite: selentite.value},
-            success: function(data)
-            {
-                console.log(data)
-                for(var i = 0; i < data.divisions.length; i++)
+        if(selentite != null) {
+            $("#division option").remove();
+            $.ajax(
                 {
-                    $("#division").append(`<option value="${data.divisions[i].iddivision}">${data.divisions[i].libelledivisionfr}</option>`);
-                }
-            }
-        });
+                    type: "POST",
+                    url: url6,
+                    data: {entite: selentite.value},
+                    success: function (data) {
+                        console.log(data)
+                        for (var i = 0; i < data.divisions.length; i++) {
+                            $("#division").append(`<option value="${data.divisions[i].iddivision}">${data.divisions[i].libelledivisionfr}</option>`);
+                        }
+                    }
+                });
+        }
     }
 
-
-    selentite.onchange= function ()
-    {
-        if(selentite.value == "Secrétariat général")
-        {
-             frontivision();
-             ajaxdivision();
-        }
-        else
-        {
-            if(selentite.value == "Commandement")
-            {
-                $(".districtpashalikdiv").show();
-                $(".divisiondiv").hide();
-                $(".pashalikdiv").hide();
-                $(".districtdiv").show();
-                $(".annexediv").hide();
-                $(".servicediv").hide();
-
-                $("#districtpashalik").prop('required',true);
-                $("#pashalik").prop('required',false);
-                 $("#district").prop('required',true);
-                 $("#annexe").prop('required',true);
-                 $("#dateannexe").prop('required',true);
-                 $("#division").prop('required',false);
-                 $("#service").prop('required',false);
-                 $("#dateservice").prop('required',false);
-                 $(".cerclediv").prop('required',false);
-                 $(".caidadiv").prop('required',false);
-
-            }
-            else{
-                if(selentite.value == "Dai" || selentite.value == "Cabinet" || selentite.value == "Dsic"){
-                    frontivision();
-                    ajaxdivision();
-                }
-            }
-
-        }
-        if(document.getElementById("op3") == null)
-         {
-             $("#division").append('<option id="op3" selected></option>');
-
-         }
-         else {
-            if (document.getElementById("op0") == null) {
-                $("#district").append('<option id="op0" selected></option>');
+    if(selentite!=null) {
+        selentite.onchange = function () {
+            if (selentite.value == "Secrétariat général") {
+                frontivision();
+                ajaxdivision();
             } else {
-                if (document.getElementById("op4") == null) {
-                    $("#cercle").append('<option id="op4" selected></option>');
+                if (selentite.value == "Commandement") {
+                    $(".districtpashalikdiv").show();
+                    $(".divisiondiv").hide();
+                    $(".pashalikdiv").hide();
+                    $(".districtdiv").show();
+                    $(".annexediv").hide();
+                    $(".servicediv").hide();
+
+                    $("#districtpashalik").prop('required', true);
+                    $("#pashalik").prop('required', false);
+                    $("#district").prop('required', true);
+                    $("#annexe").prop('required', true);
+                    $("#dateannexe").prop('required', true);
+                    $("#division").prop('required', false);
+                    $("#service").prop('required', false);
+                    $("#dateservice").prop('required', false);
+                    $(".cerclediv").prop('required', false);
+                    $(".caidadiv").prop('required', false);
+
+                } else {
+                    if (selentite.value == "Dai" || selentite.value == "Cabinet" || selentite.value == "Dsic") {
+                        frontivision();
+                        ajaxdivision();
+                    }
+                }
+
+            }
+            if (document.getElementById("op3") == null) {
+                $("#division").append('<option id="op3" selected></option>');
+
+            } else {
+                if (document.getElementById("op0") == null) {
+                    $("#district").append('<option id="op0" selected></option>');
+                } else {
+                    if (document.getElementById("op4") == null) {
+                        $("#cercle").append('<option id="op4" selected></option>');
+                    }
                 }
             }
         }
@@ -194,95 +190,85 @@ window.onload = function ()
 
     //district
     const seldistrictpash= document.getElementById('districtpashalik');
-    seldistrictpash.onchange= function()
-    {
-        if(seldistrictpash.value == "District")
-        {
-             $(".divisiondiv").hide();
-             $(".districtdiv").show();
-             $(".pashalikdiv").hide();
-             $(".servicediv").hide();
-             $(".cerclediv").hide();
-             $(".caidadiv").hide();
+    if(seldistrictpash != null) {
+        seldistrictpash.onchange = function () {
+            if (seldistrictpash.value == "District") {
+                $(".divisiondiv").hide();
+                $(".districtdiv").show();
+                $(".pashalikdiv").hide();
+                $(".servicediv").hide();
+                $(".cerclediv").hide();
+                $(".caidadiv").hide();
 
-             $("#districtpashalik").prop('required',true);
-             $("#pashalik").prop('required',false);
-             $("#district").prop('required',true);
-             $("#annexe").prop('required',true);
-             $("#dateannexe").prop('required',true);
-             $("#division").prop('required',false);
-             $("#service").prop('required',false);
-             $("#dateservice").prop('required',false);
-             $("#cercle").prop('required',false);
-             $("#caida").prop('required',false);
-             if (document.getElementById("op4") == null)
-             {
+                $("#districtpashalik").prop('required', true);
+                $("#pashalik").prop('required', false);
+                $("#district").prop('required', true);
+                $("#annexe").prop('required', true);
+                $("#dateannexe").prop('required', true);
+                $("#division").prop('required', false);
+                $("#service").prop('required', false);
+                $("#dateservice").prop('required', false);
+                $("#cercle").prop('required', false);
+                $("#caida").prop('required', false);
+                if (document.getElementById("op4") == null) {
 
-                 $("#cercle").append('<option id="op4" selected></option>');
-             }
+                    $("#cercle").append('<option id="op4" selected></option>');
+                }
 
-        }
-        else{
+            } else {
 
-            if(seldistrictpash.value == "Pashalik")
-            {
-                 $(".divisiondiv").hide();
-                 $(".districtdiv").hide();
-                 $(".pashalikdiv").show();
-                 $(".annexediv").hide();
-                 $(".servicediv").hide();
-                 $(".cerclediv").hide();
-                 $(".caidadiv").hide();
-
-                 $("#districtpashalik").prop('required',true);
-                 $("#pashalik").prop('required',true);
-                 $("#district").prop('required',false);
-                 $("#annexe").prop('required',false);
-                 $("#dateannexe").prop('required',false);
-                 $("#division").prop('required',false);
-                 $("#service").prop('required',false);
-                 $("#dateservice").prop('required',false);
-                 $("#cercle").prop('required',false);
-                  $("#caida").prop('required',false);
-
-                 if(document.getElementById("op0") == null)
-                 {
-                     $("#district").append('<option id="op0" selected></option>')
-                 }
-                 else {
-                     if (document.getElementById("op4") == null)
-                     {
-                        $("#cercle").append('<option id="op4" selected></option>');
-                    }
-                 }
-            }
-            else
-            {
-                if(seldistrictpash.value == "Cercle")
-                {
+                if (seldistrictpash.value == "Pashalik") {
                     $(".divisiondiv").hide();
-                     $(".districtdiv").hide();
-                     $(".pashalikdiv").hide();
-                     $(".annexediv").hide();
-                     $(".servicediv").hide();
-                     $(".cerclediv").show();
-                     $(".caidadiv").hide();
+                    $(".districtdiv").hide();
+                    $(".pashalikdiv").show();
+                    $(".annexediv").hide();
+                    $(".servicediv").hide();
+                    $(".cerclediv").hide();
+                    $(".caidadiv").hide();
 
-                    $("#districtpashalik").prop('required',true);
-                     $("#pashalik").prop('required',false);
-                     $("#district").prop('required',false);
-                     $("#annexe").prop('required',false);
-                     $("#dateannexe").prop('required',false);
-                     $("#division").prop('required',false);
-                     $("#service").prop('required',false);
-                     $("#dateservice").prop('required',false);
-                     $("#cercle").prop('required',true);
-                     $("#caida").prop('required',true);
+                    $("#districtpashalik").prop('required', true);
+                    $("#pashalik").prop('required', true);
+                    $("#district").prop('required', false);
+                    $("#annexe").prop('required', false);
+                    $("#dateannexe").prop('required', false);
+                    $("#division").prop('required', false);
+                    $("#service").prop('required', false);
+                    $("#dateservice").prop('required', false);
+                    $("#cercle").prop('required', false);
+                    $("#caida").prop('required', false);
 
-                     if(document.getElementById("op0") == null)
-                     {
-                         $("#district").append('<option id="op0" selected></option>')
-                     }
+                    if (document.getElementById("op0") == null) {
+                        $("#district").append('<option id="op0" selected></option>')
+                    } else {
+                        if (document.getElementById("op4") == null) {
+                            $("#cercle").append('<option id="op4" selected></option>');
+                        }
+                    }
+                } else {
+                    if (seldistrictpash.value == "Cercle") {
+                        $(".divisiondiv").hide();
+                        $(".districtdiv").hide();
+                        $(".pashalikdiv").hide();
+                        $(".annexediv").hide();
+                        $(".servicediv").hide();
+                        $(".cerclediv").show();
+                        $(".caidadiv").hide();
+
+                        $("#districtpashalik").prop('required', true);
+                        $("#pashalik").prop('required', false);
+                        $("#district").prop('required', false);
+                        $("#annexe").prop('required', false);
+                        $("#dateannexe").prop('required', false);
+                        $("#division").prop('required', false);
+                        $("#service").prop('required', false);
+                        $("#dateservice").prop('required', false);
+                        $("#cercle").prop('required', true);
+                        $("#caida").prop('required', true);
+
+                        if (document.getElementById("op0") == null) {
+                            $("#district").append('<option id="op0" selected></option>')
+                        }
+                    }
                 }
             }
         }
