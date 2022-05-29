@@ -28,13 +28,8 @@ def consultation(request):
     from t1,t2 ,Service S ,Personnel P,Division D,Grade G where   t1.IdPersonnel# = t2.IdPersonnel#  and  t1.RowNumber = t2.RowNumber  and
     t1.RowNumber=1 AND S.IdService=t1.IdService# AND P.IdPersonnel=t1.IdPersonnel# AND D.IdDivision=S.IdDivision# AND G.IdGrade=t2.IdGrade#''')
     rows = dictfetchall(cursor)
-    grade = Grade.objects.all()
     perso=Personnel.objects.all()
-
-    services = Service.objects.all()
     grades = Grade.objects.all()
-    fonctions = Fonction.objects.all()
-    echellons = Echellon.objects.all()
     statutgrades = Statutgrade.objects.all()
     entites = Entite.objects.all()
     pashaliks = Pashalik.objects.all()
@@ -79,10 +74,10 @@ def consultation(request):
     gradeperso = Gradepersonnel.objects.order_by('idpersonnel_field').values('idpersonnel_field','idpersonnel_field__cin','idpersonnel_field__ppr','idpersonnel_field__nomfr','idpersonnel_field__prenomfr','idpersonnel_field__administrationapp','idpersonnel_field__sexe','idpersonnel_field__organisme','idgrade_field__gradefr','idgrade_field__idstatutgrade_field__statutgradefr')
 
     return render(request, 'GestionPersonnel/consultation.html', {'personnels': rows, 'divsions': divisions,
-                                                                  'grades': grade, 'gradeperso': gradeperso,
+                                                                  'grades': grades, 'gradeperso': gradeperso,
                                                                   'listPerso': listPerso, 'entites': entites,
                                                                   'pashaliks': pashaliks, 'districts':districts,
-                                                                  'statutgrades': statutgrades})
+                                                                  'statutgrades': statutgrades, 'cercles': cercles})
 
 #personnel information images -------------------------------.
 def persoinfoimg(request) :

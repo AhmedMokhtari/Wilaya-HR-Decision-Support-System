@@ -293,7 +293,13 @@
                                             <div class="col-md">
                                                 <label class="col-form-label float-right" for="statut"> الوضعية النظامية :</label>
                                                 <label class="col-form-label" dir="ltr" for="statut">Situation statutaire :</label>
-                                                <input type="text" class="form-control text-center" name="statut" required>
+                                                <input type="text" >
+                                                <select class="form-control text-center" name="statut" required>
+                                                    {% for statut in statutpersonnel  %}
+                                                        <option value="{{  }}">{{  }}</option>
+                                                    {% endfor %}
+
+                                                </select>
                                             </div>
                                         </div>
 

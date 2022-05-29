@@ -351,3 +351,24 @@ class ParametrageRetraite(models.Model):
     class Meta:
         managed = False
         db_table = 'ParametrageRetraite'
+
+ # -------------------------------------------------------
+class Statut(models.Model):
+    idstatut = models.AutoField(db_column='IdStatut', primary_key=True)  # Field name made lowercase.
+    libellestatutar = models.CharField(db_column='LibelleStatutAr', max_length=100, db_collation='French_CI_AS', blank=True, null=True)  # Field name made lowercase.
+    libellestatutfr = models.CharField(db_column='LibelleStatutFr', max_length=100, db_collation='French_CI_AS', blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'Statut'
+
+
+class Statutpersonnel(models.Model):
+    idstatutpersonnel = models.AutoField(db_column='IdStatutPersonnel', primary_key=True)  # Field name made lowercase.
+    idstatut_field = models.ForeignKey(Statut, models.DO_NOTHING, db_column='IdStatut#', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
+    idpersonnel_field = models.ForeignKey(Personnel, models.DO_NOTHING, db_column='IdPersonnel#', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
+    datestatut = models.DateTimeField(db_column='DateStatut', blank=True, null=True)  # Field name made lowercase.
+
+    class Meta:
+        managed = False
+        db_table = 'StatutPersonnel'
