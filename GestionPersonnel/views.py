@@ -590,11 +590,52 @@ def modifier(request, id):
 @login_required(login_url='/connexion')
 @csrf_exempt
 def ajaxloadpersonnel(request):
-    personnel = list(Personnel.objects.filter(idpersonnel=request.POST.get('personnel',None)).values('idpersonnel'))
-    return JsonResponse(personnel, safe=False)
+    personnelFor = Personnel.objects.filter(idpersonnel=request.POST['personnel']).first()
+    personnel = Personnel.objects.filter(idpersonnel=request.POST['personnel'])
+    objgradeperso = Gradepersonnel.objects.filter(idpersonnel_field=personnelFor)
+
+    if(personnelFor.organisme == 'Service'):
+        objserviceperso = Servicepersonnel.objects.filter(idpersonnel_field=personnelFor)
+        data = {'persodata': {'idpersonnel': personnel.values_list('idpersonnel').first(),
+                              'nomar': personnel.values_list('nomar').first(),
+                              'prenomar': personnel.values_list('prenomar').first(),
+                              'ppr': personnel.values_list('ppr').first(),
+                              'oraganisme': objserviceperso.values_list('idservice_field__libelleservicear').last(),
+                              'grade': objgradeperso.values_list('idgrade_field__gradear').last()}}
+
+        return JsonResponse(data, safe=False)
+    elif(personnelFor.organisme == 'Pashalik'):
+        objpashalikperso = Pashalikpersonnel.objects.filter(idpersonnel_field=personnelFor)
+        data = {'persodata': {'idpersonnel': personnel.values_list('idpersonnel').first(),
+                              'nomar': personnel.values_list('nomar').first(),
+                              'prenomar': personnel.values_list('prenomar').first(),
+                              'ppr': personnel.values_list('ppr').first(),
+                              'oraganisme': objpashalikperso.values_list('idpashalik_field__libellepashalikar').last(),
+                              'grade': objgradeperso.values_list('idgrade_field__gradear').last()}}
+        return JsonResponse(data, safe=False)
+
+    elif(personnelFor.organisme == 'Cercle'):
+        objcaidatperso = Caidatpersonnel.objects.filter(idpersonnel_field=personnelFor)
+        data = {'persodata': {'idpersonnel': personnel.values_list('idpersonnel').first(),
+                              'nomar': personnel.values_list('nomar').first(),
+                              'prenomar': personnel.values_list('prenomar').first(),
+                              'ppr': personnel.values_list('ppr').first(),
+                              'oraganisme': objcaidatperso.values_list('idcaidat_field__libellecaidatar').last(),
+                              'grade': objgradeperso.values_list('idgrade_field__gradear').last()}}
+        return JsonResponse(data, safe=False)
+
+    else:
+        objannexeperso = Annexepersonnel.objects.filter(idpersonnel_field=personnelFor )
+        data = {'persodata': {'idpersonnel': personnel.values_list('idpersonnel').first(),
+                              'nomar': personnel.values_list('nomar').first(),
+                              'prenomar': personnel.values_list('prenomar').first(),
+                              'ppr': personnel.values_list('ppr').first(),
+                              'oraganisme': objannexeperso.values_list('idannexe_field__libelleannexear').last(),
+                              'grade': objgradeperso.values_list('idgrade_field__gradear').last()}}
+        return JsonResponse(data, safe=False)
 
 @login_required(login_url='/connexion')
-def reafectation(request):
+def reaffectation(request):
     grades = Grade.objects.all()
     fonctions = Fonction.objects.all()
     echellons = Echellon.objects.all()
@@ -605,7 +646,6 @@ def reafectation(request):
     divisions = Division.objects.all()
     cercles = Cercle.objects.all()
     personnels = Personnel.objects.all()
-
     if request.method == 'POST':
         objperso = Personnel.objects.get(request.POST.get("personnel"))
         if (request.POST.get('entite', None) == "Secrétariat général"):
