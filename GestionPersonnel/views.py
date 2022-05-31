@@ -28,14 +28,20 @@ def consultation(request):
     from t1,t2 ,Service S ,Personnel P,Division D,Grade G where   t1.IdPersonnel# = t2.IdPersonnel#  and  t1.RowNumber = t2.RowNumber  and
     t1.RowNumber=1 AND S.IdService=t1.IdService# AND P.IdPersonnel=t1.IdPersonnel# AND D.IdDivision=S.IdDivision# AND G.IdGrade=t2.IdGrade#''')
     rows = dictfetchall(cursor)
-    division = Division.objects.all();
-    grade = Grade.objects.all();
-    perso=Personnel.objects.all();
+    perso=Personnel.objects.all()
+    grades = Grade.objects.all()
+    statutgrades = Statutgrade.objects.all()
+    entites = Entite.objects.all()
+    pashaliks = Pashalik.objects.all()
+    districts = District.objects.all()
+    divisions = Division.objects.all()
+    cercles = Cercle.objects.all()
+
     listPerso=[]
     idperso =perso.order_by('idpersonnel').values_list('idpersonnel', flat=True).distinct()
     for id in idperso:
         ## b = {'anneesum': Conge.objects.filter(Q1 & Q2).aggregate(Sum('nbjour'))}
-        a=Personnel.objects.filter(idpersonnel=id).values('idpersonnel','cin','ppr','nomfr','prenomfr','administrationapp','sexe','organisme','photo').first()
+        a = Personnel.objects.filter(idpersonnel=id).values('idpersonnel','cin','ppr','nomfr','prenomfr','administrationapp','sexe','organisme','photo').first()
         b = Gradepersonnel.objects.filter(idpersonnel_field=id).values('idgrade_field__gradefr',
                                                                                  'idgrade_field__idstatutgrade_field__statutgradefr').last()
         c={};
@@ -59,16 +65,21 @@ def consultation(request):
         if (not b):
             b = {'idgrade_field__gradefr': '', 'idgrade_field__idstatutgrade_field__statutgradefr': ''}
         if(not c):
-            c={'idservice_field__libelleservicear':'','idservice_field__libelleservicefr':'','idservice_field__libelleservicefr':'','idservice_field__iddivision_field__libelledivisionar':''}
+            c={'idservice_field__libelleservicear':'', 'idservice_field__libelleservicefr':'', 'idservice_field__libelleservicefr':'', 'idservice_field__iddivision_field__libelledivisionar':''}
 
         res={**a, **b,**c};
         listPerso.append(res)
 
 
-    gradeperso=Gradepersonnel.objects.order_by('idpersonnel_field').values('idpersonnel_field','idpersonnel_field__cin','idpersonnel_field__ppr','idpersonnel_field__nomfr','idpersonnel_field__prenomfr','idpersonnel_field__administrationapp','idpersonnel_field__sexe','idpersonnel_field__organisme','idgrade_field__gradefr','idgrade_field__idstatutgrade_field__statutgradefr')
-    personnels = {'personnels': rows, 'divs': division, 'grades': grade,'gradeperso':gradeperso,'listPerso':listPerso}
-    return render(request, 'GestionPersonnel/consultation.html', personnels)
-#perso info img
+    gradeperso = Gradepersonnel.objects.order_by('idpersonnel_field').values('idpersonnel_field','idpersonnel_field__cin','idpersonnel_field__ppr','idpersonnel_field__nomfr','idpersonnel_field__prenomfr','idpersonnel_field__administrationapp','idpersonnel_field__sexe','idpersonnel_field__organisme','idgrade_field__gradefr','idgrade_field__idstatutgrade_field__statutgradefr')
+
+    return render(request, 'GestionPersonnel/consultation.html', {'personnels': rows, 'divsions': divisions,
+                                                                  'grades': grades, 'gradeperso': gradeperso,
+                                                                  'listPerso': listPerso, 'entites': entites,
+                                                                  'pashaliks': pashaliks, 'districts':districts,
+                                                                  'statutgrades': statutgrades, 'cercles': cercles})
+
+#personnel information images -------------------------------.
 def persoinfoimg(request) :
     division = Division.objects.all();
     grade = Grade.objects.all();
@@ -132,8 +143,88 @@ def info(request,id):
     return render(request, 'GestionPersonnel/info.html', {'personnel': personnel, 'conjoints': conjoints, 'conjointsinperso': conjointsinperso,
                                                           'Serviii': zip(Services, serviperso), 'diplomes':diplomes, "enfants":enfants})
 
+def testfilter(request):
+    services = Service.objects.all()
+    grades = Grade.objects.all()
+    fonctions = Fonction.objects.all()
+    echellons = Echellon.objects.all()
+    statutgrades = Statutgrade.objects.all()
+    entites = Entite.objects.all()
+    pashaliks = Pashalik.objects.all()
+    districts = District.objects.all()
+    divisions = Division.objects.all()
+    cercles = Cercle.objects.all()
+    return render(request, 'GestionPersonnel/test.html',
+                  {'services': services, 'grades': grades, 'fonctions': fonctions,
+                   'echellons': echellons, 'statutgrades': statutgrades,
+                   'entites': entites, 'pashaliks': pashaliks,
+                   'districts': districts, 'divisions': divisions, 'cercles': cercles})
+
+def personnelinfo(request,id):
+    services = Service.objects.all()
+    grades = Gradepersonnel.objects.filter(idpersonnel_field=id).values('idgrade_field__gradefr',
+                                                                        'idgrade_field__gradear',
+                                                                        'idgrade_field__idstatutgrade_field__statutgradefr',
+                                                                        'idechellon_field__echellon',
+                                                                        'indice',
+                                                                        'dateechellon',
+                                                                        'changementdechellon',)
+    fonctions = Fonctionpersonnel.objects.filter(idpersonnel_field=id).values('idfonction_field__libellefontionar',
+                                                                        'idfonction_field__libellefonctionfr',
+                                                                        'datefonction')
+    conjoints= Conjointpersonnel.objects.filter(idpersonnel_field=id).values('idconjoint_field__cin',
+                                                                        'idconjoint_field__nomar',
+                                                                        'idconjoint_field__nomfr',
+                                                                        'idconjoint_field__prenomar',
+                                                                        'idconjoint_field__prenomfr',
+                                                                        'idconjoint_field__datenaissance',
+                                                                        'idconjoint_field__lieunaissance',
+                                                                        'idconjoint_field__ppr',
+                                                                        )
+    conjointid=Conjointpersonnel.objects.filter(idpersonnel_field=id).values('idconjoint_field')
+    enfants = Enfant.objects.filter(idconjoint_field__in=conjointid).values('nomar',
+                                                                 'nomfr',
+                                                                 'prenomfr',
+                                                                 'prenomar',
+                                                                 'datenaissance',
+                                                                 'lieunaissancear',
+                                                                 'lieunaissancefr',
+                                                                 'idconjoint_field__cin',
+                                                                 'idconjoint_field__nomar',
+                                                                 'idconjoint_field__nomfr',
+                                                                  'idconjoint_field__prenomar',
+                                                                  'idconjoint_field__prenomfr',
+                                                                  'idconjoint_field__datenaissance',
+                                                                  'idconjoint_field__lieunaissance',
+                                                                  'idconjoint_field__ppr',
+                                                                              )
+    diploms = Diplome.objects.filter(idpersonnel_field=id).values('diplomefr',
+                                                                        'diplomear',
+                                                                        'etablissement',
+                                                                        'specialitear',
+                                                                        'specialitefr',
+                                                                        'datediplome')
+    entites = Entite.objects.all()
+    pashaliks = Pashalik.objects.all()
+    districts = District.objects.all()
+    divisions = Division.objects.all()
+    cercles = Cercle.objects.all()
+    persoinfo=Personnel.objects.get(idpersonnel=id);
+    return render(request, 'GestionPersonnel/personnelinfo.html',
+                  {'services': services, 'grades': grades, 'fonctions': fonctions,
+                   'conjoints': conjoints, 'enfants': enfants,
+                   'entites': entites, 'pashaliks': pashaliks,
+                   'districts': districts, 'divisions': divisions, 'diploms': diploms,'persoinfo':persoinfo})
+
 
 # ajouter -------------------------------.
+@login_required(login_url='/connexion')
+@csrf_exempt
+def ajaxajouterloaddivision(request):
+    entite = Entite.objects.get(libelleentitefr=request.POST['entite'])
+    objdivision = {"divisions": list(Division.objects.filter(identite_field=entite).values('iddivision','libelledivisionar','libelledivisionfr'))}
+    return JsonResponse(objdivision, safe=False)
+
 @login_required(login_url='/connexion')
 @csrf_exempt
 def ajaxajouterloadcaida(request):
@@ -240,81 +331,6 @@ def ajaxajouterloadechellon(request):
     data = {'echellon': echellon, 'indice': indice}
     return JsonResponse(data, safe=False)
 
-def testfilter(request):
-    services = Service.objects.all()
-    grades = Grade.objects.all()
-    fonctions = Fonction.objects.all()
-    echellons = Echellon.objects.all()
-    statutgrades = Statutgrade.objects.all()
-    entites = Entite.objects.all()
-    pashaliks = Pashalik.objects.all()
-    districts = District.objects.all()
-    divisions = Division.objects.all()
-    cercles = Cercle.objects.all()
-    return render(request, 'GestionPersonnel/test.html',
-                  {'services': services, 'grades': grades, 'fonctions': fonctions,
-                   'echellons': echellons, 'statutgrades': statutgrades,
-                   'entites': entites, 'pashaliks': pashaliks,
-                   'districts': districts, 'divisions': divisions, 'cercles': cercles})
-
-def personnelinfo(request,id):
-    services = Service.objects.all()
-    grades = Gradepersonnel.objects.filter(idpersonnel_field=id).values('idgrade_field__gradefr',
-                                                                        'idgrade_field__gradear',
-                                                                        'idgrade_field__idstatutgrade_field__statutgradefr',
-                                                                        'idechellon_field__echellon',
-                                                                        'indice',
-                                                                        'dateechellon',
-                                                                        'changementdechellon',)
-    fonctions = Fonctionpersonnel.objects.filter(idpersonnel_field=id).values('idfonction_field__libellefontionar',
-                                                                        'idfonction_field__libellefonctionfr',
-                                                                        'datefonction')
-    conjoints= Conjointpersonnel.objects.filter(idpersonnel_field=id).values('idconjoint_field__cin',
-                                                                        'idconjoint_field__nomar',
-                                                                        'idconjoint_field__nomfr',
-                                                                        'idconjoint_field__prenomar',
-                                                                        'idconjoint_field__prenomfr',
-                                                                        'idconjoint_field__datenaissance',
-                                                                        'idconjoint_field__lieunaissance',
-                                                                        'idconjoint_field__ppr',
-                                                                        )
-    conjointid=Conjointpersonnel.objects.filter(idpersonnel_field=id).values('idconjoint_field')
-    enfants = Enfant.objects.filter(idconjoint_field__in=conjointid).values('nomar',
-                                                                 'nomfr',
-                                                                 'prenomfr',
-                                                                 'prenomar',
-                                                                 'datenaissance',
-                                                                 'lieunaissancear',
-                                                                 'lieunaissancefr',
-                                                                 'idconjoint_field__cin',
-                                                                 'idconjoint_field__nomar',
-                                                                 'idconjoint_field__nomfr',
-                                                                  'idconjoint_field__prenomar',
-                                                                  'idconjoint_field__prenomfr',
-                                                                  'idconjoint_field__datenaissance',
-                                                                  'idconjoint_field__lieunaissance',
-                                                                  'idconjoint_field__ppr',
-                                                                              )
-    diploms = Diplome.objects.filter(idpersonnel_field=id).values('diplomefr',
-                                                                        'diplomear',
-                                                                        'etablissement',
-                                                                        'specialitear',
-                                                                        'specialitefr',
-                                                                        'datediplome')
-    entites = Entite.objects.all()
-    pashaliks = Pashalik.objects.all()
-    districts = District.objects.all()
-    divisions = Division.objects.all()
-    cercles = Cercle.objects.all()
-    persoinfo=Personnel.objects.get(idpersonnel=id);
-    return render(request, 'GestionPersonnel/personnelinfo.html',
-                  {'services': services, 'grades': grades, 'fonctions': fonctions,
-                   'conjoints': conjoints, 'enfants': enfants,
-                   'entites': entites, 'pashaliks': pashaliks,
-                   'districts': districts, 'divisions': divisions, 'diploms': diploms,'persoinfo':persoinfo})
-
-
-
 @login_required(login_url='/connexion')
 def ajouter(request):
 
@@ -328,6 +344,7 @@ def ajouter(request):
     districts = District.objects.all()
     divisions = Division.objects.all()
     cercles = Cercle.objects.all()
+    statuts = Statut.objects.all()
 
     if(request.method == 'POST'):
         nomfr = request.POST["nomfr"]
@@ -353,6 +370,7 @@ def ajouter(request):
         adminiapp = request.POST["adminiapp"]
         photo = request.FILES.get('photo')
         dategrade = request.POST["dategrade"]
+        datestatut = request.POST["datestatut"]
         grade = request.POST["grade"]
         fonction = request.POST["fonction"]
         datefonction = request.POST["datefonction"]
@@ -374,19 +392,18 @@ def ajouter(request):
             situatar = "بدون"
             situatfr = "célibataire(e)"
 
-        objperso= Personnel.objects.create(nomar=nomar, nomfr=nomfr, cin=cin, prenomar=prenomar, prenomfr=prenomfr,
+        objperso = Personnel.objects.create(nomar=nomar, nomfr=nomfr, cin=cin, prenomar=prenomar, prenomfr=prenomfr,
                             lieunaissancear=lieunar, lieunaissancefr=lieunfr, datenaissance=daten,
                             tele=tele, email=email, situationfamilialefr=situatfr, adressear=adressear,
                             adressefr=adressefr, numerofinancier=numiden, daterecrutement=daterec,
                             datedemarcation=datedec, dateparrainageretraite=dateretr, numcnopsaf=numcnopsaf,
                             numcnopsim=numcnopsim, rib=rib, ancienneteadmi=ancadmi, administrationapp=adminiapp,
                             situationfamilialear=situatar, photo=photo, sexe=sexe, age=age, lastupdate=datetime.date.today(),
-                                           ppr=ppr, statut=statut)
+                                           ppr=ppr)
         objperso.save()
 
         if (request.POST.get('entite', None) == "Secrétariat général"):
             service = request.POST["service"]
-            division = request.POST.get('division',None)
             dateservice = request.POST["dateservice"]
             objservice = Service(idservice=service)
             objserviceperso = Servicepersonnel.objects.create(idpersonnel_field=objperso, idservice_field=objservice,
@@ -399,7 +416,6 @@ def ajouter(request):
         elif (request.POST.get('entite', None) == "Commandement"):
             if(request.POST.get('districtpashalik', None) == "District"):
                 annexe = request.POST["annexe"]
-
                 datesannexe= request.POST["dateannexe"]
                 objannexe = Annexe(idannexe=annexe)
                 objannexeperso = Annexepersonnel.objects.create(idpersonnel_field=objperso, idannexe_field=objannexe, dateaffectation=datesannexe)
@@ -415,7 +431,7 @@ def ajouter(request):
                 objpashalikperso = Pashalikpersonnel.objects.create(idpersonnel_field=objperso, idpashalik_field=objpashalik, dateaffectation=datepashalik)
                 objpashalikperso.save()
 
-                objperso.organisme = "pashalik"
+                objperso.organisme = "Pashalik"
                 objperso.save()
 
             elif((request.POST.get('districtpashalik', None) == "Cercle")):
@@ -430,10 +446,11 @@ def ajouter(request):
 
         objgrade = Grade(idgrade=grade)
         objfonction = Fonction(idfonction=fonction)
+        objstatut = Statut(idstatut=statut)
         objechellon = Echellon.objects.get(echellon=echellon)
 
         objfonctionperso = Fonctionpersonnel.objects.create(idpersonnel_field=objperso, idfonction_field=objfonction, datefonction=datefonction)
-
+        objstatutperso = Statutpersonnel.objects.create(idpersonnel_field=objperso, idstatut_field=objstatut, datestatut=datestatut)
         objgradeperso = Gradepersonnel.objects.create(idpersonnel_field=objperso, idgrade_field=objgrade, dategrade=dategrade,
                                                       idechellon_field=objechellon, dateechellon=dateechellon, indice=indice )
 
@@ -441,6 +458,7 @@ def ajouter(request):
 
         objfonctionperso.save()
         objgradeperso.save()
+        objstatutperso.save()
 
         conjoints = Conjointpersonnel.objects.filter(idpersonnel_field=objperso.idpersonnel).all()
 
@@ -448,7 +466,8 @@ def ajouter(request):
     return render(request, 'GestionPersonnel/ajouter.html', {'services': services, 'grades': grades, 'fonctions': fonctions,
                                                              'echellons': echellons, 'statutgrades': statutgrades,
                                                              'entites': entites, 'pashaliks': pashaliks,
-                                                             'districts': districts, 'divisions': divisions, 'cercles': cercles})
+                                                             'districts': districts, 'divisions': divisions, 'cercles': cercles,
+                                                             'statuts': statuts})
 
 
 # modifier -------------------------------.
@@ -478,7 +497,6 @@ def modifier(request, id):
         sexe = request.POST["sexe"]
         age = calculate_age(daten)
         ppr = request.POST["ppr"]
-        statut = request.POST["statut"]
 
         if (int(request.POST.get('situationfar', None)) == 1):
             situatar = "متزوج(ة)"
@@ -494,7 +512,6 @@ def modifier(request, id):
         objperso2.tele = tele
         objperso2.email = email
         objperso2.ppr = ppr
-        objperso2.statut = statut
         objperso2.numcnopsaf = numcnopsaf
         objperso2.numcnopsim = numcnopsim
         objperso2.adressefr = adressefr
@@ -573,11 +590,52 @@ def modifier(request, id):
 @login_required(login_url='/connexion')
 @csrf_exempt
 def ajaxloadpersonnel(request):
-    personnel = list(Personnel.objects.filter(idpersonnel=request.POST.get('personnel',None)).values('idpersonnel'))
-    return JsonResponse(personnel, safe=False)
+    personnelFor = Personnel.objects.filter(idpersonnel=request.POST['personnel']).first()
+    personnel = Personnel.objects.filter(idpersonnel=request.POST['personnel'])
+    objgradeperso = Gradepersonnel.objects.filter(idpersonnel_field=personnelFor)
+
+    if(personnelFor.organisme == 'Service'):
+        objserviceperso = Servicepersonnel.objects.filter(idpersonnel_field=personnelFor)
+        data = {'persodata': {'idpersonnel': personnel.values_list('idpersonnel').first(),
+                              'nomar': personnel.values_list('nomar').first(),
+                              'prenomar': personnel.values_list('prenomar').first(),
+                              'ppr': personnel.values_list('ppr').first(),
+                              'oraganisme': objserviceperso.values_list('idservice_field__libelleservicear').last(),
+                              'grade': objgradeperso.values_list('idgrade_field__gradear').last()}}
+
+        return JsonResponse(data, safe=False)
+    elif(personnelFor.organisme == 'Pashalik'):
+        objpashalikperso = Pashalikpersonnel.objects.filter(idpersonnel_field=personnelFor)
+        data = {'persodata': {'idpersonnel': personnel.values_list('idpersonnel').first(),
+                              'nomar': personnel.values_list('nomar').first(),
+                              'prenomar': personnel.values_list('prenomar').first(),
+                              'ppr': personnel.values_list('ppr').first(),
+                              'oraganisme': objpashalikperso.values_list('idpashalik_field__libellepashalikar').last(),
+                              'grade': objgradeperso.values_list('idgrade_field__gradear').last()}}
+        return JsonResponse(data, safe=False)
+
+    elif(personnelFor.organisme == 'Cercle'):
+        objcaidatperso = Caidatpersonnel.objects.filter(idpersonnel_field=personnelFor)
+        data = {'persodata': {'idpersonnel': personnel.values_list('idpersonnel').first(),
+                              'nomar': personnel.values_list('nomar').first(),
+                              'prenomar': personnel.values_list('prenomar').first(),
+                              'ppr': personnel.values_list('ppr').first(),
+                              'oraganisme': objcaidatperso.values_list('idcaidat_field__libellecaidatar').last(),
+                              'grade': objgradeperso.values_list('idgrade_field__gradear').last()}}
+        return JsonResponse(data, safe=False)
+
+    else:
+        objannexeperso = Annexepersonnel.objects.filter(idpersonnel_field=personnelFor )
+        data = {'persodata': {'idpersonnel': personnel.values_list('idpersonnel').first(),
+                              'nomar': personnel.values_list('nomar').first(),
+                              'prenomar': personnel.values_list('prenomar').first(),
+                              'ppr': personnel.values_list('ppr').first(),
+                              'oraganisme': objannexeperso.values_list('idannexe_field__libelleannexear').last(),
+                              'grade': objgradeperso.values_list('idgrade_field__gradear').last()}}
+        return JsonResponse(data, safe=False)
 
 @login_required(login_url='/connexion')
-def reafectation(request):
+def reaffectation(request):
     grades = Grade.objects.all()
     fonctions = Fonction.objects.all()
     echellons = Echellon.objects.all()
@@ -588,7 +646,6 @@ def reafectation(request):
     divisions = Division.objects.all()
     cercles = Cercle.objects.all()
     personnels = Personnel.objects.all()
-
     if request.method == 'POST':
         objperso = Personnel.objects.get(request.POST.get("personnel"))
         if (request.POST.get('entite', None) == "Secrétariat général"):

@@ -10,14 +10,25 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200&family=Montserrat:wght@800;900&display=swap" rel="stylesheet">
     <style>
         h3{
-            font-family: "Cairo ExtraLight"
+            font-family: "Cairo ExtraLight";
+            font-weight: bold;
         }
         #donneperso{
-            background-color: #D42D1E;
+            background-color: #47BAC1;
+            border-radius: 5px;
         }
-        div#donneperso:hover{
-            background-color: #eb3121;
+
+        #donneprof{
+            background-color: #47BAC1;
+            border-radius: 5px;
         }
+        .btn{
+            background-color: #47BAC1;
+            font-weight: bold;
+            font-family: "Cairo ExtraLight";
+            color: white;
+        }
+
         .btna{
             background-color: transparent;
             border: 1px solid darkgreen;
@@ -28,6 +39,7 @@
          .col-md-6 .row .col-md{
             margin: 8px 0 !important;
         }
+
     </style>
 
   {% if request.user|has_group:"GestionPersonnel" %}
@@ -38,8 +50,8 @@
                     <div class="col-sm-12 col-lg-12 d-flex">
                         <div class="card flex-fill">
                             <div class="card-header d-flex h-25" id="donneperso">
-                                <h3 class="card-title text-center text-white" dir="ltr">
-                                    <strong>معلومات شخصية</strong>
+                                <h3 class="text-center text-white" dir="ltr">
+                                    معلومات شخصية
                                 </h3>
                             </div>
                             <hr>
@@ -82,9 +94,9 @@
 
                     <div class="col-sm-12 col-lg-12 d-flex ">
                         <div class="card flex-fill">
-                            <div class="card-header d-flex h-25" id="donneprof" style="background-color: #D42D1E;">
-                                <h3 class="card-title text-center text-white"  dir="ltr">
-                                    <strong>معلومات مهنية</strong>
+                            <div class="card-header d-flex h-25" id="donneprof" >
+                                <h3 class="text-center text-white"  dir="ltr">
+                                    معلومات مهنية
                                 </h3>
                             </div>
                             <hr>
@@ -110,8 +122,8 @@
                     <div class="col-sm-12 col-lg-12 d-flex">
                         <div class="card flex-fill">
                             <div class="card-header d-flex h-25" id="donneperso">
-                                <h3 class="card-title text-center text-white" dir="ltr">
-                                    <strong>معلومات شخصية</strong>
+                                <h3 class="text-center text-white" dir="ltr">
+                                    معلومات شخصية
                                 </h3>
                             </div>
                             <hr>
@@ -241,9 +253,9 @@
 
                     <div class="col-sm-12 col-lg-12 d-flex">
                         <div class="card flex-fill">
-                             <div class="card-header d-flex h-25" id="donneprof" style="background-color: #D42D1E;">
-                                <h3 class="card-title text-center text-white"  dir="ltr">
-                                    <strong>معلومات مهنية</strong>
+                             <div class="card-header d-flex h-25" id="donneprof">
+                                <h3 class="text-center text-white"  dir="ltr">
+                                    معلومات مهنية
                                 </h3>
                             </div>
                             <hr>
@@ -281,7 +293,16 @@
                                             <div class="col-md">
                                                 <label class="col-form-label float-right" for="statut"> الوضعية النظامية :</label>
                                                 <label class="col-form-label" dir="ltr" for="statut">Situation statutaire :</label>
-                                                <input type="text" class="form-control text-center" name="statut" required>
+                                                <select class="form-control text-center" name="statut" required>
+                                                    {% for statut in statuts  %}
+                                                        <option value="{{ statut.idstatut }}">{{ statut.libellestatutfr }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                            <div class="col-md">
+                                                <label class="col-form-label float-right" for="datestatut"> تاريخ الوضعية :</label>
+                                                <label class="col-form-label" dir="ltr" for="datestatut">Date Statut :</label>
+                                                <input type="date" class="form-control text-center" name="datestatut" required>
                                             </div>
                                         </div>
 
@@ -366,9 +387,6 @@
                                                                 <label class="col-form-label" dir="ltr" for="division">Division :</label>
                                                                 <select class="form-control text-center" id="division" name="division">
                                                                     <option id="op3"></option>
-                                                                    {% for division in divisions %}
-                                                                        <option value="{{ division.iddivision }}">{{ division.libelledivisionfr }}</option>
-                                                                    {% endfor %}
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -582,7 +600,7 @@
                     <div class="col-12 col-lg-12 col-xxl-12">
                         <div class="card flex-fill">
                             <div class="card-body"><!--data-toggle="modal" data-target="#defaultModalSuccess"-->
-                            <center><button type="submit" class="btn btn-success"   style="font-size: 130%">Enregistrer - تسجيل</button></center>
+                            <center><button type="submit" class="btn col-md-2"  style="font-size: 130%;">تسجيل</button></center>
                                 <div class="modal fade" id="defaultModalSuccess" tabindex="-1" role="dialog" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
@@ -613,6 +631,7 @@
        var url2 = "{% url 'ajaxajouterloadechellon' %}";
        var url3 = "{% url 'ajaxajouterloadsevice' %}";
        const url4 = "{% url 'ajaxajouterloadcaida' %}";
+       const url6 = "{% url 'ajaxajouterloaddivision' %}"
       </script>
       <script type="text/javascript" src="{% static 'js/GestionPersonnel/ajouter.js' %}"></script>
 {% else %}

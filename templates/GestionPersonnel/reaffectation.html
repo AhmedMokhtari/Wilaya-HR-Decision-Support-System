@@ -8,10 +8,21 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200&family=Montserrat:wght@800;900&display=swap" rel="stylesheet">
-
     <style>
-        h3,strong{
-            font-family: "Cairo ExtraLight"
+         h3{
+            font-family: "Cairo ExtraLight";
+            font-weight: bold;
+        }
+
+        #donneprof{
+            background-color: #47BAC1;
+            border-radius: 5px;
+        }
+        .btn{
+            background-color: #47BAC1;
+            font-weight: bold;
+            font-family: "Cairo ExtraLight";
+            color: white;
         }
     </style>
 
@@ -21,192 +32,173 @@
                 <div class="row">
                     <div class="col-sm-12 col-lg-12 d-flex">
                         <div class="card flex-fill">
-                             <div class="card-header d-flex h-25" id="donneprof" style="background-color: #D42D1E;">
-                                <h3 class="card-title text-center text-white"  dir="ltr">
-                                   <strong>إعادة التعيين</strong>
+                             <div class="card-header d-flex h-25" id="donneprof">
+                                <h3 class="text-center text-white"  dir="ltr">
+                                   إعادة التعيين
                                 </h3>
                             </div>
-
                             <div class="card-body" id="procard">
-                                <br>
-                                <strong class="float-right">الموضف :</strong>
-                                <br>
-                                <hr>
                                 <div class="row">
-                                    <div class="col-md-12 text-right" >
+                                    <div class="col-md-6 text-right">
+                                        <div class="card-header d-flex h-25">
+                                            <h3 class="float-right">الموضف :</h3>
+                                        </div>
+
                                         <div class="row no-gutters">
                                              <div class="col-md-2">
-                                                <select class="form-control  text-center" id="personnel" name="personnel" required>
+                                                <select class="form-control text-center mr-2" id="personnel" name="personnel" required>
                                                     {% for perso in personnels %}
-                                                        <option id="{{ perso.idpersonnel }}">{{ perso.cin }}  - {{ perso.nomar }}</option>
+                                                        <option value="{{ perso.idpersonnel }}">{{ perso.cin }}  - {{ perso.nomar }}</option>
                                                     {% endfor %}
                                                 </select>
                                             </div>
                                         </div>
-                                        <br>
-                                        <table class="table table-sm my-2">
-                                            <thead></thead>
-                                            <tbody id="table">
+                                        <div class="row mt-3">
+                                            <div class="col-md-12">
+                                                <div class="table-responsive">
+                                                    <table class="table table-hover">
+                                                        <thead></thead>
+                                                        <tbody id="table">
 
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            <br>
-                            <br>
-                            <strong class="float-right">التعيين الجديد :</strong>
-                            <br>
-                            <hr>
-                            <br>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="row">
-                                            <div class="col-md">
-                                                <label class="col-form-label float-right" for="adminiapp"> الإدارة :</label>
-                                                <label class="col-form-label" dir="ltr" for="adminiapp">Administration :</label>
-                                                <select class="form-control  text-center" name="adminiapp" required>
-                                                    <option>مجلس عمالة وجدة أنجاد-Préfectoral</option>
-                                                    <option>عمالة وجدة أنجاد-Général</option>
-                                                </select>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-
                                     <div class="col-md-6">
-                                        <div class="col-12 col-lg-12">
-                                            <div class="row">
-                                                <div class="col-md">
-                                                    <label class="col-form-label float-right" for="entite"> الكيان :</label>
-                                                    <label class="col-form-label" dir="ltr" for="entite">Entité :</label>
-                                                    <select class="form-control text-center" id="entite" name="entite"  required>
-                                                        {% for entite in entites %}
-                                                            <option>{{ entite.libelleentitefr}}</option>
-                                                        {% endfor %}
-                                                    </select>
-                                                </div>
+                                        <div class="card-header d-flex h-25">
+                                            <h3 class="float-right">التعيين الجديد :</h3>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md">
+                                                <label class="col-form-label float-right" for="entite"> الكيان :</label>
+                                                <label class="col-form-label" dir="ltr" for="entite">Entité :</label>
+                                                <select class="form-control text-center" id="entite" name="entite"  required>
+                                                    {% for entite in entites %}
+                                                        <option>{{ entite.libelleentitefr}}</option>
+                                                    {% endfor %}
+                                                </select>
                                             </div>
-                                            <br class="divisiondiv">
-                                            <div class="row divisiondiv">
-                                                <div class="col-md">
-                                                    <label class="col-form-label float-right" for="division"> القسم :</label>
-                                                    <label class="col-form-label" dir="ltr" for="division">Division :</label>
-                                                    <select class="form-control text-center" id="division" name="division">
-                                                        <option id="op3"></option>
-                                                        {% for division in divisions %}
-                                                            <option value="{{ division.iddivision }}">{{ division.libelledivisionfr }}</option>
-                                                        {% endfor %}
-                                                    </select>
-                                                </div>
+                                        </div>
+                                        <br class="divisiondiv">
+                                        <div class="row divisiondiv">
+                                            <div class="col-md">
+                                                <label class="col-form-label float-right" for="division"> القسم :</label>
+                                                <label class="col-form-label" dir="ltr" for="division">Division :</label>
+                                                <select class="form-control text-center" id="division" name="division">
+                                                    <option id="op3"></option>
+                                                </select>
                                             </div>
+                                        </div>
 
-                                            <br class="districtpashalikdiv">
-                                            <div class="row districtpashalikdiv">
-                                                <div class="col-md">
-                                                    <label class="col-form-label float-right" for="districtpashalik"> المقاطعة :</label>
-                                                    <label class="col-form-label" dir="ltr" for="districtpashalik">District pashalik :</label>
-                                                    <select class="form-control text-center" id="districtpashalik" name="districtpashalik">
-                                                        <option>District</option>
-                                                        <option>Pashalik</option>
-                                                        <option>Cercle</option>
-                                                    </select>
-                                                </div>
+                                        <br class="districtpashalikdiv">
+                                        <div class="row districtpashalikdiv">
+                                            <div class="col-md">
+                                                <label class="col-form-label float-right" for="districtpashalik"> المقاطعة :</label>
+                                                <label class="col-form-label" dir="ltr" for="districtpashalik">District pashalik :</label>
+                                                <select class="form-control text-center" id="districtpashalik" name="districtpashalik">
+                                                    <option>District</option>
+                                                    <option>Pashalik</option>
+                                                    <option>Cercle</option>
+                                                </select>
                                             </div>
+                                        </div>
 
-                                            <br class="cerclediv">
-                                            <div class="row cerclediv">
-                                                <div class="col-md">
-                                                    <label class="col-form-label float-right" for="cercle"> الدائرة :</label>
-                                                    <label class="col-form-label" dir="ltr" for="cercle">Cercle :</label>
-                                                    <select class="form-control text-center" id="cercle" name="district">
-                                                        <option id="op4"></option>
-                                                        {% for cercle in cercles %}
-                                                            <option value="{{ cercle.idcercle }}">{{ cercle.libellecerclefr }}</option>
-                                                        {% endfor %}
-                                                    </select>
-                                                </div>
+                                        <br class="cerclediv">
+                                        <div class="row cerclediv">
+                                            <div class="col-md">
+                                                <label class="col-form-label float-right" for="cercle"> الدائرة :</label>
+                                                <label class="col-form-label" dir="ltr" for="cercle">Cercle :</label>
+                                                <select class="form-control text-center" id="cercle" name="district">
+                                                    <option id="op4"></option>
+                                                    {% for cercle in cercles %}
+                                                        <option value="{{ cercle.idcercle }}">{{ cercle.libellecerclefr }}</option>
+                                                    {% endfor %}
+                                                </select>
                                             </div>
+                                        </div>
 
-                                            <br class="caidadiv">
-                                            <div class="row caidadiv">
-                                                <div class="col-md">
-                                                    <label class="col-form-label float-right" for="caida"> القيادة :</label>
-                                                    <label class="col-form-label" dir="ltr" for="caida">Caida :</label>
-                                                    <select class="form-control text-center" id="caida" name="district">
+                                        <br class="caidadiv">
+                                        <div class="row caidadiv">
+                                            <div class="col-md">
+                                                <label class="col-form-label float-right" for="caida"> القيادة :</label>
+                                                <label class="col-form-label" dir="ltr" for="caida">Caida :</label>
+                                                <select class="form-control text-center" id="caida" name="district">
 
-                                                    </select>
-                                                </div>
-
-                                                <div class="col-md">
-                                                    <label class="col-form-label float-right" for="datecaida"> تاريخ التعيين :</label>
-                                                    <label class="col-form-label" dir="ltr" for="datecaida">Date d'affectation :</label>
-                                                     <input type="date" class="form-control text-center" name="datecaida">
-                                                </div>
+                                                </select>
                                             </div>
 
-                                            <br class="districtdiv">
-                                            <div class="row districtdiv">
-                                                <div class="col-md">
-                                                    <label class="col-form-label float-right" for="district"> المقاطعة :</label>
-                                                    <label class="col-form-label" dir="ltr" for="district">District :</label>
-                                                    <select class="form-control text-center" id="district" name="district">
-                                                        <option id="op0"></option>
-                                                        {% for district in districts %}
-                                                            <option value="{{ district.iddistrict }}">{{ district.libelledistrictfr }}</option>
-                                                        {% endfor %}
-                                                    </select>
-                                                </div>
+                                            <div class="col-md">
+                                                <label class="col-form-label float-right" for="datecaida"> تاريخ التعيين :</label>
+                                                <label class="col-form-label" dir="ltr" for="datecaida">Date d'affectation :</label>
+                                                 <input type="date" class="form-control text-center" name="datecaida">
+                                            </div>
+                                        </div>
+
+                                        <br class="districtdiv">
+                                        <div class="row districtdiv">
+                                            <div class="col-md">
+                                                <label class="col-form-label float-right" for="district"> المقاطعة :</label>
+                                                <label class="col-form-label" dir="ltr" for="district">District :</label>
+                                                <select class="form-control text-center" id="district" name="district">
+                                                    <option id="op0"></option>
+                                                    {% for district in districts %}
+                                                        <option value="{{ district.iddistrict }}">{{ district.libelledistrictfr }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <br class="pashalikdiv">
+                                        <div class="row pashalikdiv">
+                                            <div class="col-md">
+                                                <label class="col-form-label float-right" for="pashalik"> الباشوية :</label>
+                                                <label class="col-form-label" dir="ltr" for="pashalik">Pashalik :</label>
+                                                <select class="form-control text-center" id="pashalik" name="pashalik">
+                                                    {% for pashalik in pashaliks %}
+                                                        <option value="{{ pashalik.idpashalik }}">{{ pashalik.libellepashalikfr}}</option>
+                                                    {% endfor %}
+                                                </select>
                                             </div>
 
-                                            <br class="pashalikdiv">
-                                            <div class="row pashalikdiv">
-                                                <div class="col-md">
-                                                    <label class="col-form-label float-right" for="pashalik"> الباشوية :</label>
-                                                    <label class="col-form-label" dir="ltr" for="pashalik">Pashalik :</label>
-                                                    <select class="form-control text-center" id="pashalik" name="pashalik">
-                                                        {% for pashalik in pashaliks %}
-                                                            <option value="{{ pashalik.idpashalik }}">{{ pashalik.libellepashalikfr}}</option>
-                                                        {% endfor %}
-                                                    </select>
-                                                </div>
-
-                                                <div class="col-md">
-                                                    <label class="col-form-label float-right" for="datepashalik"> تاريخ التعيين :</label>
-                                                    <label class="col-form-label" dir="ltr" for="datepashalik">Date d'affectation :</label>
-                                                     <input type="date" class="form-control text-center" name="datepashalik">
-                                                </div>
+                                            <div class="col-md">
+                                                <label class="col-form-label float-right" for="datepashalik"> تاريخ التعيين :</label>
+                                                <label class="col-form-label" dir="ltr" for="datepashalik">Date d'affectation :</label>
+                                                 <input type="date" class="form-control text-center" name="datepashalik">
                                             </div>
-                                            <br class="annexediv">
-                                            <div class="row annexediv">
+                                        </div>
+                                        <br class="annexediv">
+                                        <div class="row annexediv">
 
-                                                <div class="col-md">
-                                                    <label class="col-form-label float-right" for="annexe"> ملحقة إدارية :</label>
-                                                    <label class="col-form-label" dir="ltr" for="annexe">Annexe :</label>
-                                                    <select class="form-control text-center" id="annexe" name="annexe">
+                                            <div class="col-md">
+                                                <label class="col-form-label float-right" for="annexe"> ملحقة إدارية :</label>
+                                                <label class="col-form-label" dir="ltr" for="annexe">Annexe :</label>
+                                                <select class="form-control text-center" id="annexe" name="annexe">
 
-                                                    </select>
-                                                </div>
-
-                                                <div class="col-md">
-                                                    <label class="col-form-label float-right" for="dateannexe"> تاريخ التعيين :</label>
-                                                    <label class="col-form-label" dir="ltr" for="dateannexe">Date d'affectation :</label>
-                                                     <input type="date" class="form-control text-center" name="dateannexe">
-                                                </div>
+                                                </select>
                                             </div>
 
-                                            <br class="servicediv">
-                                            <div class="row servicediv">
-                                                <div class="col-md">
-                                                    <label class="col-form-label float-right" for="service"> إدارة :</label>
-                                                    <label class="col-form-label" dir="ltr" for="service">Service :</label>
-                                                    <select class="form-control text-center" id="service" name="service">
+                                            <div class="col-md">
+                                                <label class="col-form-label float-right" for="dateannexe"> تاريخ التعيين :</label>
+                                                <label class="col-form-label" dir="ltr" for="dateannexe">Date d'affectation :</label>
+                                                 <input type="date" class="form-control text-center" name="dateannexe">
+                                            </div>
+                                        </div>
 
-                                                    </select>
-                                                </div>
-                                                <div class="col-md">
-                                                    <label class="col-form-label float-right" for="dateservice"> تاريخ التعيين :</label>
-                                                    <label class="col-form-label" dir="ltr" for="dateservice">Date d'affectation :</label>
-                                                     <input type="date" class="form-control text-center" name="dateservice">
-                                                </div>
+                                        <br class="servicediv">
+                                        <div class="row servicediv">
+                                            <div class="col-md">
+                                                <label class="col-form-label float-right" for="service"> إدارة :</label>
+                                                <label class="col-form-label" dir="ltr" for="service">Service :</label>
+                                                <select class="form-control text-center" id="service" name="service">
+
+                                                </select>
+                                            </div>
+                                            <div class="col-md">
+                                                <label class="col-form-label float-right" for="dateservice"> تاريخ التعيين :</label>
+                                                <label class="col-form-label" dir="ltr" for="dateservice">Date d'affectation :</label>
+                                                 <input type="date" class="form-control text-center" name="dateservice">
                                             </div>
                                         </div>
                                     </div>
@@ -214,10 +206,11 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="col-12 col-lg-12 col-xxl-12">
                         <div class="card flex-fill">
                             <div class="card-body">
-                            <center><button type="submit" class="btn btn-success"   style="font-size: 130%">Enregistrer - تسجيل</button></center>
+                            <center><button type="submit" class="btn btn-success"   style="font-size: 130%">المصادقة</button></center>
                                 <div class="modal fade" id="defaultModalSuccess" tabindex="-1" role="dialog" aria-hidden="true">
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
@@ -246,9 +239,11 @@
            var url1 = "{% url 'ajaxajouterloadgrade' %}";
            var url2 = "{% url 'ajaxajouterloadechellon' %}";
            var url3 = "{% url 'ajaxajouterloadsevice' %}";
-           const url4 = "{% url 'ajaxajouterloadcaida' %}";
-           const url5 = "{% url 'ajaxloadpersonnel' %}";
+           var url4 = "{% url 'ajaxajouterloadcaida' %}";
+           var url5 = "{% url 'ajaxloadpersonnel' %}";
+           var url6 = "{% url 'ajaxajouterloaddivision' %}";
         </script>
         <script type="text/javascript" src="{% static 'js/GestionPersonnel/ajouter.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/GestionPersonnel/reaffectation.js' %}"></script>
     {% endif %}
 {% endblock content %}

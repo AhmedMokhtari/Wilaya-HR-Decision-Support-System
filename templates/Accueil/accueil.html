@@ -1,0 +1,126 @@
+{% extends 'menu.html' %}
+{% block content %}
+    {% load static %}
+    {% load has_group %}
+    <title> {% block title %}الرئيسية{% endblock title %}</title>
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/all.min.css' %}"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200&family=Montserrat:wght@800;900&display=swap" rel="stylesheet">
+    <style>
+     h3{
+         font-family: "Cairo ExtraLight";
+         font-weight: bold;
+     }
+     .card-body:hover{
+         background-color:#47BAC1;
+         transform: scale(1.05);
+         color: white;
+
+     }
+     .card-body:hover>h3{
+         background-color:#47BAC1;
+         transform: scale(1.05);
+         color: white;
+
+     }
+     .not-allowed {cursor: not-allowed;}
+    </style>
+
+     <script>
+        $(document).ready(function (){
+            $('a[class="nav-link dropdown-toggle"]').remove()
+            $('.footer').attr("class","footer fixed-bottom")
+
+            {% if not request.user|has_group:"GestionPersonnel" %}
+                $('#perso').attr("class","card-body d-flex flex-column text-decoration-none not-allowed");
+                $('#perso').attr("href","#");
+            {% endif %}
+
+            {% if not request.user|has_group:"GestionAbsence" %}
+                $('#abc').attr("class","card-body d-flex flex-column text-decoration-none not-allowed");
+                $('#abc').attr("href","#");
+            {% endif %}
+
+            {% if not request.user|has_group:"GestionConge" %}
+                $('#conge').attr("class","card-body d-flex flex-column text-decoration-none not-allowed");
+                $('#conge').attr("href","#");
+            {% endif %}
+
+        })
+    </script>
+
+    <div class="container">
+        <div class="row py-4">
+            <div class="col-sm-4 mb-3 mb-md-0">
+                <div class="card text-center h-100">
+                    <a class="card-body d-flex flex-column text-decoration-none" href="{% url 'accueil' %}">
+                        <div class="mb-4">
+                            <span class="display-4"><i class="fa-solid fa-home"></i></span>
+                        </div>
+                        <h3>الصفحة الرئيسية</h3>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-sm-4 mb-3 mb-md-0">
+                <div class="card text-center h-100">
+                    <a class="card-body d-flex flex-column text-decoration-none" id="perso" href="{% url 'consultation' %}">
+                        <div class="mb-4">
+                            <span class="display-4"><i class="fa-solid fa-user"></i></span>
+                        </div>
+                        <h3>الموضفون</h3>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-sm-4 mb-3 mb-md-0">
+                <div class="card text-center h-100">
+                    <a class="card-body d-flex flex-column text-decoration-none" href="{% url 'conge' %}" id="conge">
+                        <div class="mb-4">
+                            <span class="display-4"><i class="fa-solid fa-calendar"></i></span>
+                        </div>
+                        <h3>الرخص</h3>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-4 mb-3 mb-md-0">
+                <div class="card text-center h-100">
+                    <a class="card-body d-flex flex-column text-decoration-none" href="">
+                        <div class="mb-4">
+                            <span class="display-4"><i class="fa-solid fa-briefcase"></i></span>
+                        </div>
+                        <h3>الترقيات</h3>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-sm-4 mb-3 mb-md-0">
+                <div class="card text-center h-100">
+                    <a class="card-body d-flex flex-column text-decoration-none" href="" id="abc">
+                        <div class="mb-4">
+                            <span class="display-4"><i class="fa-solid fa-address-card"></i></span>
+                        </div>
+                        <h3>الغيبات</h3>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-sm-4 mb-3 mb-md-0" >
+                <div class="card text-center h-100" >
+                    <a class="card-body d-flex flex-column text-decoration-none" href="">
+                        <div class="mb-4">
+                            <span class="display-4"><i class="fa-solid fa-bell"></i></span>
+                        </div>
+                        <h3>الإشعارات</h3>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock content %}
