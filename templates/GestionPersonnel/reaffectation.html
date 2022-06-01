@@ -18,7 +18,7 @@
             background-color: #47BAC1;
             border-radius: 5px;
         }
-        .btn{
+        .btn:not(a){
             background-color: #47BAC1;
             font-weight: bold;
             font-family: "Cairo ExtraLight";
@@ -43,13 +43,19 @@
                                         <div class="card-header d-flex h-25">
                                             <h3 class="float-right">الموضف :</h3>
                                         </div>
-
                                         <div class="row no-gutters">
-                                             <div class="col-md-2">
+                                             <div class="col-md-4">
+                                                <label class="label mr-2" for="administration">الإدارة :</label>
+                                                <select class="form-control text-center mr-2" id="administration" name="administration" required>
+                                                    <option value="مجلس عمالة وجدة أنجاد-Préfectoral">مجلس عمالة وجدة أنجاد-Préfectoral</option>
+                                                    <option value="عمالة وجدة أنجاد-Général">عمالة وجدة أنجاد-Général</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-1"></div>
+                                            <div class="col-md-4">
+                                                <label class="label mr-2" for="personnel">الموضف :</label>
                                                 <select class="form-control text-center mr-2" id="personnel" name="personnel" required>
-                                                    {% for perso in personnels %}
-                                                        <option value="{{ perso.idpersonnel }}">{{ perso.cin }}  - {{ perso.nomar }}</option>
-                                                    {% endfor %}
+
                                                 </select>
                                             </div>
                                         </div>
@@ -66,7 +72,26 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-md-6">
+
+                                    <div class="col-md-6" id="reaf">
+                                        <div class="card-header d-flex h-25">
+                                            <h3 class="float-right">المصادقة على التعيين الجديد :</h3>
+                                        </div>
+                                        <div class="row mt-3">
+                                            <div class="col-md-12">
+                                                <div class="table-responsive">
+                                                    <table class="table table-hover text-right">
+                                                        <thead></thead>
+                                                        <tbody id="tablereaf">
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-6" id="reafectationdonne">
                                         <div class="card-header d-flex h-25">
                                             <h3 class="float-right">التعيين الجديد :</h3>
                                         </div>
@@ -207,28 +232,10 @@
                         </div>
                     </div>
 
-                    <div class="col-12 col-lg-12 col-xxl-12">
+                    <div class="col-12 col-lg-12 col-xxl-12" id="reafectationbutton" >
                         <div class="card flex-fill">
                             <div class="card-body">
-                            <center><button type="submit" class="btn btn-success"   style="font-size: 130%">المصادقة</button></center>
-                                <div class="modal fade" id="defaultModalSuccess" tabindex="-1" role="dialog" aria-hidden="true">
-                                    <div class="modal-dialog" role="document">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title">اضافة</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                              <span aria-hidden="true">&times;</span>
-                                            </button>
-                                            </div>
-                                            <div class="modal-body m-3">
-                                                <p class="mb-0">تأكيد اضافة عامل</p>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="submit" class="btn btn-success">تأكيد</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <center><button type="submit" class="btn btn-success"  style="font-size: 130%">المصادقة</button></center>
                             </div>
                         </div>
                     </div>
@@ -242,6 +249,7 @@
            var url4 = "{% url 'ajaxajouterloadcaida' %}";
            var url5 = "{% url 'ajaxloadpersonnel' %}";
            var url6 = "{% url 'ajaxajouterloaddivision' %}";
+           var url7 = "{% url 'ajaxloadadministration' %}";
         </script>
         <script type="text/javascript" src="{% static 'js/GestionPersonnel/ajouter.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/GestionPersonnel/reaffectation.js' %}"></script>

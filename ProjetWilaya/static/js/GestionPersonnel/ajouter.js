@@ -31,7 +31,6 @@
 
 window.onload = function ()
 {
-
     function frontivision(){
         $(".divisiondiv").show();
          $(".districtpashalikdiv").hide();

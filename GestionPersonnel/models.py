@@ -305,9 +305,9 @@ class Pashalik(models.Model):
 # -------------------------------------------------------
 class Reafectation(models.Model):
     idreafectation = models.AutoField(db_column='IdReafectation', primary_key=True)
-    libellereafectationar = models.CharField(db_column='LibelleReafectationAr', max_length=20, db_collation='French_CI_AS', blank=True, null=True)
+    libellereafectationar = models.CharField(db_column='LibelleReafectationAr', max_length=80, db_collation='French_CI_AS', blank=True, null=True)
     idpersonnel_field = models.ForeignKey(Personnel, models.DO_NOTHING, db_column='IdPersonnel#')
-    libellereafectationfr = models.CharField(db_column='LibelleReafectationFr', max_length=20, db_collation='French_CI_AS', blank=True, null=True)
+    libellereafectationfr = models.CharField(db_column='LibelleReafectationFr', max_length=80, db_collation='French_CI_AS', blank=True, null=True)
     idorganismeparent = models.IntegerField(db_column='IdOrganismeParent', blank=True, null=True)
     organisme = models.CharField(db_column='Organisme', max_length=80, db_collation='French_CI_AS', blank=True, null=True)
     datereafectation = models.DateTimeField(db_column='DateReafectation', blank=True, null=True)

@@ -31,6 +31,13 @@
 
 window.onload = function ()
 {
+    $("input[required]")[0].oninvalid = function () {
+        this.setCustomValidity("Please enter at least 5 characters.");
+    };
+
+    $("input[required]")[1].oninvalid = function () {
+        this.setCustomValidity("Please enter at least 5 characters.");
+    };
 
     function frontivision(){
         $(".divisiondiv").show();
