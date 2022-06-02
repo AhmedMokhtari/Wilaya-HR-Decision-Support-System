@@ -961,11 +961,23 @@ def printpdfquitter(req,id):
 
 @login_required(login_url='/connexion')
 def printpdf(req,id):
+
    personnel = Personnel.objects.get(idpersonnel=id)
-   empName=str(personnel.nomfr+" "+personnel.prenomfr)
-   cin=str(personnel.cin)
-   num=str(personnel.numerofinancier)
-   grade="ingenieur"
+   gradepersonnel = Gradepersonnel.objects.filter(idpersonnel_field=personnel).last()
+   attestationlast = Attestationtravail.objects.all().last()
+   if(attestationlast == None):
+       dataattes = 1
+   else:
+       dataattes = attestationlast.numattestationtravail + 1;
+
+   if(gradepersonnel == None):
+       datagrade = " "
+   else:
+       datagrade = gradepersonnel.idgrade_field.gradefr
+
+   attestation = Attestationtravail.objects.create(numattestationtravail=dataattes, idpersonnel_field=personnel, datedelivre=datetime.date.today())
+   attestation.save()
+
    pdf=FPDF()
    pdf.add_page()
    pdf.set_font("Arial",size=9)
@@ -976,6 +988,7 @@ def printpdf(req,id):
    pdf.text(23,39,txt="SECRETARIAT GENERAL ")
    pdf.text(12,45,txt="DIVISION DU RESSOURCES HUMAINES  ")
    pdf.text(14,51,txt="ET DES AFFAIRES ADMINISTRATIVES ")
+   pdf.text(14, 57, txt="N°:  "+str(dataattes))
    pdf.image(os.path.join(os.path.dirname(os.path.dirname(__file__)), "static/images/logorm.png"), x=95     , y=20, w=27)
    ##pdf.cell(100,100,"Attestation de travail",1,2,"c")
    pdf.set_font("Arial", size=15)
@@ -985,13 +998,13 @@ def printpdf(req,id):
    pdf.set_font("Arial", "B",size=12)
    pdf.text(36,116,txt="Le Wali de la Région de l'Oriental,Gouverneur de Préfecture d'Oujda-Angad ")
    pdf.set_font("Arial", size=11)
-   pdf.text(25,130,txt="Atteste que Me/Mme    :          "+empName)
-   pdf.text(25,138,txt="Titulaire de la C.N.I      :          "+cin)
-   pdf.text(25,146,txt="P.P.R                           :          "+num)
+   pdf.text(25,130,txt="Atteste que Me/Mme    :          "+str(personnel.nomfr+" "+personnel.prenomfr))
+   pdf.text(25,138,txt="Titulaire de la C.N.I      :          "+str(personnel.cin))
+   pdf.text(25,146,txt="P.P.R                           :          "+str(personnel.numerofinancier))
    pdf.text(25,160,txt="Exerce à la Wilaya de la Région de l'Oriental,Préfecture d'Oujda-Angad")
-   pdf.text(25,170,txt="En qualité de                :         Technicien Spécialisé ")
+   pdf.text(25,170,txt="En qualité de                :         "+str(datagrade))
    pdf.text(25,185,txt="En foi de quoi,la présente attestation est délivrée à l'intéressé(e) pour servir et voir ce que de droit ")
-   pdf.text(125, 200, txt="Oujda le :")
+   pdf.text(125, 200, txt="Oujda le :         "+str(datetime.date.today()))
    ##pdf.cell(80)
    ##pdf.cell(60,10,'Attestation de Travaille',1,1,'C');
    pdf.output("test.pdf")
