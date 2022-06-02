@@ -1017,8 +1017,8 @@ def ajaxtaboardpersonnel(request):
     departretraitetwocount = []
     i = 0
     while i <= 11:
-        departretraiteonecount.append(Personnel.objects.filter(administrationapp='one').filter(dateparrainageretraite__year=date).filter(dateparrainageretraite__month=i + 1).count())
-        departretraitetwocount.append(Personnel.objects.filter(administrationapp='two').filter(dateparrainageretraite__year=date).filter(dateparrainageretraite__month=i + 1).count())
+        departretraiteonecount.append(Personnel.objects.filter(administrationapp='مجلس عمالة وجدة أنجاد-Préfectoral').filter(dateparrainageretraite__year=date).filter(dateparrainageretraite__month=i + 1).count())
+        departretraitetwocount.append(Personnel.objects.filter(administrationapp='عمالة وجدة أنجاد-Général').filter(dateparrainageretraite__year=date).filter(dateparrainageretraite__month=i + 1).count())
         i = i + 1
 
     departretraite = {
@@ -1039,17 +1039,17 @@ def taboardpersonnel(request):
     personnels = Personnel.objects.all().count()
     data = datetime.datetime.today() - datetime.timedelta(days=6 * 365/12)
     personnelslastup = Personnel.objects.filter(lastupdate__lte = data).all()
-    administrationOne = Personnel.objects.filter(administrationapp='one').count()
-    administrationTwo = Personnel.objects.filter(administrationapp='two').count()
+    administrationOne = Personnel.objects.filter(administrationapp='مجلس عمالة وجدة أنجاد-Préfectoral').count()
+    administrationTwo = Personnel.objects.filter(administrationapp='عمالة وجدة أنجاد-Général').count()
 
     # dates 5 retraites
     i = 0
     cinqdepartretraite = []
     while i < 5:
-        data = {'cinqdepartretraite' : Personnel.objects.filter(dateparrainageretraite__year=datetime.datetime.now().year - i).count(),
+        data = {'cinqdepartretraite' : Personnel.objects.filter(dateparrainageretraite__year=datetime.datetime.now().year + i).count(),
                 'an' : datetime.datetime.now().year + i,
-                'cinqdepartretraiteone': Personnel.objects.filter(administrationapp='one').filter(dateparrainageretraite__year=datetime.datetime.now().year + i).count(),
-                'cinqdepartretraitetwo' : Personnel.objects.filter(administrationapp='two').filter(dateparrainageretraite__year=datetime.datetime.now().year + i).count()
+                'cinqdepartretraiteone': Personnel.objects.filter(administrationapp='مجلس عمالة وجدة أنجاد-Préfectoral').filter(dateparrainageretraite__year=datetime.datetime.now().year + i).count(),
+                'cinqdepartretraitetwo' : Personnel.objects.filter(administrationapp='عمالة وجدة أنجاد-Général').filter(dateparrainageretraite__year=datetime.datetime.now().year + i).count()
                 }
         cinqdepartretraite.append(data)
         i = i + 1
@@ -1058,7 +1058,7 @@ def taboardpersonnel(request):
     departretraiteone = []
     i = 0
     while i <= 11:
-        departretraiteone.append(Personnel.objects.filter(administrationapp='one').filter(
+        departretraiteone.append(Personnel.objects.filter(administrationapp='مجلس عمالة وجدة أنجاد-Préfectoral').filter(
             dateparrainageretraite__year=datetime.datetime.now().year).filter(dateparrainageretraite__month=i+1).count())
         i = i + 1
 
@@ -1066,7 +1066,7 @@ def taboardpersonnel(request):
     departretraitetwo = []
     i = 0
     while i<=11:
-        departretraitetwo.append(Personnel.objects.filter(administrationapp='two').filter(
+        departretraitetwo.append(Personnel.objects.filter(administrationapp='عمالة وجدة أنجاد-Général').filter(
             dateparrainageretraite__year=datetime.datetime.now().year).filter(dateparrainageretraite__month=i+1).count())
         i = i + 1
 
