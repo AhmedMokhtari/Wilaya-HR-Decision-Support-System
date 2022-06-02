@@ -12,7 +12,6 @@ $(document).ready(function (){
             {
                 for(var i = 0; i < data.personnels.length; i++)
                 {
-
                     $('select[id=personnel]').append(`<option value="${data.personnels[i].idpersonnel}">${data.personnels[i].cin}</option>`);
                 }
                  loadpersonnel()

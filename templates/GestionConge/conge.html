@@ -1,8 +1,12 @@
 {% extends 'menu.html' %}
 {% block content %}
     {% load static %}
-    {% block title %}{% endblock title %}
+    <title>{% block title %}الرخص{% endblock title %}</title>
     <link rel="stylesheet" href="{% static 'css/all.min.css' %}"/>
+    <script>
+            var url5 = "{% url 'ajaxloadpersonnel' %}";
+    </script>
+    <script type="text/javascript" src="{% static 'js/GestionConge/ajouter.js' %}"></script>
     <form method="POST">
     {% csrf_token %}
                 <h1 class="h3 mb-3">Congés <span class="float-right">إجازة</span> </h1>
@@ -13,47 +17,100 @@
 
 								</div>
 								<div class="card-body">
-									<div class="mb-3">
-                                    <label for="perso" class="card-title">Personnel : </label><label for="perso" class="float-right">: الموضف</label>
-                                    <select class="form-control" name="perso" >
-                                      {% for personnel in personnels %}
-                                                <option value="{{ personnel.idpersonnel }}">{{ personnel.cin }}</option>
-                                      {% endfor %}
-                                    </select>
+                                    <div class="row mb-3">
+                                        <div class="col-md">
+                                            <label class="col-form-label float-right" dir="ltr" for="personneldata">: الموضف</label>
+                                            <label class="col-form-label" dir="ltr" for="personneldata">Personnel :</label>
+                                                <input class="form-control text-center" list="datalistOptions" id="personneldata" name="personneldata" oninput="loadpersonnel();" placeholder="...رقم البطاقة الوطنية">
+                                                <datalist id="datalistOptions">
+                                                  {% for personnel in personnels %}
+                                                        <option value="{{ personnel.cin }}">
+                                                {% endfor %}
+                                                </datalist>
+                                            </select>
+                                        </div>
                                     </div>
 
-                                    <div class="mb-3">
-                                        <label for="datedecon" class="card-title">Date de congé :</label><label for="datedecon"  class="float-right">: تاريخ بداية العطلة</label>
-                                        <input  type="date" name="datedecon" class="form-control" value="{{ objconge.datedebut|date:'Y-m-d' }}"  required>
+                                    <div class="row mb-3">
+                                        <div class="col-md">
+                                            <label class="col-form-label float-right" dir="ltr" for="datedecon">: تاريخ بداية العطلة</label>
+                                            <label class="col-form-label" dir="ltr" for="datedecon">Date de congé :</label>
+                                            <input  type="date" name="datedecon" class="form-control text-center" value="{{ objconge.datedebut|date:'Y-m-d' }}"  required>
+                                        </div>
                                     </div>
 
-                                    <div class="mb-3">
-                                        <label for="datere" class="card-title">Date retour :</label><label for="datere" class="float-right">: تاريخ العودة</label>
-                                        <input  type="date" class="form-control" name="datere" value="{{ objconge.dateretour|date:'Y-m-d' }}" required>
+                                    <div class="row mb-3">
+                                        <div class="col-md">
+                                            <label class="col-form-label float-right" dir="ltr" for="nbjours">: عدد الأيام</label>
+                                            <label class="col-form-label" dir="ltr" for="nbjours">Nombre de jours :</label>
+                                            <input  type="number" name="nbjours" class="form-control text-center" value="{{ objconge.nbjour }}"  required>
+                                        </div>
                                     </div>
 
-                                    <div class="mb-3">
-                                        <label for="typede" class="card-title">Type Congé :</label><label for="typede" class="float-right">: نوع العطلة</label>
-                                        <input  type="text" name="typede" class="form-control" value="{{ objconge.type_conge }}"  required>
+                                    <div class="row mb-3">
+                                        <div class="col-md">
+                                            <label class="col-form-label float-right" dir="ltr" for="datere">: تاريخ العودة</label>
+                                            <label class="col-form-label" dir="ltr" for="datere">Date retour :</label>
+                                            <input  type="date" class="form-control text-center" name="datere" value="{{ objconge.dateretour|date:'Y-m-d' }}" readonly>
+                                        </div>
                                     </div>
 
-                                    <div class="mb-3">
-                                        <label for="nbjours" class="card-title">Nombre de jours :</label><label for="nbjours" class="float-right">: عدد الايام</label>
-                                        <input  type="text" name="nbjours" class="form-control" value="{{ objconge.nbjour }}"  readonly>
+                                    <div class="row mb-3">
+                                        <div class="col-md">
+                                            <label class="col-form-label float-right" dir="ltr" for="typede">: نوع العطلة</label>
+                                            <label class="col-form-label" dir="ltr" for="typede">Type Congé :</label>
+                                            <input  type="text" name="typede" class="form-control text-center" value="{{ objconge.type_conge }}"  required>
+                                        </div>
                                     </div>
 
-                                    <center><button type="submit" class="btn btn-success">Ajouter - اضاقة</button></center>
+                                    <center><button type="submit" class="btn btn-success">اضاقة</button></center>
 							    </div>
 						    </div>
                         </div>
 
 						<div class="col-12 col-lg-7 col-xxl-6 d-flex">
 							<div class="card flex-fill">
-								<div class="card-header">
-									<h5 class="card-title">Les congés du personnel par mois<span class="float-right">عدد الحاصلين على العطل بالشهر</span></h5>
-								</div>
 								<div class="card-body">
-									<div class="row">
+                                    <div class="col-md-12" id="reaf">
+                                        <div class="card-header d-flex h-25">
+                                            <h3 class="float-right">المصادقة على التعيين الجديد :</h3>
+                                        </div>
+                                        <div class="row mt-3">
+                                            <div class="col-md-12">
+                                                <div class="table-responsive">
+                                                    <table class="table table-hover text-right">
+                                                        <thead></thead>
+                                                        <tbody id="table">
+                                                        <tr>
+                                                            <th> الإسم الكامل :</th><td></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>ر.ب.و :</th><td></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>ب.ب.ر :</th><td></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>  الرخصة السنوية :</th><td></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>الرخصة الأبوية :</th><td></td>
+                                                        </tr>
+                                                        <th>رخصة الولادة :</th><td></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <th>رخصة إستثنائية :</th><td></td>
+                                                        </tr>
+                                                         <tr>
+                                                             <th>رخصة الحج :</th><td></td>
+                                                         </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+									<!--<div class="row">
 										<div class="col-12 col-lg-12">
                                             <div class="card flex-fill w-100">
                                                 <div class="card-body">
@@ -63,7 +120,7 @@
                                                 </div>
                                             </div>
                                         </div>
-									</div>
+									</div>-->
 								</div>
 							</div>
 						</div>

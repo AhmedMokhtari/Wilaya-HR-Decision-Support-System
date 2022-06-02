@@ -7,6 +7,7 @@ urlpatterns = [
     path('stopeconge/<int:id>', views.stopeConge, name='stopeconge'),
     path('deleteconge/<int:id>', views.delete, name='deleteconge'),
     path('persoinfo/<int:id>', views.persoinfo, name='persoinfo'),
+    path('ajaxloadpersonnel', views.ajaxloadpersonnel, name='ajaxloadpersonnel'),
 ]
 
 
