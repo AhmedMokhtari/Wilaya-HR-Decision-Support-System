@@ -1,7 +1,7 @@
 
 from .models import DateElimine, Conge
 import numpy as np
-from datetime import date,datetime
+from datetime import date, datetime
 
 def dictfetchall(cursor):
     "Return all rows from a cursor as a dict"

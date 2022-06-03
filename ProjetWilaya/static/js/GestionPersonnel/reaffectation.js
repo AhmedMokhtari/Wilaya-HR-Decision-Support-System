@@ -24,6 +24,7 @@ $(document).ready(function (){
 
     function loadpersonnel(){
         $("#table tr").remove();
+        $("#tablereaf tr").remove();
         $.ajax(
         {
             type:"POST",
@@ -34,7 +35,7 @@ $(document).ready(function (){
                 console.log(data)
                 $("#table").append(`<tr><th> الإسم الكامل :</th><td>${data.persodata.nomar} ${data.persodata.prenomar}</td></tr>'+
                                             '<tr><th>ب.ب.ر :</th><td>${data.persodata.ppr}</td></tr> <tr><th>  التعيين الحالي :</th><td>${data.persodata.oraganisme}</td></tr>'+
-                                            '<tr><th>الرتبة :</th><td>${data.persodata.grade}</td></tr>`);
+                                            '<tr><th>الدرجة :</th><td>${data.persodata.grade}</td></tr>`);
 
 
 
