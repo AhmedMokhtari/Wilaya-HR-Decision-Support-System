@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import *
 from django.contrib.auth.decorators import login_required
 from fpdf import FPDF
@@ -588,11 +588,67 @@ def modifier(request, id):
 
 # Reafectation -----------------------------------
 @login_required(login_url='/connexion')
+def addreaffectation(request, id):
+    personnelFor = Personnel.objects.get(idpersonnel=id)
+    objreaffectation = Reafectation.objects.filter(idpersonnel_field=personnelFor).first()
+
+    if (objreaffectation.organisme == 'Service'):
+        service = Service.objects.get(idservice=objreaffectation.idorganismeparent)
+        objserviceperso = Servicepersonnel.objects.create(idpersonnel_field=personnelFor,idservice_field=service, dateaffectation=objreaffectation.datereafectation)
+        objserviceperso.save()
+        personnelFor.organisme = 'Service'
+        personnelFor.save()
+
+
+    elif (objreaffectation.organisme == 'Pashalik'):
+        pashalik = Pashalik.objects.get(idpashalik=objreaffectation.idorganismeparent)
+        objpashalikperso = Pashalikpersonnel.objects.create(idpersonnel_field=personnelFor, idpashalik_field=pashalik,
+                                                          dateaffectation=objreaffectation.datereafectation)
+        objpashalikperso.save()
+        personnelFor.organisme = 'Pashalik'
+        personnelFor.save()
+
+
+    elif (objreaffectation.organisme == 'Cercle'):
+        caidat = Caidat.objects.get(idcaidat=objreaffectation.idorganismeparent)
+        objscaidatperso = Caidatpersonnel.objects.create(idpersonnel_field=personnelFor, idcaidat_field=caidat,
+                                                           dateaffectation=objreaffectation.datereafectation)
+        objscaidatperso.save()
+        personnelFor.organisme = 'Caidat'
+        personnelFor.save()
+
+
+    elif(objreaffectation.organisme == 'Annexe'):
+        annexe = Caidat.objects.get(idcaidat=objreaffectation.idorganismeparent)
+        objsannexeperso = Annexepersonnel.objects.create(idpersonnel_field=personnelFor, idannexe_field=annexe,
+                                                         dateaffectation=objreaffectation.datereafectation)
+        objsannexeperso.save()
+        personnelFor.organisme = 'Annexe'
+        personnelFor.save()
+
+    Reafectation.objects.filter(idreafectation=objreaffectation.idreafectation).delete()
+    return redirect('/personnel/reaffectation')
+
+
+@login_required(login_url='/connexion')
+def deletereaffectation(request, id):
+    Reafectation.objects.filter(idreafectation=id).delete()
+    return redirect('/personnel/reaffectation')
+
+@login_required(login_url='/connexion')
+@csrf_exempt
+def ajaxloadadministration(request):
+    objpersonneladmi = {'personnels': list(Personnel.objects.filter(administrationapp=request.POST.get("administration", None)).values('idpersonnel','nomar','nomfr','cin','prenomar','prenomfr'))}
+    return JsonResponse(objpersonneladmi, safe=False)
+
+@login_required(login_url='/connexion')
 @csrf_exempt
 def ajaxloadpersonnel(request):
     personnelFor = Personnel.objects.filter(idpersonnel=request.POST['personnel']).first()
     personnel = Personnel.objects.filter(idpersonnel=request.POST['personnel'])
     objgradeperso = Gradepersonnel.objects.filter(idpersonnel_field=personnelFor)
+    objreaffectation = Reafectation.objects.filter(idpersonnel_field=personnelFor)
+
 
     if(personnelFor.organisme == 'Service'):
         objserviceperso = Servicepersonnel.objects.filter(idpersonnel_field=personnelFor)
@@ -601,7 +657,8 @@ def ajaxloadpersonnel(request):
                               'prenomar': personnel.values_list('prenomar').first(),
                               'ppr': personnel.values_list('ppr').first(),
                               'oraganisme': objserviceperso.values_list('idservice_field__libelleservicear').last(),
-                              'grade': objgradeperso.values_list('idgrade_field__gradear').last()}}
+                              'grade': objgradeperso.values_list('idgrade_field__gradear').last(),
+                              'reafectation': objreaffectation.values_list('idreafectation','libellereafectationar').first()}}
 
         return JsonResponse(data, safe=False)
     elif(personnelFor.organisme == 'Pashalik'):
@@ -611,7 +668,8 @@ def ajaxloadpersonnel(request):
                               'prenomar': personnel.values_list('prenomar').first(),
                               'ppr': personnel.values_list('ppr').first(),
                               'oraganisme': objpashalikperso.values_list('idpashalik_field__libellepashalikar').last(),
-                              'grade': objgradeperso.values_list('idgrade_field__gradear').last()}}
+                              'grade': objgradeperso.values_list('idgrade_field__gradear').last(),
+                              'reafectation': objreaffectation.values_list('idreafectation','libellereafectationar').first()}}
         return JsonResponse(data, safe=False)
 
     elif(personnelFor.organisme == 'Cercle'):
@@ -621,7 +679,8 @@ def ajaxloadpersonnel(request):
                               'prenomar': personnel.values_list('prenomar').first(),
                               'ppr': personnel.values_list('ppr').first(),
                               'oraganisme': objcaidatperso.values_list('idcaidat_field__libellecaidatar').last(),
-                              'grade': objgradeperso.values_list('idgrade_field__gradear').last()}}
+                              'grade': objgradeperso.values_list('idgrade_field__gradear').last(),
+                              'reafectation': objreaffectation.values_list('idreafectation','libellereafectationar').first()}}
         return JsonResponse(data, safe=False)
 
     else:
@@ -631,7 +690,8 @@ def ajaxloadpersonnel(request):
                               'prenomar': personnel.values_list('prenomar').first(),
                               'ppr': personnel.values_list('ppr').first(),
                               'oraganisme': objannexeperso.values_list('idannexe_field__libelleannexear').last(),
-                              'grade': objgradeperso.values_list('idgrade_field__gradear').last()}}
+                              'grade': objgradeperso.values_list('idgrade_field__gradear').last(),
+                              'reafectation': objreaffectation.values_list('idreafectation','libellereafectationar').first()}}
         return JsonResponse(data, safe=False)
 
 @login_required(login_url='/connexion')
@@ -646,48 +706,59 @@ def reaffectation(request):
     divisions = Division.objects.all()
     cercles = Cercle.objects.all()
     personnels = Personnel.objects.all()
+
     if request.method == 'POST':
-        objperso = Personnel.objects.get(request.POST.get("personnel"))
-        if (request.POST.get('entite', None) == "Secrétariat général"):
-            objservice = Service(idservice=request.POST.get('service',None))
-            objReaffectationserv = Reafectation.objects.create(idpersonnel_field=objperso, libellereafectationfr=objservice.libelleservicefr,
-                                                          libellereafectationar=objservice.libelleservicear,
-                                                          dateaffectation=request.POST.get('dateaffectation',None),
-                                                          idorganismeparent=objservice.idservice)
-            objReaffectationserv.save()
+        objperso = Personnel.objects.get(idpersonnel = request.POST.get("personnel"))
 
-        elif (request.POST.get('entite', None) == "Commandement"):
+        if (request.POST.get('entite', None) == "Commandement"):
             if(request.POST.get('districtpashalik', None) == "District"):
-                datesannexe= request.POST.get('dateannexe', None)
-                objannexe = Annexe(idannexe=request.POST.get('annexe',None))
-                objReaffectationanne = Reafectation.objects.create(idpersonnel_field=objperso, libellereafectationar=objannexe.libelleannexear
-                                                             ,libellereafectationfr=objannexe.libelleannexefr,idorganismeparent=objannexe.idannexe
-                                                             , dateaffectation=datesannexe)
+                datesannexe = request.POST.get('dateannexe')
+                objannexe = Annexe.objects.get(idannexe=request.POST['annexe'])
+                objReaffectationanne = Reafectation.objects.create(idpersonnel_field=objperso,
+                                                                   libellereafectationar=objannexe.libelleannexear,
+                                                                   libellereafectationfr=objannexe.libelleannexefr,
+                                                                   idorganismeparent=objannexe.idannexe,
+                                                                   datereafectation=datesannexe,
+                                                                   organisme='Annexe')
                 objReaffectationanne.save()
-
 
 
             elif(request.POST.get('districtpashalik', None) == "Pashalik"):
                 pashalik = request.POST.get('pashalik', None)
-                datepashalik = request.POST.get('datepashalik', None)
-                objpashalik = Pashalik(idpashalik=pashalik)
-                objReafectationpash = Reafectation.objects.create(idpersonnel_field=objperso, libellereafectationfr=objpashalik.libellepashalikfr
-                                                                  ,libellereafectationar=objpashalik.libellepashalikar,idorganismeparent=objpashalik.idpashalik, dateaffectation=datepashalik)
+                datepashalik = request.POST.get('datepashalik')
+                objpashalik = Pashalik.objects.get(idpashalik=pashalik)
+                objReafectationpash = Reafectation.objects.create(idpersonnel_field=objperso,
+                                                                  libellereafectationfr=objpashalik.libellepashalikfr
+                                                                  ,libellereafectationar=objpashalik.libellepashalikar,
+                                                                  idorganismeparent=objpashalik.idpashalik,
+                                                                  datereafectation=datepashalik, organisme='Pashalik')
                 objReafectationpash.save()
 
             elif((request.POST.get('districtpashalik', None) == "Cercle")):
                 caidat = request.POST.get('caida', None)
-                datecaidat = request.POST.get('datecaida', None)
+                datecaidat = request.POST['datecaida']
                 objcaidat = Caidat(idcaidat=caidat)
-                objReafectationcaidat = Reafectation.objects.create(idpersonnel_field=objperso, libellereafectationar=objcaidat.libellecaidatar
-                                                                    ,libellereafectationfr=objcaidat.libellecaidatfr
-                                                                    ,idorganismeparent=objcaidat.idcaidat, dateaffectation=datecaidat)
+                objReafectationcaidat = Reafectation.objects.create(idpersonnel_field=objperso,
+                                                                    libellereafectationar=objcaidat.libellecaidatar
+                                                                    , libellereafectationfr=objcaidat.libellecaidatfr
+                                                                    , idorganismeparent=objcaidat.idcaidat,
+                                                                    datereafectation=datecaidat, organisme='Caidat')
                 objReafectationcaidat.save()
+        else:
+            dateservice = request.POST['dateservice']
+            objservice = Service.objects.get(idservice=request.POST.get('service'))
+            objReaffectationserv = Reafectation.objects.create(idpersonnel_field=objperso,
+                                                               libellereafectationfr=objservice.libelleservicefr,
+                                                               libellereafectationar=objservice.libelleservicear,
+                                                               datereafectation=dateservice,
+                                                               idorganismeparent=objservice.idservice, organisme='Service')
+            objReaffectationserv.save()
 
-    return render(request, 'GestionPersonnel/reaffectation.html',{'grades': grades, 'fonctions': fonctions,
-                                                             'echellons': echellons, 'statutgrades': statutgrades,
-                                                             'entites': entites, 'pashaliks': pashaliks,
-                                                             'districts': districts, 'divisions': divisions, 'cercles': cercles, 'personnels': personnels })
+    return render(request, 'GestionPersonnel/reaffectation.html', {'grades': grades, 'fonctions': fonctions,
+                                                                   'echellons': echellons, 'statutgrades': statutgrades,
+                                                                   'entites': entites, 'pashaliks': pashaliks,
+                                                                   'districts': districts, 'divisions': divisions,
+                                                                   'cercles': cercles, 'personnels': personnels})
 
 # conjoint -----------------------------------
 @login_required(login_url='/connexion')
@@ -890,11 +961,23 @@ def printpdfquitter(req,id):
 
 @login_required(login_url='/connexion')
 def printpdf(req,id):
+
    personnel = Personnel.objects.get(idpersonnel=id)
-   empName=str(personnel.nomfr+" "+personnel.prenomfr)
-   cin=str(personnel.cin)
-   num=str(personnel.numerofinancier)
-   grade="ingenieur"
+   gradepersonnel = Gradepersonnel.objects.filter(idpersonnel_field=personnel).last()
+   attestationlast = Attestationtravail.objects.all().last()
+   if(attestationlast == None):
+       dataattes = 1
+   else:
+       dataattes = attestationlast.numattestationtravail + 1;
+
+   if(gradepersonnel == None):
+       datagrade = " "
+   else:
+       datagrade = gradepersonnel.idgrade_field.gradefr
+
+   attestation = Attestationtravail.objects.create(numattestationtravail=dataattes, idpersonnel_field=personnel, datedelivre=datetime.date.today())
+   attestation.save()
+
    pdf=FPDF()
    pdf.add_page()
    pdf.set_font("Arial",size=9)
@@ -905,6 +988,7 @@ def printpdf(req,id):
    pdf.text(23,39,txt="SECRETARIAT GENERAL ")
    pdf.text(12,45,txt="DIVISION DU RESSOURCES HUMAINES  ")
    pdf.text(14,51,txt="ET DES AFFAIRES ADMINISTRATIVES ")
+   pdf.text(14, 57, txt="N°:  "+str(dataattes))
    pdf.image(os.path.join(os.path.dirname(os.path.dirname(__file__)), "static/images/logorm.png"), x=95     , y=20, w=27)
    ##pdf.cell(100,100,"Attestation de travail",1,2,"c")
    pdf.set_font("Arial", size=15)
@@ -914,13 +998,13 @@ def printpdf(req,id):
    pdf.set_font("Arial", "B",size=12)
    pdf.text(36,116,txt="Le Wali de la Région de l'Oriental,Gouverneur de Préfecture d'Oujda-Angad ")
    pdf.set_font("Arial", size=11)
-   pdf.text(25,130,txt="Atteste que Me/Mme    :          "+empName)
-   pdf.text(25,138,txt="Titulaire de la C.N.I      :          "+cin)
-   pdf.text(25,146,txt="P.P.R                           :          "+num)
+   pdf.text(25,130,txt="Atteste que Me/Mme    :          "+str(personnel.nomfr+" "+personnel.prenomfr))
+   pdf.text(25,138,txt="Titulaire de la C.N.I      :          "+str(personnel.cin))
+   pdf.text(25,146,txt="P.P.R                           :          "+str(personnel.numerofinancier))
    pdf.text(25,160,txt="Exerce à la Wilaya de la Région de l'Oriental,Préfecture d'Oujda-Angad")
-   pdf.text(25,170,txt="En qualité de                :         Technicien Spécialisé ")
+   pdf.text(25,170,txt="En qualité de                :         "+str(datagrade))
    pdf.text(25,185,txt="En foi de quoi,la présente attestation est délivrée à l'intéressé(e) pour servir et voir ce que de droit ")
-   pdf.text(125, 200, txt="Oujda le :")
+   pdf.text(125, 200, txt="Oujda le :         "+str(datetime.date.today()))
    ##pdf.cell(80)
    ##pdf.cell(60,10,'Attestation de Travaille',1,1,'C');
    pdf.output("test.pdf")
@@ -946,8 +1030,8 @@ def ajaxtaboardpersonnel(request):
     departretraitetwocount = []
     i = 0
     while i <= 11:
-        departretraiteonecount.append(Personnel.objects.filter(administrationapp='one').filter(dateparrainageretraite__year=date).filter(dateparrainageretraite__month=i + 1).count())
-        departretraitetwocount.append(Personnel.objects.filter(administrationapp='two').filter(dateparrainageretraite__year=date).filter(dateparrainageretraite__month=i + 1).count())
+        departretraiteonecount.append(Personnel.objects.filter(administrationapp='مجلس عمالة وجدة أنجاد-Préfectoral').filter(dateparrainageretraite__year=date).filter(dateparrainageretraite__month=i + 1).count())
+        departretraitetwocount.append(Personnel.objects.filter(administrationapp='عمالة وجدة أنجاد-Général').filter(dateparrainageretraite__year=date).filter(dateparrainageretraite__month=i + 1).count())
         i = i + 1
 
     departretraite = {
@@ -968,17 +1052,17 @@ def taboardpersonnel(request):
     personnels = Personnel.objects.all().count()
     data = datetime.datetime.today() - datetime.timedelta(days=6 * 365/12)
     personnelslastup = Personnel.objects.filter(lastupdate__lte = data).all()
-    administrationOne = Personnel.objects.filter(administrationapp='one').count()
-    administrationTwo = Personnel.objects.filter(administrationapp='two').count()
+    administrationOne = Personnel.objects.filter(administrationapp='مجلس عمالة وجدة أنجاد-Préfectoral').count()
+    administrationTwo = Personnel.objects.filter(administrationapp='عمالة وجدة أنجاد-Général').count()
 
     # dates 5 retraites
     i = 0
     cinqdepartretraite = []
     while i < 5:
-        data = {'cinqdepartretraite' : Personnel.objects.filter(dateparrainageretraite__year=datetime.datetime.now().year - i).count(),
+        data = {'cinqdepartretraite' : Personnel.objects.filter(dateparrainageretraite__year=datetime.datetime.now().year + i).count(),
                 'an' : datetime.datetime.now().year + i,
-                'cinqdepartretraiteone': Personnel.objects.filter(administrationapp='one').filter(dateparrainageretraite__year=datetime.datetime.now().year + i).count(),
-                'cinqdepartretraitetwo' : Personnel.objects.filter(administrationapp='two').filter(dateparrainageretraite__year=datetime.datetime.now().year + i).count()
+                'cinqdepartretraiteone': Personnel.objects.filter(administrationapp='مجلس عمالة وجدة أنجاد-Préfectoral').filter(dateparrainageretraite__year=datetime.datetime.now().year + i).count(),
+                'cinqdepartretraitetwo' : Personnel.objects.filter(administrationapp='عمالة وجدة أنجاد-Général').filter(dateparrainageretraite__year=datetime.datetime.now().year + i).count()
                 }
         cinqdepartretraite.append(data)
         i = i + 1
@@ -987,7 +1071,7 @@ def taboardpersonnel(request):
     departretraiteone = []
     i = 0
     while i <= 11:
-        departretraiteone.append(Personnel.objects.filter(administrationapp='one').filter(
+        departretraiteone.append(Personnel.objects.filter(administrationapp='مجلس عمالة وجدة أنجاد-Préfectoral').filter(
             dateparrainageretraite__year=datetime.datetime.now().year).filter(dateparrainageretraite__month=i+1).count())
         i = i + 1
 
@@ -995,7 +1079,7 @@ def taboardpersonnel(request):
     departretraitetwo = []
     i = 0
     while i<=11:
-        departretraitetwo.append(Personnel.objects.filter(administrationapp='two').filter(
+        departretraitetwo.append(Personnel.objects.filter(administrationapp='عمالة وجدة أنجاد-Général').filter(
             dateparrainageretraite__year=datetime.datetime.now().year).filter(dateparrainageretraite__month=i+1).count())
         i = i + 1
 

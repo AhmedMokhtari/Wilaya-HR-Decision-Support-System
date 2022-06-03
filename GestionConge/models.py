@@ -7,8 +7,7 @@ class Conge(models.Model):
     datedebut = models.DateTimeField(db_column='dateDebut', blank=True, null=True)
     dateretour = models.DateTimeField(db_column='dateRetour', blank=True, null=True)
     nbjour = models.IntegerField(db_column='nbJour', blank=True, null=True)
-    annee = models.IntegerField(db_column='annee', blank=True, null=True)
-    statut = models.CharField(max_length=30,db_column='Statut', blank=True, null=True)
+    statut = models.CharField(max_length=30, db_column='Statut', blank=True, null=True)
     idpersonnel_field = models.ForeignKey('GestionPersonnel.Personnel', models.DO_NOTHING, db_column='IdPersonnel#', blank=True, null=True)
 
     class Meta:

@@ -1,27 +1,4 @@
-
-        //ajaxloadpersonnel
 $(document).ready(function (){
-    function loadadministration(){
-        $("#personnel option").remove();
-        $.ajax(
-        {
-            type:"POST",
-            url: url7,
-            data:{ administration: $('select[id=administration]').val()},
-            success: function(data)
-            {
-                for(var i = 0; i < data.personnels.length; i++)
-                {
-                    $('select[id=personnel]').append(`<option value="${data.personnels[i].idpersonnel}">${data.personnels[i].cin}</option>`);
-                }
-                 loadpersonnel()
-                console.log(data);
-            }
-        });
-    }
-    loadadministration()
-    $('select[id=administration]').change(loadadministration);
-
     function loadpersonnel(){
         $("#table tr").remove();
         $.ajax(
@@ -31,7 +8,7 @@ $(document).ready(function (){
             data:{ personnel: $('select[id=personnel]').val()},
             success: function(data)
             {
-                $("#table").append(`<tr><th> الإسم الكامل :</th><td>${data.persodata.nomar} ${data.persodata.prenomar}</td></tr>'+
+                /*$("#table").append(`<tr><th> الإسم الكامل :</th><td>${data.persodata.nomar} ${data.persodata.prenomar}</td></tr>'+
                                             '<tr><th>ب.ب.ر :</th><td>${data.persodata.ppr}</td></tr> <tr><th>  التعيين الحالي :</th><td>${data.persodata.oraganisme}</td></tr>'+
                                             '<tr><th>الرتبة :</th><td>${data.persodata.grade}</td></tr>`);
 
@@ -51,11 +28,19 @@ $(document).ready(function (){
                     $('#reafectationdonne').show();
                     $('#reafectationbutton').show();
                     $('#reaf').hide();
-                }
+                }*/
+                console.log(data)
             }
         });
     }
+    loadpersonnel()
+    $('select[id=personnel]').input(loadpersonnel);
+});
 
-    $('select[id=personnel]').change(loadpersonnel);
-})
+
+
+
+
+
+
 
