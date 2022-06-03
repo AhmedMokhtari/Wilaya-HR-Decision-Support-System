@@ -173,9 +173,6 @@ def conge(request):
                 a1 = a1 + timedelta(days=2)
                 while (a1.date() in data):
                     a1 = a1 + timedelta(days=1)
-                print(data[0])
-                print(a1.date())
-                print(a1.date() in data)
             i = i + 1
         datere = a1
         objconge = Conge(type_conge=typede, datedebut=a2, dateretour=datere, idpersonnel_field=perso, nbjour=nbjours)
@@ -230,7 +227,7 @@ def delete(request,id):
 
 @login_required(login_url='/connexion')
 @csrf_exempt
-def ajaxloadpersonnel(request):
+def ajaxloadpersonnelforconge(request):
     personnel = Personnel.objects.filter(cin=request.POST.get('personnel', None))
     if(personnel != None):
         objconge = {'persodata': list(personnel.values('idpersonnel', 'nomar', 'prenomar', 'cin', 'ppr')),

@@ -31,6 +31,7 @@ $(document).ready(function (){
             data:{ personnel: $('select[id=personnel]').val()},
             success: function(data)
             {
+                console.log(data)
                 $("#table").append(`<tr><th> الإسم الكامل :</th><td>${data.persodata.nomar} ${data.persodata.prenomar}</td></tr>'+
                                             '<tr><th>ب.ب.ر :</th><td>${data.persodata.ppr}</td></tr> <tr><th>  التعيين الحالي :</th><td>${data.persodata.oraganisme}</td></tr>'+
                                             '<tr><th>الرتبة :</th><td>${data.persodata.grade}</td></tr>`);
