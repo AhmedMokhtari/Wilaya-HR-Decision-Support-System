@@ -13,6 +13,7 @@ urlpatterns = [
     path('modifier_conjoint/<int:id>', views.modifier_conjoint, name='modifier_conjoint'),
     path('modifier/<int:id>', views.modifier,name="modifier"),
     path('export_pdf/<int:id>', views.printpdf, name='export_pdf'),
+    path('export_pdfar/<int:id>', views.printpdfar, name='export_pdfar'),
     path('export_pdfquiter/<int:id>', views.printpdfquitter, name='export_pdfquiter'),
     path('taboard', views.taboardpersonnel, name='taboard'),
     path('info/<int:id>', views.info, name='info'),
