@@ -92,8 +92,6 @@ def GestionCongeEnCours(request):
         datenbjours = np.busday_count(a1.date(), a2.date(), holidays=data)
         b={'joursrestan':delta.days,'joursrestanConge':datenbjours}
         listdate.append(b);
-    print(b)
-    print(listdate)
     cursor = connection.cursor()
     cursor.execute('''select * from Conge where Statut='En Cours' and dateRetour <= GETDATE() ''')
     EncourFini = dictfetchall(cursor)
@@ -115,8 +113,8 @@ def persoinfo(request,id):
     objpersonnel=Personnel.objects.get(idpersonnel=id);
     print(objpersonnel)
     congeperso=Conge.objects.filter(idpersonnel_field=id);
+    annee =congeperso.order_by('dateaffectation').values_list('annee', flat=True).distinct()
     listannee =[]
-    annee =congeperso.order_by('annee').values_list('annee', flat=True).distinct()
     Q1 = Q(idpersonnel_field=id)
     for a in annee :
         Q2 = Q(annee=a)

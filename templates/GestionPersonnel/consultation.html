@@ -20,6 +20,7 @@
                             <div class="col-md-10">
                                 <label class="col-form-label float-right" for="entite"> الكيان :</label>
                                 <select class="form-control text-center" id="entite" name="entite"  required>
+                                    <option value=""></option>
                                     {% for entite in entites %}
                                         <option>{{ entite.libelleentitefr}}</option>
                                     {% endfor %}
@@ -42,6 +43,7 @@
                             <div class="col-md-10">
                                 <label class="col-form-label float-right" for="districtpashalik"> المقاطعة :</label>
                                 <select class="form-control text-center" id="districtpashalik" name="districtpashalik">
+                                    <option value=""></option>
                                     <option>District</option>
                                     <option>Pashalik</option>
                                     <option>Cercle</option>
@@ -53,7 +55,7 @@
                         <div class="row cerclediv">
                             <div class="col-md-10">
                                 <label class="col-form-label float-right" for="cercle"> الدائرة :</label>
-                                <select class="form-control text-center" id="cercle" name="district">
+                                <select class="form-control text-center" id="cercle" name="cercle">
                                     <option id="op4"></option>
                                     {% for cercle in cercles %}
                                         <option value="{{ cercle.idcercle }}">{{ cercle.libellecerclefr }}</option>
@@ -66,7 +68,7 @@
                         <div class="row caidadiv">
                             <div class="col-md-10">
                                 <label class="col-form-label float-right" for="caida"> القيادة :</label>
-                                <select class="form-control text-center" id="caida" name="district">
+                                <select class="form-control text-center" id="caida" name="caida">
 
                                 </select>
                             </div>
@@ -77,7 +79,7 @@
                             <div class="col-md-10">
                                 <label class="col-form-label float-right" for="district"> المقاطعة :</label>
                                 <select class="form-control text-center" id="district" name="district">
-                                    <option id="op0"></option>
+                                    <option id="op0" value=""></option>
                                     {% for district in districts %}
                                         <option value="{{ district.iddistrict }}">{{ district.libelledistrictfr }}</option>
                                     {% endfor %}
@@ -90,6 +92,7 @@
                             <div class="col-md-10">
                                 <label class="col-form-label float-right" for="pashalik"> الباشوية :</label>
                                 <select class="form-control text-center" id="pashalik" name="pashalik">
+                                    <option value=""></option>
                                     {% for pashalik in pashaliks %}
                                         <option value="{{ pashalik.idpashalik }}">{{ pashalik.libellepashalikfr}}</option>
                                     {% endfor %}
@@ -112,7 +115,6 @@
                             <div class="col-md-10">
                                 <label class="col-form-label float-right" for="service"> إدارة :</label>
                                 <select class="form-control text-center" id="service" name="service">
-
                                 </select>
                             </div>
                         </div>
@@ -125,7 +127,7 @@
                             <div class="col-md-10">
                                 <label class="col-form-label float-right" for="statutgrade"> حالة الدرجة :</label>
                                 <select class="form-control text-center" name="statutgrade" id="statutgrade" required>
-                                        <option  id="op1" selected></option>
+                                        <option  id="op1" value="-1" selected></option>
                                     {% for statut in statutgrades %}
                                         <option value="{{ statut.idstatutgrade }}">{{ statut.statutgradear }}</option>
                                     {% endfor %}
@@ -136,9 +138,8 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <label class="col-form-label float-right" for="grade"> الدرجة :</label>
-                                <select class="form-control text-center" name="grade" id="grade"  required>
-
-                                </select>
+                                    <select class="form-control text-center" name="grade" id="grade"  required>
+                                    </select>
                             </div>
                         </div>
                     </div>
@@ -188,30 +189,6 @@
                             </tr>
                         </thead>
                         <tbody id="tbody">
-                        <!--  {% for personnel in personnels %}
-                                  <tr class="tb-colon"  >
-                                        <td>{{ personnel.Cin }}</td>
-                                        <td>{{ personnel.Ppr }}</td>
-                                        <td>{{personnel.NomFr}} - {{ personnel.PrenomFr }}</td>
-                                        <td>{{personnel.Sexe}}</td>
-                                        <td>{{ personnel.AdministrationApp }} </td>
-                                        <td>{{ personnel.LibelleDivisionFr }}</td>
-                                        <td>{{ personnel.GradeFr }}</td>
-                                        <td><a href="{% url 'info' personnel.IdPersonnel %}" class="btn btn-success m-1"><i class="fa-solid fa-arrow-up-right-from-square fa-lg " ></i></a><a href="{% url 'modifier' personnel.IdPersonnel %}"class="btn btn-warning btn-icon  mx-1"><i class="fa-solid fa-pen-to-square fa-lg"></i></a> </td>
-                                  </tr>
-                            {% endfor %}-->
-                        <!--  {% for personnel in gradeperso %}
-                                  <tr class="tb-colon"  >
-                                        <td>{{ personnel.idpersonnel_field__cin }}</td>
-                                        <td>{{ personnel.idpersonnel_field__ppr }}</td>
-                                        <td>{{personnel.idpersonnel_field__nomfr}} - {{ personnel.idpersonnel_field__prenomfr }}</td>
-                                        <td>{{ personnel.idpersonnel_field__sexe }} </td>
-                                        <td>{{personnel.idpersonnel_field__administrationapp}}</td>
-                                        <td>{{ personnel.idgrade_field__idstatutgrade_field__statutgradefr }}</td>
-                                        <td>{{ personnel.idgrade_field__gradefr }}</td>
-                                         <td>{{ personnel.idpersonnel_field__organisme }}</td>
-                                  </tr>
-                            {% endfor %}-->
                          {% for personnel in listPerso %}
                                   <tr class="tb-colon"  >
                                         <td>{{ personnel.cin }}</td>
@@ -245,6 +222,98 @@
        var url3 = "{% url 'ajaxajouterloadsevice' %}";
        const url4 = "{% url 'ajaxajouterloadcaida' %}";
        const url6 = "{% url 'ajaxajouterloaddivision' %}"
+      document.getElementById('formsearch').addEventListener('change',function (e){
+          entite=document.getElementById('entite');
+          division=document.getElementById('division');
+          districtpashalik=document.getElementById('districtpashalik');
+          console.log(e.target.getAttribute('name'));
+          console.log(e.target.value);
+          let val= e.target.getAttribute('name') +'-'+e.target.value;
+          let table=$('#table').DataTable()
+          table.clear().draw();
+          if(e.target.getAttribute('name')=='statutgrade'){
+              let entite=document.getElementsByName('entite')[0].value;
+              let division=document.getElementsByName('division')[0].value;
+              let service=document.getElementsByName('service')[0].value;
+              let districtpashalik=document.getElementsByName('districtpashalik')[0].value;
+              let district=document.getElementsByName('district')[0].value;
+              let annexe=document.getElementsByName('annexe')[0].value;
+              let pashalik=document.getElementsByName('pashalik')[0].value;
+              let cercle=document.getElementsByName('cercle')[0].value;
+              let caida=document.getElementsByName('caida')[0].value;
+              if(entite!=''){
+                  if(division!='') {
+                      if (service != '') {
+                          console.log('filter service')
+                      }else {
+                          console.log('filter Division')
+                      }
+                  }else if(districtpashalik!=''){
+                            if(district!=''){
+                                if(annexe!=''){
+                                    console.log('annexe filter')
+                                }else{
+                                    console.log('district filter')
+                                }
+                            }else if(pashalik!=''){
+                                    console.log('pashalik filter')
+                            }else if(cercle!=''){
+                                if(caida!=''){
+                                    console.log('caida filter')
+                                }else{
+                                    console.log('cercle filter')
+                                }
+                            }else{
+                                console.log('filter with' +districtpashalik)
+                            }
+                  }else{
+                            console.log('filter with '+entite)
+                  }
+              }else{
+                  console.log('All')
+              }
+          }
+          ajaxPerso(val)
+      })
+
+ function ajaxPerso(selectedbudget){
+    $.ajax({
+        type: 'get',
+        url: `perso-json/${selectedbudget}/`,
+        success: function(response){
+            const persoData = response.data
+            //let tb1 = document.querySelector('#tbody');
+           // tb1.innerHTML=""
+          dataa=JSON.parse(persoData);
+          dataa.forEach(item=>{
+                let table =$('#table').DataTable();
+                let idp = item.idpersonnel;
+                let vl;
+                if('idservice_field__libelleservicefr' in item)
+                    vl='idservice_field__libelleservicefr'
+                else if('idpashalik_field__libellepashalikfr' in item)
+                       vl= 'idpashalik_field__libellepashalikfr'
+                else if('idcaidat_field__libellecaidatfr' in item)
+                       vl='idcaidat_field__libellecaidatfr'
+                else if('idannexe_field__libelleannexefr' in item)
+                        vl='idannexe_field__libelleannexefr'
+                table.row.add([
+                    item.cin ,
+                    item.ppr,
+                    item.nomfr+"-"+item.prenomfr,
+                    item.sexe,
+                    item.administrationapp,
+                    item[vl],
+                    item.idgrade_field__gradefr,
+                   `<a href="personnelinfo/${idp}" class="btn btn-success m-1"><i class="fa-solid fa-arrow-up-right-from-square fa-lg " ></i></a><a href="modifier/${idp}"class="btn btn-warning btn-icon  mx-1"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>`
+                ]).draw();
+            })
+        },
+        error: function(error){
+            console.log(error)
+        }
+    })
+}
       </script>
     <script type="text/javascript" src="{% static 'js/GestionPersonnel/ajouter.js' %}"></script>
 <script src="{% static 'js/jquery.dataTables.min.js' %}"></script>

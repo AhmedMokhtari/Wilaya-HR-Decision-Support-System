@@ -9,10 +9,15 @@ import csv
 import pandas as pd
 import seaborn as sns
 from .utils import calculate_age, get_graph, count_age_int, dictfetchall, dateRetraiteCalc
+from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 import json
 from django.db import connection
+import arabic_reshaper
+from bidi.algorithm import get_display
+from pathlib import Path
+from operator import itemgetter
 
 
 #personnel -------------------------------.
@@ -70,7 +75,6 @@ def consultation(request):
         res={**a, **b,**c};
         listPerso.append(res)
 
-
     gradeperso = Gradepersonnel.objects.order_by('idpersonnel_field').values('idpersonnel_field','idpersonnel_field__cin','idpersonnel_field__ppr','idpersonnel_field__nomfr','idpersonnel_field__prenomfr','idpersonnel_field__administrationapp','idpersonnel_field__sexe','idpersonnel_field__organisme','idgrade_field__gradefr','idgrade_field__idstatutgrade_field__statutgradefr')
 
     return render(request, 'GestionPersonnel/consultation.html', {'personnels': rows, 'divsions': divisions,
@@ -91,32 +95,496 @@ def persoinfoimg(request) :
 def get_json_perso_data(request, *args, **kwargs):
     selected_obj = kwargs.get('obj')
     arr=selected_obj.split("-");
-    reqAncienteAdmi = "P.{ancienneteAdmi} = '{ancienneteAdmiValue}' ".format(ancienneteAdmi=arr[0], ancienneteAdmiValue=arr[1]);
-    reqDivision = " D.{IdDivision}='{IdDivisionValue}'".format( IdDivision=arr[2], IdDivisionValue=arr[3]);
-    reqGrade = " G.{IdGrade}='{IdGradeValue}'".format( IdGrade=arr[4], IdGradeValue=arr[5]);
-    reqgenre = " P.{Sexe}='{SexeValue}'".format( Sexe=arr[6], SexeValue=arr[7]);
-    if(arr[0]==str(1) and arr[1]==str(1)):
-        reqAncienteAdmi="1 = 1"
-    if (arr[2] == str(1) and arr[3] == str(1)):
-        reqDivision = "1 = 1"
-    if (arr[4] == str(1) and arr[5] == str(1)):
-        reqGrade = "1 = 1"
-    if (arr[6] == str(1) and arr[7] == str(1)):
-        reqgenre = "1 = 1"
-    cursor = connection.cursor()
-    req='''with t1 as(select IdService#,IdPersonnel#,DateAffectation, ROW_NUMBER()  OVER ( PARTITION BY IdPersonnel# ORDER BY IdPersonnel#,DateAffectation desc ) RowNumber from ServicePersonnel )
-    ,
-    t2 as(
-    select IdGrade#,IdPersonnel#,DateGrade, ROW_NUMBER()  OVER ( PARTITION BY IdPersonnel# ORDER BY IdPersonnel#,DateGrade desc ) RowNumber from GradePersonnel
-    )
-    select P.IdPersonnel,P.Sexe,P.Ppr, P.NomFr , P.PrenomFr,P.Cin,P.photo,D.LibelleDivisionFr, S.LibelleServiceFr ,P.AdministrationApp ,t1.IdService#,t1.DateAffectation,t2.IdGrade#,t2.DateGrade,G.GradeFr,S.LibelleServiceFr
-    from t1,t2 ,Service S ,Personnel P,Division D,Grade G where   t1.IdPersonnel# = t2.IdPersonnel#  and  t1.RowNumber = t2.RowNumber  and
-    t1.RowNumber=1 AND S.IdService=t1.IdService# AND P.IdPersonnel=t1.IdPersonnel# AND D.IdDivision=S.IdDivision# AND G.IdGrade=t2.IdGrade# AND {reqAncienteAdmi} AND {reqDivision} AND {reqGrade}  AND {reqGenre} '''.format(reqAncienteAdmi=reqAncienteAdmi,reqDivision=reqDivision,reqGrade=reqGrade,reqGenre=reqgenre)
-    cursor.execute(req)
-    print(req);
-    rows = list(dictfetchall(cursor))
-    objpersonnel = list(Personnel.objects.filter(ancienneteadmi=selected_obj).values())
-    return JsonResponse({'data':rows})
+    listPerso = []
+    if(arr[0]=='entite'):
+        if(arr[1]=='Secrétariat général'):
+               perso = Personnel.objects.filter(organisme='Service').values_list('idpersonnel', flat=True)
+               for id in perso:
+                   a = Personnel.objects.filter(idpersonnel=id).values('idpersonnel', 'cin', 'ppr', 'nomfr', 'prenomfr',
+                                                                       'administrationapp', 'sexe', 'organisme',
+                                                                       'photo').first()
+                   b = Gradepersonnel.objects.filter(idpersonnel_field=id).values('idgrade_field__gradefr',
+                                                                                  'idgrade_field__idstatutgrade_field__statutgradefr').last()
+                   c = Servicepersonnel.objects.filter(idpersonnel_field=id).values(
+                               'idservice_field__libelleservicear',
+                               'idservice_field__libelleservicefr',
+                               'idservice_field__iddivision_field__libelledivisionfr',
+                               'idservice_field__iddivision_field__libelledivisionar').last()
+                   if (not b):
+                       b = {'idgrade_field__gradefr': '', 'idgrade_field__idstatutgrade_field__statutgradefr': ''}
+                   if (not c):
+                       c = {'idservice_field__libelleservicear': '', 'idservice_field__libelleservicefr': '',
+                            'idservice_field__iddivision_field__libelledivisionar': ''}
+
+                   res = {**a, **b, **c};
+                   listPerso.append(res)
+        elif(arr[1]=='Commandement'):
+            persoPashalik = Personnel.objects.filter(organisme='pashalik').values_list('idpersonnel', flat=True)
+            persoCaida = Personnel.objects.filter(organisme='Caida').values_list('idpersonnel', flat=True)
+            persoAnnexe = Personnel.objects.filter(organisme='Annexe').values_list('idpersonnel', flat=True)
+            for id in persoPashalik:
+                a = Personnel.objects.filter(idpersonnel=id).values('idpersonnel', 'cin', 'ppr', 'nomfr', 'prenomfr',
+                                                                    'administrationapp', 'sexe', 'organisme',
+                                                                    'photo').first()
+                b = Gradepersonnel.objects.filter(idpersonnel_field=id).values('idgrade_field__gradefr',
+                                                                               'idgrade_field__idstatutgrade_field__statutgradefr').last()
+                c = Pashalikpersonnel.objects.filter(idpersonnel_field=id).values(
+                    'idpashalik_field__libellepashalikfr',
+                    'idpashalik_field__libellepashalikar').last()
+                if (not b):
+                    b = {'idgrade_field__gradefr': '', 'idgrade_field__idstatutgrade_field__statutgradefr': ''}
+                if (not c):
+                    c = {'idpashalik_field__libellepashalikar': '', 'idpashalik_field__libellepashalikfr': '',}
+
+                res = {**a, **b, **c};
+                listPerso.append(res)
+            for id in persoCaida:
+                a = Personnel.objects.filter(idpersonnel=id).values('idpersonnel', 'cin', 'ppr', 'nomfr', 'prenomfr',
+                                                                    'administrationapp', 'sexe', 'organisme',
+                                                                    'photo').first()
+                b = Gradepersonnel.objects.filter(idpersonnel_field=id).values('idgrade_field__gradefr',
+                                                                               'idgrade_field__idstatutgrade_field__statutgradefr').last()
+                c = Caidatpersonnel.objects.filter(idpersonnel_field=id).values(
+                    'idcaidat_field__libellecaidatfr',
+                    'idcaidat_field__libellecaidatar').last()
+                if (not b):
+                    b = {'idgrade_field__gradefr': '', 'idgrade_field__idstatutgrade_field__statutgradefr': ''}
+                if (not c):
+                    c = {'idcaidat_field__libellecaidatar': '', 'idcaidat_field__libellecaidatfr': '',}
+
+                res = {**a, **b, **c};
+                listPerso.append(res)
+            for id in persoAnnexe:
+                a = Personnel.objects.filter(idpersonnel=id).values('idpersonnel', 'cin', 'ppr', 'nomfr', 'prenomfr',
+                                                                    'administrationapp', 'sexe', 'organisme',
+                                                                    'photo').first()
+                b = Gradepersonnel.objects.filter(idpersonnel_field=id).values('idgrade_field__gradefr',
+                                                                               'idgrade_field__idstatutgrade_field__statutgradefr').last()
+                c = Annexepersonnel.objects.filter(idpersonnel_field=id).values(
+                    'idannexe_field__libelleannexefr',
+                    'idannexe_field__libelleannexear').last()
+                print(c);
+                if (not b):
+                    b = {'idgrade_field__gradefr': '', 'idgrade_field__idstatutgrade_field__statutgradefr': ''}
+                if (not c):
+                    c = {'idannexe_field__libelleannexear': '', 'idannexe_field__libelleannexefr  ': '',}
+
+                res = {**a, **b, **c};
+                listPerso.append(res)
+        elif (arr[1] == 'Cabinet'):
+            ServicePer = Servicepersonnel.objects.all();
+            servid = ServicePer.order_by('idpersonnel_field').values_list('idpersonnel_field', flat=True).distinct()
+            PersoService = []
+            for id in servid:
+                x = Servicepersonnel.objects.filter(idpersonnel_field=id).values(
+                    'idservice_field',
+                    'idpersonnel_field').last()
+                PersoService.append(x);
+            CabinetId = Division.objects.get(libelledivisionfr='Cabinet');
+            servCabinet = Service.objects.filter(iddivision_field=CabinetId).values_list('idservice', flat=True);
+            idServ = [user for user in PersoService if user['idservice_field'] in servCabinet]
+            listofid = []
+            for a in idServ:
+                listofid.append(a['idpersonnel_field'])
+            listidperso = Personnel.objects.filter(organisme='Service').values_list('idpersonnel', flat=True)
+            listfinal = []
+            for it in listidperso:
+                if it in listofid:
+                    listfinal.append(it);
+            for id in listfinal:
+                a = Personnel.objects.filter(idpersonnel=id).values('idpersonnel', 'cin', 'ppr', 'nomfr',
+                                                             'prenomfr',
+                                                             'administrationapp', 'sexe', 'organisme',
+                                                             'photo').first()
+                b = Gradepersonnel.objects.filter(idpersonnel_field=id).values('idgrade_field__gradefr',
+                                                                               'idgrade_field__idstatutgrade_field__statutgradefr').last()
+                Q3 = Q(idpersonnel_field=id)
+                Q4 = Q(idservice_field__in=servCabinet)
+                c = Servicepersonnel.objects.filter(Q3 & Q4).values(
+                    'idservice_field__libelleservicear',
+                    'idservice_field__libelleservicefr',
+                    'idservice_field__iddivision_field__libelledivisionfr',
+                    'idservice_field__iddivision_field__libelledivisionar').last()
+                if (not b):
+                    b = {'idgrade_field__gradefr': '', 'idgrade_field__idstatutgrade_field__statutgradefr': ''}
+                if (not c):
+                    c = {'idservice_field__libelleservicear': '', 'idservice_field__libelleservicefr': '',
+                         'idservice_field__iddivision_field__libelledivisionar': ''}
+
+                res = {**a, **b, **c};
+                listPerso.append(res)
+        elif (arr[1] == 'Dai'):
+            ServicePer = Servicepersonnel.objects.all();
+            servid = ServicePer.order_by('idpersonnel_field').values_list('idpersonnel_field', flat=True).distinct()
+            PersoService = []
+            for id in servid:
+                x = Servicepersonnel.objects.filter(idpersonnel_field=id).values(
+                    'idservice_field',
+                    'idpersonnel_field').last()
+                PersoService.append(x);
+            daiId = Division.objects.get(libelledivisionfr='Dai');
+            servDai = Service.objects.filter(iddivision_field=daiId).values_list('idservice', flat=True);
+            idServ = [user for user in PersoService if user['idservice_field'] in servDai]
+            listofid = []
+            for a in idServ:
+                listofid.append(a['idpersonnel_field'])
+            listidperso = Personnel.objects.filter(organisme='Service').values_list('idpersonnel', flat=True)
+            listfinal = []
+            for it in listidperso:
+                if it in listofid:
+                    listfinal.append(it);
+            for id in listfinal:
+                Q1 = Q(idpersonnel=id)
+                a = Personnel.objects.filter(Q1 & Q2).values('idpersonnel', 'cin', 'ppr', 'nomfr',
+                                                             'prenomfr',
+                                                             'administrationapp', 'sexe', 'organisme',
+                                                             'photo').first()
+                b = Gradepersonnel.objects.filter(idpersonnel_field=id).values('idgrade_field__gradefr',
+                                                                               'idgrade_field__idstatutgrade_field__statutgradefr').last()
+                Q3 = Q(idpersonnel_field=id)
+                Q4 = Q(idservice_field__in=servDai)
+                c = Servicepersonnel.objects.filter(Q3 & Q4).values(
+                    'idservice_field__libelleservicear',
+                    'idservice_field__libelleservicefr',
+                    'idservice_field__iddivision_field__libelledivisionfr',
+                    'idservice_field__iddivision_field__libelledivisionar').last()
+                if (not b):
+                    b = {'idgrade_field__gradefr': '', 'idgrade_field__idstatutgrade_field__statutgradefr': ''}
+                if (not c):
+                    c = {'idservice_field__libelleservicear': '', 'idservice_field__libelleservicefr': '',
+                         'idservice_field__iddivision_field__libelledivisionar': ''}
+
+                res = {**a, **b, **c};
+                listPerso.append(res)
+        elif (arr[1] == 'Dsic'):
+            ServicePer=Servicepersonnel.objects.all();
+            servid = ServicePer.order_by('idpersonnel_field').values_list('idpersonnel_field', flat=True).distinct()
+            PersoService = []
+            for id in servid:
+                x = Servicepersonnel.objects.filter(idpersonnel_field=id).values(
+                    'idservice_field',
+                    'idpersonnel_field').last()
+                PersoService.append(x);
+            DsicId= Division.objects.get(libelledivisionfr='DSIC');
+            servDsic=Service.objects.filter(iddivision_field=DsicId).values_list('idservice', flat=True);
+            superplayers = [user for user in PersoService if user['idservice_field'] in servDsic]
+            listofid=[]
+            for a in superplayers:
+                listofid.append(a['idpersonnel_field'])
+            listidperso=Personnel.objects.filter(organisme='Service').values_list('idpersonnel', flat=True)
+            listfinal=[]
+            for it in  listidperso:
+                if it in listofid:
+                    listfinal.append(it);
+            for id in listfinal:
+                Q1 = Q(idpersonnel=id)
+                a = Personnel.objects.filter(Q1).values('idpersonnel', 'cin', 'ppr', 'nomfr',
+                                                             'prenomfr',
+                                                             'administrationapp', 'sexe', 'organisme',
+                                                             'photo').first()
+                b = Gradepersonnel.objects.filter(idpersonnel_field=id).values('idgrade_field__gradefr',
+                                                                               'idgrade_field__idstatutgrade_field__statutgradefr').last()
+                Q3 = Q(idpersonnel_field=id)
+                Q4 = Q(idservice_field__in=servDsic)
+                c = Servicepersonnel.objects.filter(Q3 & Q4).values(
+                    'idservice_field__libelleservicear',
+                    'idservice_field__libelleservicefr',
+                    'idservice_field__iddivision_field__libelledivisionfr',
+                    'idservice_field__iddivision_field__libelledivisionar').last()
+                if (not b):
+                    b = {'idgrade_field__gradefr': '', 'idgrade_field__idstatutgrade_field__statutgradefr': ''}
+                if (not c):
+                    c = {'idservice_field__libelleservicear': '', 'idservice_field__libelleservicefr': '',
+                         'idservice_field__iddivision_field__libelledivisionar': ''}
+
+                res = {**a, **b, **c};
+                listPerso.append(res)
+    elif(arr[0]=='division'):
+        ServicePer = Servicepersonnel.objects.all();
+        servid = ServicePer.order_by('idpersonnel_field').values_list('idpersonnel_field', flat=True).distinct()
+        PersoService = []
+        for id in servid:
+            x = Servicepersonnel.objects.filter(idpersonnel_field=id).values(
+                'idservice_field',
+                'idpersonnel_field').last()
+            PersoService.append(x);
+        serv = Service.objects.filter(iddivision_field=arr[1]).values_list('idservice', flat=True);
+        superplayers = [user for user in PersoService if user['idservice_field'] in serv]
+        listofid = []
+        for a in superplayers:
+            listofid.append(a['idpersonnel_field'])
+        listidperso = Personnel.objects.filter(organisme='Service').values_list('idpersonnel', flat=True)
+        listfinal = []
+        for it in listidperso:
+            if it in listofid:
+                listfinal.append(it);
+        for id in listfinal:
+            a = Personnel.objects.filter(idpersonnel=id).values('idpersonnel', 'cin', 'ppr', 'nomfr',
+                                                         'prenomfr',
+                                                         'administrationapp', 'sexe', 'organisme',
+                                                         'photo').first()
+            b = Gradepersonnel.objects.filter(idpersonnel_field=id).values('idgrade_field__gradefr',
+                                                                           'idgrade_field__idstatutgrade_field__statutgradefr').last()
+            Q3 = Q(idpersonnel_field=id)
+            Q4 = Q(idservice_field__in=serv)
+            c = Servicepersonnel.objects.filter(Q3 & Q4).values(
+                'idservice_field__libelleservicear',
+                'idservice_field__libelleservicefr',
+                'idservice_field__iddivision_field__libelledivisionfr',
+                'idservice_field__iddivision_field__libelledivisionar').last()
+            if (not b):
+                b = {'idgrade_field__gradefr': '', 'idgrade_field__idstatutgrade_field__statutgradefr': ''}
+            if (not c):
+                c = {'idservice_field__libelleservicear': '', 'idservice_field__libelleservicefr': '',
+                     'idservice_field__iddivision_field__libelledivisionar': ''}
+
+            res = {**a, **b, **c};
+            listPerso.append(res)
+    elif (arr[0] == 'service'):
+        ServicePer = Servicepersonnel.objects.all();
+        servid = ServicePer.order_by('idpersonnel_field').values_list('idpersonnel_field', flat=True).distinct()
+        PersoService = []
+        for id in servid:
+            x = Servicepersonnel.objects.filter(idpersonnel_field=id).values(
+                'idservice_field',
+                'idpersonnel_field').last()
+            PersoService.append(x);
+        superplayers = [user for user in PersoService if user['idservice_field'] == int(arr[1])]
+        listofid = []
+        for a in superplayers:
+            listofid.append(a['idpersonnel_field'])
+        listidperso = Personnel.objects.filter(organisme='Service').values_list('idpersonnel', flat=True)
+        listfinal = []
+        for it in listidperso:
+            if it in listofid:
+                listfinal.append(it);
+        for id in listfinal:
+            a = Personnel.objects.filter(idpersonnel=id).values('idpersonnel', 'cin', 'ppr', 'nomfr',
+                                                         'prenomfr',
+                                                         'administrationapp', 'sexe', 'organisme',
+                                                         'photo').first()
+            b = Gradepersonnel.objects.filter(idpersonnel_field=id).values('idgrade_field__gradefr',
+                                                                           'idgrade_field__idstatutgrade_field__statutgradefr').last()
+            Q3 = Q(idpersonnel_field=id)
+            Q4 = Q(idservice_field=arr[1])
+            c = Servicepersonnel.objects.filter(Q3 & Q4).values(
+                'idservice_field__libelleservicear',
+                'idservice_field__libelleservicefr',
+                'idservice_field__iddivision_field__libelledivisionfr',
+                'idservice_field__iddivision_field__libelledivisionar').last()
+            if (not b):
+                b = {'idgrade_field__gradefr': '', 'idgrade_field__idstatutgrade_field__statutgradefr': ''}
+            if (not c):
+                c = {'idservice_field__libelleservicear': '', 'idservice_field__libelleservicefr': '',
+                     'idservice_field__iddivision_field__libelledivisionar': ''}
+
+            res = {**a, **b, **c};
+            listPerso.append(res)
+    elif (arr[0] == 'districtpashalik'):
+        if(arr[1]=='Pashalik'):
+            persoPashalik = Personnel.objects.filter(organisme='pashalik').values_list('idpersonnel', flat=True)
+            for id in persoPashalik:
+                a = Personnel.objects.filter(idpersonnel=id).values('idpersonnel', 'cin', 'ppr', 'nomfr', 'prenomfr',
+                                                                    'administrationapp', 'sexe', 'organisme',
+                                                                    'photo').first()
+                b = Gradepersonnel.objects.filter(idpersonnel_field=id).values('idgrade_field__gradefr',
+                                                                               'idgrade_field__idstatutgrade_field__statutgradefr').last()
+                c = Pashalikpersonnel.objects.filter(idpersonnel_field=id).values(
+                    'idpashalik_field__libellepashalikfr',
+                    'idpashalik_field__libellepashalikar').last()
+                if (not b):
+                    b = {'idgrade_field__gradefr': '', 'idgrade_field__idstatutgrade_field__statutgradefr': ''}
+                if (not c):
+                    c = {'idpashalik_field__libellepashalikar': '', 'idpashalik_field__libellepashalikfr': '', }
+
+                res = {**a, **b, **c};
+                listPerso.append(res)
+        elif(arr[1]=='Cercle'):
+            persoCaida = Personnel.objects.filter(organisme='Caida').values_list('idpersonnel', flat=True)
+            for id in persoCaida:
+                a = Personnel.objects.filter(idpersonnel=id).values('idpersonnel', 'cin', 'ppr', 'nomfr', 'prenomfr',
+                                                                    'administrationapp', 'sexe', 'organisme',
+                                                                    'photo').first()
+                b = Gradepersonnel.objects.filter(idpersonnel_field=id).values('idgrade_field__gradefr',
+                                                                               'idgrade_field__idstatutgrade_field__statutgradefr').last()
+                c = Caidatpersonnel.objects.filter(idpersonnel_field=id).values(
+                    'idcaidat_field__libellecaidatfr',
+                    'idcaidat_field__libellecaidatar').last()
+                if (not b):
+                    b = {'idgrade_field__gradefr': '', 'idgrade_field__idstatutgrade_field__statutgradefr': ''}
+                if (not c):
+                    c = {'idcaidat_field__libellecaidatar': '', 'idcaidat_field__libellecaidatfr': '', }
+
+                res = {**a, **b, **c};
+                listPerso.append(res)
+        elif(arr[1]=='District'):
+            persoAnnexe = Personnel.objects.filter(organisme='Annexe').values_list('idpersonnel', flat=True)
+            for id in persoAnnexe:
+                a = Personnel.objects.filter(idpersonnel=id).values('idpersonnel', 'cin', 'ppr', 'nomfr', 'prenomfr',
+                                                                    'administrationapp', 'sexe', 'organisme',
+                                                                    'photo').first()
+                b = Gradepersonnel.objects.filter(idpersonnel_field=id).values('idgrade_field__gradefr',
+                                                                               'idgrade_field__idstatutgrade_field__statutgradefr').last()
+                c = Annexepersonnel.objects.filter(idpersonnel_field=id).values(
+                    'idannexe_field__libelleannexefr',
+                    'idannexe_field__libelleannexear').last()
+                print(c);
+                if (not b):
+                    b = {'idgrade_field__gradefr': '', 'idgrade_field__idstatutgrade_field__statutgradefr': ''}
+                if (not c):
+                    c = {'idannexe_field__libelleannexear': '', 'idannexe_field__libelleannexefr  ': '', }
+
+                res = {**a, **b, **c};
+                listPerso.append(res)
+    elif (arr[0] == 'district'):
+        ServicePer = Annexepersonnel.objects.all();
+        servid = ServicePer.order_by('idpersonnel_field').values_list('idpersonnel_field', flat=True).distinct()
+        PersoService = []
+        for id in servid:
+            x = Annexepersonnel.objects.filter(idpersonnel_field=id).values(
+                'idannexe_field',
+                'idpersonnel_field').last()
+            PersoService.append(x);
+        servAnnex = Annexe.objects.filter(iddistrict_field=arr[1]).values_list('idannexe',flat=True);
+        superplayers = [user for user in PersoService if user['idannexe_field'] in servAnnex]
+        listofid = []
+        for a in superplayers:
+            listofid.append(a['idpersonnel_field'])
+        annexid = Annexe.objects.filter(iddistrict_field=arr[1]).values_list('idannexe')
+        listidperso = Personnel.objects.filter(organisme='Annexe').values_list('idpersonnel', flat=True)
+        listfinal = []
+        for it in listidperso:
+            if it in listofid:
+                listfinal.append(it);
+        print(listfinal)
+        for id in listfinal:
+            a = Personnel.objects.filter(idpersonnel=id).values('idpersonnel', 'cin', 'ppr', 'nomfr', 'prenomfr',
+                                                                'administrationapp', 'sexe', 'organisme',
+                                                                'photo').first()
+            b = Gradepersonnel.objects.filter(idpersonnel_field=id).values('idgrade_field__gradefr',
+                                                                           'idgrade_field__idstatutgrade_field__statutgradefr').last()
+            Q1 = Q(idpersonnel_field=id);
+            Q2=Q(idannexe_field__in=annexid);
+            c = Annexepersonnel.objects.filter(Q1 & Q2).values(
+                'idannexe_field__libelleannexefr',
+                'idannexe_field__libelleannexear').last()
+            if (not b):
+                b = {'idgrade_field__gradefr': '', 'idgrade_field__idstatutgrade_field__statutgradefr': ''}
+            if (not c):
+                c = {'idannexe_field__libelleannexear': '', 'idannexe_field__libelleannexefr  ': '', }
+
+            res = {**a, **b, **c};
+            listPerso.append(res)
+    elif (arr[0] == 'cercle'):
+        ServicePer = Caidatpersonnel.objects.all();
+        servid = ServicePer.order_by('idpersonnel_field').values_list('idpersonnel_field', flat=True).distinct()
+        PersoService = []
+        for id in servid:
+            x = Caidatpersonnel.objects.filter(idpersonnel_field=id).values(
+                'idcaidat_field',
+                'idpersonnel_field').last()
+            PersoService.append(x);
+        servCaida = Caidat.objects.filter(idcercle_field=arr[1]).values_list('idcaidat',flat=True);
+        superplayers = [user for user in PersoService if user['idcaidat_field'] in servCaida]
+        listofid = []
+        for a in superplayers:
+            listofid.append(a['idpersonnel_field'])
+        caidatid = Caidat.objects.filter(idcercle_field=arr[1]).values_list('idcaidat')
+        listidperso = Personnel.objects.filter(organisme='Caida').values_list('idpersonnel', flat=True)
+        listfinal = []
+        for it in listidperso:
+            if it in listofid:
+                listfinal.append(it);
+        print(listfinal)
+        for id in listfinal:
+            a = Personnel.objects.filter(idpersonnel=id).values('idpersonnel', 'cin', 'ppr', 'nomfr', 'prenomfr',
+                                                                'administrationapp', 'sexe', 'organisme',
+                                                                'photo').first()
+            b = Gradepersonnel.objects.filter(idpersonnel_field=id).values('idgrade_field__gradefr',
+                                                                           'idgrade_field__idstatutgrade_field__statutgradefr').last()
+            Q1 = Q(idpersonnel_field=id);
+            Q2=Q(idcaidat_field__in=caidatid);
+            c = Caidatpersonnel.objects.filter(Q1 & Q2).values(
+                'idcaidat_field__libellecaidatar',
+                'idcaidat_field__libellecaidatfr').last()
+            if (not b):
+                b = {'idgrade_field__gradefr': '', 'idgrade_field__idstatutgrade_field__statutgradefr': ''}
+            if (not c):
+                c = {'idcaidat_field__libellecaidatar': '', 'idcaidat_field__libellecaidatfr': '', }
+
+            res = {**a, **b, **c};
+            listPerso.append(res)
+    elif (arr[0] == 'annexe'):
+        ServicePer = Annexepersonnel.objects.all();
+        servid = ServicePer.order_by('idpersonnel_field').values_list('idpersonnel_field', flat=True).distinct()
+        PersoService = []
+        for id in servid:
+            x = Annexepersonnel.objects.filter(idpersonnel_field=id).values(
+                'idannexe_field',
+                'idpersonnel_field').last()
+            PersoService.append(x);
+        superplayers = [user for user in PersoService if user['idannexe_field'] == int(arr[1])]
+        listofid = []
+        for a in superplayers:
+            listofid.append(a['idpersonnel_field'])
+        listidperso = Personnel.objects.filter(organisme='Annexe').values_list('idpersonnel', flat=True)
+        listfinal = []
+        for it in listidperso:
+            if it in listofid:
+                listfinal.append(it);
+        print(listfinal)
+        for id in listfinal:
+            a = Personnel.objects.filter(idpersonnel=id).values('idpersonnel', 'cin', 'ppr', 'nomfr', 'prenomfr',
+                                                                'administrationapp', 'sexe', 'organisme',
+                                                                'photo').first()
+            b = Gradepersonnel.objects.filter(idpersonnel_field=id).values('idgrade_field__gradefr',
+                                                                           'idgrade_field__idstatutgrade_field__statutgradefr').last()
+            c = Annexepersonnel.objects.filter(idpersonnel_field=id).values(
+                'idannexe_field__libelleannexefr',
+                'idannexe_field__libelleannexear').last()
+            if (not b):
+                b = {'idgrade_field__gradefr': '', 'idgrade_field__idstatutgrade_field__statutgradefr': ''}
+            if (not c):
+                c = {'idannexe_field__libelleannexear': '', 'idannexe_field__libelleannexefr  ': '', }
+            res = {**a, **b, **c};
+            listPerso.append(res)
+    elif (arr[0] == 'pashalik'):
+        ServicePer = Pashalikpersonnel.objects.all();
+        servid = ServicePer.order_by('idpersonnel_field').values_list('idpersonnel_field', flat=True).distinct()
+        PersoService = []
+        for id in servid:
+            x = Pashalikpersonnel.objects.filter(idpersonnel_field=id).values(
+                'idpashalik_field',
+                'idpersonnel_field').last()
+            PersoService.append(x);
+        superplayers = [user for user in PersoService if user['idpashalik_field'] == int(arr[1])]
+        listofid = []
+        for a in superplayers:
+            listofid.append(a['idpersonnel_field'])
+        listidperso = Personnel.objects.filter(organisme='pashalik').values_list('idpersonnel', flat=True)
+        listfinal = []
+        for it in listidperso:
+            if it in listofid:
+                listfinal.append(it);
+        print(listfinal)
+        for id in listfinal:
+            a = Personnel.objects.filter(idpersonnel=id).values('idpersonnel', 'cin', 'ppr', 'nomfr', 'prenomfr',
+                                                                'administrationapp', 'sexe', 'organisme',
+                                                                'photo').first()
+            b = Gradepersonnel.objects.filter(idpersonnel_field=id).values('idgrade_field__gradefr',
+                                                                           'idgrade_field__idstatutgrade_field__statutgradefr').last()
+            c = Pashalikpersonnel.objects.filter(idpersonnel_field=id).values(
+                'idpashalik_field__libellepashalikfr',
+                'idpashalik_field__libellepashalikar').last()
+            if (not b):
+                b = {'idgrade_field__gradefr': '', 'idgrade_field__idstatutgrade_field__statutgradefr': ''}
+            if (not c):
+                c = {'idpashalik_field__libellepashalikfr': '', 'idpashalik_field__libellepashalikar  ': '', }
+            res = {**a, **b, **c};
+            listPerso.append(res)
+    ##data = serializers.serialize("json",listPerso )
+    data=json.dumps(listPerso)
+    return JsonResponse({'data': data})
 
 #export-------------------------------
 def export_perso_csv(request):
@@ -161,7 +629,6 @@ def testfilter(request):
                    'districts': districts, 'divisions': divisions, 'cercles': cercles})
 
 def personnelinfo(request,id):
-    services = Service.objects.all()
     grades = Gradepersonnel.objects.filter(idpersonnel_field=id).values('idgrade_field__gradefr',
                                                                         'idgrade_field__gradear',
                                                                         'idgrade_field__idstatutgrade_field__statutgradefr',
@@ -204,17 +671,46 @@ def personnelinfo(request,id):
                                                                         'specialitear',
                                                                         'specialitefr',
                                                                         'datediplome')
-    entites = Entite.objects.all()
-    pashaliks = Pashalik.objects.all()
-    districts = District.objects.all()
-    divisions = Division.objects.all()
-    cercles = Cercle.objects.all()
+    listobj=[]
+    Service = Servicepersonnel.objects.filter(idpersonnel_field=id)
+    for a in Service:
+        obj={'libelleservicear':a.idservice_field.libelleservicear,
+             'libelleservicefr':a.idservice_field.libelleservicefr,
+             'libelledivisionar':a.idservice_field.iddivision_field.libelledivisionar,
+             'libelledivisionfr': a.idservice_field.iddivision_field.libelledivisionfr,
+             'dateaffectation':a.dateaffectation}
+        listobj.append(obj);
+    pashaliks = Pashalikpersonnel.objects.filter(idpersonnel_field=id)
+    for a in pashaliks:
+        obj={'libelleservicear':a.idpashalik_field.libellepashalikar,
+             'libelleservicefr':a.idpashalik_field.libellepashalikfr,
+             'libelledivisionar':"باشوية",
+             'libelledivisionfr': "pashalik",
+             'dateaffectation':a.dateaffectation}
+        listobj.append(obj);
+    Annexe = Annexepersonnel.objects.filter(idpersonnel_field=id)
+    for a in Annexe:
+        obj={'libelleservicear':a.idannexe_field.libelleannexear,
+             'libelleservicefr':a.idannexe_field.libelleannexefr,
+             'libelledivisionar':a.idannexe_field.iddistrict_field.libelledistrictar,
+             'libelledivisionfr': a.idannexe_field.iddistrict_field.libelledistrictfr,
+             'dateaffectation':a.dateaffectation}
+        listobj.append(obj);
+    caidat=Caidatpersonnel.objects.filter(idpersonnel_field=id)
+    for a in caidat:
+        obj={'libelleservicear':a.idcaidat_field.libellecaidatar,
+             'libelleservicefr':a.idcaidat_field.libellecaidatfr,
+             'libelledivisionar':a.idcaidat_field.idcercle_field.libellecerclear,
+             'libelledivisionfr': a.idcaidat_field.idcercle_field.libellecerclefr,
+             'dateaffectation':a.dateaffectation}
+        listobj.append(obj);
+    newlistsorted = sorted(listobj, key=itemgetter('dateaffectation'),reverse=True)
     persoinfo=Personnel.objects.get(idpersonnel=id);
+    statuts=Statutpersonnel.objects.filter(idpersonnel_field=id);
     return render(request, 'GestionPersonnel/personnelinfo.html',
-                  {'services': services, 'grades': grades, 'fonctions': fonctions,
-                   'conjoints': conjoints, 'enfants': enfants,
-                   'entites': entites, 'pashaliks': pashaliks,
-                   'districts': districts, 'divisions': divisions, 'diploms': diploms,'persoinfo':persoinfo})
+                  {'services': newlistsorted, 'grades': grades, 'fonctions': fonctions,
+                   'conjoints': conjoints, 'enfants': enfants,'statuts':statuts,
+                   'pashaliks': pashaliks,'diploms': diploms,'persoinfo':persoinfo})
 
 
 # ajouter -------------------------------.
@@ -897,9 +1393,24 @@ def modifer_diplome(request,id):
 @login_required(login_url='/connexion')
 def printpdfquitter(req,id):
     personnel = Personnel.objects.get(idpersonnel=id)
+    gradepersonnel = Gradepersonnel.objects.filter(idpersonnel_field=personnel).last()
+    quitterterritoirelast = QuitterTerritoire.objects.all().last()
+    if (quitterterritoirelast == None):
+        dataattes = 1
+    else:
+        dataattes = quitterterritoirelast.numquitterterritoire + 1;
+    if (gradepersonnel == None):
+        datagrade = " "
+    else:
+        datagrade = gradepersonnel.idgrade_field.gradefr
+    attestation = QuitterTerritoire()
+    attestation.numquitterterritoire = dataattes;
+    attestation.idpersonnel_field = personnel
+    attestation.datedelivre = datetime.date.today()
+    attestation.save()
     empName = str(personnel.nomfr + " " + personnel.prenomfr)
     cin = str(personnel.cin)
-    grade="ingenieur"
+    grade=datagrade;
     temp=req.POST["De"]
     du=req.POST["Da"]
     anne=req.POST["an"]
@@ -913,6 +1424,7 @@ def printpdfquitter(req,id):
     pdf.text(23, 39, txt="SECRETARIAT GENERAL ")
     pdf.text(12, 45, txt="DIVISION DU RESSOURCES HUMAINES  ")
     pdf.text(14, 51, txt="ET DES AFFAIRES ADMINISTRATIVES ")
+    pdf.text(14, 57, txt="N°:  " + str(dataattes))
     pdf.image(os.path.join(os.path.dirname(os.path.dirname(__file__)), "static/images/logorm.png"), x=95, y=20, w=27)
     ##pdf.cell(100,100,"Attestation de travail",1,2,"c")
     pdf.set_font("Arial", "B", size=15)
@@ -954,30 +1466,30 @@ def printpdfquitter(req,id):
     pdf.output("test.pdf")
     pdfr = pdf.output(dest='S').encode('latin-1')
     response = HttpResponse(pdfr, content_type='application/pdf')
-    response['Content-Disposition'] = ' filename="mypdf.pdf"'
+    response['Content-Disposition'] = 'filename='+ empName+str(dataattes)+'.pdf';
     ##response.TransmitFile(pathtofile);
     return (response)
 
 
 @login_required(login_url='/connexion')
 def printpdf(req,id):
-
    personnel = Personnel.objects.get(idpersonnel=id)
+   empName = str(personnel.nomfr + " " + personnel.prenomfr)
    gradepersonnel = Gradepersonnel.objects.filter(idpersonnel_field=personnel).last()
    attestationlast = Attestationtravail.objects.all().last()
    if(attestationlast == None):
        dataattes = 1
    else:
        dataattes = attestationlast.numattestationtravail + 1;
-
    if(gradepersonnel == None):
        datagrade = " "
    else:
        datagrade = gradepersonnel.idgrade_field.gradefr
-
-   attestation = Attestationtravail.objects.create(numattestationtravail=dataattes, idpersonnel_field=personnel, datedelivre=datetime.date.today())
+   attestation = Attestationtravail()
+   attestation.numattestationtravail=dataattes;
+   attestation.idpersonnel_field=personnel
+   attestation.datedelivre=datetime.date.today()
    attestation.save()
-
    pdf=FPDF()
    pdf.add_page()
    pdf.set_font("Arial",size=9)
@@ -998,7 +1510,7 @@ def printpdf(req,id):
    pdf.set_font("Arial", "B",size=12)
    pdf.text(36,116,txt="Le Wali de la Région de l'Oriental,Gouverneur de Préfecture d'Oujda-Angad ")
    pdf.set_font("Arial", size=11)
-   pdf.text(25,130,txt="Atteste que Me/Mme    :          "+str(personnel.nomfr+" "+personnel.prenomfr))
+   pdf.text(25,130,txt="Atteste que Me/Mme    :          "+empName)
    pdf.text(25,138,txt="Titulaire de la C.N.I      :          "+str(personnel.cin))
    pdf.text(25,146,txt="P.P.R                           :          "+str(personnel.numerofinancier))
    pdf.text(25,160,txt="Exerce à la Wilaya de la Région de l'Oriental,Préfecture d'Oujda-Angad")
@@ -1009,11 +1521,79 @@ def printpdf(req,id):
    ##pdf.cell(60,10,'Attestation de Travaille',1,1,'C');
    pdf.output("test.pdf")
    pdfr = pdf.output(dest='S').encode('latin-1')
-   response = HttpResponse(pdfr, content_type='application/pdf')
-   response['Content-Disposition'] = ' filename="mypdf.pdf"'
+   response = HttpResponse(pdfr,content_type='application/pdf')
+   name=empName+str(dataattes)
+   response['Content-Disposition'] = 'filename='+name+'.pdf'
    ##response.TransmitFile(pathtofile);
    return (response)
+   #return FileResponse(open('foobar.pdf', 'rb'), content_type='application/pdf')
 
+
+def printpdfar(req, id):
+    BASE_DIR = Path(__file__).resolve().parent.parent
+    personnel = Personnel.objects.get(idpersonnel=id)
+    empName = str(personnel.nomfr + " " + personnel.prenomfr)
+    gradepersonnel = Gradepersonnel.objects.filter(idpersonnel_field=personnel).last()
+    attestationlast = Attestationtravail.objects.all().last()
+    if (attestationlast == None):
+        dataattes = 1
+    else:
+        dataattes = attestationlast.numattestationtravail + 1;
+    if (gradepersonnel == None):
+        grade = " "
+    else:
+        grade = gradepersonnel.idgrade_field.gradefr
+    attestation = Attestationtravail()
+    attestation.numattestationtravail = dataattes;
+    attestation.idpersonnel_field = personnel
+    attestation.datedelivre = datetime.date.today()
+    attestation.save()
+    fontdir = os.path.join(BASE_DIR, 'static/filefonts/')
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.add_font('DejaVu', '', os.path.join(fontdir, 'DejaVuSansMono.ttf'), uni=True)
+    pdf.set_font("DejaVu", size=11)
+    pdf.text(28+137, 10, txt=get_display(arabic_reshaper.reshape('المملكة المغربية')))
+    pdf.text(30+137, 16, txt=get_display(arabic_reshaper.reshape("وزارة الداخلية")))
+    pdf.text(28+137, 22, txt=get_display(arabic_reshaper.reshape('ولاية جهة الشرق')))
+    pdf.text(28+137, 28, txt=get_display((arabic_reshaper.reshape('عمالة وجدة أنكاد'))))
+    pdf.text(31+137, 34, txt=get_display(arabic_reshaper.reshape('الكتابة العامة')))
+    pdf.text(25+137, 40, txt=get_display(arabic_reshaper.reshape('قسم الموارد البشرية')))
+    pdf.text(28+137, 46, txt=get_display(arabic_reshaper.reshape('والشؤون الإدارية')))
+    pdf.text(40+137, 55,txt=get_display(arabic_reshaper.reshape('رقم : '+ str(dataattes) )))
+
+    #pdf.text(14, 51, txt="ET DES AFFAIRES ADMINISTRATIVES ")
+    pdf.image(os.path.join(BASE_DIR, "static/images/Picture1.png"), x=92, y=20, w=27)
+    ##pdf.cell(100,100,"Attestation de travail",1,2,"c")
+    pdf.add_font('DejaVuSMB', '', os.path.join(fontdir, 'DejaVuSansMono-Bold.ttf'), uni=True)
+    pdf.set_font("DejaVuSMB", size=18)
+    #pdf.set_font('Arial','B',size=15)
+    pdf.text(90, 71, txt=get_display(arabic_reshaper.reshape('شهادة عمل')))
+    pdf.rect(63, 60, 87, 20)
+    pdf.add_font('DejaVuSC', '', os.path.join(fontdir, 'DejaVuSansCondensed.ttf'), uni=True)
+    pdf.set_font('DejaVuSC', size=14)
+    pdf.text(55, 107, txt=get_display(arabic_reshaper.reshape('يشـهـد والي جهـة الشـرق، عـامل عـمالـة وجـدة أنكَاد')))
+    pdf.set_font('DejaVuSC', size=13)
+    pdf.text(168, 134, txt=get_display(arabic_reshaper.reshape('أن السيد(ة):')))
+    pdf.text(97-len(personnel.nomar+' '+personnel.prenomar), 134, txt=get_display(arabic_reshaper.reshape(personnel.nomar+' '+personnel.prenomar)))
+    pdf.text(119, 148, txt=get_display(arabic_reshaper.reshape('الحامل(ة) للبطاقة الوطنية للتعريف رقم :')))
+    pdf.text(97-len(personnel.cin), 148, txt=str(personnel.cin))
+    pdf.text(160, 162, txt=get_display(arabic_reshaper.reshape('رقـــم التــــأجير ')))
+    pdf.text(119, 162, txt=':')
+    pdf.text(68, 176, txt=get_display(arabic_reshaper.reshape('موظف(ة) بولاية جهة الشرق عمالة وجدة أنكَاد')))
+    pdf.text(173, 190, txt=get_display(arabic_reshaper.reshape('بدرجـــة: ')))
+    pdf.text(97-len(grade), 190, txt=get_display(arabic_reshaper.reshape(grade)))
+    pdf.text(56, 204, txt=get_display((arabic_reshaper.reshape('وسلمت هذه الشـهادة للمعني(ة) بالأمر بطلب منه(ها) للإدلاء بهـا عـند الحـاجـة.'))))
+    pdf.text(52, 224, txt=get_display(arabic_reshaper.reshape('وجــدة في:')))
+    pdf.rect(15, 95, 180, 175)
+    ##pdf.cell(80)
+    ##pdf.cell(60,10,'Attestation de Travaille',1,1,'C');
+    pdf.output("test.pdf")
+    pdfr = pdf.output(dest='S').encode('latin-1')
+    response = HttpResponse(pdfr, content_type='application/pdf')
+    response['Content-Disposition'] = 'filename='+ empName+str(dataattes)+'.pdf';
+    ##response.TransmitFile(pathtofile);
+    return response
 @login_required(login_url='/connexion')
 @csrf_exempt
 def ajaxtaboardpersonnel(request):

@@ -383,3 +383,14 @@ class Attestationtravail(models.Model):
     class Meta:
         managed = False
         db_table = 'AttestationTravail'
+
+
+class QuitterTerritoire(models.Model):
+    idquitterterritoire = models.AutoField(db_column='IdQuitterTerritoire', primary_key=True)
+    numquitterterritoire = models.IntegerField(db_column='NumQuitterTerritoire', blank=True, null=True)
+    idpersonnel_field = models.ForeignKey('Personnel', models.DO_NOTHING, db_column='IdPersonnel#', blank=True, null=True)
+    datedelivre = models.DateTimeField(db_column='DateDelivre', blank=True, null=True)
+
+    class Meta:
+        managed = False
+        db_table = 'QuitterTerritoire'
