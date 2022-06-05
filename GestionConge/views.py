@@ -158,7 +158,6 @@ def conge(request):
         typede = request.POST["typede"]
         nbjours = int(request.POST["nbjours"])
         a1 = datetime.strptime(datedecom, "%Y-%m-%d")
-        a2 = datetime.strptime(datedecom, "%Y-%m-%d")
         data = [s.dateelimine.date() for s in dateelimine]
         i = 0
         while (i <= nbjours):

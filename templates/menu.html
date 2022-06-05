@@ -57,7 +57,7 @@
               </li>
 
             {% if request.user|has_group:"GestionPersonnel" %}
-              <li class="nav-item dropdown" >
+              <li class="nav-item dropdown" id="personnelitem">
                 <a class="nav-link dropdown-toggle" href="#" id="personnel" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <i class="fa fa-user-o">
                     <span class="badge badge-danger">11</span>
@@ -75,7 +75,7 @@
               </li>
             {% endif %}
             {% if request.user|has_group:"GestionConge" %}
-              <li class="nav-item dropdown">
+              <li class="nav-item dropdown" id="congeitem">
                 <a class="nav-link dropdown-toggle" href="#" id="conges" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <i class="fa fa-briefcase">
                     <span class="badge badge-primary">11</span>
@@ -92,8 +92,8 @@
               </li>
             {% endif %}
 
-            {% if request.user|has_group:"GestionAbsence" %}
-              <li class="nav-item dropdown">
+            {% if request.user|has_group:"GestionAvancement" %}
+              <li class="nav-item dropdown" id="avancementitem">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <i class="fa fa-envelope-o">
                     <span class="badge badge-primary">11</span>
@@ -107,8 +107,29 @@
                   <a class="dropdown-item" href="#">لوحة القيادة</a>
                 </div>
               </li>
+            {% endif %}
+
+            {% if request.user|has_group:"GestionStagiaire" %}
+              <li class="nav-item dropdown" id="avancementitem">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <i class="fa fa-graduation-cap">
+                    <span class="badge badge-primary">11</span>
+                  </i>
+                  المتدربين
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <a class="dropdown-item" href="#">إضافة</a>
+                  <a class="dropdown-item" href="#"></a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="#">لوحة القيادة</a>
+                </div>
+              </li>
+            {% endif %}
+
             </ul>
-          {% endif %}
+
+
+
 <!--
             <ul class="navbar-nav ">
               <li class="nav-item">

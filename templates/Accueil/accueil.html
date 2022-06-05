@@ -48,6 +48,15 @@
                 $('#conge').attr("href","#");
             {% endif %}
 
+            {% if not request.user|has_group:"GestionAvancement" %}
+                $('#avancement').attr("class","card-body d-flex flex-column text-decoration-none not-allowed");
+                $('#avancement').attr("href","#");
+            {% endif %}
+
+            {% if not request.user|has_group:"GestionStagiaire" %}
+                $('#stagiaire').attr("class","card-body d-flex flex-column text-decoration-none not-allowed");
+                $('#stagiaire').attr("href","#");
+            {% endif %}
         })
     </script>
 
@@ -55,22 +64,11 @@
         <div class="row py-4">
             <div class="col-sm-4 mb-3 mb-md-0">
                 <div class="card text-center h-100">
-                    <a class="card-body d-flex flex-column text-decoration-none" href="{% url 'accueil' %}">
-                        <div class="mb-4">
-                            <span class="display-4"><i class="fa-solid fa-home"></i></span>
-                        </div>
-                        <h3>الصفحة الرئيسية</h3>
-                    </a>
-                </div>
-            </div>
-
-            <div class="col-sm-4 mb-3 mb-md-0">
-                <div class="card text-center h-100">
                     <a class="card-body d-flex flex-column text-decoration-none" id="perso" href="{% url 'consultation' %}">
                         <div class="mb-4">
                             <span class="display-4"><i class="fa-solid fa-user"></i></span>
                         </div>
-                        <h3>الموضفون</h3>
+                        <h3> فضاء الموضفون</h3>
                     </a>
                 </div>
             </div>
@@ -81,31 +79,32 @@
                         <div class="mb-4">
                             <span class="display-4"><i class="fa-solid fa-calendar"></i></span>
                         </div>
-                        <h3>الرخص</h3>
+                        <h3> فضاء الرخص</h3>
                     </a>
                 </div>
             </div>
-        </div>
 
-        <div class="row">
             <div class="col-sm-4 mb-3 mb-md-0">
                 <div class="card text-center h-100">
-                    <a class="card-body d-flex flex-column text-decoration-none" href="">
+                    <a class="card-body d-flex flex-column text-decoration-none" href="" id="avancement">
                         <div class="mb-4">
                             <span class="display-4"><i class="fa-solid fa-briefcase"></i></span>
                         </div>
-                        <h3>الترقيات</h3>
+                        <h3> فضاء الترقيات</h3>
                     </a>
                 </div>
             </div>
 
+        </div>
+
+        <div class="row">
             <div class="col-sm-4 mb-3 mb-md-0">
                 <div class="card text-center h-100">
                     <a class="card-body d-flex flex-column text-decoration-none" href="" id="abc">
                         <div class="mb-4">
                             <span class="display-4"><i class="fa-solid fa-address-card"></i></span>
                         </div>
-                        <h3>الغيبات</h3>
+                        <h3> فضاء الغيابات </h3>
                     </a>
                 </div>
             </div>
@@ -116,7 +115,18 @@
                         <div class="mb-4">
                             <span class="display-4"><i class="fa-solid fa-bell"></i></span>
                         </div>
-                        <h3>الإشعارات</h3>
+                        <h3>فضاء الإشعارات</h3>
+                    </a>
+                </div>
+            </div>
+
+            <div class="col-sm-4 mb-3 mb-md-0">
+                <div class="card text-center h-100">
+                    <a class="card-body d-flex flex-column text-decoration-none" href="{% url 'accueil' %}" id="stagiaire">
+                        <div class="mb-4">
+                            <span class="display-4"><i class="fa-solid fa-graduation-cap"></i></span>
+                        </div>
+                        <h3>فضاء المتدربين</h3>
                     </a>
                 </div>
             </div>
