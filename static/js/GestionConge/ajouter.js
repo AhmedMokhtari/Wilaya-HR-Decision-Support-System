@@ -1,41 +1,33 @@
-$(document).ready(function (){
-    function loadpersonnel(){
-        $("#table tr").remove();
-        $.ajax(
+window.onload = loadpersonnel()
+function loadpersonnel(){
+    $("#table tr").remove();
+    $.ajax(
+    {
+        type:"POST",
+        url: url5,
+        data:{ personnel: document.getElementById('personneldata').value},
+        success: function(data)
         {
-            type:"POST",
-            url: url5,
-            data:{ personnel: $('select[id=personnel]').val()},
-            success: function(data)
+            if(data != null)
             {
-                /*$("#table").append(`<tr><th> الإسم الكامل :</th><td>${data.persodata.nomar} ${data.persodata.prenomar}</td></tr>'+
-                                            '<tr><th>ب.ب.ر :</th><td>${data.persodata.ppr}</td></tr> <tr><th>  التعيين الحالي :</th><td>${data.persodata.oraganisme}</td></tr>'+
-                                            '<tr><th>الرتبة :</th><td>${data.persodata.grade}</td></tr>`);
-
-
-
-                if(data.persodata.reafectation!=null)
-                {
-                    $('#reaf').show();
-                    $('#reafectationdonne').hide();
-                    $('#reafectationbutton').hide();
-                     $('#tablereaf').append(`<tr><th>  التعيين الجديد :</th><td>${data.persodata.reafectation[1]}</td></tr>'+
-                            '<tr><th>المصادقة :</th><td><a class="btn btn-success" href="./addreaffectation/${data.persodata.idpersonnel}"><i class="fa-solid fa-check"></i></a></td></tr>`+
-                            '<tr><th>إلغاء :</th><td><a class="btn btn-danger" href="./deletereaffectation/'+data.persodata.reafectation[0]+'"><i class="fa-solid fa-x"></i></a></td></tr>');
-
-                }
-                else {
-                    $('#reafectationdonne').show();
-                    $('#reafectationbutton').show();
-                    $('#reaf').hide();
-                }*/
-                console.log(data)
+                $("#table").append(`<tr><th> الإسم الكامل :</th><td>${data.persodata[0].nomar} ${data.persodata[0].prenomar}</td></tr>'+
+                                        '<tr><th>ر.ب.و :</th><td>${data.persodata[0].cin}</td></tr><tr><th>ب.ب.ر :</th><td>${data.persodata[0].ppr}</td></tr> <tr><th>  الرخصة السنوية :</th><td>${data.congean}</td></tr>'+
+                                        '<tr><th>الرخصة الأبوية :</th><td>${data.congeparen}</td></tr><th>رخصة الولادة :</th><td>${data.congemere}</td></tr><tr><th>رخصة إستثنائية :</th><td>${data.congestit}</td></tr>'+
+                                         '<tr><th>رخصة الحج :</th><td>${data.congehaj}</td></tr>`);
             }
-        });
-    }
-    loadpersonnel()
-    $('select[id=personnel]').input(loadpersonnel);
-});
+            else
+            {
+                $("#table").append(`<tr><th> الإسم الكامل :</th><td></td></tr>'+
+                                        '<tr><th>ر.ب.و :</th><td></td></tr><tr><th>ب.ب.ر :</th><td></td></tr> <tr><th>  الرخصة السنوية :</th><td></td></tr>'+
+                                        '<tr><th>الرخصة الأبوية :</th><td></td></tr><th>رخصة الولادة :</th><td></td></tr><tr><th>رخصة إستثنائية :</th><td></td></tr>'+
+                                         '<tr><th>رخصة الحج :</th><td></td></tr>`);
+            }
+            console.log(data)
+        }
+    });
+}
+
+
 
 
 

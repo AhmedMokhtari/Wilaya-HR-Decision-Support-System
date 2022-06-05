@@ -1084,13 +1084,15 @@ def modifier(request, id):
 
 # Reafectation -----------------------------------
 @login_required(login_url='/connexion')
-def addreaffectation(request, id):
+def addreaffectation(request):
+    id = request.GET.get("id", None)
+    date = request.GET.get("date", None)
     personnelFor = Personnel.objects.get(idpersonnel=id)
     objreaffectation = Reafectation.objects.filter(idpersonnel_field=personnelFor).first()
 
     if (objreaffectation.organisme == 'Service'):
         service = Service.objects.get(idservice=objreaffectation.idorganismeparent)
-        objserviceperso = Servicepersonnel.objects.create(idpersonnel_field=personnelFor,idservice_field=service, dateaffectation=objreaffectation.datereafectation)
+        objserviceperso = Servicepersonnel.objects.create(idpersonnel_field=personnelFor,idservice_field=service, dateaffectation=date)
         objserviceperso.save()
         personnelFor.organisme = 'Service'
         personnelFor.save()
@@ -1099,7 +1101,7 @@ def addreaffectation(request, id):
     elif (objreaffectation.organisme == 'Pashalik'):
         pashalik = Pashalik.objects.get(idpashalik=objreaffectation.idorganismeparent)
         objpashalikperso = Pashalikpersonnel.objects.create(idpersonnel_field=personnelFor, idpashalik_field=pashalik,
-                                                          dateaffectation=objreaffectation.datereafectation)
+                                                          dateaffectation=date)
         objpashalikperso.save()
         personnelFor.organisme = 'Pashalik'
         personnelFor.save()
@@ -1108,16 +1110,16 @@ def addreaffectation(request, id):
     elif (objreaffectation.organisme == 'Cercle'):
         caidat = Caidat.objects.get(idcaidat=objreaffectation.idorganismeparent)
         objscaidatperso = Caidatpersonnel.objects.create(idpersonnel_field=personnelFor, idcaidat_field=caidat,
-                                                           dateaffectation=objreaffectation.datereafectation)
+                                                           dateaffectation=date)
         objscaidatperso.save()
         personnelFor.organisme = 'Caidat'
         personnelFor.save()
 
 
     elif(objreaffectation.organisme == 'Annexe'):
-        annexe = Caidat.objects.get(idcaidat=objreaffectation.idorganismeparent)
+        annexe = Annexe.objects.get(idannexe=objreaffectation.idorganismeparent)
         objsannexeperso = Annexepersonnel.objects.create(idpersonnel_field=personnelFor, idannexe_field=annexe,
-                                                         dateaffectation=objreaffectation.datereafectation)
+                                                         dateaffectation=date)
         objsannexeperso.save()
         personnelFor.organisme = 'Annexe'
         personnelFor.save()
@@ -1208,45 +1210,39 @@ def reaffectation(request):
 
         if (request.POST.get('entite', None) == "Commandement"):
             if(request.POST.get('districtpashalik', None) == "District"):
-                datesannexe = request.POST.get('dateannexe')
                 objannexe = Annexe.objects.get(idannexe=request.POST['annexe'])
                 objReaffectationanne = Reafectation.objects.create(idpersonnel_field=objperso,
                                                                    libellereafectationar=objannexe.libelleannexear,
                                                                    libellereafectationfr=objannexe.libelleannexefr,
                                                                    idorganismeparent=objannexe.idannexe,
-                                                                   datereafectation=datesannexe,
                                                                    organisme='Annexe')
                 objReaffectationanne.save()
 
 
             elif(request.POST.get('districtpashalik', None) == "Pashalik"):
                 pashalik = request.POST.get('pashalik', None)
-                datepashalik = request.POST.get('datepashalik')
                 objpashalik = Pashalik.objects.get(idpashalik=pashalik)
                 objReafectationpash = Reafectation.objects.create(idpersonnel_field=objperso,
                                                                   libellereafectationfr=objpashalik.libellepashalikfr
                                                                   ,libellereafectationar=objpashalik.libellepashalikar,
-                                                                  idorganismeparent=objpashalik.idpashalik,
-                                                                  datereafectation=datepashalik, organisme='Pashalik')
+                                                                  idorganismeparent=objpashalik.idpashalik, organisme='Pashalik')
                 objReafectationpash.save()
 
             elif((request.POST.get('districtpashalik', None) == "Cercle")):
                 caidat = request.POST.get('caida', None)
-                datecaidat = request.POST['datecaida']
                 objcaidat = Caidat(idcaidat=caidat)
                 objReafectationcaidat = Reafectation.objects.create(idpersonnel_field=objperso,
                                                                     libellereafectationar=objcaidat.libellecaidatar
                                                                     , libellereafectationfr=objcaidat.libellecaidatfr
                                                                     , idorganismeparent=objcaidat.idcaidat,
-                                                                    datereafectation=datecaidat, organisme='Caidat')
+                                                                    organisme='Caidat')
                 objReafectationcaidat.save()
         else:
-            dateservice = request.POST['dateservice']
+
             objservice = Service.objects.get(idservice=request.POST.get('service'))
             objReaffectationserv = Reafectation.objects.create(idpersonnel_field=objperso,
                                                                libellereafectationfr=objservice.libelleservicefr,
                                                                libellereafectationar=objservice.libelleservicear,
-                                                               datereafectation=dateservice,
                                                                idorganismeparent=objservice.idservice, organisme='Service')
             objReaffectationserv.save()
 
@@ -1543,11 +1539,13 @@ def printpdfar(req, id):
         grade = " "
     else:
         grade = gradepersonnel.idgrade_field.gradefr
+
     attestation = Attestationtravail()
     attestation.numattestationtravail = dataattes;
     attestation.idpersonnel_field = personnel
     attestation.datedelivre = datetime.date.today()
     attestation.save()
+
     fontdir = os.path.join(BASE_DIR, 'static/filefonts/')
     pdf = FPDF()
     pdf.add_page()
@@ -1580,6 +1578,7 @@ def printpdfar(req, id):
     pdf.text(97-len(personnel.cin), 148, txt=str(personnel.cin))
     pdf.text(160, 162, txt=get_display(arabic_reshaper.reshape('رقـــم التــــأجير ')))
     pdf.text(119, 162, txt=':')
+    pdf.text(97 - len(personnel.ppr), 162, txt=str(personnel.ppr))
     pdf.text(68, 176, txt=get_display(arabic_reshaper.reshape('موظف(ة) بولاية جهة الشرق عمالة وجدة أنكَاد')))
     pdf.text(173, 190, txt=get_display(arabic_reshaper.reshape('بدرجـــة: ')))
     pdf.text(97-len(grade), 190, txt=get_display(arabic_reshaper.reshape(grade)))

@@ -24,7 +24,15 @@
             color: white;
         }
     </style>
-
+    <script>
+    function date(){
+            data = $('#btnclick').attr('href');
+            linq = data + this.val();
+            alert(linq);
+           $('#btnclick').attr("href",linq);
+        }
+        document.getElementById('btnclick').oninput = date()
+    </script>
     {% if request.user|has_group:"GestionPersonnel" %}
         <form action="" method="POST">
         {% csrf_token %}
@@ -152,12 +160,6 @@
 
                                                 </select>
                                             </div>
-
-                                            <div class="col-md">
-                                                <label class="col-form-label float-right" for="datecaida"> تاريخ التعيين :</label>
-                                                <label class="col-form-label" dir="ltr" for="datecaida">Date d'affectation :</label>
-                                                 <input type="date" class="form-control text-center" name="datecaida">
-                                            </div>
                                         </div>
 
                                         <br class="districtdiv">
@@ -185,12 +187,6 @@
                                                     {% endfor %}
                                                 </select>
                                             </div>
-
-                                            <div class="col-md">
-                                                <label class="col-form-label float-right" for="datepashalik"> تاريخ التعيين :</label>
-                                                <label class="col-form-label" dir="ltr" for="datepashalik">Date d'affectation :</label>
-                                                 <input type="date" class="form-control text-center" name="datepashalik">
-                                            </div>
                                         </div>
                                         <br class="annexediv">
                                         <div class="row annexediv">
@@ -202,12 +198,6 @@
 
                                                 </select>
                                             </div>
-
-                                            <div class="col-md">
-                                                <label class="col-form-label float-right" for="dateannexe"> تاريخ التعيين :</label>
-                                                <label class="col-form-label" dir="ltr" for="dateannexe">Date d'affectation :</label>
-                                                 <input type="date" class="form-control text-center" name="dateannexe">
-                                            </div>
                                         </div>
 
                                         <br class="servicediv">
@@ -218,11 +208,6 @@
                                                 <select class="form-control text-center" id="service" name="service">
 
                                                 </select>
-                                            </div>
-                                            <div class="col-md">
-                                                <label class="col-form-label float-right" for="dateservice"> تاريخ التعيين :</label>
-                                                <label class="col-form-label" dir="ltr" for="dateservice">Date d'affectation :</label>
-                                                 <input type="date" class="form-control text-center" name="dateservice">
                                             </div>
                                         </div>
                                     </div>
