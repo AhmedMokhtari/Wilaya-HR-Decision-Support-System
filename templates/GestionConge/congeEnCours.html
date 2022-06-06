@@ -359,7 +359,10 @@
             csrfmiddlewaretoken:csrf,
          },
         success: function(response){
-
+            for(let i=0;i<id.length;i++){
+                $('tr#'+id[i]+'').css('background-color','#ccc')
+                $('tr#'+id[i]+'').fadeOut('slow');
+            }
         },
         error: function(error){
             console.log(error)
