@@ -27,60 +27,54 @@
         }
     }
 
-    //ajaxloadpersonnel
-    var selpersonnel= document.getElementById('personnel');
-    if (selpersonnel!=null)
-    {
-       selpersonnel.onchange =  function(){
-            $("#table tr").remove();
-            $.ajax(
-            {
-                type:"POST",
-                url: url5,
-                data:{ personnel: selpersonnel.value},
-                success: function(data)
-                {
-                    $("#table").append(`<tr><th> الإسم الكامل :</th><td>'++'</td></tr>'+
-                                                '<tr><th>ب.ب.ر :</th><td>+1234123123123</td></tr> <tr><th>  الدرجة :</th><td>The Wiz</td></tr>'+
-                                                '<tr><th>الرتبة :</th><td>angelica@ramos.com</td></tr><tr><th>Status</th><td><span class="badge badge-success">Active</span></td></tr>`);
 
-                    console.log(data)
-                }
-            });
-        }
-    }
 
 window.onload = function ()
 {
+    function frontivision(){
+        $(".divisiondiv").show();
+         $(".districtpashalikdiv").hide();
+         $(".districtdiv").hide();
+         $(".pashalikdiv").hide();
+         $(".annexediv").hide();
+         $(".cerclediv").hide();
+         $(".caidadiv").hide();
+          $(".servicediv").hide();
 
+         $("#districtpashalik").prop('required',false);
+         $("#pashalik").prop('required',false);
+         $("#district").prop('required',false);
+         $("#annexe").prop('required',false);
+         $("#dateannexe").prop('required',false);
+         $("#division").prop('required',true);
+         $("#service").prop('required',true);
+         $("#dateservice").prop('required',true);
+    }
+
+
+
+
+    const selentite= document.getElementById('entite');
     //data
-    $(".divisiondiv").show();
-     $(".districtdiv").hide();
-     $(".pashalikdiv").hide();
-     $(".districtpashalikdiv").hide();
-     $(".annexediv").hide();
-     $(".servicediv").hide();
-      $(".cerclediv").hide();
-      $(".caidadiv").hide();
+    if(selentite != null) {
+        frontivision();
+        ajaxdivision();
+    }
 
-     $("#districtpashalik").prop('required',false);
-     $("#pashalik").prop('required',false);
-     $("#district").prop('required',false);
-     $("#annexe").prop('required',false);
-     $("#dateannexe").prop('required',false);
-     $("#division").prop('required',true);
-     $("#service").prop('required',true);
-     $("#dateservice").prop('required',true);
+    if(document.getElementById("op3") == null)
+    {
+        $("#division").append('<option id="op3" selected></option>');
+    }
 
   //cardheader1
     const donneperso = document.getElementById('donneperso');
     if(donneperso!=null)
     {
         donneperso.onmouseover = function (){
-            donneperso.setAttribute("style","background-color: #eb3121;")
+            donneperso.setAttribute("style","background-color: #53c7cf;")
         }
         donneperso.onmouseout= function (){
-            donneperso.setAttribute("style","background-color: #D42D1E;")
+            donneperso.setAttribute("style","background-color: #47BAC1;")
         }
         donneperso.onclick= function (){
             $('#persocard').fadeToggle()
@@ -93,178 +87,170 @@ window.onload = function ()
     const donneprof = document.getElementById('donneprof');
     if(donneprof!=null) {
         donneprof.onmouseover = function () {
-            donneprof.setAttribute("style", "background-color: #eb3121;")
+            donneprof.setAttribute("style", "background-color: #53c7cf;")
         }
         donneprof.onmouseout = function () {
-            donneprof.setAttribute("style", "background-color: #D42D1E;")
+            donneprof.setAttribute("style", "background-color: #47BAC1;")
         }
         donneprof.onclick = function () {
             $('#procard').fadeToggle()
             donneprof.setAttribute("class", "card-header d-flex h-75")
         }
     }
-
     //imageload
     $("input[type='image']").click(function() {
         $("input[id='photo']").click();
     });
 
-     //entite
-    const selentite= document.getElementById('entite');
-    selentite.onchange= function ()
-    {
-        if(selentite.value == "Secrétariat général")
-        {
-             $(".divisiondiv").show();
-             $(".districtpashalikdiv").hide();
-             $(".districtdiv").hide();
-             $(".pashalikdiv").hide();
-             $(".annexediv").hide();
-             $(".cerclediv").hide();
-             $(".caidadiv").hide();
+    //entite
 
-             $("#districtpashalik").prop('required',false);
-             $("#pashalik").prop('required',false);
-             $("#district").prop('required',false);
-             $("#annexe").prop('required',false);
-             $("#dateannexe").prop('required',false);
-             $("#division").prop('required',true);
-             $("#service").prop('required',true);
-             $("#dateservice").prop('required',true);
+    function ajaxdivision(){
+        if(selentite != null) {
+            $("#division option").remove();
+            $.ajax(
+                {
+                    type: "POST",
+                    url: url6,
+                    data: {entite: selentite.value},
+                    success: function (data) {
+                        console.log(data)
+                        for (var i = 0; i < data.divisions.length; i++) {
+                            $("#division").append(`<option value="${data.divisions[i].iddivision}">${data.divisions[i].libelledivisionfr}</option>`);
+                        }
+                    }
+                });
         }
-        else
-        {
-            if(selentite.value == "Commandement")
-            {
-                $(".districtpashalikdiv").show();
-                $(".divisiondiv").hide();
-                $(".pashalikdiv").hide();
-                $(".districtdiv").show();
-                $(".annexediv").hide();
-                $(".servicediv").hide();
+    }
 
-                $("#districtpashalik").prop('required',true);
-                $("#pashalik").prop('required',false);
-                 $("#district").prop('required',true);
-                 $("#annexe").prop('required',true);
-                 $("#dateannexe").prop('required',true);
-                 $("#division").prop('required',false);
-                 $("#service").prop('required',false);
-                 $("#dateservice").prop('required',false);
-                 $(".cerclediv").prop('required',false);
-                 $(".caidadiv").prop('required',false);
-            }
-        }
-        if(document.getElementById("op3") == null)
-         {
-             $("#division").append('<option id="op3" selected></option>');
-
-         }
-         else {
-            if (document.getElementById("op0") == null) {
-                $("#district").append('<option id="op0" selected></option>');
+    if(selentite!=null) {
+        selentite.onchange = function () {
+            if (selentite.value == "Secrétariat général") {
+                frontivision();
+                ajaxdivision();
             } else {
-                if (document.getElementById("op4") == null) {
-                    $("#cercle").append('<option id="op4" selected></option>');
+                if (selentite.value == "Commandement") {
+                    $(".districtpashalikdiv").show();
+                    $(".divisiondiv").hide();
+                    $(".pashalikdiv").hide();
+                    $(".districtdiv").show();
+                    $(".annexediv").hide();
+                    $(".servicediv").hide();
+
+                    $("#districtpashalik").prop('required', true);
+                    $("#pashalik").prop('required', false);
+                    $("#district").prop('required', true);
+                    $("#annexe").prop('required', true);
+                    $("#dateannexe").prop('required', true);
+                    $("#division").prop('required', false);
+                    $("#service").prop('required', false);
+                    $("#dateservice").prop('required', false);
+                    $(".cerclediv").prop('required', false);
+                    $(".caidadiv").prop('required', false);
+
+                } else {
+                    if (selentite.value == "Dai" || selentite.value == "Cabinet" || selentite.value == "Dsic") {
+                        frontivision();
+                        ajaxdivision();
+                    }
+                }
+
+            }
+            if (document.getElementById("op3") == null) {
+                $("#division").append('<option id="op3" selected></option>');
+
+            } else {
+                if (document.getElementById("op0") == null) {
+                    $("#district").append('<option id="op0" selected></option>');
+                } else {
+                    if (document.getElementById("op4") == null) {
+                        $("#cercle").append('<option id="op4" selected></option>');
+                    }
                 }
             }
         }
-
-
     }
 
     //district
     const seldistrictpash= document.getElementById('districtpashalik');
-    seldistrictpash.onchange= function()
-    {
-        if(seldistrictpash.value == "District")
-        {
-             $(".divisiondiv").hide();
-             $(".districtdiv").show();
-             $(".pashalikdiv").hide();
-             $(".servicediv").hide();
-             $(".cerclediv").hide();
-             $(".caidadiv").hide();
+    if(seldistrictpash != null) {
+        seldistrictpash.onchange = function () {
+            if (seldistrictpash.value == "District") {
+                $(".divisiondiv").hide();
+                $(".districtdiv").show();
+                $(".pashalikdiv").hide();
+                $(".servicediv").hide();
+                $(".cerclediv").hide();
+                $(".caidadiv").hide();
 
-             $("#districtpashalik").prop('required',true);
-             $("#pashalik").prop('required',false);
-             $("#district").prop('required',true);
-             $("#annexe").prop('required',true);
-             $("#dateannexe").prop('required',true);
-             $("#division").prop('required',false);
-             $("#service").prop('required',false);
-             $("#dateservice").prop('required',false);
-             $("#cercle").prop('required',false);
-             $("#caida").prop('required',false);
-             if (document.getElementById("op4") == null)
-             {
-                 $("#cercle").append('<option id="op4" selected></option>');
-             }
+                $("#districtpashalik").prop('required', true);
+                $("#pashalik").prop('required', false);
+                $("#district").prop('required', true);
+                $("#annexe").prop('required', true);
+                $("#dateannexe").prop('required', true);
+                $("#division").prop('required', false);
+                $("#service").prop('required', false);
+                $("#dateservice").prop('required', false);
+                $("#cercle").prop('required', false);
+                $("#caida").prop('required', false);
+                if (document.getElementById("op4") == null) {
 
-        }
-        else{
+                    $("#cercle").append('<option id="op4" selected></option>');
+                }
 
-            if(seldistrictpash.value == "Pashalik")
-            {
-                 $(".divisiondiv").hide();
-                 $(".districtdiv").hide();
-                 $(".pashalikdiv").show();
-                 $(".annexediv").hide();
-                 $(".servicediv").hide();
-                 $(".cerclediv").hide();
-                 $(".caidadiv").hide();
+            } else {
 
-                 $("#districtpashalik").prop('required',true);
-                 $("#pashalik").prop('required',true);
-                 $("#district").prop('required',false);
-                 $("#annexe").prop('required',false);
-                 $("#dateannexe").prop('required',false);
-                 $("#division").prop('required',false);
-                 $("#service").prop('required',false);
-                 $("#dateservice").prop('required',false);
-                 $("#cercle").prop('required',false);
-                  $("#caida").prop('required',false);
-
-                 if(document.getElementById("op0") == null)
-                 {
-                     $("#district").append('<option id="op0" selected></option>')
-                 }
-                 else {
-                     if (document.getElementById("op4") == null)
-                     {
-                        $("#cercle").append('<option id="op4" selected></option>');
-                    }
-                 }
-
-
-            }
-            else
-            {
-                if(seldistrictpash.value == "Cercle")
-                {
+                if (seldistrictpash.value == "Pashalik") {
                     $(".divisiondiv").hide();
-                     $(".districtdiv").hide();
-                     $(".pashalikdiv").hide();
-                     $(".annexediv").hide();
-                     $(".servicediv").hide();
-                     $(".cerclediv").show();
-                     $(".caidadiv").hide();
+                    $(".districtdiv").hide();
+                    $(".pashalikdiv").show();
+                    $(".annexediv").hide();
+                    $(".servicediv").hide();
+                    $(".cerclediv").hide();
+                    $(".caidadiv").hide();
 
-                    $("#districtpashalik").prop('required',true);
-                     $("#pashalik").prop('required',false);
-                     $("#district").prop('required',false);
-                     $("#annexe").prop('required',false);
-                     $("#dateannexe").prop('required',false);
-                     $("#division").prop('required',false);
-                     $("#service").prop('required',false);
-                     $("#dateservice").prop('required',false);
-                     $("#cercle").prop('required',true);
-                     $("#caida").prop('required',true);
+                    $("#districtpashalik").prop('required', true);
+                    $("#pashalik").prop('required', true);
+                    $("#district").prop('required', false);
+                    $("#annexe").prop('required', false);
+                    $("#dateannexe").prop('required', false);
+                    $("#division").prop('required', false);
+                    $("#service").prop('required', false);
+                    $("#dateservice").prop('required', false);
+                    $("#cercle").prop('required', false);
+                    $("#caida").prop('required', false);
 
-                     if(document.getElementById("op0") == null)
-                     {
-                         $("#district").append('<option id="op0" selected></option>')
-                     }
+                    if (document.getElementById("op0") == null) {
+                        $("#district").append('<option id="op0" selected></option>')
+                    } else {
+                        if (document.getElementById("op4") == null) {
+                            $("#cercle").append('<option id="op4" selected></option>');
+                        }
+                    }
+                } else {
+                    if (seldistrictpash.value == "Cercle") {
+                        $(".divisiondiv").hide();
+                        $(".districtdiv").hide();
+                        $(".pashalikdiv").hide();
+                        $(".annexediv").hide();
+                        $(".servicediv").hide();
+                        $(".cerclediv").show();
+                        $(".caidadiv").hide();
+
+                        $("#districtpashalik").prop('required', true);
+                        $("#pashalik").prop('required', false);
+                        $("#district").prop('required', false);
+                        $("#annexe").prop('required', false);
+                        $("#dateannexe").prop('required', false);
+                        $("#division").prop('required', false);
+                        $("#service").prop('required', false);
+                        $("#dateservice").prop('required', false);
+                        $("#cercle").prop('required', true);
+                        $("#caida").prop('required', true);
+
+                        if (document.getElementById("op0") == null) {
+                            $("#district").append('<option id="op0" selected></option>')
+                        }
+                    }
                 }
             }
         }
@@ -340,6 +326,7 @@ window.onload = function ()
     const sel= document.getElementById('statutgrade');
     if(sel != null) {
         sel.onchange = function () {
+
             $("#grade option").remove();
             $('#op1').remove()
             $.ajax(
@@ -348,10 +335,10 @@ window.onload = function ()
                     url: url1,
                     data: {statutgrade: sel.value},
                     success: function (data) {
+                        console.log(data)
                         $("#grade").append(`<option  id="op2" selected></option>`);
                         for (var i = 0; i < data.grades.length; i++) {
                             $("#grade").append(`<option value="${data.grades[i].idgrade}">${data.grades[i].gradefr}</option>`);
-
                         }
                     }
                 });
@@ -376,6 +363,7 @@ window.onload = function ()
                 data:{statutgrade: sel.value , grade:selgrade.value},
                 success: function(data)
                 {
+                    console.log(data)
                     for(var i = 0; i < data.echellon.length; i++)
                     {
                         $("#echellon").append(`<option>${data.echellon[i]}</option>`);
@@ -388,15 +376,12 @@ window.onload = function ()
                 }
             });
         }
-    }
-
-    function loadindice()
-    {
-        selindice.selectedIndex = selechellon.selectedIndex;
-        document.getElementById('dpindice').value = selindice.options[selindice.selectedIndex].text
-    }
-    if(selechellon!=null){
-        selechellon.addEventListener('change', loadindice);
+        function loadindice()
+        {
+            selindice.selectedIndex = selechellon.selectedIndex;
+            document.getElementById('dpindice').value = selindice.options[selindice.selectedIndex].text;
+        }
+         selechellon.addEventListener('change', loadindice);
     }
 
 }

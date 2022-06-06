@@ -23,7 +23,7 @@ from operator import itemgetter
 #personnel -------------------------------.
 @login_required(login_url='/connexion')
 def consultation(request):
-    cursor = connection.cursor()
+    """cursor = connection.cursor()
     cursor.execute('''with t1 as(select IdService#,IdPersonnel#,DateAffectation, ROW_NUMBER()  OVER ( PARTITION BY IdPersonnel# ORDER BY IdPersonnel#,DateAffectation desc ) RowNumber from ServicePersonnel )
     ,
     t2 as(
@@ -32,7 +32,7 @@ def consultation(request):
     select P.IdPersonnel,P.Sexe,P.Ppr, P.NomFr , P.PrenomFr,P.Cin,D.LibelleDivisionFr, S.LibelleServiceFr ,P.AdministrationApp ,t1.IdService#,t1.DateAffectation,t2.IdGrade#,t2.DateGrade,G.GradeFr
     from t1,t2 ,Service S ,Personnel P,Division D,Grade G where   t1.IdPersonnel# = t2.IdPersonnel#  and  t1.RowNumber = t2.RowNumber  and
     t1.RowNumber=1 AND S.IdService=t1.IdService# AND P.IdPersonnel=t1.IdPersonnel# AND D.IdDivision=S.IdDivision# AND G.IdGrade=t2.IdGrade#''')
-    rows = dictfetchall(cursor)
+    rows = dictfetchall(cursor)"""
     perso=Personnel.objects.all()
     grades = Grade.objects.all()
     statutgrades = Statutgrade.objects.all()
@@ -45,7 +45,6 @@ def consultation(request):
     listPerso=[]
     idperso =perso.order_by('idpersonnel').values_list('idpersonnel', flat=True).distinct()
     for id in idperso:
-        ## b = {'anneesum': Conge.objects.filter(Q1 & Q2).aggregate(Sum('nbjour'))}
         a = Personnel.objects.filter(idpersonnel=id).values('idpersonnel','cin','ppr','nomfr','prenomfr','administrationapp','sexe','organisme','photo').first()
         b = Gradepersonnel.objects.filter(idpersonnel_field=id).values('idgrade_field__gradefr',
                                                                                  'idgrade_field__idstatutgrade_field__statutgradefr').last()
@@ -77,7 +76,7 @@ def consultation(request):
 
     gradeperso = Gradepersonnel.objects.order_by('idpersonnel_field').values('idpersonnel_field','idpersonnel_field__cin','idpersonnel_field__ppr','idpersonnel_field__nomfr','idpersonnel_field__prenomfr','idpersonnel_field__administrationapp','idpersonnel_field__sexe','idpersonnel_field__organisme','idgrade_field__gradefr','idgrade_field__idstatutgrade_field__statutgradefr')
 
-    return render(request, 'GestionPersonnel/consultation.html', {'personnels': rows, 'divsions': divisions,
+    return render(request, 'GestionPersonnel/consultation.html', {'divsions': divisions,
                                                                   'grades': grades, 'gradeperso': gradeperso,
                                                                   'listPerso': listPerso, 'entites': entites,
                                                                   'pashaliks': pashaliks, 'districts':districts,
@@ -94,12 +93,53 @@ def persoinfoimg(request) :
 @login_required(login_url='/connexion')
 def get_json_perso_data(request, *args, **kwargs):
     selected_obj = kwargs.get('obj')
-    arr=selected_obj.split("-");
+    arr=selected_obj.split("&");
+    listofidgrade = []
+    if arr[4]=='Homme' :
+        QSexe = Q(sexe='Homme-ذكر')
+    elif arr[4]=='Femme':
+        QSexe = Q(sexe='Femme-أنثى')
+    else :
+        QSexe =~Q(idpersonnel=None) ## Always true0
+    if arr[2]!='-1':
+        if arr[3]!='':
+            gradeperso = Gradepersonnel.objects.all();
+            gradeid = gradeperso.order_by('idpersonnel_field').values_list('idpersonnel_field', flat=True).distinct()
+            PersoGrade = []
+            for id in gradeid:
+                x = Gradepersonnel.objects.filter(idpersonnel_field=id).values(
+                    'idgrade_field',
+                    'idpersonnel_field').last()
+                PersoGrade.append(x);
+            idgrades = [user for user in PersoGrade if user['idgrade_field'] == int(arr[3])]
+            for a in idgrades:
+                listofidgrade.append(a['idpersonnel_field'])
+        else:
+            gradeperso = Gradepersonnel.objects.all();
+            gradeid = gradeperso.order_by('idpersonnel_field').values_list('idpersonnel_field', flat=True).distinct()
+            PersoGrade = []
+            for id in gradeid:
+                x = Gradepersonnel.objects.filter(idpersonnel_field=id).values(
+                    'idgrade_field',
+                    'idpersonnel_field').last()
+                PersoGrade.append(x);
+            gradest = Grade.objects.filter(idstatutgrade_field=int(arr[2])).values_list('idgrade',flat=True);
+            idgrades = [user for user in PersoGrade if user['idgrade_field'] in gradest]
+            for a in idgrades:
+                listofidgrade.append(a['idpersonnel_field'])
     listPerso = []
     if(arr[0]=='entite'):
         if(arr[1]=='Secrétariat général'):
-               perso = Personnel.objects.filter(organisme='Service').values_list('idpersonnel', flat=True)
-               for id in perso:
+               QOrganisme=Q(organisme='Service')
+               perso = Personnel.objects.filter(QOrganisme&QSexe).values_list('idpersonnel', flat=True)
+               listfinalperso=[];
+               if arr[2] != '-1':
+                   for a in perso:
+                       if a in listofidgrade:
+                           listfinalperso.append(a);
+               else:
+                   listfinalperso = perso;
+               for id in listfinalperso:
                    a = Personnel.objects.filter(idpersonnel=id).values('idpersonnel', 'cin', 'ppr', 'nomfr', 'prenomfr',
                                                                        'administrationapp', 'sexe', 'organisme',
                                                                        'photo').first()
@@ -119,10 +159,30 @@ def get_json_perso_data(request, *args, **kwargs):
                    res = {**a, **b, **c};
                    listPerso.append(res)
         elif(arr[1]=='Commandement'):
-            persoPashalik = Personnel.objects.filter(organisme='pashalik').values_list('idpersonnel', flat=True)
-            persoCaida = Personnel.objects.filter(organisme='Caida').values_list('idpersonnel', flat=True)
-            persoAnnexe = Personnel.objects.filter(organisme='Annexe').values_list('idpersonnel', flat=True)
-            for id in persoPashalik:
+            orgPashalik=Q(organisme='pashalik')
+            orgCaida=Q(organisme='Caida')
+            orgAnnexe=Q(organisme='Annexe')
+            persoPashalik = Personnel.objects.filter(orgPashalik & QSexe).values_list('idpersonnel', flat=True)
+            persoCaida = Personnel.objects.filter(orgCaida & QSexe).values_list('idpersonnel', flat=True)
+            persoAnnexe = Personnel.objects.filter(orgAnnexe & QSexe).values_list('idpersonnel', flat=True)
+            listfinalPashalik=[];
+            listfinalCaida=[];
+            listfinalAnnexe=[];
+            if arr[2]!='-1':
+                for a in persoPashalik:
+                    if a in listofidgrade:
+                        listfinalPashalik.append(a);
+                for a in persoCaida:
+                    if a in listofidgrade:
+                        listfinalCaida.append(a);
+                for a in persoAnnexe:
+                    if a in listofidgrade:
+                        listfinalAnnexe.append(a);
+            else:
+                listfinalPashalik = persoPashalik;
+                listfinalCaida = persoCaida;
+                listfinalAnnexe = persoAnnexe;
+            for id in listfinalPashalik:
                 a = Personnel.objects.filter(idpersonnel=id).values('idpersonnel', 'cin', 'ppr', 'nomfr', 'prenomfr',
                                                                     'administrationapp', 'sexe', 'organisme',
                                                                     'photo').first()
@@ -138,7 +198,7 @@ def get_json_perso_data(request, *args, **kwargs):
 
                 res = {**a, **b, **c};
                 listPerso.append(res)
-            for id in persoCaida:
+            for id in listfinalCaida:
                 a = Personnel.objects.filter(idpersonnel=id).values('idpersonnel', 'cin', 'ppr', 'nomfr', 'prenomfr',
                                                                     'administrationapp', 'sexe', 'organisme',
                                                                     'photo').first()
@@ -154,7 +214,7 @@ def get_json_perso_data(request, *args, **kwargs):
 
                 res = {**a, **b, **c};
                 listPerso.append(res)
-            for id in persoAnnexe:
+            for id in listfinalAnnexe:
                 a = Personnel.objects.filter(idpersonnel=id).values('idpersonnel', 'cin', 'ppr', 'nomfr', 'prenomfr',
                                                                     'administrationapp', 'sexe', 'organisme',
                                                                     'photo').first()
@@ -186,12 +246,20 @@ def get_json_perso_data(request, *args, **kwargs):
             listofid = []
             for a in idServ:
                 listofid.append(a['idpersonnel_field'])
-            listidperso = Personnel.objects.filter(organisme='Service').values_list('idpersonnel', flat=True)
+            QOrganisme = Q(organisme='Service')
+            listidperso = Personnel.objects.filter(QOrganisme & QSexe).values_list('idpersonnel', flat=True)
             listfinal = []
             for it in listidperso:
                 if it in listofid:
                     listfinal.append(it);
-            for id in listfinal:
+            listfinalperso = [];
+            if arr[2] != '-1':
+                for a in listfinal:
+                    if a in listofidgrade:
+                        listfinalperso.append(a);
+            else:
+                listfinalperso = listfinal;
+            for id in listfinalperso:
                 a = Personnel.objects.filter(idpersonnel=id).values('idpersonnel', 'cin', 'ppr', 'nomfr',
                                                              'prenomfr',
                                                              'administrationapp', 'sexe', 'organisme',
@@ -228,12 +296,20 @@ def get_json_perso_data(request, *args, **kwargs):
             listofid = []
             for a in idServ:
                 listofid.append(a['idpersonnel_field'])
-            listidperso = Personnel.objects.filter(organisme='Service').values_list('idpersonnel', flat=True)
+            QOrganisme = Q(organisme='Service')
+            listidperso = Personnel.objects.filter(QOrganisme & QSexe).values_list('idpersonnel', flat=True)
             listfinal = []
             for it in listidperso:
                 if it in listofid:
                     listfinal.append(it);
-            for id in listfinal:
+            listfinalperso = [];
+            if arr[2] != '-1':
+                for a in listfinal:
+                    if a in listofidgrade:
+                        listfinalperso.append(a);
+            else:
+                listfinalperso = listfinal;
+            for id in listfinalperso:
                 Q1 = Q(idpersonnel=id)
                 a = Personnel.objects.filter(Q1 & Q2).values('idpersonnel', 'cin', 'ppr', 'nomfr',
                                                              'prenomfr',
@@ -271,12 +347,20 @@ def get_json_perso_data(request, *args, **kwargs):
             listofid=[]
             for a in superplayers:
                 listofid.append(a['idpersonnel_field'])
-            listidperso=Personnel.objects.filter(organisme='Service').values_list('idpersonnel', flat=True)
+            QOrganisme = Q(organisme='Service')
+            listidperso=Personnel.objects.filter(QOrganisme & QSexe).values_list('idpersonnel', flat=True)
             listfinal=[]
             for it in  listidperso:
                 if it in listofid:
                     listfinal.append(it);
-            for id in listfinal:
+            listfinalperso = [];
+            if arr[2] != '-1':
+                for a in listfinal:
+                    if a in listofidgrade:
+                        listfinalperso.append(a);
+            else:
+                listfinalperso = listfinal;
+            for id in listfinalperso:
                 Q1 = Q(idpersonnel=id)
                 a = Personnel.objects.filter(Q1).values('idpersonnel', 'cin', 'ppr', 'nomfr',
                                                              'prenomfr',
@@ -313,12 +397,20 @@ def get_json_perso_data(request, *args, **kwargs):
         listofid = []
         for a in superplayers:
             listofid.append(a['idpersonnel_field'])
-        listidperso = Personnel.objects.filter(organisme='Service').values_list('idpersonnel', flat=True)
+        QOrganisme=Q(organisme='Service')
+        listidperso = Personnel.objects.filter(QOrganisme & QSexe).values_list('idpersonnel', flat=True)
         listfinal = []
         for it in listidperso:
             if it in listofid:
                 listfinal.append(it);
-        for id in listfinal:
+        listfinalperso = [];
+        if arr[2] != '-1':
+            for a in listfinal:
+                if a in listofidgrade:
+                    listfinalperso.append(a);
+        else:
+            listfinalperso = listfinal;
+        for id in listfinalperso:
             a = Personnel.objects.filter(idpersonnel=id).values('idpersonnel', 'cin', 'ppr', 'nomfr',
                                                          'prenomfr',
                                                          'administrationapp', 'sexe', 'organisme',
@@ -353,12 +445,20 @@ def get_json_perso_data(request, *args, **kwargs):
         listofid = []
         for a in superplayers:
             listofid.append(a['idpersonnel_field'])
-        listidperso = Personnel.objects.filter(organisme='Service').values_list('idpersonnel', flat=True)
+        QOrganisme=Q(organisme='Service')
+        listidperso = Personnel.objects.filter(QOrganisme & QSexe).values_list('idpersonnel', flat=True)
         listfinal = []
         for it in listidperso:
             if it in listofid:
                 listfinal.append(it);
-        for id in listfinal:
+        listfinalperso = [];
+        if arr[2] != '-1':
+            for a in listfinal:
+                if a in listofidgrade:
+                    listfinalperso.append(a);
+        else:
+            listfinalperso = listfinal;
+        for id in listfinalperso:
             a = Personnel.objects.filter(idpersonnel=id).values('idpersonnel', 'cin', 'ppr', 'nomfr',
                                                          'prenomfr',
                                                          'administrationapp', 'sexe', 'organisme',
@@ -382,8 +482,16 @@ def get_json_perso_data(request, *args, **kwargs):
             listPerso.append(res)
     elif (arr[0] == 'districtpashalik'):
         if(arr[1]=='Pashalik'):
-            persoPashalik = Personnel.objects.filter(organisme='pashalik').values_list('idpersonnel', flat=True)
-            for id in persoPashalik:
+            orgpashalik=Q(organisme='pashalik');
+            persoPashalik = Personnel.objects.filter(orgpashalik & QSexe).values_list('idpersonnel', flat=True)
+            listfinalperso = [];
+            if arr[2] != '-1':
+                for a in persoPashalik:
+                    if a in listofidgrade:
+                        listfinalperso.append(a);
+            else:
+                listfinalperso = persoPashalik;
+            for id in listfinalperso:
                 a = Personnel.objects.filter(idpersonnel=id).values('idpersonnel', 'cin', 'ppr', 'nomfr', 'prenomfr',
                                                                     'administrationapp', 'sexe', 'organisme',
                                                                     'photo').first()
@@ -400,8 +508,16 @@ def get_json_perso_data(request, *args, **kwargs):
                 res = {**a, **b, **c};
                 listPerso.append(res)
         elif(arr[1]=='Cercle'):
-            persoCaida = Personnel.objects.filter(organisme='Caida').values_list('idpersonnel', flat=True)
-            for id in persoCaida:
+            orgCaida=Q(organisme='Caida');
+            persoCaida = Personnel.objects.filter(orgCaida & QSexe).values_list('idpersonnel', flat=True)
+            listfinalperso = [];
+            if arr[2] != '-1':
+                for a in persoCaida:
+                    if a in listofidgrade:
+                        listfinalperso.append(a);
+            else:
+                listfinalperso = persoCaida;
+            for id in listfinalperso:
                 a = Personnel.objects.filter(idpersonnel=id).values('idpersonnel', 'cin', 'ppr', 'nomfr', 'prenomfr',
                                                                     'administrationapp', 'sexe', 'organisme',
                                                                     'photo').first()
@@ -418,8 +534,16 @@ def get_json_perso_data(request, *args, **kwargs):
                 res = {**a, **b, **c};
                 listPerso.append(res)
         elif(arr[1]=='District'):
-            persoAnnexe = Personnel.objects.filter(organisme='Annexe').values_list('idpersonnel', flat=True)
-            for id in persoAnnexe:
+            orgAnnexe=Q(organisme='Annexe');
+            persoAnnexe = Personnel.objects.filter(orgAnnexe & QSexe).values_list('idpersonnel', flat=True)
+            listfinalperso = [];
+            if arr[2] != '-1':
+                for a in persoAnnexe:
+                    if a in listofidgrade:
+                        listfinalperso.append(a);
+            else:
+                listfinalperso = persoAnnexe;
+            for id in listfinalperso:
                 a = Personnel.objects.filter(idpersonnel=id).values('idpersonnel', 'cin', 'ppr', 'nomfr', 'prenomfr',
                                                                     'administrationapp', 'sexe', 'organisme',
                                                                     'photo').first()
@@ -451,13 +575,20 @@ def get_json_perso_data(request, *args, **kwargs):
         for a in superplayers:
             listofid.append(a['idpersonnel_field'])
         annexid = Annexe.objects.filter(iddistrict_field=arr[1]).values_list('idannexe')
-        listidperso = Personnel.objects.filter(organisme='Annexe').values_list('idpersonnel', flat=True)
+        orgAnnexe=Q(organisme='Annexe');
+        listidperso = Personnel.objects.filter(orgAnnexe & QSexe).values_list('idpersonnel', flat=True)
         listfinal = []
         for it in listidperso:
             if it in listofid:
                 listfinal.append(it);
-        print(listfinal)
-        for id in listfinal:
+        listfinalperso = [];
+        if arr[2] != '-1':
+            for a in listfinal:
+                if a in listofidgrade:
+                    listfinalperso.append(a);
+        else:
+            listfinalperso = listfinal;
+        for id in listfinalperso:
             a = Personnel.objects.filter(idpersonnel=id).values('idpersonnel', 'cin', 'ppr', 'nomfr', 'prenomfr',
                                                                 'administrationapp', 'sexe', 'organisme',
                                                                 'photo').first()
@@ -490,13 +621,20 @@ def get_json_perso_data(request, *args, **kwargs):
         for a in superplayers:
             listofid.append(a['idpersonnel_field'])
         caidatid = Caidat.objects.filter(idcercle_field=arr[1]).values_list('idcaidat')
-        listidperso = Personnel.objects.filter(organisme='Caida').values_list('idpersonnel', flat=True)
+        orgCaida=Q(organisme='Caida')
+        listidperso = Personnel.objects.filter(orgCaida & QSexe).values_list('idpersonnel', flat=True)
         listfinal = []
         for it in listidperso:
             if it in listofid:
                 listfinal.append(it);
-        print(listfinal)
-        for id in listfinal:
+        listfinalperso = [];
+        if arr[2] != '-1':
+            for a in listfinal:
+                if a in listofidgrade:
+                    listfinalperso.append(a);
+        else:
+            listfinalperso = listfinal;
+        for id in listfinalperso:
             a = Personnel.objects.filter(idpersonnel=id).values('idpersonnel', 'cin', 'ppr', 'nomfr', 'prenomfr',
                                                                 'administrationapp', 'sexe', 'organisme',
                                                                 'photo').first()
@@ -527,13 +665,20 @@ def get_json_perso_data(request, *args, **kwargs):
         listofid = []
         for a in superplayers:
             listofid.append(a['idpersonnel_field'])
-        listidperso = Personnel.objects.filter(organisme='Annexe').values_list('idpersonnel', flat=True)
+        orgAnnexe=Q(organisme='Annexe');
+        listidperso = Personnel.objects.filter(orgAnnexe & QSexe).values_list('idpersonnel', flat=True)
         listfinal = []
         for it in listidperso:
             if it in listofid:
                 listfinal.append(it);
-        print(listfinal)
-        for id in listfinal:
+        listfinalperso = [];
+        if arr[2] != '-1':
+            for a in listfinal:
+                if a in listofidgrade:
+                    listfinalperso.append(a);
+        else:
+            listfinalperso = listfinal;
+        for id in listfinalperso:
             a = Personnel.objects.filter(idpersonnel=id).values('idpersonnel', 'cin', 'ppr', 'nomfr', 'prenomfr',
                                                                 'administrationapp', 'sexe', 'organisme',
                                                                 'photo').first()
@@ -561,13 +706,20 @@ def get_json_perso_data(request, *args, **kwargs):
         listofid = []
         for a in superplayers:
             listofid.append(a['idpersonnel_field'])
-        listidperso = Personnel.objects.filter(organisme='pashalik').values_list('idpersonnel', flat=True)
+        orgPashalik=Q(organisme='pashalik')
+        listidperso = Personnel.objects.filter(orgPashalik & QSexe).values_list('idpersonnel', flat=True)
         listfinal = []
         for it in listidperso:
             if it in listofid:
                 listfinal.append(it);
-        print(listfinal)
-        for id in listfinal:
+        listfinalperso = [];
+        if arr[2] != '-1':
+            for a in listfinal:
+                if a in listofidgrade:
+                    listfinalperso.append(a);
+        else:
+            listfinalperso = listfinal;
+        for id in listfinalperso:
             a = Personnel.objects.filter(idpersonnel=id).values('idpersonnel', 'cin', 'ppr', 'nomfr', 'prenomfr',
                                                                 'administrationapp', 'sexe', 'organisme',
                                                                 'photo').first()
@@ -580,6 +732,93 @@ def get_json_perso_data(request, *args, **kwargs):
                 b = {'idgrade_field__gradefr': '', 'idgrade_field__idstatutgrade_field__statutgradefr': ''}
             if (not c):
                 c = {'idpashalik_field__libellepashalikfr': '', 'idpashalik_field__libellepashalikar  ': '', }
+            res = {**a, **b, **c};
+            listPerso.append(res)
+    elif (arr[0] == 'caida'):
+        caidaPer = Caidatpersonnel.objects.all();
+        caidaid = caidaPer.order_by('idpersonnel_field').values_list('idpersonnel_field', flat=True).distinct()
+        PersoService = []
+        for id in caidaid:
+            x = Caidatpersonnel.objects.filter(idpersonnel_field=id).values(
+                'idcaidat_field',
+                'idpersonnel_field').last()
+            PersoService.append(x);
+        superplayers = [user for user in PersoService if user['idcaidat_field'] == int(arr[1])]
+        listofid = []
+        for a in superplayers:
+            listofid.append(a['idpersonnel_field'])
+        orgCaida=Q(organisme='Caida');
+        listidperso = Personnel.objects.filter(orgCaida & QSexe).values_list('idpersonnel', flat=True)
+        listfinal = []
+        for it in listidperso:
+            if it in listofid:
+                listfinal.append(it);
+        listfinalperso = [];
+        if arr[2] != '-1':
+            for a in listfinal:
+                if a in listofidgrade:
+                    listfinalperso.append(a);
+        else:
+            listfinalperso = listfinal;
+        for id in listfinalperso:
+            a = Personnel.objects.filter(idpersonnel=id).values('idpersonnel', 'cin', 'ppr', 'nomfr', 'prenomfr',
+                                                                'administrationapp', 'sexe', 'organisme',
+                                                                'photo').first()
+            b = Gradepersonnel.objects.filter(idpersonnel_field=id).values('idgrade_field__gradefr',
+                                                                           'idgrade_field__idstatutgrade_field__statutgradefr').last()
+            c = Caidatpersonnel.objects.filter(idpersonnel_field=id).values(
+                'idcaidat_field__libellecaidatfr',
+                'idcaidat_field__libellecaidatar').last()
+            if (not b):
+                b = {'idgrade_field__gradefr': '', 'idgrade_field__idstatutgrade_field__statutgradefr': ''}
+            if (not c):
+                c = {'idcaidat_field__libellecaidatfr': '', 'idcaidat_field__libellecaidatar': '', }
+            res = {**a, **b, **c};
+            listPerso.append(res)
+    elif(arr[0]=='All'):
+        perso = Personnel.objects.filter(QSexe)
+        listPerso = []
+        idperso = perso.order_by('idpersonnel').values_list('idpersonnel', flat=True).distinct()
+        listfinalperso = [];
+        if arr[2] != '-1':
+            for a in idperso:
+                if a in listofidgrade:
+                    listfinalperso.append(a);
+        else:
+            listfinalperso = idperso;
+        for id in listfinalperso:
+            a = Personnel.objects.filter(idpersonnel=id).values('idpersonnel', 'cin', 'ppr', 'nomfr', 'prenomfr',
+                                                                'administrationapp', 'sexe', 'organisme',
+                                                                'photo').first()
+            b = Gradepersonnel.objects.filter(idpersonnel_field=id).values('idgrade_field__gradefr',
+                                                                           'idgrade_field__idstatutgrade_field__statutgradefr').last()
+            c = {};
+            if (a['organisme']):
+                if (a['organisme'] == 'Service'):
+                    c = Servicepersonnel.objects.filter(idpersonnel_field=id).values(
+                        'idservice_field__libelleservicear',
+                        'idservice_field__libelleservicefr',
+                        'idservice_field__iddivision_field__libelledivisionfr',
+                        'idservice_field__iddivision_field__libelledivisionar').last()
+                elif (a['organisme'] == 'Annexe'):
+                    c = Annexepersonnel.objects.filter(idpersonnel_field=id).values('idannexe_field__libelleannexear',
+                                                                                    'idannexe_field__libelleannexefr',
+                                                                                    'idannexe_field__iddistrict_field__libelledistrictar',
+                                                                                    'idannexe_field__iddistrict_field__libelledistrictfr').last()
+                elif (a['organisme'] == 'Caida'):
+                    c = Caidatpersonnel.objects.filter(idpersonnel_field=id).values('idcaidat_field__libellecaidatar',
+                                                                                    'idcaidat_field__libellecaidatfr').last()
+                elif (a['organisme'] == 'pashalik'):
+                    c = Pashalikpersonnel.objects.filter(idpersonnel_field=id).values(
+                        'idpashalik_field__libellepashalikar',
+                        'idpashalik_field__libellepashalikfr').last()
+            if (not b):
+                b = {'idgrade_field__gradefr': '', 'idgrade_field__idstatutgrade_field__statutgradefr': ''}
+            if (not c):
+                c = {'idservice_field__libelleservicear': '', 'idservice_field__libelleservicefr': '',
+                     'idservice_field__libelleservicefr': '',
+                     'idservice_field__iddivision_field__libelledivisionar': ''}
+
             res = {**a, **b, **c};
             listPerso.append(res)
     ##data = serializers.serialize("json",listPerso )
