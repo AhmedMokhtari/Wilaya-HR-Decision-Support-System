@@ -1,16 +1,15 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth.decorators import login_required
-from .models import Conge, DateElimine
+from .models import *
 from GestionPersonnel.models import *
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from datetime import datetime
 import numpy as np
 from django.db import connection
 from datetime import date, datetime, timedelta
 from django.db.models import Q,Sum
 from .utils import *
-# Create your views here.
+
 
 @login_required(login_url='/connexion')
 def GestionConge(request):
@@ -156,23 +155,11 @@ def conge(request):
         typede = request.POST["typede"]
         nbjours = int(request.POST["nbjours"])
         a1 = datetime.strptime(datedecom, "%Y-%m-%d")
-        data = [s.dateelimine.date() for s in dateelimine]
-        i = 0
-        while (i <= nbjours):
-            if (a1.weekday() != 5 and a1.weekday() != 6 ):
-                if(a1.date() in data):
-                    a1 = a1 + timedelta(days=2)
-                    while (a1.weekday() == 5 or a1.weekday() == 6):
-                        a1 = a1 + timedelta(days=1)
-                else:
-                    a1 = a1 + timedelta(days=1)
-            else:
-                a1 = a1 + timedelta(days=2)
-                while (a1.date() in data):
-                    a1 = a1 + timedelta(days=1)
-            i = i + 1
-        datere = a1
-        objconge = Conge(type_conge=typede, datedebut=a2, dateretour=datere, idpersonnel_field=perso, nbjour=nbjours)
+        a2 = datetime.strptime(datedecom, "%Y-%m-%d")
+
+
+        dater =  findWorkingDayAfter(a1,nbjours)
+        objconge = Conge(type_conge=typede, datedebut=a2, dateretour=dater, idpersonnel_field=perso, nbjour=nbjours)
         objconge.save()
 
         return render(request, 'GestionConge/conge.html', {'personnels': personnels, 'congepersonnel': congepersonnel, 'objconge': objconge, 'conges': conges, 'divisions': divisions})
@@ -228,9 +215,9 @@ def ajaxloadpersonnelforconge(request):
     personnel = Personnel.objects.filter(cin=request.POST.get('personnel', None))
     if(personnel != None):
         objconge = {'persodata': list(personnel.values('idpersonnel', 'nomar', 'prenomar', 'cin', 'ppr')),
-                    'congean': str(CalculateYearConge('الرخصة السنوية',personnel)),
-                    'congeparen': str(CalculateYearConge('الرخصة الأبوية',personnel)),
-                    'congemere': str(CalculateYearConge('رخصة الولادة',personnel)),
+                    'congean': str(CalculateYearConge('رخصة إدارية',personnel)),
+                    'congeparen': str(CalculateYearConge('رخصة الأبوة',personnel)),
+                    'congemere': str(CalculateYearConge('رخصة الأمومة',personnel)),
                     'congestit': str(CalculateYearConge('رخصة إستثنائية', personnel)),
                     'congehaj': str(CalculateYearConge('رخصة الحج', personnel)),
                     }

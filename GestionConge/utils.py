@@ -1,10 +1,9 @@
 
-from .models import DateElimine, Conge
+from .models import *
 import numpy as np
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 
 def dictfetchall(cursor):
-    "Return all rows from a cursor as a dict"
     columns = [col[0] for col in cursor.description]
     return [
         dict(zip(columns, row))
@@ -15,12 +14,20 @@ def CalculateYearConge(typeconge,personnel):
     conges = Conge.objects.filter(type_conge=typeconge,
                                    idpersonnel_field=personnel.first(),
                                    dateretour__year=date.today().year)
-    dateelimine = DateElimine.objects.all()
     listnbjours = []
     for item in conges:
-        a1 = datetime.strptime(str(item.dateretour.strftime('%Y/%m/%d')), "%Y/%m/%d")
-        a2 = date(date.today().year, 1, 1)
-        data = [s.dateelimine.date() for s in dateelimine]
-        print(np.busday_count(a2, a1.date(), holidays=data))
-        listnbjours.append(np.busday_count(a2, a1.date(), holidays=data))
+        listnbjours.append(item.nbjour)
     return sum(listnbjours)
+
+
+def findWorkingDayAfter(startDate, daysToAdd):
+    dateelimine = DateElimine.objects.all()
+    data = [s.dateelimine.strftime('%Y/%m/%d') for s in dateelimine]
+    workingDayCount = 0
+    while workingDayCount < daysToAdd:
+        startDate += timedelta(days=1)
+        weekday = int(startDate.strftime('%w'))
+        if (weekday != 0 and weekday != 6 and startDate.strftime('%Y/%m/%d') not in data):
+            workingDayCount += 1
+
+    return startDate
