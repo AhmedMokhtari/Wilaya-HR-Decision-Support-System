@@ -1,0 +1,64 @@
+{% extends 'menu.html' %}
+{% block content %}
+    {% load static %}
+    <title>{% block title %}الرخص{% endblock title %}</title>
+    <link rel="stylesheet" href="{% static 'css/all.min.css' %}"/>
+    <style>
+    th{
+        font-family: "Cairo ExtraLight";
+    }
+    </style>
+    <form method="POST" action="{% url 'ajouter' %}" autocomplete="off">
+    {% csrf_token %}
+					<div class="row">
+						<div class="col-12 col-lg-5 col-xxl-6 d-flex">
+							<div class="card flex-fill">
+								<div class="card-header">
+
+								</div>
+								<div class="card-body">
+                                    <div class="row mb-3">
+                                        <div class="col-md">
+                                            <label class="col-form-label float-right" dir="ltr" for="personneldata">: الموضف</label>
+                                            <label class="col-form-label" dir="ltr" for="personneldata">Personnel :</label>
+                                                <input class="form-control text-center" list="datalistOptions" id="personneldata" name="personneldata" oninput="loadpersonnel();" placeholder="...رقم البطاقة الوطنية">
+                                                <datalist id="datalistOptions">
+                                                  {% for personnel in personnels %}
+                                                      <option value="{{ personnel.cin }}"></option>
+                                                {% endfor %}
+                                                </datalist>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-3">
+                                        <div class="col-md">
+                                            <label class="col-form-label float-right" dir="ltr" for="note">النقطة</label>
+                                            <label class="col-form-label" dir="ltr" for="note">La Note :</label>
+                                            <input  type="number" id="note" name="note" class="form-control text-center" min="0" max="20"  required>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-3">
+                                        <div class="col-md">
+                                            <label class="col-form-label float-right" dir="ltr" for="annee">السنة</label>
+                                            <label class="col-form-label" dir="ltr" for="annee">Anne</label>
+                                            <input  type="number" name="annee" id="annee" class="form-control text-center" min="2000" max="2100"  required>
+                                        </div>
+                                    </div>
+                                    <button type="submit"  class="btn btn-success">اضاقة</button>
+							    </div>
+						    </div>
+                        </div>
+                    </div>
+    </form>
+    <script>
+    let patt="";
+     patt=`{% for prc in personnels %}{{ prc.cin }}|{% endfor %}`
+    console.log(patt)
+    window.onload=function (){
+        perso=$('#personneldata').attr("pattern",patt)
+    }
+    </script>
+    <script type="text/javascript" src="{% static 'js/Global/validation.js' %}"></script>
+{% endblock %}

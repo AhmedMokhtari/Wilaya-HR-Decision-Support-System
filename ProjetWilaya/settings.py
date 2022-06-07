@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'GestionPersonnel.apps.GestionpersonnelConfig',
     'GestionConge.apps.GestioncongeConfig',
     'GestionAbsence.apps.GestionabsenceConfig',
+    'GestionAvancement.apps.GestionavancementConfig',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
