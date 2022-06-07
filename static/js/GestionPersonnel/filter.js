@@ -142,18 +142,18 @@ window.onload = function ()
     }
     function divisionDefault(){
         $("#division option").remove();
-        $("#division").append('<option id="op3" selected></option>');
+        $("#division").append('<option  style="display: none"></option>');
     }
     function serviceDefault(){
         $("#service option").remove();
-        $("#service").append('<option id="op4" selected></option>');
+        $("#service").append('<option style="display: none"></option>');
     }
     function cercleDefault(){
         $('#cercle').val('');
     }
     function caidaDefault(){
         $("#caida option").remove();
-        $("#caida").append('<option id="op4" selected></option>');
+        $("#caida").append('<option style="display: none"></option>');
     }
     function districtDefault(){
         //$("#district option").remove();
@@ -161,7 +161,7 @@ window.onload = function ()
     }
     function annexeDefault(){
         $("#annexe option").remove();
-        $("#annexe").append('<option id="op3" selected></option>');
+        $("#annexe").append('<option style="display: none"></option>');
     }
     function pashalikDefault(){
         $('#pashalik').val('');
@@ -190,7 +190,7 @@ window.onload = function ()
                     url: url6,
                     data: {entite: selentite.value},
                     success: function (data) {
-                        $("#division").append(`<option value=""></option>`);
+                        $("#division").append(`<option value="" style="display: none" ></option>`);
                         for (var i = 0; i < data.divisions.length; i++) {
                             $("#division").append(`<option value="${data.divisions[i].iddivision}">${data.divisions[i].libelledivisionfr}</option>`);
                         }
@@ -379,7 +379,7 @@ window.onload = function ()
                     data: {statutgrade: sel.value},
                     success: function (data) {
                         console.log(data)
-                        $("#grade").append(`<option  id="op2" selected></option>`);
+                        $("#grade").append(`<option  style="display: none"></option>`);
                         for (var i = 0; i < data.grades.length; i++) {
                             $("#grade").append(`<option value="${data.grades[i].idgrade}">${data.grades[i].gradefr}</option>`);
                         }

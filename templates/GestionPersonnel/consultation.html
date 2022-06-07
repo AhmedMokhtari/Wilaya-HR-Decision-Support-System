@@ -20,7 +20,7 @@
                             <div class="col-md-10">
                                 <label class="col-form-label float-right" for="entite"> الكيان :</label>
                                 <select class="form-control text-center" id="entite" name="entite"  required>
-                                    <option value=""></option>
+                                    <option value="" style="display: none"></option>
                                     {% for entite in entites %}
                                         <option>{{ entite.libelleentitefr}}</option>
                                     {% endfor %}
@@ -33,7 +33,7 @@
                             <div class="col-md-10">
                                 <label class="col-form-label float-right" for="division"> القسم :</label>
                                 <select class="form-control text-center" id="division" name="division">
-                                    <option id="op3"></option>
+
                                 </select>
                             </div>
                         </div>
@@ -43,7 +43,7 @@
                             <div class="col-md-10">
                                 <label class="col-form-label float-right" for="districtpashalik"> المقاطعة :</label>
                                 <select class="form-control text-center" id="districtpashalik" name="districtpashalik">
-                                    <option value="" id="iddps"></option>
+                                    <option value="" id="iddps" style="display: none"></option>
                                     <option>District</option>
                                     <option>Pashalik</option>
                                     <option>Cercle</option>
@@ -56,7 +56,7 @@
                             <div class="col-md-10">
                                 <label class="col-form-label float-right" for="cercle"> الدائرة :</label>
                                 <select class="form-control text-center" id="cercle" name="cercle">
-                                    <option id="idcercle" selected></option>
+                                    <option id="idcercle" style="display: none"></option>
                                     {% for cercle in cercles %}
                                         <option value="{{ cercle.idcercle}}">{{ cercle.libellecerclefr }}</option>
                                     {% endfor %}
@@ -79,7 +79,7 @@
                             <div class="col-md-10">
                                 <label class="col-form-label float-right" for="district"> المقاطعة :</label>
                                 <select class="form-control text-center" id="district" name="district">
-                                    <option  value="" id="iddistrict" selected></option>
+                                    <option  value="" id="iddistrict" style="display: none"></option>
                                     {% for district in districts %}
                                         <option value="{{ district.iddistrict }}">{{ district.libelledistrictfr }}</option>
                                     {% endfor %}
@@ -92,7 +92,7 @@
                             <div class="col-md-10">
                                 <label class="col-form-label float-right" for="pashalik"> الباشوية :</label>
                                 <select class="form-control text-center" id="pashalik" name="pashalik">
-                                    <option value="" id="idpashalik" selected></option>
+                                    <option value="" id="idpashalik" style="display: none"></option>
                                     {% for pashalik in pashaliks %}
                                         <option value="{{ pashalik.idpashalik }}">{{ pashalik.libellepashalikfr}}</option>
                                     {% endfor %}
@@ -127,7 +127,7 @@
                             <div class="col-md-10">
                                 <label class="col-form-label float-right" for="statutgrade"> حالة الدرجة :</label>
                                 <select class="form-control text-center" name="statutgrade" id="statutgrade" required>
-                                        <option  id="op1" value="-1" selected></option>
+                                        <option  id="op1" value="-1" style="display: none"></option>
                                     {% for statut in statutgrades %}
                                         <option value="{{ statut.idstatutgrade }}">{{ statut.statutgradear }}</option>
                                     {% endfor %}
@@ -223,6 +223,7 @@ var url0 = "{% url 'ajaxajouterloadannexe' %}"
        var url3 = "{% url 'ajaxajouterloadsevice' %}";
        const url4 = "{% url 'ajaxajouterloadcaida' %}";
        const url6 = "{% url 'ajaxajouterloaddivision' %}"
+
 
 </script>
 <script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
