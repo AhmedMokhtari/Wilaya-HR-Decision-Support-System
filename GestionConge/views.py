@@ -11,7 +11,7 @@ from django.db.models import Q,Sum
 from .utils import *
 
 
-@login_required(login_url='/connexion')
+@login_required(login_url='/')
 def GestionConge(request):
     """
             nbiterationHoly = 0
@@ -58,7 +58,7 @@ def GestionConge(request):
     return render(request, 'GestionConge/gestionConge.html', {'personnels': personnels, 'congepersonnel': congepersonnel, 'conges': conges,'divisions': divisions})
 
 
-@login_required(login_url='/connexion')
+@login_required(login_url='/')
 def persoinfo(request,id):
     objpersonnel=Personnel.objects.get(idpersonnel=id);
     print(objpersonnel)
@@ -72,7 +72,7 @@ def persoinfo(request,id):
         listannee.append(b)
     return render(request, 'GestionConge/persoinfo.html',{'objpersonnel':objpersonnel,'listdate': zip(annee,listannee),'congeperso':congeperso})
 
-@login_required(login_url='/connexion')
+@login_required(login_url='/')
 def GestionCongeEnCours(request):
     Q1 = Q(statut='En Cours')
     Q2 = Q(dateretour__gt= datetime.now())
@@ -107,22 +107,22 @@ def GestionCongeEnCours(request):
     return render(request, 'GestionConge/congeEnCours.html', {'congesEnCours':zip(congesEncour,listdate),'enCoursFini':EncourFini})
 
 
-@login_required(login_url='/connexion')
-def persoinfo(request,id):
-    objpersonnel=Personnel.objects.get(idpersonnel=id);
+@login_required(login_url='/')
+def persoinfo(request, id):
+    objpersonnel=Personnel.objects.get(idpersonnel=id)
     print(objpersonnel)
-    congeperso=Conge.objects.filter(idpersonnel_field=id);
+    congeperso=Conge.objects.filter(idpersonnel_field=id)
     annee =congeperso.order_by('dateaffectation').values_list('annee', flat=True).distinct()
-    listannee =[]
+    listannee = []
     Q1 = Q(idpersonnel_field=id)
-    for a in annee :
+    for a in annee:
         Q2 = Q(annee=a)
-        b ={'anneesum':Conge.objects.filter(Q1 & Q2).aggregate(Sum('nbjour'))}
+        b = {'anneesum': Conge.objects.filter(Q1 & Q2).aggregate(Sum('nbjour'))}
         listannee.append(b)
     return render(request, 'GestionConge/persoinfo.html',{'objpersonnel':objpersonnel,'listdate': zip(annee,listannee),'congeperso':congeperso})
 
 
-@login_required(login_url='/connexion')
+@login_required(login_url='/')
 def conge(request):
     """
             nbiterationHoly = 0
@@ -165,7 +165,7 @@ def conge(request):
         return render(request, 'GestionConge/conge.html', {'personnels': personnels, 'congepersonnel': congepersonnel, 'objconge': objconge, 'conges': conges, 'divisions': divisions})
     return render(request, 'GestionConge/conge.html', {'personnels': personnels, 'congepersonnel': congepersonnel, 'conges': conges, 'divisions': divisions})
 
-@login_required(login_url='/connexion')
+@login_required(login_url='/')
 def stopeConge(request,id):
     print(id)
     dateelimine = DateElimine.objects.all()
@@ -201,7 +201,7 @@ def stopeConge(request,id):
     return render(request, 'GestionConge/congeEnCours.html',
                   {'congesEnCours': zip(congesEncour, listdate), 'enCoursFini': EncourFini})
 
-@login_required(login_url='/connexion')
+@login_required(login_url='/')
 def delete(request,id):
     objconge = Conge.objects.get(idconge=id)
     objconge.delete()
@@ -214,14 +214,14 @@ def delete(request,id):
 def ajaxloadpersonnelforconge(request):
     personnel = Personnel.objects.filter(cin=request.POST.get('personnel', None))
     if(personnel != None):
-        objconge = {'persodata': list(personnel.values('idpersonnel', 'nomar', 'prenomar', 'cin', 'ppr')),
+        objconge = {'persodata': list(personnel.values('idpersonnel', 'nomar', 'prenomar', 'cin', 'ppr', 'sexe')),
                     'congean': str(CalculateYearConge('رخصة إدارية',personnel)),
                     'congeparen': str(CalculateYearConge('رخصة الأبوة',personnel)),
                     'congemere': str(CalculateYearConge('رخصة الأمومة',personnel)),
                     'congestit': str(CalculateYearConge('رخصة إستثنائية', personnel)),
                     'congehaj': str(CalculateYearConge('رخصة الحج', personnel)),
                     }
-        return JsonResponse(objconge,safe=False)
+        return JsonResponse(objconge, safe=False)
     else:
-        objconge = None
+        objconge = {'persodata'}
         return JsonResponse(objconge, safe=False)

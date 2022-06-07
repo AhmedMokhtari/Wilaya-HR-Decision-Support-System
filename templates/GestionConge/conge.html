@@ -3,13 +3,100 @@
     {% load static %}
     <title>{% block title %}الرخص{% endblock title %}</title>
     <link rel="stylesheet" href="{% static 'css/all.min.css' %}"/>
+    <style>
+    th{
+        font-family: "Cairo ExtraLight";
+    }
+    </style>
     <script>
             var url5 = "{% url 'ajaxloadpersonnelforconge' %}";
     </script>
     <script type="text/javascript" src="{% static 'js/GestionConge/ajouter.js' %}"></script>
-    <form method="POST">
+    <form method="POST" onsubmit="if( sessionStorage.getItem('personnelresponse') == 'false'|| sessionStorage.getItem('personnelresponse') == null)
+    {
+        alert('هذا الموضف لايوجد في قاعدة البيانات'); return false;
+    }
+    else
+    {
+        if(document.getElementById('nbjours').value >= 44 && document.getElementById('congeselect').value == 'رخصة إدارية')
+        {
+            alert('عدد أيام الرخصة الإدارية في السنة الواحدة لا يتجاوز 44 يوم');
+            return false;
+        }
+        else
+        {
+            if(document.getElementById('nbjours').value >= 40 && document.getElementById('congeselect').value == 'رخصة الحج')
+            {
+
+                alert('عدد أيام رخصة الحج لا يتجاوز 40 يوم');
+                 return false;
+            }
+            else
+            {
+                if(document.getElementById('nbjours').value >= 98 && document.getElementById('congeselect').value == 'رخصة الأمومة')
+                {
+                    alert('عدد أيام رخصة الأمومة في السنة الواحدة لا يتجاوز 98 يوم');
+                     return false;
+                }
+                else
+                {
+                    if(document.getElementById('nbjours').value  >= 15 && document.getElementById('congeselect').value == 'الرخصة الأبوة')
+                    {
+                        alert('عدد أيام رخصة الأبوة في السنة الواحدة لا يتجاوز 15 يوم');
+                         return false;
+                    }
+                    else
+                    {
+                        if(document.getElementById('nbjours').value  >= 10 && document.getElementById('congeselect').value == 'رخصة إستثنائية')
+                        {
+                             alert('عدد أيام الرخصة الإستثنائية في السنة الواحدة لا يتجاوز 10 أيام');
+                             return false;
+                        }
+                    }
+                }
+            }
+        }
+
+        if(sessionStorage.getItem('congean') >= 44 && document.getElementById('congeselect').value == 'رخصة إدارية')
+        {
+            alert('الموضف(ة) إستوفى(ة) عدد أيام الرخصة الإدارية');
+            return false;
+        }
+        else
+        {
+            if(sessionStorage.getItem('congehaj') >= 40 && document.getElementById('congeselect').value == 'رخصة الحج')
+            {
+                alert('الموضف(ة) إستوفى(ة) عدد أيام رخصة الحج');
+                 return false;
+            }
+            else
+            {
+                if(sessionStorage.getItem('congemere') >= 98 && document.getElementById('congeselect').value == 'رخصة الأمومة')
+                {
+                    alert('الموضفة إستوفت عدد أيام رخصة الأمومة');
+                     return false;
+                }
+                else
+                {
+                    if(sessionStorage.getItem('congeparen') >= 15 && document.getElementById('congeselect').value == 'الرخصة الأبوة')
+                    {
+                        alert('الموضف إستوفى عدد أيام رخصة الأبوة');
+                         return false;
+                    }
+                    else
+                    {
+                        if(sessionStorage.getItem('congestit') >= 10 && document.getElementById('congeselect').value == 'رخصة إستثنائية')
+                        {
+                             alert('الموضف(ة) إستوفى(ة) عدد أيام الرخصة الإستثنائية');
+                             return false;
+                        }
+                    }
+                }
+            }
+        }
+    }">
     {% csrf_token %}
-                <h1 class="h3 mb-3">Congés <span class="float-right">إجازة</span> </h1>
+
 					<div class="row">
 						<div class="col-12 col-lg-5 col-xxl-6 d-flex">
 							<div class="card flex-fill">
@@ -33,7 +120,7 @@
 
                                     <div class="row mb-3">
                                         <div class="col-md">
-                                            <label class="col-form-label float-right" dir="ltr" for="datedecon">: تاريخ بداية العطلة</label>
+                                            <label class="col-form-label float-right" dir="ltr" for="datedecon">: تاريخ البداية</label>
                                             <label class="col-form-label" dir="ltr" for="datedecon">Date de congé :</label>
                                             <input  type="date" name="datedecon" class="form-control text-center" value="{{ objconge.datedebut|date:'Y-m-d' }}"  required>
                                         </div>
@@ -43,7 +130,7 @@
                                         <div class="col-md">
                                             <label class="col-form-label float-right" dir="ltr" for="nbjours">: عدد الأيام</label>
                                             <label class="col-form-label" dir="ltr" for="nbjours">Nombre de jours :</label>
-                                            <input  type="number" name="nbjours" class="form-control text-center" value="{{ objconge.nbjour }}"  required>
+                                            <input  type="number" name="nbjours" id="nbjours" class="form-control text-center" value="{{ objconge.nbjour }}"  required>
                                         </div>
                                     </div>
 
@@ -57,12 +144,12 @@
 
                                     <div class="row mb-3">
                                         <div class="col-md">
-                                            <label class="col-form-label float-right" dir="ltr" for="typede">: نوع العطلة</label>
+                                            <label class="col-form-label float-right" dir="ltr" for="typede">: نوع الرخصة</label>
                                             <label class="col-form-label" dir="ltr" for="typede">Type Congé :</label>
-                                            <select type="text" name="typede" class="form-control text-center" value="{{ objconge.type_conge }}"  required>
+                                            <select type="text" name="typede" class="form-control text-center" value="{{ objconge.type_conge }}" id="congeselect"  required>
                                                 <option {% if objconge.type_conge == "رخصة إدارية" %} selected {% endif %}>رخصة إدارية</option>
-                                                <option {% if objconge.type_conge == "رخصة الأبوة" %} selected {% endif %}>رخصة الأبوة</option>
-                                                <option {% if objconge.type_conge == "رخصة الأمومة" %} selected {% endif %}>رخصة الأمومة</option>
+                                                <option id="hommeop" {% if objconge.type_conge == "رخصة الأبوة" %} selected {% endif %}>رخصة الأبوة</option>
+                                                <option id="femmeop" {% if objconge.type_conge == "رخصة الأمومة" %} selected {% endif %}>رخصة الأمومة</option>
                                                 <option {% if objconge.type_conge == "رخصة إستثنائية" %} selected {% endif %}>رخصة إستثنائية</option>
                                                 <option {% if objconge.type_conge == "رخصة الحج" %} selected {% endif %}>رخصة الحج</option>
                                             </select>
@@ -188,18 +275,18 @@
                         <div class="col-12 col-sm-8 d-flex">
                             <div class="card flex-fill">
                                 <div class="card-header">
-                                    <h5 class="card-title mb-0">Modification</h5>
+                                    <h5 class="card-title mb-0 text-right">تعديل</h5>
                                 </div>
                                 <table id="datatables-dashboard-projects"  class="table table-striped my-0 text-center">
                                     <thead>
                                         <tr>
-                                            <th>Congé - إجازة</th>
-                                            <th class="d-none d-xl-table-cell">Nom Complet</th>
+                                            <th>الرخصة</th>
+                                            <th class="d-none d-xl-table-cell">الإسم الكامل</th>
                                             <th>الاسم الكامل</th>
-                                            <th class="d-none d-md-table-cell">Tele - هاتف</th>
-                                            <th>Date Debut</th>
-                                            <th>Date Fin</th>
-                                            <th class="d-none d-md-table-cell">Action</th>
+                                            <th class="d-none d-md-table-cell">الهاتف</th>
+                                            <th>تاريخ البداية</th>
+                                            <th>تاريخ النهاية</th>
+                                            <th class="d-none d-md-table-cell">-</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -374,5 +461,5 @@
 			});
 		});
 	</script>
-
+    <script type="text/javascript" src="{% static 'js/Global/validation.js' %}"></script>
 {% endblock %}
