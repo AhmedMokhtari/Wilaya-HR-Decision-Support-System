@@ -48,7 +48,7 @@ def consultation(request):
         a = Personnel.objects.filter(idpersonnel=id).values('idpersonnel','cin','ppr','nomfr','prenomfr','administrationapp','sexe','organisme','photo').first()
         b = Gradepersonnel.objects.filter(idpersonnel_field=id).values('idgrade_field__gradefr',
                                                                                  'idgrade_field__idstatutgrade_field__statutgradefr').last()
-        c={};
+        c={}
         if(a['organisme']):
             if(a['organisme']=='Service'):
                 c = Servicepersonnel.objects.filter(idpersonnel_field=id).values('idservice_field__libelleservicear',
@@ -71,7 +71,7 @@ def consultation(request):
         if(not c):
             c={'idservice_field__libelleservicear':'', 'idservice_field__libelleservicefr':'', 'idservice_field__libelleservicefr':'', 'idservice_field__iddivision_field__libelledivisionar':''}
 
-        res={**a, **b,**c};
+        res={**a, **b,**c}
         listPerso.append(res)
 
     gradeperso = Gradepersonnel.objects.order_by('idpersonnel_field').values('idpersonnel_field','idpersonnel_field__cin','idpersonnel_field__ppr','idpersonnel_field__nomfr','idpersonnel_field__prenomfr','idpersonnel_field__administrationapp','idpersonnel_field__sexe','idpersonnel_field__organisme','idgrade_field__gradefr','idgrade_field__idstatutgrade_field__statutgradefr')
@@ -84,8 +84,8 @@ def consultation(request):
 
 #personnel information images -------------------------------.
 def persoinfoimg(request) :
-    division = Division.objects.all();
-    grade = Grade.objects.all();
+    division = Division.objects.all()
+    grade = Grade.objects.all()
     personnels = { 'divs': division, 'grades': grade}
     return render(request, 'GestionPersonnel/persoinfoimg.html',personnels)
 
@@ -93,7 +93,7 @@ def persoinfoimg(request) :
 @login_required(login_url='/connexion')
 def get_json_perso_data(request, *args, **kwargs):
     selected_obj = kwargs.get('obj')
-    arr=selected_obj.split("&");
+    arr=selected_obj.split("&")
     listofidgrade = []
     if arr[4]=='Homme' :
         QSexe = Q(sexe='Homme-ذكر')
@@ -103,27 +103,27 @@ def get_json_perso_data(request, *args, **kwargs):
         QSexe =~Q(idpersonnel=None) ## Always true0
     if arr[2]!='-1':
         if arr[3]!='':
-            gradeperso = Gradepersonnel.objects.all();
+            gradeperso = Gradepersonnel.objects.all()
             gradeid = gradeperso.order_by('idpersonnel_field').values_list('idpersonnel_field', flat=True).distinct()
             PersoGrade = []
             for id in gradeid:
                 x = Gradepersonnel.objects.filter(idpersonnel_field=id).values(
                     'idgrade_field',
                     'idpersonnel_field').last()
-                PersoGrade.append(x);
+                PersoGrade.append(x)
             idgrades = [user for user in PersoGrade if user['idgrade_field'] == int(arr[3])]
             for a in idgrades:
                 listofidgrade.append(a['idpersonnel_field'])
         else:
-            gradeperso = Gradepersonnel.objects.all();
+            gradeperso = Gradepersonnel.objects.all()
             gradeid = gradeperso.order_by('idpersonnel_field').values_list('idpersonnel_field', flat=True).distinct()
             PersoGrade = []
             for id in gradeid:
                 x = Gradepersonnel.objects.filter(idpersonnel_field=id).values(
                     'idgrade_field',
                     'idpersonnel_field').last()
-                PersoGrade.append(x);
-            gradest = Grade.objects.filter(idstatutgrade_field=int(arr[2])).values_list('idgrade',flat=True);
+                PersoGrade.append(x)
+            gradest = Grade.objects.filter(idstatutgrade_field=int(arr[2])).values_list('idgrade',flat=True)
             idgrades = [user for user in PersoGrade if user['idgrade_field'] in gradest]
             for a in idgrades:
                 listofidgrade.append(a['idpersonnel_field'])
@@ -132,13 +132,13 @@ def get_json_perso_data(request, *args, **kwargs):
         if(arr[1]=='Secrétariat général'):
                QOrganisme=Q(organisme='Service')
                perso = Personnel.objects.filter(QOrganisme&QSexe).values_list('idpersonnel', flat=True)
-               listfinalperso=[];
+               listfinalperso=[]
                if arr[2] != '-1':
                    for a in perso:
                        if a in listofidgrade:
-                           listfinalperso.append(a);
+                           listfinalperso.append(a)
                else:
-                   listfinalperso = perso;
+                   listfinalperso = perso
                for id in listfinalperso:
                    a = Personnel.objects.filter(idpersonnel=id).values('idpersonnel', 'cin', 'ppr', 'nomfr', 'prenomfr',
                                                                        'administrationapp', 'sexe', 'organisme',
@@ -156,7 +156,7 @@ def get_json_perso_data(request, *args, **kwargs):
                        c = {'idservice_field__libelleservicear': '', 'idservice_field__libelleservicefr': '',
                             'idservice_field__iddivision_field__libelledivisionar': ''}
 
-                   res = {**a, **b, **c};
+                   res = {**a, **b, **c}
                    listPerso.append(res)
         elif(arr[1]=='Commandement'):
             orgPashalik=Q(organisme='pashalik')
@@ -165,23 +165,23 @@ def get_json_perso_data(request, *args, **kwargs):
             persoPashalik = Personnel.objects.filter(orgPashalik & QSexe).values_list('idpersonnel', flat=True)
             persoCaida = Personnel.objects.filter(orgCaida & QSexe).values_list('idpersonnel', flat=True)
             persoAnnexe = Personnel.objects.filter(orgAnnexe & QSexe).values_list('idpersonnel', flat=True)
-            listfinalPashalik=[];
-            listfinalCaida=[];
-            listfinalAnnexe=[];
+            listfinalPashalik=[]
+            listfinalCaida=[]
+            listfinalAnnexe=[]
             if arr[2]!='-1':
                 for a in persoPashalik:
                     if a in listofidgrade:
-                        listfinalPashalik.append(a);
+                        listfinalPashalik.append(a)
                 for a in persoCaida:
                     if a in listofidgrade:
-                        listfinalCaida.append(a);
+                        listfinalCaida.append(a)
                 for a in persoAnnexe:
                     if a in listofidgrade:
-                        listfinalAnnexe.append(a);
+                        listfinalAnnexe.append(a)
             else:
-                listfinalPashalik = persoPashalik;
-                listfinalCaida = persoCaida;
-                listfinalAnnexe = persoAnnexe;
+                listfinalPashalik = persoPashalik
+                listfinalCaida = persoCaida
+                listfinalAnnexe = persoAnnexe
             for id in listfinalPashalik:
                 a = Personnel.objects.filter(idpersonnel=id).values('idpersonnel', 'cin', 'ppr', 'nomfr', 'prenomfr',
                                                                     'administrationapp', 'sexe', 'organisme',
@@ -196,7 +196,7 @@ def get_json_perso_data(request, *args, **kwargs):
                 if (not c):
                     c = {'idpashalik_field__libellepashalikar': '', 'idpashalik_field__libellepashalikfr': '',}
 
-                res = {**a, **b, **c};
+                res = {**a, **b, **c} 
                 listPerso.append(res)
             for id in listfinalCaida:
                 a = Personnel.objects.filter(idpersonnel=id).values('idpersonnel', 'cin', 'ppr', 'nomfr', 'prenomfr',
@@ -212,7 +212,7 @@ def get_json_perso_data(request, *args, **kwargs):
                 if (not c):
                     c = {'idcaidat_field__libellecaidatar': '', 'idcaidat_field__libellecaidatfr': '',}
 
-                res = {**a, **b, **c};
+                res = {**a, **b, **c} 
                 listPerso.append(res)
             for id in listfinalAnnexe:
                 a = Personnel.objects.filter(idpersonnel=id).values('idpersonnel', 'cin', 'ppr', 'nomfr', 'prenomfr',
@@ -223,25 +223,25 @@ def get_json_perso_data(request, *args, **kwargs):
                 c = Annexepersonnel.objects.filter(idpersonnel_field=id).values(
                     'idannexe_field__libelleannexefr',
                     'idannexe_field__libelleannexear').last()
-                print(c);
+                print(c) 
                 if (not b):
                     b = {'idgrade_field__gradefr': '', 'idgrade_field__idstatutgrade_field__statutgradefr': ''}
                 if (not c):
                     c = {'idannexe_field__libelleannexear': '', 'idannexe_field__libelleannexefr  ': '',}
 
-                res = {**a, **b, **c};
+                res = {**a, **b, **c} 
                 listPerso.append(res)
         elif (arr[1] == 'Cabinet'):
-            ServicePer = Servicepersonnel.objects.all();
+            ServicePer = Servicepersonnel.objects.all() 
             servid = ServicePer.order_by('idpersonnel_field').values_list('idpersonnel_field', flat=True).distinct()
             PersoService = []
             for id in servid:
                 x = Servicepersonnel.objects.filter(idpersonnel_field=id).values(
                     'idservice_field',
                     'idpersonnel_field').last()
-                PersoService.append(x);
-            CabinetId = Division.objects.get(libelledivisionfr='Cabinet');
-            servCabinet = Service.objects.filter(iddivision_field=CabinetId).values_list('idservice', flat=True);
+                PersoService.append(x) 
+            CabinetId = Division.objects.get(libelledivisionfr='Cabinet') 
+            servCabinet = Service.objects.filter(iddivision_field=CabinetId).values_list('idservice', flat=True) 
             idServ = [user for user in PersoService if user['idservice_field'] in servCabinet]
             listofid = []
             for a in idServ:
@@ -251,14 +251,14 @@ def get_json_perso_data(request, *args, **kwargs):
             listfinal = []
             for it in listidperso:
                 if it in listofid:
-                    listfinal.append(it);
-            listfinalperso = [];
+                    listfinal.append(it) 
+            listfinalperso = [] 
             if arr[2] != '-1':
                 for a in listfinal:
                     if a in listofidgrade:
-                        listfinalperso.append(a);
+                        listfinalperso.append(a) 
             else:
-                listfinalperso = listfinal;
+                listfinalperso = listfinal 
             for id in listfinalperso:
                 a = Personnel.objects.filter(idpersonnel=id).values('idpersonnel', 'cin', 'ppr', 'nomfr',
                                                              'prenomfr',
@@ -279,19 +279,19 @@ def get_json_perso_data(request, *args, **kwargs):
                     c = {'idservice_field__libelleservicear': '', 'idservice_field__libelleservicefr': '',
                          'idservice_field__iddivision_field__libelledivisionar': ''}
 
-                res = {**a, **b, **c};
+                res = {**a, **b, **c} 
                 listPerso.append(res)
         elif (arr[1] == 'Dai'):
-            ServicePer = Servicepersonnel.objects.all();
+            ServicePer = Servicepersonnel.objects.all() 
             servid = ServicePer.order_by('idpersonnel_field').values_list('idpersonnel_field', flat=True).distinct()
             PersoService = []
             for id in servid:
                 x = Servicepersonnel.objects.filter(idpersonnel_field=id).values(
                     'idservice_field',
                     'idpersonnel_field').last()
-                PersoService.append(x);
-            daiId = Division.objects.get(libelledivisionfr='Dai');
-            servDai = Service.objects.filter(iddivision_field=daiId).values_list('idservice', flat=True);
+                PersoService.append(x) 
+            daiId = Division.objects.get(libelledivisionfr='Dai') 
+            servDai = Service.objects.filter(iddivision_field=daiId).values_list('idservice', flat=True) 
             idServ = [user for user in PersoService if user['idservice_field'] in servDai]
             listofid = []
             for a in idServ:
@@ -301,14 +301,14 @@ def get_json_perso_data(request, *args, **kwargs):
             listfinal = []
             for it in listidperso:
                 if it in listofid:
-                    listfinal.append(it);
-            listfinalperso = [];
+                    listfinal.append(it) 
+            listfinalperso = [] 
             if arr[2] != '-1':
                 for a in listfinal:
                     if a in listofidgrade:
-                        listfinalperso.append(a);
+                        listfinalperso.append(a) 
             else:
-                listfinalperso = listfinal;
+                listfinalperso = listfinal 
             for id in listfinalperso:
                 Q1 = Q(idpersonnel=id)
                 a = Personnel.objects.filter(Q1).values('idpersonnel', 'cin', 'ppr', 'nomfr',
@@ -330,19 +330,19 @@ def get_json_perso_data(request, *args, **kwargs):
                     c = {'idservice_field__libelleservicear': '', 'idservice_field__libelleservicefr': '',
                          'idservice_field__iddivision_field__libelledivisionar': ''}
 
-                res = {**a, **b, **c};
+                res = {**a, **b, **c} 
                 listPerso.append(res)
         elif (arr[1] == 'Dsic'):
-            ServicePer=Servicepersonnel.objects.all();
+            ServicePer=Servicepersonnel.objects.all() 
             servid = ServicePer.order_by('idpersonnel_field').values_list('idpersonnel_field', flat=True).distinct()
             PersoService = []
             for id in servid:
                 x = Servicepersonnel.objects.filter(idpersonnel_field=id).values(
                     'idservice_field',
                     'idpersonnel_field').last()
-                PersoService.append(x);
-            DsicId= Division.objects.get(libelledivisionfr='DSIC');
-            servDsic=Service.objects.filter(iddivision_field=DsicId).values_list('idservice', flat=True);
+                PersoService.append(x) 
+            DsicId= Division.objects.get(libelledivisionfr='DSIC') 
+            servDsic=Service.objects.filter(iddivision_field=DsicId).values_list('idservice', flat=True) 
             superplayers = [user for user in PersoService if user['idservice_field'] in servDsic]
             listofid=[]
             for a in superplayers:
@@ -352,14 +352,14 @@ def get_json_perso_data(request, *args, **kwargs):
             listfinal=[]
             for it in  listidperso:
                 if it in listofid:
-                    listfinal.append(it);
-            listfinalperso = [];
+                    listfinal.append(it) 
+            listfinalperso = [] 
             if arr[2] != '-1':
                 for a in listfinal:
                     if a in listofidgrade:
-                        listfinalperso.append(a);
+                        listfinalperso.append(a) 
             else:
-                listfinalperso = listfinal;
+                listfinalperso = listfinal 
             for id in listfinalperso:
                 Q1 = Q(idpersonnel=id)
                 a = Personnel.objects.filter(Q1).values('idpersonnel', 'cin', 'ppr', 'nomfr',
@@ -381,18 +381,18 @@ def get_json_perso_data(request, *args, **kwargs):
                     c = {'idservice_field__libelleservicear': '', 'idservice_field__libelleservicefr': '',
                          'idservice_field__iddivision_field__libelledivisionar': ''}
 
-                res = {**a, **b, **c};
+                res = {**a, **b, **c} 
                 listPerso.append(res)
     elif(arr[0]=='division'):
-        ServicePer = Servicepersonnel.objects.all();
+        ServicePer = Servicepersonnel.objects.all() 
         servid = ServicePer.order_by('idpersonnel_field').values_list('idpersonnel_field', flat=True).distinct()
         PersoService = []
         for id in servid:
             x = Servicepersonnel.objects.filter(idpersonnel_field=id).values(
                 'idservice_field',
                 'idpersonnel_field').last()
-            PersoService.append(x);
-        serv = Service.objects.filter(iddivision_field=arr[1]).values_list('idservice', flat=True);
+            PersoService.append(x) 
+        serv = Service.objects.filter(iddivision_field=arr[1]).values_list('idservice', flat=True) 
         superplayers = [user for user in PersoService if user['idservice_field'] in serv]
         listofid = []
         for a in superplayers:
@@ -402,14 +402,14 @@ def get_json_perso_data(request, *args, **kwargs):
         listfinal = []
         for it in listidperso:
             if it in listofid:
-                listfinal.append(it);
-        listfinalperso = [];
+                listfinal.append(it) 
+        listfinalperso = [] 
         if arr[2] != '-1':
             for a in listfinal:
                 if a in listofidgrade:
-                    listfinalperso.append(a);
+                    listfinalperso.append(a) 
         else:
-            listfinalperso = listfinal;
+            listfinalperso = listfinal 
         for id in listfinalperso:
             a = Personnel.objects.filter(idpersonnel=id).values('idpersonnel', 'cin', 'ppr', 'nomfr',
                                                          'prenomfr',
@@ -430,17 +430,17 @@ def get_json_perso_data(request, *args, **kwargs):
                 c = {'idservice_field__libelleservicear': '', 'idservice_field__libelleservicefr': '',
                      'idservice_field__iddivision_field__libelledivisionar': ''}
 
-            res = {**a, **b, **c};
+            res = {**a, **b, **c} 
             listPerso.append(res)
     elif (arr[0] == 'service'):
-        ServicePer = Servicepersonnel.objects.all();
+        ServicePer = Servicepersonnel.objects.all() 
         servid = ServicePer.order_by('idpersonnel_field').values_list('idpersonnel_field', flat=True).distinct()
         PersoService = []
         for id in servid:
             x = Servicepersonnel.objects.filter(idpersonnel_field=id).values(
                 'idservice_field',
                 'idpersonnel_field').last()
-            PersoService.append(x);
+            PersoService.append(x) 
         superplayers = [user for user in PersoService if user['idservice_field'] == int(arr[1])]
         listofid = []
         for a in superplayers:
@@ -450,14 +450,14 @@ def get_json_perso_data(request, *args, **kwargs):
         listfinal = []
         for it in listidperso:
             if it in listofid:
-                listfinal.append(it);
-        listfinalperso = [];
+                listfinal.append(it) 
+        listfinalperso = [] 
         if arr[2] != '-1':
             for a in listfinal:
                 if a in listofidgrade:
-                    listfinalperso.append(a);
+                    listfinalperso.append(a) 
         else:
-            listfinalperso = listfinal;
+            listfinalperso = listfinal 
         for id in listfinalperso:
             a = Personnel.objects.filter(idpersonnel=id).values('idpersonnel', 'cin', 'ppr', 'nomfr',
                                                          'prenomfr',
@@ -478,19 +478,19 @@ def get_json_perso_data(request, *args, **kwargs):
                 c = {'idservice_field__libelleservicear': '', 'idservice_field__libelleservicefr': '',
                      'idservice_field__iddivision_field__libelledivisionar': ''}
 
-            res = {**a, **b, **c};
+            res = {**a, **b, **c} 
             listPerso.append(res)
     elif (arr[0] == 'districtpashalik'):
         if(arr[1]=='Pashalik'):
-            orgpashalik=Q(organisme='pashalik');
+            orgpashalik=Q(organisme='pashalik') 
             persoPashalik = Personnel.objects.filter(orgpashalik & QSexe).values_list('idpersonnel', flat=True)
-            listfinalperso = [];
+            listfinalperso = [] 
             if arr[2] != '-1':
                 for a in persoPashalik:
                     if a in listofidgrade:
-                        listfinalperso.append(a);
+                        listfinalperso.append(a) 
             else:
-                listfinalperso = persoPashalik;
+                listfinalperso = persoPashalik 
             for id in listfinalperso:
                 a = Personnel.objects.filter(idpersonnel=id).values('idpersonnel', 'cin', 'ppr', 'nomfr', 'prenomfr',
                                                                     'administrationapp', 'sexe', 'organisme',
@@ -505,18 +505,18 @@ def get_json_perso_data(request, *args, **kwargs):
                 if (not c):
                     c = {'idpashalik_field__libellepashalikar': '', 'idpashalik_field__libellepashalikfr': '', }
 
-                res = {**a, **b, **c};
+                res = {**a, **b, **c} 
                 listPerso.append(res)
         elif(arr[1]=='Cercle'):
-            orgCaida=Q(organisme='Caida');
+            orgCaida=Q(organisme='Caida') 
             persoCaida = Personnel.objects.filter(orgCaida & QSexe).values_list('idpersonnel', flat=True)
-            listfinalperso = [];
+            listfinalperso = [] 
             if arr[2] != '-1':
                 for a in persoCaida:
                     if a in listofidgrade:
-                        listfinalperso.append(a);
+                        listfinalperso.append(a) 
             else:
-                listfinalperso = persoCaida;
+                listfinalperso = persoCaida 
             for id in listfinalperso:
                 a = Personnel.objects.filter(idpersonnel=id).values('idpersonnel', 'cin', 'ppr', 'nomfr', 'prenomfr',
                                                                     'administrationapp', 'sexe', 'organisme',
@@ -531,18 +531,18 @@ def get_json_perso_data(request, *args, **kwargs):
                 if (not c):
                     c = {'idcaidat_field__libellecaidatar': '', 'idcaidat_field__libellecaidatfr': '', }
 
-                res = {**a, **b, **c};
+                res = {**a, **b, **c} 
                 listPerso.append(res)
         elif(arr[1]=='District'):
-            orgAnnexe=Q(organisme='Annexe');
+            orgAnnexe=Q(organisme='Annexe') 
             persoAnnexe = Personnel.objects.filter(orgAnnexe & QSexe).values_list('idpersonnel', flat=True)
-            listfinalperso = [];
+            listfinalperso = [] 
             if arr[2] != '-1':
                 for a in persoAnnexe:
                     if a in listofidgrade:
-                        listfinalperso.append(a);
+                        listfinalperso.append(a) 
             else:
-                listfinalperso = persoAnnexe;
+                listfinalperso = persoAnnexe 
             for id in listfinalperso:
                 a = Personnel.objects.filter(idpersonnel=id).values('idpersonnel', 'cin', 'ppr', 'nomfr', 'prenomfr',
                                                                     'administrationapp', 'sexe', 'organisme',
@@ -552,50 +552,50 @@ def get_json_perso_data(request, *args, **kwargs):
                 c = Annexepersonnel.objects.filter(idpersonnel_field=id).values(
                     'idannexe_field__libelleannexefr',
                     'idannexe_field__libelleannexear').last()
-                print(c);
+                print(c) 
                 if (not b):
                     b = {'idgrade_field__gradefr': '', 'idgrade_field__idstatutgrade_field__statutgradefr': ''}
                 if (not c):
                     c = {'idannexe_field__libelleannexear': '', 'idannexe_field__libelleannexefr  ': '', }
 
-                res = {**a, **b, **c};
+                res = {**a, **b, **c} 
                 listPerso.append(res)
     elif (arr[0] == 'district'):
-        ServicePer = Annexepersonnel.objects.all();
+        ServicePer = Annexepersonnel.objects.all() 
         servid = ServicePer.order_by('idpersonnel_field').values_list('idpersonnel_field', flat=True).distinct()
         PersoService = []
         for id in servid:
             x = Annexepersonnel.objects.filter(idpersonnel_field=id).values(
                 'idannexe_field',
                 'idpersonnel_field').last()
-            PersoService.append(x);
-        servAnnex = Annexe.objects.filter(iddistrict_field=arr[1]).values_list('idannexe',flat=True);
+            PersoService.append(x) 
+        servAnnex = Annexe.objects.filter(iddistrict_field=arr[1]).values_list('idannexe',flat=True) 
         superplayers = [user for user in PersoService if user['idannexe_field'] in servAnnex]
         listofid = []
         for a in superplayers:
             listofid.append(a['idpersonnel_field'])
         annexid = Annexe.objects.filter(iddistrict_field=arr[1]).values_list('idannexe')
-        orgAnnexe=Q(organisme='Annexe');
+        orgAnnexe=Q(organisme='Annexe') 
         listidperso = Personnel.objects.filter(orgAnnexe & QSexe).values_list('idpersonnel', flat=True)
         listfinal = []
         for it in listidperso:
             if it in listofid:
-                listfinal.append(it);
-        listfinalperso = [];
+                listfinal.append(it) 
+        listfinalperso = [] 
         if arr[2] != '-1':
             for a in listfinal:
                 if a in listofidgrade:
-                    listfinalperso.append(a);
+                    listfinalperso.append(a) 
         else:
-            listfinalperso = listfinal;
+            listfinalperso = listfinal 
         for id in listfinalperso:
             a = Personnel.objects.filter(idpersonnel=id).values('idpersonnel', 'cin', 'ppr', 'nomfr', 'prenomfr',
                                                                 'administrationapp', 'sexe', 'organisme',
                                                                 'photo').first()
             b = Gradepersonnel.objects.filter(idpersonnel_field=id).values('idgrade_field__gradefr',
                                                                            'idgrade_field__idstatutgrade_field__statutgradefr').last()
-            Q1 = Q(idpersonnel_field=id);
-            Q2=Q(idannexe_field__in=annexid);
+            Q1 = Q(idpersonnel_field=id) 
+            Q2=Q(idannexe_field__in=annexid) 
             c = Annexepersonnel.objects.filter(Q1 & Q2).values(
                 'idannexe_field__libelleannexefr',
                 'idannexe_field__libelleannexear').last()
@@ -604,18 +604,18 @@ def get_json_perso_data(request, *args, **kwargs):
             if (not c):
                 c = {'idannexe_field__libelleannexear': '', 'idannexe_field__libelleannexefr  ': '', }
 
-            res = {**a, **b, **c};
+            res = {**a, **b, **c} 
             listPerso.append(res)
     elif (arr[0] == 'cercle'):
-        ServicePer = Caidatpersonnel.objects.all();
+        ServicePer = Caidatpersonnel.objects.all() 
         servid = ServicePer.order_by('idpersonnel_field').values_list('idpersonnel_field', flat=True).distinct()
         PersoService = []
         for id in servid:
             x = Caidatpersonnel.objects.filter(idpersonnel_field=id).values(
                 'idcaidat_field',
                 'idpersonnel_field').last()
-            PersoService.append(x);
-        servCaida = Caidat.objects.filter(idcercle_field=arr[1]).values_list('idcaidat',flat=True);
+            PersoService.append(x) 
+        servCaida = Caidat.objects.filter(idcercle_field=arr[1]).values_list('idcaidat',flat=True) 
         superplayers = [user for user in PersoService if user['idcaidat_field'] in servCaida]
         listofid = []
         for a in superplayers:
@@ -626,22 +626,22 @@ def get_json_perso_data(request, *args, **kwargs):
         listfinal = []
         for it in listidperso:
             if it in listofid:
-                listfinal.append(it);
-        listfinalperso = [];
+                listfinal.append(it) 
+        listfinalperso = [] 
         if arr[2] != '-1':
             for a in listfinal:
                 if a in listofidgrade:
-                    listfinalperso.append(a);
+                    listfinalperso.append(a) 
         else:
-            listfinalperso = listfinal;
+            listfinalperso = listfinal 
         for id in listfinalperso:
             a = Personnel.objects.filter(idpersonnel=id).values('idpersonnel', 'cin', 'ppr', 'nomfr', 'prenomfr',
                                                                 'administrationapp', 'sexe', 'organisme',
                                                                 'photo').first()
             b = Gradepersonnel.objects.filter(idpersonnel_field=id).values('idgrade_field__gradefr',
                                                                            'idgrade_field__idstatutgrade_field__statutgradefr').last()
-            Q1 = Q(idpersonnel_field=id);
-            Q2=Q(idcaidat_field__in=caidatid);
+            Q1 = Q(idpersonnel_field=id) 
+            Q2=Q(idcaidat_field__in=caidatid) 
             c = Caidatpersonnel.objects.filter(Q1 & Q2).values(
                 'idcaidat_field__libellecaidatar',
                 'idcaidat_field__libellecaidatfr').last()
@@ -650,34 +650,34 @@ def get_json_perso_data(request, *args, **kwargs):
             if (not c):
                 c = {'idcaidat_field__libellecaidatar': '', 'idcaidat_field__libellecaidatfr': '', }
 
-            res = {**a, **b, **c};
+            res = {**a, **b, **c} 
             listPerso.append(res)
     elif (arr[0] == 'annexe'):
-        ServicePer = Annexepersonnel.objects.all();
+        ServicePer = Annexepersonnel.objects.all() 
         servid = ServicePer.order_by('idpersonnel_field').values_list('idpersonnel_field', flat=True).distinct()
         PersoService = []
         for id in servid:
             x = Annexepersonnel.objects.filter(idpersonnel_field=id).values(
                 'idannexe_field',
                 'idpersonnel_field').last()
-            PersoService.append(x);
+            PersoService.append(x) 
         superplayers = [user for user in PersoService if user['idannexe_field'] == int(arr[1])]
         listofid = []
         for a in superplayers:
             listofid.append(a['idpersonnel_field'])
-        orgAnnexe=Q(organisme='Annexe');
+        orgAnnexe=Q(organisme='Annexe') 
         listidperso = Personnel.objects.filter(orgAnnexe & QSexe).values_list('idpersonnel', flat=True)
         listfinal = []
         for it in listidperso:
             if it in listofid:
-                listfinal.append(it);
-        listfinalperso = [];
+                listfinal.append(it) 
+        listfinalperso = [] 
         if arr[2] != '-1':
             for a in listfinal:
                 if a in listofidgrade:
-                    listfinalperso.append(a);
+                    listfinalperso.append(a) 
         else:
-            listfinalperso = listfinal;
+            listfinalperso = listfinal 
         for id in listfinalperso:
             a = Personnel.objects.filter(idpersonnel=id).values('idpersonnel', 'cin', 'ppr', 'nomfr', 'prenomfr',
                                                                 'administrationapp', 'sexe', 'organisme',
@@ -691,17 +691,17 @@ def get_json_perso_data(request, *args, **kwargs):
                 b = {'idgrade_field__gradefr': '', 'idgrade_field__idstatutgrade_field__statutgradefr': ''}
             if (not c):
                 c = {'idannexe_field__libelleannexear': '', 'idannexe_field__libelleannexefr  ': '', }
-            res = {**a, **b, **c};
+            res = {**a, **b, **c} 
             listPerso.append(res)
     elif (arr[0] == 'pashalik'):
-        ServicePer = Pashalikpersonnel.objects.all();
+        ServicePer = Pashalikpersonnel.objects.all() 
         servid = ServicePer.order_by('idpersonnel_field').values_list('idpersonnel_field', flat=True).distinct()
         PersoService = []
         for id in servid:
             x = Pashalikpersonnel.objects.filter(idpersonnel_field=id).values(
                 'idpashalik_field',
                 'idpersonnel_field').last()
-            PersoService.append(x);
+            PersoService.append(x) 
         superplayers = [user for user in PersoService if user['idpashalik_field'] == int(arr[1])]
         listofid = []
         for a in superplayers:
@@ -711,14 +711,14 @@ def get_json_perso_data(request, *args, **kwargs):
         listfinal = []
         for it in listidperso:
             if it in listofid:
-                listfinal.append(it);
-        listfinalperso = [];
+                listfinal.append(it) 
+        listfinalperso = [] 
         if arr[2] != '-1':
             for a in listfinal:
                 if a in listofidgrade:
-                    listfinalperso.append(a);
+                    listfinalperso.append(a) 
         else:
-            listfinalperso = listfinal;
+            listfinalperso = listfinal 
         for id in listfinalperso:
             a = Personnel.objects.filter(idpersonnel=id).values('idpersonnel', 'cin', 'ppr', 'nomfr', 'prenomfr',
                                                                 'administrationapp', 'sexe', 'organisme',
@@ -732,34 +732,34 @@ def get_json_perso_data(request, *args, **kwargs):
                 b = {'idgrade_field__gradefr': '', 'idgrade_field__idstatutgrade_field__statutgradefr': ''}
             if (not c):
                 c = {'idpashalik_field__libellepashalikfr': '', 'idpashalik_field__libellepashalikar  ': '', }
-            res = {**a, **b, **c};
+            res = {**a, **b, **c} 
             listPerso.append(res)
     elif (arr[0] == 'caida'):
-        caidaPer = Caidatpersonnel.objects.all();
+        caidaPer = Caidatpersonnel.objects.all() 
         caidaid = caidaPer.order_by('idpersonnel_field').values_list('idpersonnel_field', flat=True).distinct()
         PersoService = []
         for id in caidaid:
             x = Caidatpersonnel.objects.filter(idpersonnel_field=id).values(
                 'idcaidat_field',
                 'idpersonnel_field').last()
-            PersoService.append(x);
+            PersoService.append(x) 
         superplayers = [user for user in PersoService if user['idcaidat_field'] == int(arr[1])]
         listofid = []
         for a in superplayers:
             listofid.append(a['idpersonnel_field'])
-        orgCaida=Q(organisme='Caida');
+        orgCaida=Q(organisme='Caida') 
         listidperso = Personnel.objects.filter(orgCaida & QSexe).values_list('idpersonnel', flat=True)
         listfinal = []
         for it in listidperso:
             if it in listofid:
-                listfinal.append(it);
-        listfinalperso = [];
+                listfinal.append(it) 
+        listfinalperso = [] 
         if arr[2] != '-1':
             for a in listfinal:
                 if a in listofidgrade:
-                    listfinalperso.append(a);
+                    listfinalperso.append(a) 
         else:
-            listfinalperso = listfinal;
+            listfinalperso = listfinal 
         for id in listfinalperso:
             a = Personnel.objects.filter(idpersonnel=id).values('idpersonnel', 'cin', 'ppr', 'nomfr', 'prenomfr',
                                                                 'administrationapp', 'sexe', 'organisme',
@@ -773,26 +773,26 @@ def get_json_perso_data(request, *args, **kwargs):
                 b = {'idgrade_field__gradefr': '', 'idgrade_field__idstatutgrade_field__statutgradefr': ''}
             if (not c):
                 c = {'idcaidat_field__libellecaidatfr': '', 'idcaidat_field__libellecaidatar': '', }
-            res = {**a, **b, **c};
+            res = {**a, **b, **c} 
             listPerso.append(res)
     elif(arr[0]=='All'):
         perso = Personnel.objects.filter(QSexe)
         listPerso = []
         idperso = perso.order_by('idpersonnel').values_list('idpersonnel', flat=True).distinct()
-        listfinalperso = [];
+        listfinalperso = [] 
         if arr[2] != '-1':
             for a in idperso:
                 if a in listofidgrade:
-                    listfinalperso.append(a);
+                    listfinalperso.append(a) 
         else:
-            listfinalperso = idperso;
+            listfinalperso = idperso 
         for id in listfinalperso:
             a = Personnel.objects.filter(idpersonnel=id).values('idpersonnel', 'cin', 'ppr', 'nomfr', 'prenomfr',
                                                                 'administrationapp', 'sexe', 'organisme',
                                                                 'photo').first()
             b = Gradepersonnel.objects.filter(idpersonnel_field=id).values('idgrade_field__gradefr',
                                                                            'idgrade_field__idstatutgrade_field__statutgradefr').last()
-            c = {};
+            c = {} 
             if (a['organisme']):
                 if (a['organisme'] == 'Service'):
                     c = Servicepersonnel.objects.filter(idpersonnel_field=id).values(
@@ -819,53 +819,13 @@ def get_json_perso_data(request, *args, **kwargs):
                      'idservice_field__libelleservicefr': '',
                      'idservice_field__iddivision_field__libelledivisionar': ''}
 
-            res = {**a, **b, **c};
+            res = {**a, **b, **c} 
             listPerso.append(res)
     ##data = serializers.serialize("json",listPerso )
     data=json.dumps(listPerso)
     return JsonResponse({'data': data})
 
-#export-------------------------------
-def export_perso_csv(request):
-    response = HttpResponse(content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="personnels.csv"'
-    response.write(u'\ufeff'.encode('utf8'))
-    writer = csv.writer(response)
-    writer.writerow(['CIN', 'NOM', 'PRENOM', 'LIEU DE NAISSENCE', 'EMAIL', 'TEL ', 'SITUATION FAMILIALER'])
-    personnels = Personnel.objects.all().values_list('cin', 'nomfr', 'prenomfr', 'lieunaissancefr', 'email', 'tele', 'situationfamilialefr')
-    for personnel in personnels:
-        writer.writerow(personnel)
-    return response
 
-#info -------------------------------.
-def info(request,id):
-    personnel = Personnel.objects.get(idpersonnel=id)
-    conjointsinperso = Conjointpersonnel.objects.filter(idpersonnel_field=id)
-    conjoints = Conjoint.objects.filter(idconjoint__in=conjointsinperso.values_list('idconjoint_field', flat=True))
-    serviperso = Servicepersonnel.objects.filter(idpersonnel_field=id)
-    Servii = Servicepersonnel.objects.filter(idpersonnel_field=id)
-    Services = Service.objects.filter(idservice__in=Servii.values_list('idservice_field', flat=True))
-    enfants = Enfant.objects.filter(idconjoint_field__in=conjointsinperso.values_list('idconjoint_field', flat=True))
-    diplomes = Diplome.objects.filter(idpersonnel_field=id)
-    return render(request, 'GestionPersonnel/info.html', {'personnel': personnel, 'conjoints': conjoints, 'conjointsinperso': conjointsinperso,
-                                                          'Serviii': zip(Services, serviperso), 'diplomes':diplomes, "enfants":enfants})
-
-def testfilter(request):
-    services = Service.objects.all()
-    grades = Grade.objects.all()
-    fonctions = Fonction.objects.all()
-    echellons = Echellon.objects.all()
-    statutgrades = Statutgrade.objects.all()
-    entites = Entite.objects.all()
-    pashaliks = Pashalik.objects.all()
-    districts = District.objects.all()
-    divisions = Division.objects.all()
-    cercles = Cercle.objects.all()
-    return render(request, 'GestionPersonnel/test.html',
-                  {'services': services, 'grades': grades, 'fonctions': fonctions,
-                   'echellons': echellons, 'statutgrades': statutgrades,
-                   'entites': entites, 'pashaliks': pashaliks,
-                   'districts': districts, 'divisions': divisions, 'cercles': cercles})
 
 def personnelinfo(request,id):
     grades = Gradepersonnel.objects.filter(idpersonnel_field=id).values('idgrade_field__gradefr',
@@ -918,7 +878,7 @@ def personnelinfo(request,id):
              'libelledivisionar':a.idservice_field.iddivision_field.libelledivisionar,
              'libelledivisionfr': a.idservice_field.iddivision_field.libelledivisionfr,
              'dateaffectation':a.dateaffectation}
-        listobj.append(obj);
+        listobj.append(obj) 
     pashaliks = Pashalikpersonnel.objects.filter(idpersonnel_field=id)
     for a in pashaliks:
         obj={'libelleservicear':a.idpashalik_field.libellepashalikar,
@@ -926,7 +886,7 @@ def personnelinfo(request,id):
              'libelledivisionar':"باشوية",
              'libelledivisionfr': "pashalik",
              'dateaffectation':a.dateaffectation}
-        listobj.append(obj);
+        listobj.append(obj) 
     Annexe = Annexepersonnel.objects.filter(idpersonnel_field=id)
     for a in Annexe:
         obj={'libelleservicear':a.idannexe_field.libelleannexear,
@@ -934,7 +894,7 @@ def personnelinfo(request,id):
              'libelledivisionar':a.idannexe_field.iddistrict_field.libelledistrictar,
              'libelledivisionfr': a.idannexe_field.iddistrict_field.libelledistrictfr,
              'dateaffectation':a.dateaffectation}
-        listobj.append(obj);
+        listobj.append(obj) 
     caidat=Caidatpersonnel.objects.filter(idpersonnel_field=id)
     for a in caidat:
         obj={'libelleservicear':a.idcaidat_field.libellecaidatar,
@@ -942,10 +902,10 @@ def personnelinfo(request,id):
              'libelledivisionar':a.idcaidat_field.idcercle_field.libellecerclear,
              'libelledivisionfr': a.idcaidat_field.idcercle_field.libellecerclefr,
              'dateaffectation':a.dateaffectation}
-        listobj.append(obj);
+        listobj.append(obj) 
     newlistsorted = sorted(listobj, key=itemgetter('dateaffectation'),reverse=True)
-    persoinfo=Personnel.objects.get(idpersonnel=id);
-    statuts=Statutpersonnel.objects.filter(idpersonnel_field=id);
+    persoinfo=Personnel.objects.get(idpersonnel=id) 
+    statuts=Statutpersonnel.objects.filter(idpersonnel_field=id) 
     return render(request, 'GestionPersonnel/personnelinfo.html',
                   {'services': newlistsorted, 'grades': grades, 'fonctions': fonctions,
                    'conjoints': conjoints, 'enfants': enfants,'statuts':statuts,
@@ -1633,19 +1593,19 @@ def printpdfquitter(req,id):
     if (quitterterritoirelast == None):
         dataattes = 1
     else:
-        dataattes = quitterterritoirelast.numquitterterritoire + 1;
+        dataattes = quitterterritoirelast.numquitterterritoire + 1 
     if (gradepersonnel == None):
         datagrade = " "
     else:
         datagrade = gradepersonnel.idgrade_field.gradefr
     attestation = QuitterTerritoire()
-    attestation.numquitterterritoire = dataattes;
+    attestation.numquitterterritoire = dataattes 
     attestation.idpersonnel_field = personnel
     attestation.datedelivre = datetime.date.today()
     attestation.save()
     empName = str(personnel.nomfr + " " + personnel.prenomfr)
     cin = str(personnel.cin)
-    grade=datagrade;
+    grade=datagrade 
     temp=req.POST["De"]
     du=req.POST["Da"]
     anne=req.POST["an"]
@@ -1697,12 +1657,12 @@ def printpdfquitter(req,id):
 
     pdf.text(125, 250, txt="Oujda le :")
     ##pdf.cell(80)
-    ##pdf.cell(60,10,'Attestation de Travaille',1,1,'C');
+    ##pdf.cell(60,10,'Attestation de Travaille',1,1,'C') 
     pdf.output("test.pdf")
     pdfr = pdf.output(dest='S').encode('latin-1')
     response = HttpResponse(pdfr, content_type='application/pdf')
-    response['Content-Disposition'] = 'filename='+ empName+str(dataattes)+'.pdf';
-    ##response.TransmitFile(pathtofile);
+    response['Content-Disposition'] = 'filename='+ empName+str(dataattes)+'.pdf' 
+    ##response.TransmitFile(pathtofile) 
     return (response)
 
 
@@ -1715,13 +1675,13 @@ def printpdf(req,id):
    if(attestationlast == None):
        dataattes = 1
    else:
-       dataattes = attestationlast.numattestationtravail + 1;
+       dataattes = attestationlast.numattestationtravail + 1 
    if(gradepersonnel == None):
        datagrade = " "
    else:
        datagrade = gradepersonnel.idgrade_field.gradefr
    attestation = Attestationtravail()
-   attestation.numattestationtravail=dataattes;
+   attestation.numattestationtravail=dataattes 
    attestation.idpersonnel_field=personnel
    attestation.datedelivre=datetime.date.today()
    attestation.save()
@@ -1753,13 +1713,13 @@ def printpdf(req,id):
    pdf.text(25,185,txt="En foi de quoi,la présente attestation est délivrée à l'intéressé(e) pour servir et voir ce que de droit ")
    pdf.text(125, 200, txt="Oujda le :         "+str(datetime.date.today()))
    ##pdf.cell(80)
-   ##pdf.cell(60,10,'Attestation de Travaille',1,1,'C');
+   ##pdf.cell(60,10,'Attestation de Travaille',1,1,'C') 
    pdf.output("test.pdf")
    pdfr = pdf.output(dest='S').encode('latin-1')
    response = HttpResponse(pdfr,content_type='application/pdf')
    name=empName+str(dataattes)
    response['Content-Disposition'] = 'filename='+name+'.pdf'
-   ##response.TransmitFile(pathtofile);
+   ##response.TransmitFile(pathtofile) 
    return (response)
    #return FileResponse(open('foobar.pdf', 'rb'), content_type='application/pdf')
 
@@ -1773,14 +1733,14 @@ def printpdfar(req, id):
     if (attestationlast == None):
         dataattes = 1
     else:
-        dataattes = attestationlast.numattestationtravail + 1;
+        dataattes = attestationlast.numattestationtravail + 1 
     if (gradepersonnel == None):
         grade = " "
     else:
         grade = gradepersonnel.idgrade_field.gradefr
 
     attestation = Attestationtravail()
-    attestation.numattestationtravail = dataattes;
+    attestation.numattestationtravail = dataattes 
     attestation.idpersonnel_field = personnel
     attestation.datedelivre = datetime.date.today()
     attestation.save()
@@ -1825,12 +1785,12 @@ def printpdfar(req, id):
     pdf.text(52, 224, txt=get_display(arabic_reshaper.reshape('وجــدة في:')))
     pdf.rect(15, 95, 180, 175)
     ##pdf.cell(80)
-    ##pdf.cell(60,10,'Attestation de Travaille',1,1,'C');
+    ##pdf.cell(60,10,'Attestation de Travaille',1,1,'C') 
     pdf.output("test.pdf")
     pdfr = pdf.output(dest='S').encode('latin-1')
     response = HttpResponse(pdfr, content_type='application/pdf')
-    response['Content-Disposition'] = 'filename='+ empName+str(dataattes)+'.pdf';
-    ##response.TransmitFile(pathtofile);
+    response['Content-Disposition'] = 'filename='+ empName+str(dataattes)+'.pdf' 
+    ##response.TransmitFile(pathtofile) 
     return response
 @login_required(login_url='/connexion')
 @csrf_exempt

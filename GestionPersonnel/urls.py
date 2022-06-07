@@ -4,6 +4,8 @@ from . import views
 from django.conf import settings
 from django.conf.urls.static import static
 
+
+
 urlpatterns = [
     path('consultation', views.consultation, name='consultation'),
     path('persoinfo', views.persoinfoimg, name='persoinfo'),
@@ -16,7 +18,6 @@ urlpatterns = [
     path('export_pdfar/<int:id>', views.printpdfar, name='export_pdfar'),
     path('export_pdfquiter/<int:id>', views.printpdfquitter, name='export_pdfquiter'),
     path('taboard', views.taboardpersonnel, name='taboard'),
-    path('info/<int:id>', views.info, name='info'),
     path('ajouter_enfant', views.ajouter_enfant, name='ajouter_enfant'),
     path('modifier_enfant/<int:id>', views.modifier_enfant, name='modifier_enfant'),
     path('ajouter_diplome', views.ajouter_diplome, name='ajouter_diplome'),
@@ -33,7 +34,5 @@ urlpatterns = [
     path('ajaxloadadministration', views.ajaxloadadministration, name='ajaxloadadministration'),
     path('ajaxajouterloaddivision', views.ajaxajouterloaddivision, name='ajaxajouterloaddivision'),
     path('reaffectation', views.reaffectation, name='reaffectation'),
-    path('export/xls', views.export_perso_csv, name='export_perso_xls'),
-    path('test', views.testfilter, name='test'),
     path('personnelinfo/<int:id>', views.personnelinfo, name='personnelinfo'),
 ]
