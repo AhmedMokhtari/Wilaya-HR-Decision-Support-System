@@ -23,16 +23,6 @@ from operator import itemgetter
 #personnel -------------------------------.
 @login_required(login_url='/connexion')
 def consultation(request):
-    """cursor = connection.cursor()
-    cursor.execute('''with t1 as(select IdService#,IdPersonnel#,DateAffectation, ROW_NUMBER()  OVER ( PARTITION BY IdPersonnel# ORDER BY IdPersonnel#,DateAffectation desc ) RowNumber from ServicePersonnel )
-    ,
-    t2 as(
-    select IdGrade#,IdPersonnel#,DateGrade, ROW_NUMBER()  OVER ( PARTITION BY IdPersonnel# ORDER BY IdPersonnel#,DateGrade desc ) RowNumber from GradePersonnel
-    )
-    select P.IdPersonnel,P.Sexe,P.Ppr, P.NomFr , P.PrenomFr,P.Cin,D.LibelleDivisionFr, S.LibelleServiceFr ,P.AdministrationApp ,t1.IdService#,t1.DateAffectation,t2.IdGrade#,t2.DateGrade,G.GradeFr
-    from t1,t2 ,Service S ,Personnel P,Division D,Grade G where   t1.IdPersonnel# = t2.IdPersonnel#  and  t1.RowNumber = t2.RowNumber  and
-    t1.RowNumber=1 AND S.IdService=t1.IdService# AND P.IdPersonnel=t1.IdPersonnel# AND D.IdDivision=S.IdDivision# AND G.IdGrade=t2.IdGrade#''')
-    rows = dictfetchall(cursor)"""
     perso=Personnel.objects.all()
     grades = Grade.objects.all()
     statutgrades = Statutgrade.objects.all()
