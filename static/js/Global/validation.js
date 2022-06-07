@@ -7,7 +7,8 @@ $('input[name=password]').on('change invalid', function() {
         }
     });
 
-    $('input[type=text]').on('change invalid', function() {
+
+    $('input[type=text]').add('input[type=date]').add('input[type=number]').on('change invalid', function() {
         var textfield = $(this).get(0);
         textfield.setCustomValidity('');
 

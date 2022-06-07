@@ -1,13 +1,6 @@
 
         //ajaxloadpersonnel
-window.onload = function (){
-
-    function date(){
-        data = $('#btnclick').attr('href');
-        linq = data + this.val();
-       alert(linq);
-       $('#btnclick').attr("href",linq);
-    }
+$(document).ready(function (){
 
     function loadadministration(){
         $("#personnel option").remove();
@@ -48,12 +41,14 @@ window.onload = function (){
 
                     if(data.persodata.reafectation!=null)
                     {
+
                         $('#reaf').show();
                         $('#reafectationdonne').hide();
                         $('#reafectationbutton').hide();
+
                          $('#tablereaf').append(`<tr><th>  التعيين الجديد :</th><td>${data.persodata.reafectation[1]}</td></tr>'+
-                                '<tr><th>تاريخ التعيين :</th><td><input type="date" class="form-control text-center col-md-5" name="date" id="date" oninput="date()"></td>'+
-                                '<tr><th>المصادقة :</th><td><a class="btn btn-success" href="./addreaffectation?id=${data.persodata.idpersonnel}&date=" id="btnclick"><i class="fa-solid fa-check"></i></a></td></tr>`+
+                                '<tr><th>تاريخ التعيين :</th><td><input type="date" class="form-control text-center col-md-5" name="date" oninput="data = document.getElementById('btnclick').getAttribute('href');linq = data + document.getElementById('date').value;document.getElementById('btnclick').setAttribute('href', linq);" id="date"></td>'+
+                                '<tr><th>المصادقة :</th><td><a class="btn btn-success" href="./addreaffectation?id=${data.persodata.idpersonnel}&date=" id="btnclick" onclick="if (document.getElementById('date').value == ''){alert('يجب ملء تاريخ التعيين'); return false;}" ><i class="fa-solid fa-check"></i></a></td></tr>`+
                                 '<tr><th>إلغاء :</th><td><a class="btn btn-danger" href="./deletereaffectation/'+data.persodata.reafectation[0]+'"><i class="fa-solid fa-x"></i></a></td></tr>');
 
                     }
@@ -67,7 +62,8 @@ window.onload = function (){
         }
 
 
+
     $('select[id=personnel]').change(loadpersonnel);
 
-}
+});
 
