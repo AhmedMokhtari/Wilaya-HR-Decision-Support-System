@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200&family=Montserrat:wght@800;900&display=swap" rel="stylesheet">
     <!-- CSS only -->
     <div class="col-12 col-xl-12">
-        <div class="card shadow">
+        <div class="card shadow">       
             <form method="get" id="formsearch">
                 <div class="card-header text-right">
                     <h3 class="text-right"><strong>البحث</strong></h3>
@@ -43,7 +43,7 @@
                             <div class="col-md-10">
                                 <label class="col-form-label float-right" for="districtpashalik"> المقاطعة :</label>
                                 <select class="form-control text-center" id="districtpashalik" name="districtpashalik">
-                                    <option value=""></option>
+                                    <option value="" id="iddps"></option>
                                     <option>District</option>
                                     <option>Pashalik</option>
                                     <option>Cercle</option>
@@ -56,9 +56,9 @@
                             <div class="col-md-10">
                                 <label class="col-form-label float-right" for="cercle"> الدائرة :</label>
                                 <select class="form-control text-center" id="cercle" name="cercle">
-                                    <option id="op4"></option>
+                                    <option id="idcercle" selected></option>
                                     {% for cercle in cercles %}
-                                        <option value="{{ cercle.idcercle }}">{{ cercle.libellecerclefr }}</option>
+                                        <option value="{{ cercle.idcercle}}">{{ cercle.libellecerclefr }}</option>
                                     {% endfor %}
                                 </select>
                             </div>
@@ -79,7 +79,7 @@
                             <div class="col-md-10">
                                 <label class="col-form-label float-right" for="district"> المقاطعة :</label>
                                 <select class="form-control text-center" id="district" name="district">
-                                    <option id="op0" value=""></option>
+                                    <option  value="" id="iddistrict" selected></option>
                                     {% for district in districts %}
                                         <option value="{{ district.iddistrict }}">{{ district.libelledistrictfr }}</option>
                                     {% endfor %}
@@ -92,7 +92,7 @@
                             <div class="col-md-10">
                                 <label class="col-form-label float-right" for="pashalik"> الباشوية :</label>
                                 <select class="form-control text-center" id="pashalik" name="pashalik">
-                                    <option value=""></option>
+                                    <option value="" id="idpashalik" selected></option>
                                     {% for pashalik in pashaliks %}
                                         <option value="{{ pashalik.idpashalik }}">{{ pashalik.libellepashalikfr}}</option>
                                     {% endfor %}
@@ -179,7 +179,7 @@
                         <thead style="background-color: #ED2B33FF;color: white">
                             <tr>
                                 <th>ر.ب.و</th>
-                                <th>ب.ب.ر</th>
+                                <th>رقم التاجير</th>
                                 <th>الاسم الكامل</th>
                                 <th>الجنس</th>
                                 <th>الميزانية</th>
@@ -215,7 +215,8 @@
             </div>
         </div>
     </form>
-    <script>
+<script type="text/javascript" src="{% static 'js/GestionPersonnel/filter.js' %}"></script>
+<script>
       var url0 = "{% url 'ajaxajouterloadannexe' %}"
        var url1 = "{% url 'ajaxajouterloadgrade' %}";
        var url2 = "{% url 'ajaxajouterloadechellon' %}";
@@ -223,60 +224,132 @@
        const url4 = "{% url 'ajaxajouterloadcaida' %}";
        const url6 = "{% url 'ajaxajouterloaddivision' %}"
       document.getElementById('formsearch').addEventListener('change',function (e){
-          entite=document.getElementById('entite');
-          division=document.getElementById('division');
-          districtpashalik=document.getElementById('districtpashalik');
-          console.log(e.target.getAttribute('name'));
-          console.log(e.target.value);
-          let val= e.target.getAttribute('name') +'-'+e.target.value;
-          let table=$('#table').DataTable()
-          table.clear().draw();
-          if(e.target.getAttribute('name')=='statutgrade'){
-              let entite=document.getElementsByName('entite')[0].value;
-              let division=document.getElementsByName('division')[0].value;
-              let service=document.getElementsByName('service')[0].value;
-              let districtpashalik=document.getElementsByName('districtpashalik')[0].value;
-              let district=document.getElementsByName('district')[0].value;
-              let annexe=document.getElementsByName('annexe')[0].value;
-              let pashalik=document.getElementsByName('pashalik')[0].value;
-              let cercle=document.getElementsByName('cercle')[0].value;
-              let caida=document.getElementsByName('caida')[0].value;
-              if(entite!=''){
-                  if(division!='') {
-                      if (service != '') {
-                          console.log('filter service')
+            let entite=$("#entite");
+            let division=$('#division');
+            let service=$('#service');
+            let districtpashalik=$('#districtpashalik');
+            let district=$('#district');
+            let annexe=$('#annexe');
+            let pashalik=$('#pashalik');
+            let cercle=$('#cercle');
+            let caida=$('#caida');
+          if(e.target.getAttribute('name')=='statutgrade' || e.target.getAttribute('name')=='grade' || e.target.getAttribute('name')=='radioGenre'){
+              /*console.log('entite',entite.val())  
+              console.log('cercle',cercle.val())  
+              console.log('pashalik',pashalik.val())        
+              console.log('distric',district.val())     */   
+              let statutgrade=document.getElementById('statutgrade').value;
+              let gradeper=document.getElementById('grade').value; 
+              let radioval=$('input[name=radioGenre]:checked', '#formsearch').val()
+
+                if(entite.val()!=''){
+                  if(division.val()!='') {
+                      if (service.val() != '') {
+                            console.log('filter service')
+                            let val= service.getAttribute('name') +'&'+service.val()+'&'+statutgrade+'&'+gradeper+'&'+radioval;
+                            ajaxPerso(val)
+
                       }else {
-                          console.log('filter Division')
+                          let val= division.attr("name") +'&'+division.val()+'&'+statutgrade+'&'+gradeper+'&'+radioval;
+                          ajaxPerso(val)
                       }
-                  }else if(districtpashalik!=''){
-                            if(district!=''){
-                                if(annexe!=''){
-                                    console.log('annexe filter')
-                                }else{
-                                    console.log('district filter')
+                  }else if(districtpashalik.val()!=''){
+                            if(district.val()!=''){
+                                if(annexe.val()!=''){
+                                    let val= annexe.attr("name") +'&'+annexe.val()+'&'+statutgrade+'&'+gradeper+'&'+radioval;
+                                     ajaxPerso(val)
+                                }else{      
+                                    let val= district.attr("name") +'&'+district.val()+'&'+statutgrade+'&'+gradeper+'&'+radioval;
+                                     ajaxPerso(val)
                                 }
-                            }else if(pashalik!=''){
-                                    console.log('pashalik filter')
-                            }else if(cercle!=''){
-                                if(caida!=''){
-                                    console.log('caida filter')
+                            }else if(pashalik.val()!=''){
+                                let val= pashalik.attr("name") +'&'+pashalik.val()+'&'+statutgrade+'&'+gradeper+'&'+radioval;
+                                ajaxPerso(val)
+                            }else if(cercle.val()!=''){
+                                if(caida.val()!=''){
+                                    let val= caida.attr("name") +'&'+caida.val()+'&'+statutgrade+'&'+gradeper+'&'+radioval;
+                                     ajaxPerso(val)
                                 }else{
-                                    console.log('cercle filter')
+                                    let val= cercle.attr("name") +'&'+cercle.val()+'&'+statutgrade+'&'+gradeper+'&'+radioval;
+                                     ajaxPerso(val)
                                 }
                             }else{
-                                console.log('filter with' +districtpashalik)
+                               // console.log('filter with sdd' +districtpashalik)
+                                let val= districtpashalik.attr("name") +'&'+districtpashalik.val()+'&'+statutgrade+'&'+gradeper+'&'+radioval;
+                                ajaxPerso(val)
                             }
                   }else{
-                            console.log('filter with '+entite)
+                            //console.log('filter with '+entite.val())
+                            let val= entite.attr("name") +'&'+entite.val()+'&'+statutgrade+'&'+gradeper+'&'+radioval;
+                            ajaxPerso(val)
                   }
               }else{
-                  console.log('All')
+                let val='All&All&'+statutgrade+'&'+gradeper+'&'+radioval;
+                ajaxPerso(val)
               }
           }
-          ajaxPerso(val)
+          else if(e.target.getAttribute('name')=='radioGenre'){
+            let statutgrade=document.getElementById('statutgrade').value;
+              let gradeper=document.getElementById('grade').value; 
+              let radioval=$('input[name=radioGenre]:checked', '#formsearch').val()
+                if(entite.val()!=''){
+                  if(division.val()!='') {
+                      if (service.val() != '') {
+                            console.log('filter service')
+                            let val= service.getAttribute('name') +'&'+service.val()+'&'+statutgrade+'&'+gradeper+'&'+radioval;
+                            ajaxPerso(val)
+
+                      }else {
+                          let val= division.attr("name") +'&'+division.val()+'&'+statutgrade+'&'+gradeper+'&'+radioval;
+                          ajaxPerso(val)
+                      }
+                  }else if(districtpashalik.val()!=''){
+                            if(district.val()!=''){
+                                if(annexe.val()!=''){
+                                    let val= annexe.attr("name") +'&'+annexe.val()+'&'+statutgrade+'&'+gradeper+'&'+radioval;
+                                     ajaxPerso(val)
+                                }else{      
+                                    let val= district.attr("name") +'&'+district.val()+'&'+statutgrade+'&'+gradeper+'&'+radioval;
+                                     ajaxPerso(val)
+                                }
+                            }else if(pashalik.val()!=''){
+                                let val= pashalik.attr("name") +'&'+pashalik.val()+'&'+statutgrade+'&'+gradeper+'&'+radioval;
+                                ajaxPerso(val)
+                            }else if(cercle.val()!=''){
+                                if(caida.val()!=''){
+                                    let val= caida.attr("name") +'&'+caida.val()+'&'+statutgrade+'&'+gradeper+'&'+radioval;
+                                     ajaxPerso(val)
+                                }else{
+                                    let val= cercle.attr("name") +'&'+cercle.val()+'&'+statutgrade+'&'+gradeper+'&'+radioval;
+                                     ajaxPerso(val)
+                                }
+                            }else{
+                               // console.log('filter with sdd' +districtpashalik)
+                                let val= districtpashalik.attr("name") +'&'+districtpashalik.val()+'&'+statutgrade+'&'+gradeper+'&'+radioval;
+                                ajaxPerso(val)
+                            }
+                  }else{
+                            //console.log('filter with '+entite.val())
+                            let val= entite.attr("name") +'&'+entite.val()+'&'+statutgrade+'&'+gradeper+'&'+radioval;
+                            ajaxPerso(val)
+                  }
+              }else{
+                let val='All&All&'+statutgrade+'&'+gradeper+'&'+radioval;
+                ajaxPerso(val)
+              }
+          }
+          else{
+            let statutgrade=document.getElementById('statutgrade').value;
+            let gradeper=document.getElementById('grade').value;
+            let radioval=$('input[name=radioGenre]:checked', '#formsearch').val()
+            let val= e.target.getAttribute('name') +'&'+e.target.value+'&'+statutgrade+'&'+gradeper+'&'+radioval;
+            ajaxPerso(val)
+          }
       })
 
  function ajaxPerso(selectedbudget){
+    let table=$('#table').DataTable()
+    table.clear().draw();
     $.ajax({
         type: 'get',
         url: `perso-json/${selectedbudget}/`,
@@ -314,8 +387,287 @@
         }
     })
 }
-      </script>
-    <script type="text/javascript" src="{% static 'js/GestionPersonnel/ajouter.js' %}"></script>
+
+window.onload = function ()
+{
+    function frontivision(){
+        $(".divisiondiv").show();
+         $(".districtpashalikdiv").hide();
+         $(".districtdiv").hide();
+         $(".pashalikdiv").hide();
+         $(".annexediv").hide();
+         $(".cerclediv").hide();
+         $(".caidadiv").hide();
+          $(".servicediv").hide();
+    }
+    function front(){
+        $(".divisiondiv").hide();
+         $(".districtpashalikdiv").hide();
+         $(".districtdiv").hide();
+         $(".pashalikdiv").hide();
+         $(".annexediv").hide();
+         $(".cerclediv").hide();
+         $(".caidadiv").hide();
+          $(".servicediv").hide();
+    }
+    const selentite= document.getElementById('entite');
+    //data
+    if(selentite != null) {
+        front();
+    }
+    function divisionDefault(){
+        $("#division option").remove();
+        $("#division").append('<option id="op3" selected></option>');
+    }
+    function serviceDefault(){
+        $("#service option").remove();
+        $("#service").append('<option id="op4" selected></option>');
+    }
+    function cercleDefault(){
+        $('#cercle').val('');
+    }
+    function caidaDefault(){
+        $("#caida option").remove();
+        $("#caida").append('<option id="op4" selected></option>');
+    }
+    function districtDefault(){
+        //$("#district option").remove();
+        $('#district').val('');
+    }
+    function annexeDefault(){
+        $("#annexe option").remove();
+        $("#annexe").append('<option id="op3" selected></option>');
+    }
+    function pashalikDefault(){
+        $('#pashalik').val('');
+    }
+    function districtPashaslikCercleDefault(){
+        $('#districtpashalik').val('');
+    }
+    
+
+    divisionDefault();
+    serviceDefault();
+    cercleDefault();
+    caidaDefault();
+    districtDefault();
+    annexeDefault();
+    pashalikDefault();
+    districtPashaslikCercleDefault();
+    //entite
+
+    function ajaxdivision(){
+        if(selentite != null) {
+            $("#division option").remove();
+            $.ajax(
+                {
+                    type: "POST",
+                    url: url6,
+                    data: {entite: selentite.value},
+                    success: function (data) {
+                        $("#division").append(`<option value=""></option>`);
+                        for (var i = 0; i < data.divisions.length; i++) {
+                            $("#division").append(`<option value="${data.divisions[i].iddivision}">${data.divisions[i].libelledivisionfr}</option>`);
+                        }   
+                    }
+                });
+        }
+    }
+
+    if(selentite!=null) {
+        selentite.onchange = function () {  
+            divisionDefault();
+            serviceDefault();
+            cercleDefault();
+            caidaDefault();
+            districtDefault();
+            annexeDefault();
+            pashalikDefault();
+            districtPashaslikCercleDefault();
+            districtPashaslikCercleDefault();
+            if (selentite.value == "Secrétariat général") {
+                frontivision();
+                ajaxdivision();
+            }else if(selentite.value == "Commandement"){
+                    $(".districtpashalikdiv").show();
+                    $(".divisiondiv").hide();
+                    $(".pashalikdiv").hide();
+                    $(".districtdiv").hide();
+                    $(".annexediv").hide();
+                    $(".servicediv").hide();
+
+            }else if (selentite.value == "Dai" || selentite.value == "Cabinet" || selentite.value == "Dsic") {
+                        frontivision();
+                        ajaxdivision();                 
+        }
+    }
+
+    //district
+    const seldistrictpash= document.getElementById('districtpashalik');
+    if(seldistrictpash != null) {
+        seldistrictpash.onchange = function () {
+            if (seldistrictpash.value == "District") {
+                $(".divisiondiv").hide();
+                $(".districtdiv").show();
+                $(".pashalikdiv").hide();
+                $(".servicediv").hide();
+                $(".cerclediv").hide();
+                $(".caidadiv").hide();
+                divisionDefault();
+                serviceDefault();
+                cercleDefault();
+                caidaDefault();
+                districtDefault();
+                annexeDefault();
+                pashalikDefault();
+            } else {
+
+                if (seldistrictpash.value == "Pashalik") {
+                    $(".divisiondiv").hide();
+                    $(".districtdiv").hide();
+                    $(".pashalikdiv").show();
+                    $(".annexediv").hide();
+                    $(".servicediv").hide();
+                    $(".cerclediv").hide();
+                    $(".caidadiv").hide();
+                    divisionDefault();
+                    serviceDefault();
+                    cercleDefault();
+                    caidaDefault();
+                    districtDefault();
+                    annexeDefault();
+                    pashalikDefault();
+                } else {
+                    if (seldistrictpash.value == "Cercle") {
+                        $(".divisiondiv").hide();
+                        $(".districtdiv").hide();
+                        $(".pashalikdiv").hide();
+                        $(".annexediv").hide();
+                        $(".servicediv").hide();
+                        $(".cerclediv").show();
+                        $(".caidadiv").hide();
+                        divisionDefault();
+                        serviceDefault();
+                        cercleDefault();
+                        caidaDefault();
+                        districtDefault();
+                        annexeDefault();
+                        pashalikDefault();
+                    }
+                }
+            }
+        }
+    }
+
+    const seldistrict= document.getElementById('district');
+    seldistrict.onchange= function()
+    {
+        $(".annexediv").show();
+        $("#annexe option").remove();
+        divisionDefault();
+        serviceDefault();
+        cercleDefault();
+        caidaDefault();
+        annexeDefault();
+        pashalikDefault();
+        $.ajax(
+        {
+            type:"POST",
+            url: url0,
+            data:{ district: seldistrict.value},
+            success: function(data)
+            {
+                for(var i = 0; i < data.annexes.length; i++)
+                {
+                    $("#annexe").append(`<option value="${data.annexes[i].idannexe}">${data.annexes[i].libelleannexefr}</option>`);
+
+                }
+            }
+        });
+    }
+
+    const selcercle= document.getElementById('cercle');
+    selcercle.onchange= function()
+    {
+        $(".caidadiv").show();
+        $("#caida option").remove();
+        divisionDefault();
+        serviceDefault();
+        caidaDefault();
+        districtDefault();
+        annexeDefault();
+        pashalikDefault();
+        $.ajax(
+        {
+            type:"POST",
+            url: url4,
+            data:{ cercle: selcercle.value},
+            success: function(data)
+            {
+                for(var i = 0; i < data.caidas.length; i++)
+                {
+                    $("#caida").append(`<option value="${data.caidas[i].idcaidat}">${data.caidas[i].libellecaidatfr}</option>`);
+
+                }
+            }
+        });
+    }
+
+    const seldivision= document.getElementById('division');
+    seldivision.onchange= function()
+    {
+        $(".servicediv").show();
+        $("#service option").remove();
+        serviceDefault();
+        cercleDefault();
+        caidaDefault();
+        districtDefault();
+        annexeDefault();
+        pashalikDefault();
+        $.ajax(
+        {
+            type:"POST",
+            url: url3,
+            data:{ division: seldivision.value},
+            success: function(data)
+            {
+                for(var i = 0; i < data.services.length; i++)
+                {
+                    $("#service").append(`<option value="${data.services[i].idservice}">${data.services[i].libelleservicefr}</option>`);
+
+                }
+            }
+        });
+    }
+
+    //ajaxstatutgrade
+    const sel= document.getElementById('statutgrade');
+    if(sel != null) {
+        sel.onchange = function () {
+
+            $("#grade option").remove();
+            $('#op1').remove()
+            $.ajax(
+                {
+                    type: "POST",
+                    url: url1,
+                    data: {statutgrade: sel.value},
+                    success: function (data) {
+                        console.log(data)
+                        $("#grade").append(`<option  id="op2" selected></option>`);
+                        for (var i = 0; i < data.grades.length; i++) {
+                            $("#grade").append(`<option value="${data.grades[i].idgrade}">${data.grades[i].gradefr}</option>`);
+                        }
+                    }
+                });
+        }
+    }
+
+    
+
+}
+}
+</script>
 <script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
 <script src="{% static 'js/dataTables.buttons.min.js' %}"></script>
 <script src="{% static 'js/buttons.flash.min.js' %}"></script>
