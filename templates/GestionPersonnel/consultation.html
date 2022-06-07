@@ -288,56 +288,6 @@
                 ajaxPerso(val)
               }
           }
-          else if(e.target.getAttribute('name')=='radioGenre'){
-            let statutgrade=document.getElementById('statutgrade').value;
-              let gradeper=document.getElementById('grade').value; 
-              let radioval=$('input[name=radioGenre]:checked', '#formsearch').val()
-                if(entite.val()!=''){
-                  if(division.val()!='') {
-                      if (service.val() != '') {
-                            console.log('filter service')
-                            let val= service.getAttribute('name') +'&'+service.val()+'&'+statutgrade+'&'+gradeper+'&'+radioval;
-                            ajaxPerso(val)
-
-                      }else {
-                          let val= division.attr("name") +'&'+division.val()+'&'+statutgrade+'&'+gradeper+'&'+radioval;
-                          ajaxPerso(val)
-                      }
-                  }else if(districtpashalik.val()!=''){
-                            if(district.val()!=''){
-                                if(annexe.val()!=''){
-                                    let val= annexe.attr("name") +'&'+annexe.val()+'&'+statutgrade+'&'+gradeper+'&'+radioval;
-                                     ajaxPerso(val)
-                                }else{      
-                                    let val= district.attr("name") +'&'+district.val()+'&'+statutgrade+'&'+gradeper+'&'+radioval;
-                                     ajaxPerso(val)
-                                }
-                            }else if(pashalik.val()!=''){
-                                let val= pashalik.attr("name") +'&'+pashalik.val()+'&'+statutgrade+'&'+gradeper+'&'+radioval;
-                                ajaxPerso(val)
-                            }else if(cercle.val()!=''){
-                                if(caida.val()!=''){
-                                    let val= caida.attr("name") +'&'+caida.val()+'&'+statutgrade+'&'+gradeper+'&'+radioval;
-                                     ajaxPerso(val)
-                                }else{
-                                    let val= cercle.attr("name") +'&'+cercle.val()+'&'+statutgrade+'&'+gradeper+'&'+radioval;
-                                     ajaxPerso(val)
-                                }
-                            }else{
-                               // console.log('filter with sdd' +districtpashalik)
-                                let val= districtpashalik.attr("name") +'&'+districtpashalik.val()+'&'+statutgrade+'&'+gradeper+'&'+radioval;
-                                ajaxPerso(val)
-                            }
-                  }else{
-                            //console.log('filter with '+entite.val())
-                            let val= entite.attr("name") +'&'+entite.val()+'&'+statutgrade+'&'+gradeper+'&'+radioval;
-                            ajaxPerso(val)
-                  }
-              }else{
-                let val='All&All&'+statutgrade+'&'+gradeper+'&'+radioval;
-                ajaxPerso(val)
-              }
-          }
           else{
             let statutgrade=document.getElementById('statutgrade').value;
             let gradeper=document.getElementById('grade').value;

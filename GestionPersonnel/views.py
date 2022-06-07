@@ -311,7 +311,7 @@ def get_json_perso_data(request, *args, **kwargs):
                 listfinalperso = listfinal;
             for id in listfinalperso:
                 Q1 = Q(idpersonnel=id)
-                a = Personnel.objects.filter(Q1 & Q2).values('idpersonnel', 'cin', 'ppr', 'nomfr',
+                a = Personnel.objects.filter(Q1).values('idpersonnel', 'cin', 'ppr', 'nomfr',
                                                              'prenomfr',
                                                              'administrationapp', 'sexe', 'organisme',
                                                              'photo').first()
