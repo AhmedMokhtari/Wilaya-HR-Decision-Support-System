@@ -18,14 +18,14 @@
     }
     else
     {
-        if(document.getElementById('nbjours').value >= 44 && document.getElementById('congeselect').value == 'رخصة إدارية')
+        if(document.getElementById('nbjours').value >= 44 && document.getElementById('congeselect').value == 'رخصة إدارية' && document.getElementById('nbjours').value + sessionStorage.getItem('congean') >= 44)
         {
             alert('عدد أيام الرخصة الإدارية في السنة الواحدة لا يتجاوز 44 يوم');
             return false;
         }
         else
         {
-            if(document.getElementById('nbjours').value >= 40 && document.getElementById('congeselect').value == 'رخصة الحج')
+            if(document.getElementById('nbjours').value >= 40 && document.getElementById('congeselect').value == 'رخصة الحج' && document.getElementById('nbjours').value + sessionStorage.getItem('congehaj') >= 40)
             {
 
                 alert('عدد أيام رخصة الحج لا يتجاوز 40 يوم');
@@ -33,21 +33,21 @@
             }
             else
             {
-                if(document.getElementById('nbjours').value >= 98 && document.getElementById('congeselect').value == 'رخصة الأمومة')
+                if(document.getElementById('nbjours').value >= 98 && document.getElementById('congeselect').value ==  'رخصة الأمومة' && document.getElementById('nbjours').value + sessionStorage.getItem('congemere') >= 98)
                 {
                     alert('عدد أيام رخصة الأمومة في السنة الواحدة لا يتجاوز 98 يوم');
                      return false;
                 }
                 else
                 {
-                    if(document.getElementById('nbjours').value  >= 15 && document.getElementById('congeselect').value == 'الرخصة الأبوة')
+                    if(document.getElementById('nbjours').value  >= 15 && document.getElementById('congeselect').value == 'رخصة الأبوة'  && document.getElementById('nbjours').value + sessionStorage.getItem('congeparen') >= 15)
                     {
                         alert('عدد أيام رخصة الأبوة في السنة الواحدة لا يتجاوز 15 يوم');
                          return false;
                     }
                     else
                     {
-                        if(document.getElementById('nbjours').value  >= 10 && document.getElementById('congeselect').value == 'رخصة إستثنائية')
+                        if(document.getElementById('nbjours').value  >= 10 && document.getElementById('congeselect').value == 'رخصة إستثنائية' && document.getElementById('nbjours').value + sessionStorage.getItem('congestit') >= 10)
                         {
                              alert('عدد أيام الرخصة الإستثنائية في السنة الواحدة لا يتجاوز 10 أيام');
                              return false;
