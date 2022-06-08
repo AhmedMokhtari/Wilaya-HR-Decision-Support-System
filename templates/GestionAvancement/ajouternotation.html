@@ -1,14 +1,14 @@
 {% extends 'menu.html' %}
 {% block content %}
     {% load static %}
-    <title>{% block title %}الرخص{% endblock title %}</title>
+    <title>{% block title %}النقط{% endblock title %}</title>
     <link rel="stylesheet" href="{% static 'css/all.min.css' %}"/>
     <style>
     th{
         font-family: "Cairo ExtraLight";
     }
     </style>
-    <form method="POST" action="{% url 'ajouter' %}" autocomplete="off">
+    <form method="POST" action="{% url 'ajouternotation' %}" autocomplete="off">
     {% csrf_token %}
 					<div class="row">
 						<div class="col-12 col-lg-5 col-xxl-6 d-flex">

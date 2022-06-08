@@ -1,11 +1,16 @@
+import datetime
+
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from GestionPersonnel.models  import *
+from GestionPersonnel.models import *
+from GestionAvancement.models import *
+from .utils import *
 from .models import Notation
-# Create your views here.
+from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponse, JsonResponse
 
 
-@login_required(login_url='/connexion')
+@login_required(login_url='/')
 def notation(request):
     perso=Personnel.objects.all()
     grades = Grade.objects.all()
@@ -58,8 +63,8 @@ def notation(request):
 
 
 
-@login_required(login_url='/connexion')
-def ajouter(request):
+@login_required(login_url='/')
+def ajouternotation(request):
     perso=Personnel.objects.all()
     if request.method == "POST":
         persone=Personnel.objects.get(cin=request.POST["personneldata"])
@@ -67,4 +72,87 @@ def ajouter(request):
         notation.save()
 
 
-    return render(request, 'GestionAvancement/conge.html', {'personnels': perso,})
+    return render(request, 'GestionAvancement/ajouternotation.html', {'personnels': perso,})
+
+
+@login_required(login_url='/')
+def tboardavancement(request):
+    grades = Grade.objects.all()
+    return render(request, 'GestionAvancement/tboardavancememnt.html', {'grades': grades})
+
+@login_required(login_url='/')
+@csrf_exempt
+def loadpersonnelavancement(request):
+    grades = Grade.objects.get(idgrade=request.POST.get("grade"))
+    personnels = Personnel.objects.all()
+    listoutput = []
+    datawarehouse = []
+    for item in personnels:
+        objgradepersonnel = Gradepersonnel.objects.filter(idpersonnel_field=item)
+        if(objgradepersonnel.last() != None and objgradepersonnel.last().idgrade_field == grades):
+            listoutput.append( objgradepersonnel.last())
+
+    for item2 in listoutput:
+        objrythme = Rythme.objects.filter(echellondebut=item2.idechellon_field,idgrade_field=item2.idgrade_field).first()
+        date = item2.dateechellon + datetime.timedelta(30 * objrythme.rapide)
+        note = Notation.objects.filter(idpersonnel_field=item2.idpersonnel_field, annee__lte=date.year, annee__gte= item2.dateechellon.year)
+        listnote = []
+        for item3 in note:
+            listnote.append(item3.note)
+        moyenne = sum(listnote) / len(listnote)
+        mois = 1
+        if (item2.idgrade_field.gradefr == 'Administrateur adjoint' or item2.idgrade_field.gradefr == 'Administrateur'):
+            if(item2.idechellon_field == '6' or item2.idechellon_field == '10' ):
+                mois = 1
+            else:
+                if(moyenne>= 19 and moyenne <=20):
+                    mois = objrythme.rapide
+                elif(moyenne>= 18.75 and moyenne <=19):
+                    mois = objrythme.rapide + 2
+                elif (moyenne >= 18.25 and moyenne <= 18.50):
+                    mois = objrythme.rapide + 3
+                elif (moyenne >= 18 and moyenne <= 18.25):
+                    mois = objrythme.rapide + 4
+                elif (moyenne >= 17.75 and moyenne <= 18):
+                    mois = objrythme.rapide + 5
+                elif (moyenne >= 16.5 and moyenne <= 17.5):
+                    mois = objrythme.rapide + 6
+                elif (moyenne >= 16 and moyenne <= 16.5):
+                    mois = objrythme.rapide + 5
+                elif (moyenne >= 15.5 and moyenne <= 16):
+                    mois = objrythme.rapide + 9
+                elif (moyenne >= 15 and moyenne <= 15.5):
+                    mois = objrythme.rapide + 12
+                elif (moyenne >= 14.5 and moyenne <= 15):
+                    mois = objrythme.rapide + 15
+                elif (moyenne < 14.5):
+                    mois = objrythme.rapide + 18
+        else:
+            if (moyenne >= 16 and moyenne <= 20):
+                mois = objrythme.rapide
+            elif (moyenne >= 10 and moyenne <= 16):
+                mois = objrythme.moyen
+            elif (moyenne < 10):
+                mois = objrythme.lent
+
+        datefin = item2.dateechellon + datetime.timedelta(30 * mois)
+        indicebr = indice(item2.idgrade_field.idgrade)
+        datamart = {'idpersonnel': item2.idpersonnel_field.idpersonnel,
+                    'cin': item2.idpersonnel_field.cin,
+                    'personnelnar': item2.idpersonnel_field.nomar,
+                    'personnelnfr': item2.idpersonnel_field.nomfr,
+                    'personnelpar': item2.idpersonnel_field.prenomar,
+                    'personnelpfr': item2.idpersonnel_field.prenomfr,
+                    'datefin': datefin.date(),
+                    'datedebut': item2.dateechellon.date(),
+                    'rythm': mois,
+                    'grade': item2.idgrade_field.gradear,
+                    'moyenne': f'{moyenne:.2f}',
+                    'ppr': item2.idpersonnel_field.ppr,
+                    'indicesebut': indicebr[item2.idechellon_field.idechellon - 1],
+                    'indicesefin': indicebr[item2.idechellon_field.idechellon],
+                    'echellondebut': item2.idechellon_field.echellon,
+                    'echellondefin': Echellon.objects.get(idechellon=item2.idechellon_field.idechellon + 1).echellon}
+
+        datawarehouse.append(datamart)
+    return JsonResponse(datawarehouse, safe=False)

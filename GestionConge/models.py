@@ -1,6 +1,6 @@
 from django.db import models
 
-# Create your models here.
+
 class Conge(models.Model):
     idconge = models.AutoField(db_column='IdConge', primary_key=True)
     type_conge = models.CharField(max_length=30, db_collation='French_CI_AS', blank=True, null=True)

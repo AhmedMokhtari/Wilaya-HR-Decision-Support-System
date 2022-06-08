@@ -1,5 +1,6 @@
 
 from .models import *
+from GestionPersonnel.models import *
 import numpy as np
 from datetime import date, datetime, timedelta
 
@@ -31,3 +32,5 @@ def findWorkingDayAfter(startDate, daysToAdd):
             workingDayCount += 1
 
     return startDate
+
+

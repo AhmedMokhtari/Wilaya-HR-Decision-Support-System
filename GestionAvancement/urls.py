@@ -6,6 +6,7 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('notation', views.notation, name='notation'),
-    path('ajouter', views.ajouter, name='ajouter'),
-
+    path('ajouternotation', views.ajouternotation, name='ajouternotation'),
+    path('tboardavancement', views.tboardavancement, name='tboardavancement'),
+    path('loadpersonnelavancement', views.loadpersonnelavancement, name='loadpersonnelavancement'),
 ]
