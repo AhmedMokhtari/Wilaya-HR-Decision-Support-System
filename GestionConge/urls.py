@@ -8,6 +8,7 @@ urlpatterns = [
     path('deleteconge/<int:id>', views.delete, name='deleteconge'),
     path('persoinfo/<int:id>', views.persoinfo, name='persoinfo'),
     path('ajaxloadpersonnelforconge', views.ajaxloadpersonnelforconge, name='ajaxloadpersonnelforconge'),
+    path('tboardconge', views.tboardconge, name='tboardconge'),
 ]
 
 

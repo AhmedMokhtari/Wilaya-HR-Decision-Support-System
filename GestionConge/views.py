@@ -225,3 +225,26 @@ def ajaxloadpersonnelforconge(request):
     else:
         objconge = {'persodata'}
         return JsonResponse(objconge, safe=False)
+
+
+def tboardconge(request):
+    personnels = Personnel.objects.all()
+    dateelimine = DateElimine.objects.all()
+    conges = Conge.objects.all()
+    congepersonnel = []
+    i = 0
+    while i <= 11:
+        congepersonnel.append(
+            Conge.objects.filter(datedebut__year=datetime.now().year).filter(datedebut__month=i + 1).count())
+        i = i + 1
+    try:
+        sql = 'select d.LibelleDivisionAr,d.LibelleDivisionFr, count(c.IdConge) as total from [dbo].[Division] d inner join [dbo].[Service] s on s.IdDivision# = d.IdDivision inner join [dbo].[ServicePersonnel] sp on s.IdService = sp.IdService# inner join [dbo].[Personnel] p on sp.IdPersonnel# = p.IdPersonnel inner join [dbo].[Conge] c on p.IdPersonnel = c.IdPersonnel# group by d.LibelleDivisionAr,d.LibelleDivisionFr,d.IdDivision'
+        cursor = connection.cursor()
+        cursor.execute(sql)
+        divisions = list(cursor.fetchall())
+    except Exception as e:
+        exception = str(e)
+    finally:
+        cursor.close
+
+    return render (request,'GestionConge/tboardconges.html', {'personnels': personnels, 'congepersonnel': congepersonnel, 'conges': conges,'divisions': divisions})
