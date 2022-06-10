@@ -3,7 +3,7 @@ function datatb() {
      datatbl= $('#table').DataTable(
 	    {
             "lengthMenu": [[5, 25, 50,75,100, -1],[5, 25, 50,75,100, "الكل"]],
-	        dom: 'Blfrtip',
+	        dom: '',
             language:{
                 "decimal":        "",
                 "emptyTable":     "لا يوجد معلومات",

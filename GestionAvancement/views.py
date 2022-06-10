@@ -1,4 +1,4 @@
-import datetime
+from datetime import *
 from django.core import serializers
 import json
 import os
@@ -7,7 +7,6 @@ from django.db import connection
 import arabic_reshaper
 from bidi.algorithm import get_display
 from pathlib import Path
-from django.db.models import Q
 from operator import itemgetter
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
@@ -17,6 +16,7 @@ from .utils import *
 from .models import Notation
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, JsonResponse
+
 
 
 @login_required(login_url='/')
@@ -114,7 +114,7 @@ def loadpersonnelavancement(request):
 
     for item2 in listoutput:
         objrythme = Rythme.objects.filter(echellondebut=item2.idechellon_field,idgrade_field=item2.idgrade_field).first()
-        date = item2.dateechellon + datetime.timedelta(30 * objrythme.rapide)
+        date = item2.dateechellon + timedelta(30 * objrythme.rapide)
         note = Notation.objects.filter(idpersonnel_field=item2.idpersonnel_field, annee__lte=date.year, annee__gte= item2.dateechellon.year)
         listnote = []
         for item3 in note:
@@ -155,7 +155,7 @@ def loadpersonnelavancement(request):
             elif (moyenne < 10):
                 mois = objrythme.lent
 
-        datefin = item2.dateechellon + datetime.timedelta(30 * mois)
+        datefin = item2.dateechellon + timedelta(30 * mois)
         indicebr = indice(item2.idgrade_field.idgrade)
         datamart = {'idpersonnel': item2.idpersonnel_field.idpersonnel,
                     'cin': item2.idpersonnel_field.cin,
@@ -177,7 +177,7 @@ def loadpersonnelavancement(request):
         datawarehouse.append(datamart)
     return JsonResponse(datawarehouse, safe=False)
 
-def ajaxAnnee(req,*args, **kwargs):
+def ajaxannee(req,*args, **kwargs):
     cinPerso=kwargs.get('obj')
     personnel=Personnel.objects.get(cin=cinPerso)
     notationAnnee=Notation.objects.filter(idpersonnel_field=personnel).values_list('annee', flat=True)
@@ -195,6 +195,7 @@ def ajaxAnnee(req,*args, **kwargs):
     print(listyear)
     data = json.dumps(listyearempty)
     return JsonResponse({'data': data})
+
 
 # filter -------------------------------.
 @login_required(login_url='/connexion')
@@ -691,7 +692,7 @@ def get_json_perso_year_empty(request, *args, **kwargs):
 
 def pdfavencement(request):
     grade = Grade.objects.get(idgrade=1)
-    annee = str(datetime.datetime.now().year)
+    annee = str(datetime.now().year)
     decision1 = 'يترقى'
     decision2 = 'يترقى'
     BASE_DIR = Path(__file__).resolve().parent.parent
@@ -757,7 +758,7 @@ def pdfavencement(request):
     for item2 in listoutput:
         objrythme = Rythme.objects.filter(echellondebut=item2.idechellon_field,
                                           idgrade_field=item2.idgrade_field).first()
-        date = item2.dateechellon + datetime.timedelta(30 * objrythme.rapide)
+        date = item2.dateechellon + timedelta(30 * objrythme.rapide)
         note = Notation.objects.filter(idpersonnel_field=item2.idpersonnel_field, annee__lte=date.year,
                                        annee__gte=item2.dateechellon.year)
         listnote = []
@@ -799,7 +800,7 @@ def pdfavencement(request):
             elif (moyenne < 10):
                 mois = objrythme.lent
 
-        datefin = item2.dateechellon + datetime.timedelta(30 * mois)
+        datefin = item2.dateechellon + timedelta(30 * mois)
         indicebr = indice(item2.idgrade_field.idgrade)
         pdf.cell(17, 10, txt=get_display(arabic_reshaper.reshape(decision1)), border=1, align='C')
         pdf.cell(22, 10, txt=get_display(arabic_reshaper.reshape(decision2)), border=1, align='C')
