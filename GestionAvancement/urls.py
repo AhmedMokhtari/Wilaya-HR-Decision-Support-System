@@ -9,4 +9,5 @@ urlpatterns = [
     path('ajouternotation', views.ajouternotation, name='ajouternotation'),
     path('tboardavancement', views.tboardavancement, name='tboardavancement'),
     path('loadpersonnelavancement', views.loadpersonnelavancement, name='loadpersonnelavancement'),
+    path('pdfavencement', views.pdfavencement, name='pdfavencement')
 ]

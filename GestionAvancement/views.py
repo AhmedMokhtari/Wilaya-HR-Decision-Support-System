@@ -1,6 +1,8 @@
 import datetime
 from django.core import serializers
 import json
+import os
+from fpdf import FPDF
 from django.db import connection
 import arabic_reshaper
 from bidi.algorithm import get_display
@@ -165,20 +167,11 @@ def loadpersonnelavancement(request):
 
 
 def pdfavencement(request):
-    grade = Grade.objects.get(idgrade=7)
-    dategradeN = Gradepersonnel.objects.all().last().dategrade.date().isoformat()
-    dategradeP = Gradepersonnel.objects.all().last().dategrade.date().isoformat()
-    personnel = Personnel.objects.get(idpersonnel=1)
-    indiceN = '806'
-    indiceP = '806'
-    echellonN = '2'
-    echellonP = '1'
-    rythme = '36'
-    note = '19,85'
-    annee = '2021'
+    grade = Grade.objects.get(idgrade=1)
+    annee = str(datetime.datetime.now().year)
     decision1 = 'يترقى'
     decision2 = 'يترقى'
-    BASE_DIR = Path(_file_).resolve().parent.parent
+    BASE_DIR = Path(__file__).resolve().parent.parent
     fontdir = os.path.join(BASE_DIR, 'static/filefonts')
     pdf = FPDF(orientation='L')
     pdf.add_font('TradArab', '', os.path.join(fontdir, 'TradArab.ttf'), uni=True)
@@ -229,30 +222,85 @@ def pdfavencement(request):
     y = 109
     pdf.set_y(y)
     pdf.set_auto_page_break(True,20)
-    for i in range(20):
-        pdf.cell(17,10,txt=get_display(arabic_reshaper.reshape(decision1)),border=1,align='C')
-        pdf.cell(22,10,txt=get_display(arabic_reshaper.reshape(decision2)),border=1,align='C')
-        pdf.cell(34,10,txt=dategradeN,border=1,align='C')
-        pdf.cell(24,10,txt=indiceN,border=1,align='C')
-        pdf.cell(11,10,txt=echellonN,border=1,align='C')
-        pdf.cell(12,10,txt=note,border=1,align='C')
-        pdf.cell(12,10,txt=rythme,border=1,align='C')
-        pdf.cell(34, 10, txt=dategradeP, border=1, align='C')
-        pdf.cell(24, 10, txt=indiceP, border=1, align='C')
-        pdf.cell(11, 10, txt=echellonP, border=1, align='C')
-        pdf.cell(19,10,txt=personnel.nomfr,border=1,align='C')
-        pdf.cell(19,10,txt=personnel.prenomfr,border=1,align='C')
-        pdf.cell(15, 10, txt=get_display(arabic_reshaper.reshape(personnel.nomar)), border=1, align='C')
-        pdf.cell(15, 10, txt=get_display(arabic_reshaper.reshape(personnel.prenomar)), border=1, align='C')
-        pdf.cell(14,10,txt=personnel.ppr,border=1,align='C')
-        pdf.cell(15, 10, txt=personnel.cin, border=1, align='C')
+
+    grades = Grade.objects.get(idgrade=1)
+    personnels = Personnel.objects.all()
+    listoutput = []
+    for item in personnels:
+        objgradepersonnel = Gradepersonnel.objects.filter(idpersonnel_field=item)
+        if (objgradepersonnel.last() != None and objgradepersonnel.last().idgrade_field == grades):
+            listoutput.append(objgradepersonnel.last())
+
+    for item2 in listoutput:
+        objrythme = Rythme.objects.filter(echellondebut=item2.idechellon_field,
+                                          idgrade_field=item2.idgrade_field).first()
+        date = item2.dateechellon + datetime.timedelta(30 * objrythme.rapide)
+        note = Notation.objects.filter(idpersonnel_field=item2.idpersonnel_field, annee__lte=date.year,
+                                       annee__gte=item2.dateechellon.year)
+        listnote = []
+        for item3 in note:
+            listnote.append(item3.note)
+        moyenne = sum(listnote) / len(listnote)
+        mois = 1
+        if (item2.idgrade_field.gradefr == 'Administrateur adjoint' or item2.idgrade_field.gradefr == 'Administrateur'):
+            if (item2.idechellon_field == '6' or item2.idechellon_field == '10'):
+                mois = 1
+            else:
+                if (moyenne >= 19 and moyenne <= 20):
+                    mois = objrythme.rapide
+                elif (moyenne >= 18.75 and moyenne <= 19):
+                    mois = objrythme.rapide + 2
+                elif (moyenne >= 18.25 and moyenne <= 18.50):
+                    mois = objrythme.rapide + 3
+                elif (moyenne >= 18 and moyenne <= 18.25):
+                    mois = objrythme.rapide + 4
+                elif (moyenne >= 17.75 and moyenne <= 18):
+                    mois = objrythme.rapide + 5
+                elif (moyenne >= 16.5 and moyenne <= 17.5):
+                    mois = objrythme.rapide + 6
+                elif (moyenne >= 16 and moyenne <= 16.5):
+                    mois = objrythme.rapide + 5
+                elif (moyenne >= 15.5 and moyenne <= 16):
+                    mois = objrythme.rapide + 9
+                elif (moyenne >= 15 and moyenne <= 15.5):
+                    mois = objrythme.rapide + 12
+                elif (moyenne >= 14.5 and moyenne <= 15):
+                    mois = objrythme.rapide + 15
+                elif (moyenne < 14.5):
+                    mois = objrythme.rapide + 18
+        else:
+            if (moyenne >= 16 and moyenne <= 20):
+                mois = objrythme.rapide
+            elif (moyenne >= 10 and moyenne <= 16):
+                mois = objrythme.moyen
+            elif (moyenne < 10):
+                mois = objrythme.lent
+
+        datefin = item2.dateechellon + datetime.timedelta(30 * mois)
+        indicebr = indice(item2.idgrade_field.idgrade)
+        pdf.cell(17, 10, txt=get_display(arabic_reshaper.reshape(decision1)), border=1, align='C')
+        pdf.cell(22, 10, txt=get_display(arabic_reshaper.reshape(decision2)), border=1, align='C')
+        pdf.cell(34, 10, txt=datefin.date().isoformat(), border=1, align='C')
+        pdf.cell(24, 10, txt=indicebr[item2.idechellon_field.idechellon], border=1, align='C')
+        pdf.cell(11, 10, txt=Echellon.objects.get(idechellon=item2.idechellon_field.idechellon + 1).echellon, border=1, align='C')
+        pdf.cell(12, 10, txt=f'{moyenne:.2f}', border=1, align='C')
+        pdf.cell(12, 10, txt=str(mois), border=1, align='C')
+        pdf.cell(34, 10, txt=item2.dateechellon.date().isoformat(), border=1, align='C')
+        pdf.cell(24, 10, txt=indicebr[item2.idechellon_field.idechellon - 1], border=1, align='C')
+        pdf.cell(11, 10, txt=item2.idechellon_field.echellon, border=1, align='C')
+        pdf.cell(19, 10, txt=item2.idpersonnel_field.nomfr, border=1, align='C')
+        pdf.cell(19, 10, txt=item2.idpersonnel_field.prenomfr, border=1, align='C')
+        pdf.cell(15, 10, txt=get_display(arabic_reshaper.reshape(item2.idpersonnel_field.nomar)), border=1, align='C')
+        pdf.cell(15, 10, txt=get_display(arabic_reshaper.reshape(item2.idpersonnel_field.prenomar)), border=1, align='C')
+        pdf.cell(14, 10, txt=item2.idpersonnel_field.ppr, border=1, align='C')
+        pdf.cell(15, 10, txt=item2.idpersonnel_field.cin, border=1, align='C')
         if y >= 189:
             y = 10
         else:
             y = y + 10
             pdf.set_y(y)
 
-    print(len(grade.gradear))
+
     pdfAF = pdf.output(dest='S').encode('latin-1')
     response = HttpResponse(pdfAF, content_type='application/pdf')
     response['Content-Disposition'] = 'filename="pdfavencement.pdf"'
