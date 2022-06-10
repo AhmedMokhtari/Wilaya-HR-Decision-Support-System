@@ -62,15 +62,15 @@
                   <i class="fa fa-user-o">
                     <span class="badge badge-danger">11</span>
                   </i>
-                  الموضف
+                  الموظف
                 </a>
                 <div class="dropdown-menu" aria-labelledby="personnel">
                   <a class="dropdown-item" href="{% url 'ajouterp' %}">إضافة</a>
-                  <a class="dropdown-item" href="{% url 'consultation' %}">الموضفون</a>
+                  <a class="dropdown-item" href="{% url 'consultationpersonnel' %}">الموظفون</a>
                    <a class="dropdown-item" href="{% url 'reaffectation' %}">إعادة التعيين</a>
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="{% url 'taboard' %}">لوحة القيادة</a>
-                  <a class="dropdown-item" href="{% url 'persoinfo' %}">  توزيع الموضفين</a>
+                  <a class="dropdown-item" href="{% url 'persoinfo' %}">  توزيع الموظفين</a>
                 </div>
               </li>
             {% endif %}
@@ -101,7 +101,7 @@
                   الترقيات
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                  <a class="dropdown-item" href="#">إضافة</a>
+                  <a class="dropdown-item" href="{% url 'ajouternotation' %}">التنقيط</a>
                   <a class="dropdown-item" href="#"></a>
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="#">لوحة القيادة</a>
