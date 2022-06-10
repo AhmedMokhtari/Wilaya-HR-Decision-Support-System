@@ -1,4 +1,24 @@
 from GestionPersonnel.models import *
+from .models import *
+from datetime import datetime
+def yearempty(listpersoid):
+    listPerso=[]
+    for id in listpersoid:
+        notationAnnee = Notation.objects.filter(idpersonnel_field=id).values_list('annee', flat=True)
+        perso = Personnel.objects.get(idpersonnel=id)
+        dateDemarationYear = datetime.strptime(str(perso.datedemarcation), '%Y-%m-%d %H:%M:%S%z')
+        yearNow = datetime.now().year
+        listyearempty = []
+        listyear = []
+        for a in range(dateDemarationYear.year, yearNow + 1):
+            listyear.append(a)
+        for a in listyear:
+            if a not in list(notationAnnee):
+                listyearempty.append(a)
+        for year in listyearempty:
+            persoinfo={'name':perso.prenomar+' '+perso.nomar,'year':year,'id':perso.idpersonnel,'cin':perso.cin}
+            listPerso.append(persoinfo)
+    return listPerso
 def indice(gradeid):
     grade = Grade.objects.get(idgrade=gradeid)
     statutgrade = Statutgrade.objects.filter(idstatutgrade=grade.idstatutgrade_field.idstatutgrade).first()

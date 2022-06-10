@@ -5,6 +5,7 @@ from django.db import connection
 import arabic_reshaper
 from bidi.algorithm import get_display
 from pathlib import Path
+from django.db.models import Q
 from operator import itemgetter
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
@@ -71,14 +72,25 @@ def notation(request):
 
 @login_required(login_url='/')
 def ajouternotation(request):
-    perso=Personnel.objects.all()
     if request.method == "POST":
-        persone=Personnel.objects.get(cin=request.POST["personneldata"])
-        notation = Notation(note=request.POST["note"],annee=request.POST["annee"],idpersonnel_field=persone)
+        persone = Personnel.objects.get(cin=request.POST["personneldata"])
+        notation = Notation(note=request.POST["note"], annee=request.POST["annee"], idpersonnel_field=persone)
         notation.save()
+    personnels = Personnel.objects.all()
+    statutgrades = Statutgrade.objects.all()
+    entites = Entite.objects.all()
+    pashaliks = Pashalik.objects.all()
+    districts = District.objects.all()
+    divisions = Division.objects.all()
+    cercles = Cercle.objects.all()
+    persoId = Personnel.objects.all().values_list('idpersonnel', flat=True)
+    listPerso = yearempty(persoId)
 
-
-    return render(request, 'GestionAvancement/ajouternotation.html', {'personnels': perso,})
+    return render(request, 'GestionAvancement/ajouternotation.html', {'personnels': personnels, 'divsions': divisions,
+                                                            'persoempty': listPerso,
+                                                            'entites': entites, 'pashaliks': pashaliks,
+                                                            'districts': districts, 'statutgrades': statutgrades,
+                                                            'cercles': cercles})
 
 
 @login_required(login_url='/')
@@ -162,6 +174,517 @@ def loadpersonnelavancement(request):
 
         datawarehouse.append(datamart)
     return JsonResponse(datawarehouse, safe=False)
+
+def ajaxAnnee(req,*args, **kwargs):
+    cinPerso=kwargs.get('obj')
+    personnel=Personnel.objects.get(cin=cinPerso)
+    notationAnnee=Notation.objects.filter(idpersonnel_field=personnel).values_list('annee', flat=True)
+    dateDemaration=Personnel.objects.get(cin=cinPerso)
+    dateDemarationYear = datetime.strptime(str(dateDemaration.datedemarcation), '%Y-%m-%d %H:%M:%S%z')
+    yearNow = datetime.now().year
+    listyearempty=[]
+    listyear=[]
+    for a in range(dateDemarationYear.year,yearNow+1):
+        listyear.append(a)
+    for a in listyear:
+        if a not in list(notationAnnee):
+            listyearempty.append(a)
+    print(personnel)
+    print(listyear)
+    data = json.dumps(listyearempty)
+    return JsonResponse({'data': data})
+
+# filter -------------------------------.
+@login_required(login_url='/connexion')
+def filter(request, *args, **kwargs):
+    selected_obj = kwargs.get('obj')
+    arr=selected_obj.split("&")
+    listPerso = []
+    if(arr[0]=='entite'):
+        if(arr[1]=='Secrétariat général'):
+               QOrganisme=Q(organisme='Service')
+               perso = Personnel.objects.filter(QOrganisme).values_list('cin', flat=True)
+               listPerso =list(perso)
+        elif(arr[1]=='Commandement'):
+            orgPashalik=Q(organisme='pashalik')
+            orgCaida=Q(organisme='Caida')
+            orgAnnexe=Q(organisme='Annexe')
+            persoPashalik = Personnel.objects.filter(orgPashalik).values_list('cin', flat=True)
+            persoCaida = Personnel.objects.filter(orgCaida).values_list('cin', flat=True)
+            persoAnnexe = Personnel.objects.filter(orgAnnexe).values_list('cin', flat=True)
+            #res = {**list(persoPashalik), **list(persoCaida), **list(persoAnnexe)}
+            listPerso=list(persoPashalik)
+            listPerso.extend(list(persoCaida))
+            listPerso.extend(list(persoAnnexe))
+        elif (arr[1] == 'Cabinet'):
+            ServicePer = Servicepersonnel.objects.all()
+            servid = ServicePer.order_by('idpersonnel_field').values_list('idpersonnel_field', flat=True).distinct()
+            PersoService = []
+            for id in servid:
+                x = Servicepersonnel.objects.filter(idpersonnel_field=id).values(
+                    'idservice_field',
+                    'idpersonnel_field').last()
+                PersoService.append(x)
+            CabinetId = Division.objects.get(libelledivisionfr='Cabinet')
+            servCabinet = Service.objects.filter(iddivision_field=CabinetId).values_list('idservice', flat=True)
+            idServ = [user for user in PersoService if user['idservice_field'] in servCabinet]
+            listofid = []
+            for a in idServ:
+                listofid.append(a['idpersonnel_field'])
+            QOrganisme = Q(organisme='Service')
+            listidperso = Personnel.objects.filter(QOrganisme).values_list('idpersonnel', flat=True)
+            listfinal = []
+            for it in listidperso:
+                if it in listofid:
+                    listfinal.append(it)
+            listPerso = list(Personnel.objects.filter(idpersonnel__in=listfinal).values_list('cin',flat=True))
+        elif (arr[1] == 'Dai'):
+            ServicePer = Servicepersonnel.objects.all()
+            servid = ServicePer.order_by('idpersonnel_field').values_list('idpersonnel_field', flat=True).distinct()
+            PersoService = []
+            for id in servid:
+                x = Servicepersonnel.objects.filter(idpersonnel_field=id).values(
+                    'idservice_field',
+                    'idpersonnel_field').last()
+                PersoService.append(x)
+            daiId = Division.objects.get(libelledivisionfr='Dai')
+            servDai = Service.objects.filter(iddivision_field=daiId).values_list('idservice', flat=True)
+            idServ = [user for user in PersoService if user['idservice_field'] in servDai]
+            listofid = []
+            for a in idServ:
+                listofid.append(a['idpersonnel_field'])
+            QOrganisme = Q(organisme='Service')
+            listidperso = Personnel.objects.filter(QOrganisme).values_list('idpersonnel', flat=True)
+            listfinal = []
+            for it in listidperso:
+                if it in listofid:
+                    listfinal.append(it)
+            listPerso=list(Personnel.objects.filter(idpersonnel__in=listfinal).values_list('cin',flat=True))
+        elif (arr[1] == 'Dsic'):
+            ServicePer=Servicepersonnel.objects.all()
+            servid = ServicePer.order_by('idpersonnel_field').values_list('idpersonnel_field', flat=True).distinct()
+            PersoService = []
+            for id in servid:
+                x = Servicepersonnel.objects.filter(idpersonnel_field=id).values(
+                    'idservice_field',
+                    'idpersonnel_field').last()
+                PersoService.append(x)
+            DsicId= Division.objects.get(libelledivisionfr='DSIC')
+            servDsic=Service.objects.filter(iddivision_field=DsicId).values_list('idservice', flat=True)
+            superplayers = [user for user in PersoService if user['idservice_field'] in servDsic]
+            listofid=[]
+            for a in superplayers:
+                listofid.append(a['idpersonnel_field'])
+            QOrganisme = Q(organisme='Service')
+            listidperso=Personnel.objects.filter(QOrganisme).values_list('idpersonnel', flat=True)
+            listfinal=[]
+            for it in  listidperso:
+                if it in listofid:
+                    listfinal.append(it)
+            listPerso = list(Personnel.objects.filter(idpersonnel__in=listfinal).values_list('cin',flat=True))
+    elif(arr[0]=='division'):
+        ServicePer = Servicepersonnel.objects.all()
+        servid = ServicePer.order_by('idpersonnel_field').values_list('idpersonnel_field', flat=True).distinct()
+        PersoService = []
+        for id in servid:
+            x = Servicepersonnel.objects.filter(idpersonnel_field=id).values(
+                'idservice_field',
+                'idpersonnel_field').last()
+            PersoService.append(x)
+        serv = Service.objects.filter(iddivision_field=arr[1]).values_list('idservice', flat=True)
+        superplayers = [user for user in PersoService if user['idservice_field'] in serv]
+        listofid = []
+        for a in superplayers:
+            listofid.append(a['idpersonnel_field'])
+        QOrganisme=Q(organisme='Service')
+        listidperso = Personnel.objects.filter(QOrganisme).values_list('idpersonnel', flat=True)
+        listfinal = []
+        for it in listidperso:
+            if it in listofid:
+                listfinal.append(it)
+        listPerso = list(Personnel.objects.filter(idpersonnel__in=listfinal).values_list('cin', flat=True))
+    elif (arr[0] == 'service'):
+        ServicePer = Servicepersonnel.objects.all()
+        servid = ServicePer.order_by('idpersonnel_field').values_list('idpersonnel_field', flat=True).distinct()
+        PersoService = []
+        for id in servid:
+            x = Servicepersonnel.objects.filter(idpersonnel_field=id).values(
+                'idservice_field',
+                'idpersonnel_field').last()
+            PersoService.append(x)
+        superplayers = [user for user in PersoService if user['idservice_field'] == int(arr[1])]
+        listofid = []
+        for a in superplayers:
+            listofid.append(a['idpersonnel_field'])
+        QOrganisme=Q(organisme='Service')
+        listidperso = Personnel.objects.filter(QOrganisme).values_list('idpersonnel', flat=True)
+        listfinal = []
+        for it in listidperso:
+            if it in listofid:
+                listfinal.append(it)
+        listPerso = list(Personnel.objects.filter(idpersonnel__in=listfinal).values_list('cin', flat=True))
+    elif (arr[0] == 'districtpashalik'):
+        if(arr[1]=='Pashalik'):
+            persoPashalik = Personnel.objects.filter(organisme='pashalik').values_list('cin', flat=True)
+            listPerso=list(persoPashalik)
+        elif(arr[1]=='Cercle'):
+            persoCaida = Personnel.objects.filter(organisme='Caida').values_list('cin', flat=True)
+            listPerso=list(persoCaida)
+        elif(arr[1]=='District'):
+            persoAnnexe = Personnel.objects.filter(organisme='Annexe').values_list('cin', flat=True)
+            listPerso=list(persoAnnexe)
+    elif (arr[0] == 'district'):
+        ServicePer = Annexepersonnel.objects.all()
+        servid = ServicePer.order_by('idpersonnel_field').values_list('idpersonnel_field', flat=True).distinct()
+        PersoService = []
+        for id in servid:
+            x = Annexepersonnel.objects.filter(idpersonnel_field=id).values(
+                'idannexe_field',
+                'idpersonnel_field').last()
+            PersoService.append(x)
+        servAnnex = Annexe.objects.filter(iddistrict_field=arr[1]).values_list('idannexe',flat=True)
+        superplayers = [user for user in PersoService if user['idannexe_field'] in servAnnex]
+        listofid = []
+        for a in superplayers:
+            listofid.append(a['idpersonnel_field'])
+        orgAnnexe=Q(organisme='Annexe')
+        listidperso = Personnel.objects.filter(orgAnnexe).values_list('idpersonnel', flat=True)
+        listfinal = []
+        for it in listidperso:
+            if it in listofid:
+                listfinal.append(it)
+        listPerso=list(Personnel.objects.filter(idpersonnel__in=listfinal).values_list('cin',flat=True))
+    elif (arr[0] == 'cercle'):
+        ServicePer = Caidatpersonnel.objects.all()
+        servid = ServicePer.order_by('idpersonnel_field').values_list('idpersonnel_field', flat=True).distinct()
+        PersoService = []
+        for id in servid:
+            x = Caidatpersonnel.objects.filter(idpersonnel_field=id).values(
+                'idcaidat_field',
+                'idpersonnel_field').last()
+            PersoService.append(x)
+        servCaida = Caidat.objects.filter(idcercle_field=arr[1]).values_list('idcaidat',flat=True)
+        superplayers = [user for user in PersoService if user['idcaidat_field'] in servCaida]
+        listofid = []
+        for a in superplayers:
+            listofid.append(a['idpersonnel_field'])
+        orgCaida=Q(organisme='Caida')
+        listidperso = Personnel.objects.filter(orgCaida).values_list('idpersonnel', flat=True)
+        listfinal = []
+        for it in listidperso:
+            if it in listofid:
+                listfinal.append(it)
+        listPerso=list(Personnel.objects.filter(idpersonnel__in=listfinal).values_list('cin',flat=True))
+    elif (arr[0] == 'annexe'):
+        ServicePer = Annexepersonnel.objects.all()
+        servid = ServicePer.order_by('idpersonnel_field').values_list('idpersonnel_field', flat=True).distinct()
+        PersoService = []
+        for id in servid:
+            x = Annexepersonnel.objects.filter(idpersonnel_field=id).values(
+                'idannexe_field',
+                'idpersonnel_field').last()
+            PersoService.append(x)
+        superplayers = [user for user in PersoService if user['idannexe_field'] == int(arr[1])]
+        listofid = []
+        for a in superplayers:
+            listofid.append(a['idpersonnel_field'])
+        orgAnnexe=Q(organisme='Annexe')
+        listidperso = Personnel.objects.filter(orgAnnexe).values_list('idpersonnel', flat=True)
+        listfinal = []
+        for it in listidperso:
+            if it in listofid:
+                listfinal.append(it)
+        listPerso = list(Personnel.objects.filter(idpersonnel__in=listfinal).values_list('cin', flat=True))
+    elif (arr[0] == 'pashalik'):
+        ServicePer = Pashalikpersonnel.objects.all()
+        servid = ServicePer.order_by('idpersonnel_field').values_list('idpersonnel_field', flat=True).distinct()
+        PersoService = []
+        for id in servid:
+            x = Pashalikpersonnel.objects.filter(idpersonnel_field=id).values(
+                'idpashalik_field',
+                'idpersonnel_field').last()
+            PersoService.append(x)
+        superplayers = [user for user in PersoService if user['idpashalik_field'] == int(arr[1])]
+        listofid = []
+        for a in superplayers:
+            listofid.append(a['idpersonnel_field'])
+        orgPashalik=Q(organisme='pashalik')
+        listidperso = Personnel.objects.filter(orgPashalik).values_list('idpersonnel', flat=True)
+        listfinal = []
+        for it in listidperso:
+            if it in listofid:
+                listfinal.append(it)
+        listPerso=list(Personnel.objects.filter(idpersonnel__in=listfinal).values_list('cin',flat=True))
+    elif (arr[0] == 'caida'):
+        caidaPer = Caidatpersonnel.objects.all()
+        caidaid = caidaPer.order_by('idpersonnel_field').values_list('idpersonnel_field', flat=True).distinct()
+        PersoService = []
+        for id in caidaid:
+            x = Caidatpersonnel.objects.filter(idpersonnel_field=id).values(
+                'idcaidat_field',
+                'idpersonnel_field').last()
+            PersoService.append(x)
+        superplayers = [user for user in PersoService if user['idcaidat_field'] == int(arr[1])]
+        listofid = []
+        for a in superplayers:
+            listofid.append(a['idpersonnel_field'])
+        orgCaida=Q(organisme='Caida')
+        listidperso = Personnel.objects.filter(orgCaida).values_list('idpersonnel', flat=True)
+        listfinal = []
+        for it in listidperso:
+            if it in listofid:
+                listfinal.append(it)
+        listPerso = list(Personnel.objects.filter(idpersonnel__in=listfinal).values_list('cin', flat=True))
+   ##data = serializers.serialize("json",listPerso )
+    data=json.dumps(listPerso)
+    return JsonResponse({'data': data})
+
+@login_required(login_url='/connexion')
+def get_json_perso_year_empty(request, *args, **kwargs):
+    selected_obj = kwargs.get('obj')
+    arr=selected_obj.split("&")
+    listPerso = []
+    if(arr[0]=='entite'):
+        if(arr[1]=='Secrétariat général'):
+               QOrganisme=Q(organisme='Service')
+               perso = Personnel.objects.filter(QOrganisme).values_list('idpersonnel', flat=True)
+               listPerso =yearempty(perso)
+        elif(arr[1]=='Commandement'):
+            orgPashalik=Q(organisme='pashalik')
+            orgCaida=Q(organisme='Caida')
+            orgAnnexe=Q(organisme='Annexe')
+            persoPashalik = Personnel.objects.filter(orgPashalik).values_list('idpersonnel', flat=True)
+            persoCaida = Personnel.objects.filter(orgCaida).values_list('idpersonnel', flat=True)
+            persoAnnexe = Personnel.objects.filter(orgAnnexe).values_list('idpersonnel', flat=True)
+            #res = {**list(persoPashalik), **list(persoCaida), **list(persoAnnexe)}
+            listPerso=yearempty(persoPashalik)
+            listCaida=yearempty(persoCaida)
+            listAnnexe=yearempty(persoAnnexe)
+            listPerso.extend(list(listCaida))
+            listPerso.extend(list(listAnnexe))
+        elif (arr[1] == 'Cabinet'):
+            ServicePer = Servicepersonnel.objects.all()
+            servid = ServicePer.order_by('idpersonnel_field').values_list('idpersonnel_field', flat=True).distinct()
+            PersoService = []
+            for id in servid:
+                x = Servicepersonnel.objects.filter(idpersonnel_field=id).values(
+                    'idservice_field',
+                    'idpersonnel_field').last()
+                PersoService.append(x)
+            CabinetId = Division.objects.get(libelledivisionfr='Cabinet')
+            servCabinet = Service.objects.filter(iddivision_field=CabinetId).values_list('idservice', flat=True)
+            idServ = [user for user in PersoService if user['idservice_field'] in servCabinet]
+            listofid = []
+            for a in idServ:
+                listofid.append(a['idpersonnel_field'])
+            QOrganisme = Q(organisme='Service')
+            listidperso = Personnel.objects.filter(QOrganisme).values_list('idpersonnel', flat=True)
+            listfinal = []
+            for it in listidperso:
+                if it in listofid:
+                    listfinal.append(it)
+            listPerso = yearempty(listfinal)
+        elif (arr[1] == 'Dai'):
+            ServicePer = Servicepersonnel.objects.all()
+            servid = ServicePer.order_by('idpersonnel_field').values_list('idpersonnel_field', flat=True).distinct()
+            PersoService = []
+            for id in servid:
+                x = Servicepersonnel.objects.filter(idpersonnel_field=id).values(
+                    'idservice_field',
+                    'idpersonnel_field').last()
+                PersoService.append(x)
+            daiId = Division.objects.get(libelledivisionfr='Dai')
+            servDai = Service.objects.filter(iddivision_field=daiId).values_list('idservice', flat=True)
+            idServ = [user for user in PersoService if user['idservice_field'] in servDai]
+            listofid = []
+            for a in idServ:
+                listofid.append(a['idpersonnel_field'])
+            QOrganisme = Q(organisme='Service')
+            listidperso = Personnel.objects.filter(QOrganisme).values_list('idpersonnel', flat=True)
+            listfinal = []
+            for it in listidperso:
+                if it in listofid:
+                    listfinal.append(it)
+            listPerso = yearempty(listfinal)
+        elif (arr[1] == 'Dsic'):
+            ServicePer=Servicepersonnel.objects.all()
+            servid = ServicePer.order_by('idpersonnel_field').values_list('idpersonnel_field', flat=True).distinct()
+            PersoService = []
+            for id in servid:
+                x = Servicepersonnel.objects.filter(idpersonnel_field=id).values(
+                    'idservice_field',
+                    'idpersonnel_field').last()
+                PersoService.append(x)
+            DsicId= Division.objects.get(libelledivisionfr='DSIC')
+            servDsic=Service.objects.filter(iddivision_field=DsicId).values_list('idservice', flat=True)
+            superplayers = [user for user in PersoService if user['idservice_field'] in servDsic]
+            listofid=[]
+            for a in superplayers:
+                listofid.append(a['idpersonnel_field'])
+            QOrganisme = Q(organisme='Service')
+            listidperso=Personnel.objects.filter(QOrganisme).values_list('idpersonnel', flat=True)
+            listfinal=[]
+            for it in  listidperso:
+                if it in listofid:
+                    listfinal.append(it)
+            listPerso = yearempty(listfinal)
+    elif(arr[0]=='division'):
+        ServicePer = Servicepersonnel.objects.all()
+        servid = ServicePer.order_by('idpersonnel_field').values_list('idpersonnel_field', flat=True).distinct()
+        PersoService = []
+        for id in servid:
+            x = Servicepersonnel.objects.filter(idpersonnel_field=id).values(
+                'idservice_field',
+                'idpersonnel_field').last()
+            PersoService.append(x)
+        serv = Service.objects.filter(iddivision_field=arr[1]).values_list('idservice', flat=True)
+        superplayers = [user for user in PersoService if user['idservice_field'] in serv]
+        listofid = []
+        for a in superplayers:
+            listofid.append(a['idpersonnel_field'])
+        QOrganisme=Q(organisme='Service')
+        listidperso = Personnel.objects.filter(QOrganisme).values_list('idpersonnel', flat=True)
+        listfinal = []
+        for it in listidperso:
+            if it in listofid:
+                listfinal.append(it)
+        listPerso = yearempty(listfinal)
+    elif (arr[0] == 'service'):
+        ServicePer = Servicepersonnel.objects.all()
+        servid = ServicePer.order_by('idpersonnel_field').values_list('idpersonnel_field', flat=True).distinct()
+        PersoService = []
+        for id in servid:
+            x = Servicepersonnel.objects.filter(idpersonnel_field=id).values(
+                'idservice_field',
+                'idpersonnel_field').last()
+            PersoService.append(x)
+        superplayers = [user for user in PersoService if user['idservice_field'] == int(arr[1])]
+        listofid = []
+        for a in superplayers:
+            listofid.append(a['idpersonnel_field'])
+        QOrganisme=Q(organisme='Service')
+        listidperso = Personnel.objects.filter(QOrganisme).values_list('idpersonnel', flat=True)
+        listfinal = []
+        for it in listidperso:
+            if it in listofid:
+                listfinal.append(it)
+        listPerso = yearempty(listfinal)
+    elif (arr[0] == 'districtpashalik'):
+        if(arr[1]=='Pashalik'):
+            persoPashalik = Personnel.objects.filter(organisme='pashalik').values_list('idpersonnel', flat=True)
+            listPerso = yearempty(persoPashalik)
+        elif(arr[1]=='Cercle'):
+            persoCaida = Personnel.objects.filter(organisme='Caida').values_list('idpersonnel', flat=True)
+            listPerso = yearempty(persoCaida)
+        elif(arr[1]=='District'):
+            persoAnnexe = Personnel.objects.filter(organisme='Annexe').values_list('idpersonnel', flat=True)
+            listPerso = yearempty(persoAnnexe)
+    elif (arr[0] == 'district'):
+        ServicePer = Annexepersonnel.objects.all()
+        servid = ServicePer.order_by('idpersonnel_field').values_list('idpersonnel_field', flat=True).distinct()
+        PersoService = []
+        for id in servid:
+            x = Annexepersonnel.objects.filter(idpersonnel_field=id).values(
+                'idannexe_field',
+                'idpersonnel_field').last()
+            PersoService.append(x)
+        servAnnex = Annexe.objects.filter(iddistrict_field=arr[1]).values_list('idannexe',flat=True)
+        superplayers = [user for user in PersoService if user['idannexe_field'] in servAnnex]
+        listofid = []
+        for a in superplayers:
+            listofid.append(a['idpersonnel_field'])
+        orgAnnexe=Q(organisme='Annexe')
+        listidperso = Personnel.objects.filter(orgAnnexe).values_list('idpersonnel', flat=True)
+        listfinal = []
+        for it in listidperso:
+            if it in listofid:
+                listfinal.append(it)
+        listPerso = yearempty(listfinal)
+    elif (arr[0] == 'cercle'):
+        ServicePer = Caidatpersonnel.objects.all()
+        servid = ServicePer.order_by('idpersonnel_field').values_list('idpersonnel_field', flat=True).distinct()
+        PersoService = []
+        for id in servid:
+            x = Caidatpersonnel.objects.filter(idpersonnel_field=id).values(
+                'idcaidat_field',
+                'idpersonnel_field').last()
+            PersoService.append(x)
+        servCaida = Caidat.objects.filter(idcercle_field=arr[1]).values_list('idcaidat',flat=True)
+        superplayers = [user for user in PersoService if user['idcaidat_field'] in servCaida]
+        listofid = []
+        for a in superplayers:
+            listofid.append(a['idpersonnel_field'])
+        orgCaida=Q(organisme='Caida')
+        listidperso = Personnel.objects.filter(orgCaida).values_list('idpersonnel', flat=True)
+        listfinal = []
+        for it in listidperso:
+            if it in listofid:
+                listfinal.append(it)
+        listPerso = yearempty(listfinal)
+    elif (arr[0] == 'annexe'):
+        ServicePer = Annexepersonnel.objects.all()
+        servid = ServicePer.order_by('idpersonnel_field').values_list('idpersonnel_field', flat=True).distinct()
+        PersoService = []
+        for id in servid:
+            x = Annexepersonnel.objects.filter(idpersonnel_field=id).values(
+                'idannexe_field',
+                'idpersonnel_field').last()
+            PersoService.append(x)
+        superplayers = [user for user in PersoService if user['idannexe_field'] == int(arr[1])]
+        listofid = []
+        for a in superplayers:
+            listofid.append(a['idpersonnel_field'])
+        orgAnnexe=Q(organisme='Annexe')
+        listidperso = Personnel.objects.filter(orgAnnexe).values_list('idpersonnel', flat=True)
+        listfinal = []
+        for it in listidperso:
+            if it in listofid:
+                listfinal.append(it)
+        listPerso = yearempty(listfinal)
+    elif (arr[0] == 'pashalik'):
+        ServicePer = Pashalikpersonnel.objects.all()
+        servid = ServicePer.order_by('idpersonnel_field').values_list('idpersonnel_field', flat=True).distinct()
+        PersoService = []
+        for id in servid:
+            x = Pashalikpersonnel.objects.filter(idpersonnel_field=id).values(
+                'idpashalik_field',
+                'idpersonnel_field').last()
+            PersoService.append(x)
+        superplayers = [user for user in PersoService if user['idpashalik_field'] == int(arr[1])]
+        listofid = []
+        for a in superplayers:
+            listofid.append(a['idpersonnel_field'])
+        orgPashalik=Q(organisme='pashalik')
+        listidperso = Personnel.objects.filter(orgPashalik).values_list('idpersonnel', flat=True)
+        listfinal = []
+        for it in listidperso:
+            if it in listofid:
+                listfinal.append(it)
+        listPerso = yearempty(listfinal)
+    elif (arr[0] == 'caida'):
+        caidaPer = Caidatpersonnel.objects.all()
+        caidaid = caidaPer.order_by('idpersonnel_field').values_list('idpersonnel_field', flat=True).distinct()
+        PersoService = []
+        for id in caidaid:
+            x = Caidatpersonnel.objects.filter(idpersonnel_field=id).values(
+                'idcaidat_field',
+                'idpersonnel_field').last()
+            PersoService.append(x)
+        superplayers = [user for user in PersoService if user['idcaidat_field'] == int(arr[1])]
+        listofid = []
+        for a in superplayers:
+            listofid.append(a['idpersonnel_field'])
+        orgCaida=Q(organisme='Caida')
+        listidperso = Personnel.objects.filter(orgCaida).values_list('idpersonnel', flat=True)
+        listfinal = []
+        for it in listidperso:
+            if it in listofid:
+                listfinal.append(it)
+        listPerso = yearempty(listfinal)
+   ##data = serializers.serialize("json",listPerso )
+    data=json.dumps(listPerso)
+    return JsonResponse({'data': data})
+
 
 
 def pdfavencement(request):
