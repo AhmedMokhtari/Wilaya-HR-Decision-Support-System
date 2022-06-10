@@ -1,5 +1,11 @@
 import datetime
-
+from django.core import serializers
+import json
+from django.db import connection
+import arabic_reshaper
+from bidi.algorithm import get_display
+from pathlib import Path
+from operator import itemgetter
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from GestionPersonnel.models import *
@@ -156,3 +162,98 @@ def loadpersonnelavancement(request):
 
         datawarehouse.append(datamart)
     return JsonResponse(datawarehouse, safe=False)
+
+
+def pdfavencement(request):
+    grade = Grade.objects.get(idgrade=7)
+    dategradeN = Gradepersonnel.objects.all().last().dategrade.date().isoformat()
+    dategradeP = Gradepersonnel.objects.all().last().dategrade.date().isoformat()
+    personnel = Personnel.objects.get(idpersonnel=1)
+    indiceN = '806'
+    indiceP = '806'
+    echellonN = '2'
+    echellonP = '1'
+    rythme = '36'
+    note = '19,85'
+    annee = '2021'
+    decision1 = 'يترقى'
+    decision2 = 'يترقى'
+    BASE_DIR = Path(_file_).resolve().parent.parent
+    fontdir = os.path.join(BASE_DIR, 'static/filefonts')
+    pdf = FPDF(orientation='L')
+    pdf.add_font('TradArab', '', os.path.join(fontdir, 'TradArab.ttf'), uni=True)
+    pdf.add_font('TradArabB', '', os.path.join(fontdir, 'TradArabB.ttf'), uni=True)
+    pdf.add_page()
+    pdf.set_font('TradArabB',size=11)
+    pdf.text(269-10, 7, txt=get_display(arabic_reshaper.reshape('المملكة المغربية')))
+    pdf.text(271-11, 12, txt=get_display(arabic_reshaper.reshape("وزارة الداخلية")))
+    pdf.text(271-12, 17, txt=get_display(arabic_reshaper.reshape('ولاية جهة الشرق')))
+    pdf.text(274-15, 22, txt=get_display((arabic_reshaper.reshape('عمالة وجدة أنكاد'))))
+    pdf.text(269-15, 27, txt=get_display(arabic_reshaper.reshape('مجلس عمالة وجدة أنكاد')))
+    pdf.text(270-15, 32, txt=get_display(arabic_reshaper.reshape('المديرية العامة للمصالح')))
+    pdf.text(270-15, 37, txt=get_display(arabic_reshaper.reshape('مصلحة الموارد البشرية')))
+    pdf.set_font('TradArabB',size=15)
+    pdf.text(85-len(grade.gradear)-len(annee),64,txt=get_display(arabic_reshaper.reshape(f'مشروع لائحة الترسيم و الترقية في الرتبة في درجة {grade.gradear} لوزارة الداخلية برسم سنة {annee} والسنوات السابقة')))
+    pdf.set_fill_color(r=191, g=191, b=191)
+    pdf.ln(75)
+    pdf.set_left_margin(0)
+    pdf.set_x(0)
+    pdf.set_font('TradArabB',size=8)
+    pdf.cell(17,24,txt=get_display(arabic_reshaper.reshape('ملاحظات')),border=1,align='C',fill=True)
+    #pdf.set_x(35)
+    pdf.multi_cell(22,12,txt=get_display(arabic_reshaper.reshape(' المتساوية الأعضاء   رأي اللجنة الإدارية')),border=1,align='C',fill=True)
+    pdf.set_y(85)
+    pdf.set_x(39)
+    pdf.cell(69,12,txt=get_display(arabic_reshaper.reshape(f'الوضعية الإدارية الجديدة درجة {grade.gradear}')),border=1,align='C',fill=True,ln=2)
+    pdf.cell(34,12,txt=get_display(arabic_reshaper.reshape('تاريخ الفعالية في الرتبة')),border=1,fill=True,align='C')
+    pdf.cell(24,12,txt=get_display(arabic_reshaper.reshape('الرقم الاستدلالي')),border=1,fill=True,align='C')
+    pdf.cell(11,12,txt=get_display(arabic_reshaper.reshape('الرتبة')),border=1,fill=True,align='C',ln=2)
+    pdf.set_y(85)
+    pdf.set_x(108)
+    pdf.cell(12,24,txt=get_display(arabic_reshaper.reshape('النقطة')),border=1,fill=True,align='C')
+    pdf.cell(12,24,txt=get_display(arabic_reshaper.reshape('النسق')),border=1,fill=True,align='C')
+    pdf.cell(69, 12,txt=get_display(arabic_reshaper.reshape(f'الوضعية الإدارية القديمة درجة {grade.gradear}')), border=1,align='C', fill=True, ln=2)
+    pdf.cell(34, 12, txt=get_display(arabic_reshaper.reshape('تاريخ الفعالية في الرتبة')),border=1, fill=True, align='C')
+    pdf.cell(24, 12, txt=get_display(arabic_reshaper.reshape('الرقم الاستدلالي')), border=1,fill=True, align='C')
+    pdf.cell(11, 12, txt=get_display(arabic_reshaper.reshape('الرتبة')), border=1, fill=True,align='C', ln=2)
+    pdf.set_y(85)
+    pdf.set_x(201)
+    pdf.cell(19,24, txt="Nom",border=1,fill=True,align='C')
+    pdf.cell(19, 24, txt="Prenom", border=1, fill=True, align='C')
+    pdf.cell(15, 24, txt=get_display(arabic_reshaper.reshape('الاسم العائلي')), border=1, fill=True, align='C')
+    pdf.cell(15, 24, txt=get_display(arabic_reshaper.reshape('الاسم الشخصي')), border=1, fill=True, align='C')
+    pdf.cell(14,24, txt=get_display(arabic_reshaper.reshape('رقم التاجير')), border=1, fill=True, align='C')
+    #pdf.cell(18, 18, txt=get_display(arabic_reshaper.reshape('1234567891011')), border=1, fill=True, align='C')
+    pdf.cell(15, 24, txt="Cin", border=1, fill=True, align='C')
+    pdf.set_x(0)
+    y = 109
+    pdf.set_y(y)
+    pdf.set_auto_page_break(True,20)
+    for i in range(20):
+        pdf.cell(17,10,txt=get_display(arabic_reshaper.reshape(decision1)),border=1,align='C')
+        pdf.cell(22,10,txt=get_display(arabic_reshaper.reshape(decision2)),border=1,align='C')
+        pdf.cell(34,10,txt=dategradeN,border=1,align='C')
+        pdf.cell(24,10,txt=indiceN,border=1,align='C')
+        pdf.cell(11,10,txt=echellonN,border=1,align='C')
+        pdf.cell(12,10,txt=note,border=1,align='C')
+        pdf.cell(12,10,txt=rythme,border=1,align='C')
+        pdf.cell(34, 10, txt=dategradeP, border=1, align='C')
+        pdf.cell(24, 10, txt=indiceP, border=1, align='C')
+        pdf.cell(11, 10, txt=echellonP, border=1, align='C')
+        pdf.cell(19,10,txt=personnel.nomfr,border=1,align='C')
+        pdf.cell(19,10,txt=personnel.prenomfr,border=1,align='C')
+        pdf.cell(15, 10, txt=get_display(arabic_reshaper.reshape(personnel.nomar)), border=1, align='C')
+        pdf.cell(15, 10, txt=get_display(arabic_reshaper.reshape(personnel.prenomar)), border=1, align='C')
+        pdf.cell(14,10,txt=personnel.ppr,border=1,align='C')
+        pdf.cell(15, 10, txt=personnel.cin, border=1, align='C')
+        if y >= 189:
+            y = 10
+        else:
+            y = y + 10
+            pdf.set_y(y)
+
+    print(len(grade.gradear))
+    pdfAF = pdf.output(dest='S').encode('latin-1')
+    response = HttpResponse(pdfAF, content_type='application/pdf')
+    response['Content-Disposition'] = 'filename="pdfavencement.pdf"'
+    return response
