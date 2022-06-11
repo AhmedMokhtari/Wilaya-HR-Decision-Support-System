@@ -124,46 +124,30 @@ def persoinfo(request, id):
 
 @login_required(login_url='/')
 def conge(request):
-    """
-            nbiterationHoly = 0
-            for item in dateelimine:
-                if(item.dateelimine >= a1 and item.dateelimine <= a2):
-                    nbiterationHoly = nbiterationHoly + 1
-    """
     personnels = Personnel.objects.all()
-    dateelimine = DateElimine.objects.all()
     conges = Conge.objects.all()
-    congepersonnel = []
-    i = 0
-    while i <= 11:
-        congepersonnel.append(
-            Conge.objects.filter(datedebut__year=datetime.now().year).filter(datedebut__month=i + 1).count())
-        i = i + 1
-    try:
-        sql = 'select d.LibelleDivisionAr,d.LibelleDivisionFr, count(c.IdConge) as total from [dbo].[Division] d inner join [dbo].[Service] s on s.IdDivision# = d.IdDivision inner join [dbo].[ServicePersonnel] sp on s.IdService = sp.IdService# inner join [dbo].[Personnel] p on sp.IdPersonnel# = p.IdPersonnel inner join [dbo].[Conge] c on p.IdPersonnel = c.IdPersonnel# group by d.LibelleDivisionAr,d.LibelleDivisionFr,d.IdDivision'
-        cursor = connection.cursor()
-        cursor.execute(sql)
-        divisions = list(cursor.fetchall())
-    except Exception as e:
-        exception = str(e)
-    finally:
-        cursor.close
 
     if request.method == 'POST':
         perso = Personnel.objects.filter(cin=request.POST.get('personneldata')).first()
         datedecom = request.POST.get("datedecon")
         typede = request.POST["typede"]
         nbjours = int(request.POST["nbjours"])
-        a1 = datetime.strptime(datedecom, "%Y-%m-%d")
-        a2 = datetime.strptime(datedecom, "%Y-%m-%d")
+        if(typede == "رخصة إدارية"):
+            a1 = datetime.strptime(datedecom, "%Y-%m-%d")
+            a2 = datetime.strptime(datedecom, "%Y-%m-%d")
+            dater = findWorkingDayAfter(a1,nbjours)
 
+        else:
+            a1 = datetime.strptime(datedecom, "%Y-%m-%d")
+            a2 = datetime.strptime(datedecom, "%Y-%m-%d")
+            dater = a1 + timedelta(nbjours)
 
-        dater =  findWorkingDayAfter(a1,nbjours)
         objconge = Conge(type_conge=typede, datedebut=a2, dateretour=dater, idpersonnel_field=perso, nbjour=nbjours)
         objconge.save()
 
-        return render(request, 'GestionConge/conge.html', {'personnels': personnels, 'congepersonnel': congepersonnel, 'objconge': objconge, 'conges': conges, 'divisions': divisions})
-    return render(request, 'GestionConge/conge.html', {'personnels': personnels, 'congepersonnel': congepersonnel, 'conges': conges, 'divisions': divisions})
+        return render(request, 'GestionConge/conge.html', {'personnels': personnels, 'objconge': objconge, 'conges': conges})
+    return render(request, 'GestionConge/conge.html', {'personnels': personnels, 'conges': conges})
+
 
 @login_required(login_url='/')
 def stopeConge(request,id):
@@ -229,7 +213,6 @@ def ajaxloadpersonnelforconge(request):
 
 def tboardconge(request):
     personnels = Personnel.objects.all()
-    dateelimine = DateElimine.objects.all()
     conges = Conge.objects.all()
     congepersonnel = []
     i = 0

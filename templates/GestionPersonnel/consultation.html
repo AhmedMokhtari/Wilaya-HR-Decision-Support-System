@@ -8,12 +8,30 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200&family=Montserrat:wght@800;900&display=swap" rel="stylesheet">
-    <!-- CSS only -->
+    <style>
+    h3{
+        font-family: "Cairo ExtraLight";
+        font-weight: bold;
+        color: #45B668;
+    }
+
+    th{
+        font-family: "Cairo ExtraLight";
+    }
+
+   label {
+        font-family: "Cairo ExtraLight";
+        font-weight: bold;
+    }
+    </style>
+    <script>
+
+    </script>
     <div class="col-12 col-xl-12">
-        <div class="card shadow">       
+        <div class="card">
             <form method="get" id="formsearch">
                 <div class="card-header text-right">
-                    <h3 class="text-right"><strong>البحث</strong></h3>
+                    <h3  class="text-right">البحث</h3>
                     <hr>
                     <div class="row mr-2">
                         <div class="row">
@@ -168,15 +186,14 @@
     <form method="POST">
     {% csrf_token %}
         <div class="col-12 col-xl-12">
-            <div class="card shadow">
+            <div class="card">
                 <div class="card-header">
-                    <h3 class="text-right"><strong>الموظفين</strong></h3>
-                    <h6 class="card-subtitle text-muted text-right">معلومات الموظفين</h6>
-                    <br>
+                    <h3 class="text-right">الموظفين</h3>
+                    <hr>
                 </div>
                 <div class="col-12 col-lg-12 col-xxl-12 d-flex tablechange">
                     <table class="table table-striped text-center" id="table">
-                        <thead style="background-color: #ED2B33FF;color: white">
+                        <thead style="background-color: #45B668; color: white">
                             <tr>
                                 <th>ر.ب.و</th>
                                 <th>رقم التاجير</th>
