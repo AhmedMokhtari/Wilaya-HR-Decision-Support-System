@@ -126,80 +126,79 @@
         </div>
     <form method="POST" action="{% url 'ajouternotation' %}" autocomplete="off">
     {% csrf_token %}
-					<div class="row">
-						<div class="col-12 col-lg-5 col-xxl-6 d-flex">
-							<div class="card flex-fill p-3">
-
-                                <div class="card-header">
-                                    <h5 class="card-title mb-0 text-right">إضافة</h5>
-                                </div>
-								<div class="card-body">
-                                    <div class="row mb-3">
-                                        <div class="col-md">
-                                            <label class="col-form-label float-right" dir="ltr" for="personneldata">: الموضف</label>
-                                            <label class="col-form-label" dir="ltr" for="personneldata">Personnel :</label>
-                                                <input class="form-control text-center" list="datalistOptions" id="personneldata" name="personneldata" placeholder="...رقم البطاقة الوطنية">
-                                                <datalist id="datalistOptions">
-                                                  {% for personnel in personnels %}
-                                                      <option value="{{ personnel.cin }}"></option>
-                                                {% endfor %}
-                                                </datalist>
-                                            </select>
-                                        </div>
-                                    </div>
-
-                                    <div class="row mb-3">
-                                        <div class="col-md">
-                                            <label class="col-form-label float-right" dir="ltr" for="note">النقطة</label>
-                                            <label class="col-form-label" dir="ltr" for="note">La Note :</label>
-                                            <input  type="number" id="note" name="note" class="form-control text-center" min="0" max="20"  required>
-                                        </div>
-                                    </div>
-
-                                    <div class="row mb-3">
-                                        <div class="col-md">
-                                            <label class="col-form-label float-right" dir="ltr" for="annee">السنة</label>
-                                            <label class="col-form-label" dir="ltr" for="annee">Année</label>
-                                            <select name="annee" id="annee" class="form-control text-center" required>
-
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <button type="submit"  class="btn btn-success">اضاقة</button>
-							    </div>
-						    </div>
-                        </div>
-
-                        <div class="col-12 col-lg-7 d-flex ">
-                            <div class="card flex-fill p-3">
-                                <div class="card-header">
-                                    <h5 class="card-title mb-0 text-right">الغير المسجلين</h5>
-                                </div>
-                                <table id="table"  class="table table-striped my-0 text-center">
-                                    <thead style="background-color: #212a38;color: white">
-                                        <tr>
-                                            <th class="dd-xl-table-cell">ر.ب.و</th>
-                                            <th class="dd-xl-table-cell">الإسم الكامل</th>
-                                            <th>السنة</th>
-                                            <th class="d-md-table-cell">-</th>
-                                            <th class="d-md-table-cell">-</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    {% for item in persoempty %}
-                                        <tr >
-                                            <td>{{ item.cin }}</td>
-                                            <td>{{ item.name }}</td>
-                                            <td>{{ item.year }}</td>
-                                            <td class="d-xl-table-cell"><span class="btn btn-primary addyear"><i class="fa fa-plus" aria-hidden="true"></i></span> </td>
-                                            <td><a href="http://127.0.0.1:8000/personnel/personnelinfo/{{item.id}}" class="btn btn-success m-1"><i class="fa-solid fa-arrow-up-right-from-square fa-lg " ></i></a></td>
-                                        </tr>
+        <div class="row">
+            <div class="col-6 d-flex">
+                <div class="card flex-fill p-3">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0 text-right">إضافة</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-3">
+                            <div class="col-md">
+                                <label class="col-form-label float-right" dir="ltr" for="personneldata">: الموضف</label>
+                                <label class="col-form-label" dir="ltr" for="personneldata">Personnel :</label>
+                                    <input class="form-control text-center" list="datalistOptions" id="personneldata" name="personneldata" placeholder="...رقم البطاقة الوطنية">
+                                    <datalist id="datalistOptions">
+                                      {% for personnel in personnels %}
+                                          <option value="{{ personnel.cin }}"></option>
                                     {% endfor %}
-                                    </tbody>
-                                </table>
+                                    </datalist>
+                                </select>
                             </div>
                         </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md">
+                                <label class="col-form-label float-right" dir="ltr" for="note">النقطة</label>
+                                <label class="col-form-label" dir="ltr" for="note">La Note :</label>
+                                <input  type="number" id="note" name="note" class="form-control text-center" min="0" max="20"  required>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md">
+                                <label class="col-form-label float-right" dir="ltr" for="annee">السنة</label>
+                                <label class="col-form-label" dir="ltr" for="annee">Année</label>
+                                <select name="annee" id="annee" class="form-control text-center" required>
+
+                                </select>
+                            </div>
+                        </div>
+                        <button type="submit"  class="btn btn-success">اضاقة</button>
                     </div>
+                </div>
+            </div>
+
+            <div class="col-6 d-flex ">
+                <div class="card flex-fill p-3">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0 text-right">الغير المسجلين</h5>
+                    </div>
+                    <table id="table"  class="table table-striped my-0 text-center">
+                        <thead style="background-color: #212a38;color: white">
+                            <tr>
+                                <th class="dd-xl-table-cell">ر.ب.و</th>
+                                <th class="dd-xl-table-cell">الإسم الكامل</th>
+                                <th>السنة</th>
+                                <th class="d-md-table-cell">-</th>
+                                <th class="d-md-table-cell">-</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for item in persoempty %}
+                            <tr >
+                                <td>{{ item.cin }}</td>
+                                <td>{{ item.name }}</td>
+                                <td>{{ item.year }}</td>
+                                <td class="d-xl-table-cell"><span class="btn btn-primary addyear"><i class="fa fa-plus" aria-hidden="true"></i></span> </td>
+                                <td><a href="http://127.0.0.1:8000/personnel/personnelinfo/{{item.id}}" class="btn btn-success m-1"><i class="fa-solid fa-arrow-up-right-from-square fa-lg " ></i></a></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
 
     </form>
 
