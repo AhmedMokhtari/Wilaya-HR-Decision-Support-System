@@ -693,8 +693,8 @@ def get_json_perso_year_empty(request, *args, **kwargs):
 
 
 
-def pdfavencement(request):
-    grade = Grade.objects.get(idgrade=1)
+def pdfavencement(request, id):
+    grade = Grade.objects.get(idgrade=id)
     annee = str(datetime.now().year)
     decision1 = 'يترقى'
     decision2 = 'يترقى'
@@ -750,7 +750,7 @@ def pdfavencement(request):
     pdf.set_y(y)
     pdf.set_auto_page_break(True,20)
 
-    grades = Grade.objects.get(idgrade=1)
+    grades = Grade.objects.get(idgrade=id)
     personnels = Personnel.objects.all()
     listoutput = []
     for item in personnels:
@@ -761,71 +761,72 @@ def pdfavencement(request):
     for item2 in listoutput:
         objrythme = Rythme.objects.filter(echellondebut=item2.idechellon_field,
                                           idgrade_field=item2.idgrade_field).first()
-        date = item2.dateechellon + timedelta(30 * objrythme.rapide)
-        note = Notation.objects.filter(idpersonnel_field=item2.idpersonnel_field, annee__lte=date.year,
-                                       annee__gte=item2.dateechellon.year)
-        listnote = []
-        for item3 in note:
-            listnote.append(item3.note)
-        moyenne = sum(listnote) / len(listnote)
-        mois = 1
-        if (item2.idgrade_field.gradefr == 'Administrateur adjoint' or item2.idgrade_field.gradefr == 'Administrateur'):
-            if (item2.idechellon_field == '6' or item2.idechellon_field == '10'):
-                mois = 1
+        if(objrythme != None):
+            date = item2.dateechellon + timedelta(30 * objrythme.rapide)
+            note = Notation.objects.filter(idpersonnel_field=item2.idpersonnel_field, annee__lte=date.year,
+                                           annee__gte=item2.dateechellon.year)
+            listnote = []
+            for item3 in note:
+                listnote.append(item3.note)
+            moyenne = sum(listnote) / len(listnote)
+            mois = 1
+            if (item2.idgrade_field.gradefr == 'Administrateur adjoint' or item2.idgrade_field.gradefr == 'Administrateur'):
+                if (item2.idechellon_field == '6' or item2.idechellon_field == '10'):
+                    mois = 1
+                else:
+                    if (moyenne >= 19 and moyenne <= 20):
+                        mois = objrythme.rapide
+                    elif (moyenne >= 18.75 and moyenne <= 19):
+                        mois = objrythme.rapide + 2
+                    elif (moyenne >= 18.25 and moyenne <= 18.50):
+                        mois = objrythme.rapide + 3
+                    elif (moyenne >= 18 and moyenne <= 18.25):
+                        mois = objrythme.rapide + 4
+                    elif (moyenne >= 17.75 and moyenne <= 18):
+                        mois = objrythme.rapide + 5
+                    elif (moyenne >= 16.5 and moyenne <= 17.5):
+                        mois = objrythme.rapide + 6
+                    elif (moyenne >= 16 and moyenne <= 16.5):
+                        mois = objrythme.rapide + 5
+                    elif (moyenne >= 15.5 and moyenne <= 16):
+                        mois = objrythme.rapide + 9
+                    elif (moyenne >= 15 and moyenne <= 15.5):
+                        mois = objrythme.rapide + 12
+                    elif (moyenne >= 14.5 and moyenne <= 15):
+                        mois = objrythme.rapide + 15
+                    elif (moyenne < 14.5):
+                        mois = objrythme.rapide + 18
             else:
-                if (moyenne >= 19 and moyenne <= 20):
+                if (moyenne >= 16 and moyenne <= 20):
                     mois = objrythme.rapide
-                elif (moyenne >= 18.75 and moyenne <= 19):
-                    mois = objrythme.rapide + 2
-                elif (moyenne >= 18.25 and moyenne <= 18.50):
-                    mois = objrythme.rapide + 3
-                elif (moyenne >= 18 and moyenne <= 18.25):
-                    mois = objrythme.rapide + 4
-                elif (moyenne >= 17.75 and moyenne <= 18):
-                    mois = objrythme.rapide + 5
-                elif (moyenne >= 16.5 and moyenne <= 17.5):
-                    mois = objrythme.rapide + 6
-                elif (moyenne >= 16 and moyenne <= 16.5):
-                    mois = objrythme.rapide + 5
-                elif (moyenne >= 15.5 and moyenne <= 16):
-                    mois = objrythme.rapide + 9
-                elif (moyenne >= 15 and moyenne <= 15.5):
-                    mois = objrythme.rapide + 12
-                elif (moyenne >= 14.5 and moyenne <= 15):
-                    mois = objrythme.rapide + 15
-                elif (moyenne < 14.5):
-                    mois = objrythme.rapide + 18
-        else:
-            if (moyenne >= 16 and moyenne <= 20):
-                mois = objrythme.rapide
-            elif (moyenne >= 10 and moyenne <= 16):
-                mois = objrythme.moyen
-            elif (moyenne < 10):
-                mois = objrythme.lent
+                elif (moyenne >= 10 and moyenne <= 16):
+                    mois = objrythme.moyen
+                elif (moyenne < 10):
+                    mois = objrythme.lent
 
-        datefin = item2.dateechellon + timedelta(30 * mois)
-        indicebr = indice(item2.idgrade_field.idgrade)
-        pdf.cell(17, 10, txt=get_display(arabic_reshaper.reshape(decision1)), border=1, align='C')
-        pdf.cell(22, 10, txt=get_display(arabic_reshaper.reshape(decision2)), border=1, align='C')
-        pdf.cell(34, 10, txt=datefin.date().isoformat(), border=1, align='C')
-        pdf.cell(24, 10, txt=indicebr[item2.idechellon_field.idechellon], border=1, align='C')
-        pdf.cell(11, 10, txt=Echellon.objects.get(idechellon=item2.idechellon_field.idechellon + 1).echellon, border=1, align='C')
-        pdf.cell(12, 10, txt=f'{moyenne:.2f}', border=1, align='C')
-        pdf.cell(12, 10, txt=str(mois), border=1, align='C')
-        pdf.cell(34, 10, txt=item2.dateechellon.date().isoformat(), border=1, align='C')
-        pdf.cell(24, 10, txt=indicebr[item2.idechellon_field.idechellon - 1], border=1, align='C')
-        pdf.cell(11, 10, txt=item2.idechellon_field.echellon, border=1, align='C')
-        pdf.cell(19, 10, txt=item2.idpersonnel_field.nomfr, border=1, align='C')
-        pdf.cell(19, 10, txt=item2.idpersonnel_field.prenomfr, border=1, align='C')
-        pdf.cell(15, 10, txt=get_display(arabic_reshaper.reshape(item2.idpersonnel_field.nomar)), border=1, align='C')
-        pdf.cell(15, 10, txt=get_display(arabic_reshaper.reshape(item2.idpersonnel_field.prenomar)), border=1, align='C')
-        pdf.cell(14, 10, txt=item2.idpersonnel_field.ppr, border=1, align='C')
-        pdf.cell(15, 10, txt=item2.idpersonnel_field.cin, border=1, align='C')
-        if y >= 189:
-            y = 10
-        else:
-            y = y + 10
-            pdf.set_y(y)
+            datefin = item2.dateechellon + timedelta(30 * mois)
+            indicebr = indice(item2.idgrade_field.idgrade)
+            pdf.cell(17, 10, txt=get_display(arabic_reshaper.reshape(decision1)), border=1, align='C')
+            pdf.cell(22, 10, txt=get_display(arabic_reshaper.reshape(decision2)), border=1, align='C')
+            pdf.cell(34, 10, txt=datefin.date().isoformat(), border=1, align='C')
+            pdf.cell(24, 10, txt=indicebr[item2.idechellon_field.idechellon], border=1, align='C')
+            pdf.cell(11, 10, txt=Echellon.objects.get(idechellon=item2.idechellon_field.idechellon + 1).echellon, border=1, align='C')
+            pdf.cell(12, 10, txt=f'{moyenne:.2f}', border=1, align='C')
+            pdf.cell(12, 10, txt=str(mois), border=1, align='C')
+            pdf.cell(34, 10, txt=item2.dateechellon.date().isoformat(), border=1, align='C')
+            pdf.cell(24, 10, txt=indicebr[item2.idechellon_field.idechellon - 1], border=1, align='C')
+            pdf.cell(11, 10, txt=item2.idechellon_field.echellon, border=1, align='C')
+            pdf.cell(19, 10, txt=item2.idpersonnel_field.nomfr, border=1, align='C')
+            pdf.cell(19, 10, txt=item2.idpersonnel_field.prenomfr, border=1, align='C')
+            pdf.cell(15, 10, txt=get_display(arabic_reshaper.reshape(item2.idpersonnel_field.nomar)), border=1, align='C')
+            pdf.cell(15, 10, txt=get_display(arabic_reshaper.reshape(item2.idpersonnel_field.prenomar)), border=1, align='C')
+            pdf.cell(14, 10, txt=item2.idpersonnel_field.ppr, border=1, align='C')
+            pdf.cell(15, 10, txt=item2.idpersonnel_field.cin, border=1, align='C')
+            if y >= 189:
+                y = 10
+            else:
+                y = y + 10
+                pdf.set_y(y)
 
 
     pdfAF = pdf.output(dest='S').encode('latin-1')

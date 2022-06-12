@@ -6,6 +6,7 @@ window.onload = function (){
         $("#table tr").remove();
         $("#title center").remove();
         $("#title").append('<center><h3>  لائحة الترسيم والترقية في الرتبة في درجة '+ selgrade.options[selgrade.selectedIndex].text+' لوزارة الداخلية</h3></center>')
+        $("#linq a").attr("href","/avancement/pdfavencement/"+selgrade.value+"/")
         $.ajax(
             {
                 type: "POST",
