@@ -113,67 +113,70 @@ def loadpersonnelavancement(request):
             listoutput.append( objgradepersonnel.last())
 
     for item2 in listoutput:
-        objrythme = Rythme.objects.filter(echellondebut=item2.idechellon_field,idgrade_field=item2.idgrade_field).first()
-        date = item2.dateechellon + timedelta(30 * objrythme.rapide)
-        note = Notation.objects.filter(idpersonnel_field=item2.idpersonnel_field, annee__lte=date.year, annee__gte= item2.dateechellon.year)
-        listnote = []
-        for item3 in note:
-            listnote.append(item3.note)
-        moyenne = sum(listnote) / len(listnote)
-        mois = 1
-        if (item2.idgrade_field.gradefr == 'Administrateur adjoint' or item2.idgrade_field.gradefr == 'Administrateur'):
-            if(item2.idechellon_field == '6' or item2.idechellon_field == '10' ):
-                mois = 1
+        objrythme = Rythme.objects.filter(echellondebut=item2.idechellon_field, idgrade_field=item2.idgrade_field).first()
+        if( objrythme != None):
+            date = item2.dateechellon + timedelta(30 * objrythme.rapide)
+            note = Notation.objects.filter(idpersonnel_field=item2.idpersonnel_field, annee__lte=date.year, annee__gte= item2.dateechellon.year)
+            listnote = []
+            for item3 in note:
+                listnote.append(item3.note)
+            moyenne = sum(listnote) / len(listnote)
+            mois = 1
+            if (item2.idgrade_field.gradefr == 'Administrateur adjoint' or item2.idgrade_field.gradefr == 'Administrateur'):
+                if(item2.idechellon_field == '6' or item2.idechellon_field == '10' ):
+                    mois = 1
+                else:
+                    if(moyenne>= 19 and moyenne <=20):
+                        mois = objrythme.rapide
+                    elif(moyenne>= 18.75 and moyenne <=19):
+                        mois = objrythme.rapide + 2
+                    elif (moyenne >= 18.25 and moyenne <= 18.50):
+                        mois = objrythme.rapide + 3
+                    elif (moyenne >= 18 and moyenne <= 18.25):
+                        mois = objrythme.rapide + 4
+                    elif (moyenne >= 17.75 and moyenne <= 18):
+                        mois = objrythme.rapide + 5
+                    elif (moyenne >= 16.5 and moyenne <= 17.5):
+                        mois = objrythme.rapide + 6
+                    elif (moyenne >= 16 and moyenne <= 16.5):
+                        mois = objrythme.rapide + 5
+                    elif (moyenne >= 15.5 and moyenne <= 16):
+                        mois = objrythme.rapide + 9
+                    elif (moyenne >= 15 and moyenne <= 15.5):
+                        mois = objrythme.rapide + 12
+                    elif (moyenne >= 14.5 and moyenne <= 15):
+                        mois = objrythme.rapide + 15
+                    elif (moyenne < 14.5):
+                        mois = objrythme.rapide + 18
             else:
-                if(moyenne>= 19 and moyenne <=20):
+                if (moyenne >= 16 and moyenne <= 20):
                     mois = objrythme.rapide
-                elif(moyenne>= 18.75 and moyenne <=19):
-                    mois = objrythme.rapide + 2
-                elif (moyenne >= 18.25 and moyenne <= 18.50):
-                    mois = objrythme.rapide + 3
-                elif (moyenne >= 18 and moyenne <= 18.25):
-                    mois = objrythme.rapide + 4
-                elif (moyenne >= 17.75 and moyenne <= 18):
-                    mois = objrythme.rapide + 5
-                elif (moyenne >= 16.5 and moyenne <= 17.5):
-                    mois = objrythme.rapide + 6
-                elif (moyenne >= 16 and moyenne <= 16.5):
-                    mois = objrythme.rapide + 5
-                elif (moyenne >= 15.5 and moyenne <= 16):
-                    mois = objrythme.rapide + 9
-                elif (moyenne >= 15 and moyenne <= 15.5):
-                    mois = objrythme.rapide + 12
-                elif (moyenne >= 14.5 and moyenne <= 15):
-                    mois = objrythme.rapide + 15
-                elif (moyenne < 14.5):
-                    mois = objrythme.rapide + 18
+                elif (moyenne >= 10 and moyenne <= 16):
+                    mois = objrythme.moyen
+                elif (moyenne < 10):
+                    mois = objrythme.lent
+
+            datefin = item2.dateechellon + timedelta(30 * mois)
+            indicebr = indice(item2.idgrade_field.idgrade)
+            datamart = {'idpersonnel': item2.idpersonnel_field.idpersonnel,
+                        'cin': item2.idpersonnel_field.cin,
+                        'personnelnar': item2.idpersonnel_field.nomar,
+                        'personnelnfr': item2.idpersonnel_field.nomfr,
+                        'personnelpar': item2.idpersonnel_field.prenomar,
+                        'personnelpfr': item2.idpersonnel_field.prenomfr,
+                        'datefin': datefin.date(),
+                        'datedebut': item2.dateechellon.date(),
+                        'rythm': mois,
+                        'grade': item2.idgrade_field.gradear,
+                        'moyenne': f'{moyenne:.2f}',
+                        'ppr': item2.idpersonnel_field.ppr,
+                        'indicesebut': indicebr[item2.idechellon_field.idechellon - 1],
+                        'indicesefin': indicebr[item2.idechellon_field.idechellon],
+                        'echellondebut': item2.idechellon_field.echellon,
+                        'echellondefin': Echellon.objects.get(
+                            idechellon=item2.idechellon_field.idechellon + 1).echellon}
         else:
-            if (moyenne >= 16 and moyenne <= 20):
-                mois = objrythme.rapide
-            elif (moyenne >= 10 and moyenne <= 16):
-                mois = objrythme.moyen
-            elif (moyenne < 10):
-                mois = objrythme.lent
-
-        datefin = item2.dateechellon + timedelta(30 * mois)
-        indicebr = indice(item2.idgrade_field.idgrade)
-        datamart = {'idpersonnel': item2.idpersonnel_field.idpersonnel,
-                    'cin': item2.idpersonnel_field.cin,
-                    'personnelnar': item2.idpersonnel_field.nomar,
-                    'personnelnfr': item2.idpersonnel_field.nomfr,
-                    'personnelpar': item2.idpersonnel_field.prenomar,
-                    'personnelpfr': item2.idpersonnel_field.prenomfr,
-                    'datefin': datefin.date(),
-                    'datedebut': item2.dateechellon.date(),
-                    'rythm': mois,
-                    'grade': item2.idgrade_field.gradear,
-                    'moyenne': f'{moyenne:.2f}',
-                    'ppr': item2.idpersonnel_field.ppr,
-                    'indicesebut': indicebr[item2.idechellon_field.idechellon - 1],
-                    'indicesefin': indicebr[item2.idechellon_field.idechellon],
-                    'echellondebut': item2.idechellon_field.echellon,
-                    'echellondefin': Echellon.objects.get(idechellon=item2.idechellon_field.idechellon + 1).echellon}
-
+            datamart = None
         datawarehouse.append(datamart)
     return JsonResponse(datawarehouse, safe=False)
 

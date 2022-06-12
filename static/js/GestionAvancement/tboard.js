@@ -15,22 +15,25 @@ window.onload = function (){
                     console.log(data)
 
                     for (var i = 0; i < data.length; i++) {
-
-                        $("#table").append(`<tr><td>${data[i].cin}</td>`+
-                            `<td>${data[i].personnelpar}</td>`+
-                            `<td>${data[i].personnelpfr}</td>`+
-                            `<td>${data[i].personnelnar}</td>`+
-                            `<td>${data[i].personnelnfr}</td>`+
-                            `<td>${data[i].ppr}</td>`+
-                            `<td>${data[i].echellondebut}</td>`+
-                            `<td>${data[i].indicesebut}</td>`+
-                            `<td>${data[i].datedebut}</td>`+
-                            `<td>${data[i].rythm}</td>`+
-                            `<td>${data[i].moyenne}</td>`+
-                            `<td>${data[i].echellondefin}</td>`+
-                            `<td>${data[i].indicesefin}</td>`+
-                            `<td>${data[i].datefin}</td>`+
-                            `</tr>`);
+                        if(data[i] != null)
+                        {
+                            $("#table").append(
+                                `<tr><td>${data[i].cin}</td>`+
+                                `<td>${data[i].personnelpar}</td>`+
+                                `<td>${data[i].personnelpfr}</td>`+
+                                `<td>${data[i].personnelnar}</td>`+
+                                `<td>${data[i].personnelnfr}</td>`+
+                                `<td>${data[i].ppr}</td>`+
+                                `<td>${data[i].echellondebut}</td>`+
+                                `<td>${data[i].indicesebut}</td>`+
+                                `<td>${data[i].datedebut}</td>`+
+                                `<td>${data[i].rythm}</td>`+
+                                `<td>${data[i].moyenne}</td>`+
+                                `<td>${data[i].echellondefin}</td>`+
+                                `<td>${data[i].indicesefin}</td>`+
+                                `<td>${data[i].datefin}</td>`+
+                                `</tr>`);
+                        }
                     }
                 }
             });

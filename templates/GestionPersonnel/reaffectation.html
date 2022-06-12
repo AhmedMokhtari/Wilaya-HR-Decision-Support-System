@@ -12,17 +12,19 @@
          h3{
             font-family: "Cairo ExtraLight";
             font-weight: bold;
+            color: #45B668;
         }
         #donneprof{
-            background-color: #47BAC1;
             border-radius: 5px;
         }
+
         .btn:not(a){
-            background-color: #47BAC1;
             font-weight: bold;
             font-family: "Cairo ExtraLight";
             color: white;
         }
+
+
     </style>
     <script>
     function date(){
@@ -40,16 +42,18 @@
                     <div class="col-sm-12 col-lg-12 d-flex">
                         <div class="card flex-fill">
                              <div class="card-header d-flex h-25" id="donneprof">
-                                <h3 class="text-center text-white"  dir="ltr">
+                                <h3 class="text-center"  dir="ltr">
                                    إعادة التعيين
                                 </h3>
-                            </div>
+
+                            </div><hr>
                             <div class="card-body" id="procard">
                                 <div class="row">
                                     <div class="col-md-6 text-right">
-                                        <div class="card-header d-flex h-25">
-                                            <h3 class="float-right">الموضف :</h3>
+                                        <div class="card-header d-flex">
+                                            <h4 class="float-right">الموضف :</h4>
                                         </div>
+                                        <hr>
                                         <div class="row no-gutters">
                                              <div class="col-md-4">
                                                 <label class="label mr-2" for="administration">الإدارة :</label>
@@ -81,7 +85,7 @@
                                     </div>
 
                                     <div class="col-md-6" id="reaf">
-                                        <div class="card-header d-flex h-25">
+                                        <div class="card-header d-flex">
                                             <h3 class="float-right">المصادقة على التعيين الجديد :</h3>
                                         </div>
                                         <div class="row mt-3">
@@ -99,9 +103,10 @@
                                     </div>
 
                                     <div class="col-md-6" id="reafectationdonne">
-                                        <div class="card-header d-flex h-25">
-                                            <h3 class="float-right">التعيين الجديد :</h3>
-                                        </div>
+                                        <div class="card-header d-flex">
+                                            <h4 class="float-right">التعيين الجديد :</h4>
+                                        </div><hr>
+
                                         <div class="row">
                                             <div class="col-md">
                                                 <label class="col-form-label float-right" for="entite"> الكيان :</label>
@@ -237,5 +242,18 @@
         </script>
         <script type="text/javascript" src="{% static 'js/GestionPersonnel/ajouter.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/GestionPersonnel/reaffectation.js' %}"></script>
-    {% endif %}
+    {% else %}
+      <div class="row h-100">
+				<div class="col-sm-10 col-md-8 col-lg-6 mx-auto d-table h-100">
+					<div class="d-table-cell align-middle">
+						<div class="text-center">
+							<h1 class="display-1 font-weight-bold" style="color: red">401</h1>
+							<p class="h1"></p>
+							<p class="h2 font-weight-normal mt-3 mb-4"  style="color: red">ليس لديكم الحق للولوج لهته الصفحة</p>
+							<a href="{% url 'consultation' %}" class="btn btn-primary btn-lg">الرجوع</a>
+						</div>
+					</div>
+				</div>
+			</div>
+{% endif %}
 {% endblock content %}

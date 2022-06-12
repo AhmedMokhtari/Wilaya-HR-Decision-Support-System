@@ -33,21 +33,20 @@
    }
 
     #donneperso{
-            background-color: #47BAC1;
             border-radius: 5px;
         }
 
     #donneprof{
-        background-color: #47BAC1;
         border-radius: 5px;
     }
     </style>
+    {% if request.user|has_group:"GestionPersonnel" %}
     <form method="get" id="formsearch">
         <div class="row">
             <div class="col-sm-12 col-lg-12 d-flex">
                 <div class="card flex-fill">
                     <div class="card-header d-flex h-25" id="donneperso">
-                        <h3 class="text-center text-white" dir="ltr">
+                        <h3 class="text-center" dir="ltr">
                             البحث
                         </h3>
                         <hr>
@@ -206,7 +205,7 @@
             <div class="col-sm-12 col-lg-12 d-flex">
                 <div class="card flex-fill">
                     <div class="card-header d-flex h-25" id="donneprof" >
-                        <h3 class="text-center text-white"  dir="ltr">
+                        <h3 class="text-center"  dir="ltr">
                             الموظفين
                         </h3>
                     </div>
@@ -244,7 +243,7 @@
                                                   <td>{{ personnel.idpashalik_field__libellepashalikfr }}</td>
                                               {% endif %}
                                               <td>{{ personnel.idgrade_field__gradefr }}</td>
-                                              <td><a href="{% url 'personnelinfo' personnel.idpersonnel %}" class="btn btn-transparent m-1"><i class="fa-solid fa-arrow-up-right-from-square fa-lg " ></i></a><a href="{% url 'modifier' personnel.idpersonnel %}"class="btn btn-transparent btn-icon  mx-1"><i class="fa-solid fa-pen-to-square fa-lg"></i></a> </td>
+                                              <td><a href="{% url 'personnelinfo' personnel.idpersonnel %}" class="btn btn-transparent m-1"><i class="fa-solid fa-arrow-up-right-from-square fa-lg " ></i></a><a href="{% url 'modifier' personnel.idpersonnel %}" class="btn btn-transparent btn-icon  mx-1"><i class="fa-solid fa-pen-to-square fa-lg"></i></a> </td>
                                           </tr>
                                     {% endfor %}
                                 </tbody>
@@ -255,6 +254,20 @@
             </div>
         </div>
     </form>
+    {% else %}
+      <div class="row h-100">
+				<div class="col-sm-10 col-md-8 col-lg-6 mx-auto d-table h-100">
+					<div class="d-table-cell align-middle">
+						<div class="text-center">
+							<h1 class="display-1 font-weight-bold" style="color: red">401</h1>
+							<p class="h1"></p>
+							<p class="h2 font-weight-normal mt-3 mb-4"  style="color: red">ليس لديكم الحق للولوج لهته الصفحة</p>
+							<a href="{% url 'consultation' %}" class="btn btn-primary btn-lg">الرجوع</a>
+						</div>
+					</div>
+				</div>
+			</div>
+    {% endif %}
 <script type="text/javascript" src="{% static 'js/GestionPersonnel/filter.js' %}"></script>
 <script>
 var url0 = "{% url 'ajaxajouterloadannexe' %}"
