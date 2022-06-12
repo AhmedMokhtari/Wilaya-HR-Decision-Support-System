@@ -13,12 +13,6 @@ from .utils import *
 
 @login_required(login_url='/')
 def GestionConge(request):
-    """
-            nbiterationHoly = 0
-            for item in dateelimine:
-                if(item.dateelimine >= a1 and item.dateelimine <= a2):
-                    nbiterationHoly = nbiterationHoly + 1
-    """
     personnels = Personnel.objects.all()
     dateelimine = DateElimine.objects.all()
     conges = Conge.objects.all()

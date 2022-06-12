@@ -8,6 +8,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200&family=Montserrat:wght@800;900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic&display=swap" rel="stylesheet">
+
     <style>
     h3{
         font-family: "Cairo ExtraLight";
@@ -19,215 +23,234 @@
         font-family: "Cairo ExtraLight";
     }
 
-   label {
-        font-family: "Cairo ExtraLight";
-        font-weight: bold;
+   label
+   {
+        font-family: 'Noto Kufi Arabic', sans-serif;
+   }
+
+   .texts{
+       font-size: 120%;
+   }
+
+    #donneperso{
+            background-color: #47BAC1;
+            border-radius: 5px;
+        }
+
+    #donneprof{
+        background-color: #47BAC1;
+        border-radius: 5px;
     }
     </style>
-    <script>
-
-    </script>
-    <div class="col-12 col-xl-12">
-        <div class="card">
-            <form method="get" id="formsearch">
-                <div class="card-header text-right">
-                    <h3  class="text-right">البحث</h3>
-                    <hr>
-                    <div class="row mr-2">
-                        <div class="row">
-                            <div class="col-md-10">
-                                <label class="col-form-label float-right" for="entite"> الكيان :</label>
-                                <select class="form-control text-center" id="entite" name="entite"  required>
-                                    <option value="" style="display: none"></option>
-                                    {% for entite in entites %}
-                                        <option>{{ entite.libelleentitefr}}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                        </div>
-
-                        <br class="divisiondiv">
-                        <div class="row divisiondiv">
-                            <div class="col-md-10">
-                                <label class="col-form-label float-right" for="division"> القسم :</label>
-                                <select class="form-control text-center" id="division" name="division">
-
-                                </select>
-                            </div>
-                        </div>
-
-                        <br class="districtpashalikdiv">
-                        <div class="row districtpashalikdiv">
-                            <div class="col-md-10">
-                                <label class="col-form-label float-right" for="districtpashalik"> المقاطعة :</label>
-                                <select class="form-control text-center" id="districtpashalik" name="districtpashalik">
-                                    <option value="" id="iddps" style="display: none"></option>
-                                    <option>District</option>
-                                    <option>Pashalik</option>
-                                    <option>Cercle</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <br class="cerclediv">
-                        <div class="row cerclediv">
-                            <div class="col-md-10">
-                                <label class="col-form-label float-right" for="cercle"> الدائرة :</label>
-                                <select class="form-control text-center" id="cercle" name="cercle">
-                                    <option id="idcercle" style="display: none"></option>
-                                    {% for cercle in cercles %}
-                                        <option value="{{ cercle.idcercle}}">{{ cercle.libellecerclefr }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                        </div>
-
-                        <br class="caidadiv">
-                        <div class="row caidadiv">
-                            <div class="col-md-10">
-                                <label class="col-form-label float-right" for="caida"> القيادة :</label>
-                                <select class="form-control text-center" id="caida" name="caida">
-
-                                </select>
-                            </div>
-                        </div>
-
-                        <br class="districtdiv">
-                        <div class="row districtdiv">
-                            <div class="col-md-10">
-                                <label class="col-form-label float-right" for="district"> المقاطعة :</label>
-                                <select class="form-control text-center" id="district" name="district">
-                                    <option  value="" id="iddistrict" style="display: none"></option>
-                                    {% for district in districts %}
-                                        <option value="{{ district.iddistrict }}">{{ district.libelledistrictfr }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                        </div>
-
-                        <br class="pashalikdiv">
-                        <div class="row pashalikdiv">
-                            <div class="col-md-10">
-                                <label class="col-form-label float-right" for="pashalik"> الباشوية :</label>
-                                <select class="form-control text-center" id="pashalik" name="pashalik">
-                                    <option value="" id="idpashalik" style="display: none"></option>
-                                    {% for pashalik in pashaliks %}
-                                        <option value="{{ pashalik.idpashalik }}">{{ pashalik.libellepashalikfr}}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                        </div>
-                        <br class="annexediv">
-                        <div class="row annexediv">
-
-                            <div class="col-md-10">
-                                <label class="col-form-label float-right" for="annexe"> ملحقة إدارية :</label>
-                                <select class="form-control text-center" id="annexe" name="annexe">
-
-                                </select>
-                            </div>
-                        </div>
-
-                        <br class="servicediv">
-                        <div class="row servicediv">
-                            <div class="col-md-10">
-                                <label class="col-form-label float-right" for="service"> إدارة :</label>
-                                <select class="form-control text-center" id="service" name="service">
-                                </select>
-                            </div>
-                        </div>
+    <form method="get" id="formsearch">
+        <div class="row">
+            <div class="col-sm-12 col-lg-12 d-flex">
+                <div class="card flex-fill">
+                    <div class="card-header d-flex h-25" id="donneperso">
+                        <h3 class="text-center text-white" dir="ltr">
+                            البحث
+                        </h3>
+                        <hr>
                     </div>
-                    <br>
                     <hr>
-                    <br>
-                    <div class="row">
-                       <div class="row mr-2">
-                            <div class="col-md-10">
-                                <label class="col-form-label float-right" for="statutgrade"> حالة الدرجة :</label>
-                                <select class="form-control text-center" name="statutgrade" id="statutgrade" required>
-                                        <option  id="op1" value="-1" style="display: none"></option>
-                                    {% for statut in statutgrades %}
-                                        <option value="{{ statut.idstatutgrade }}">{{ statut.statutgradear }}</option>
-                                    {% endfor %}
-                                </select>
+                    <div class="card-body" id="persocard">
+                        <div class="row mr-2">
+                            <div class="row">
+                                <div class="col-md-10">
+                                    <label class="texts float-right" for="entite"> الكيان :</label>
+                                    <select class="form-control text-center" id="entite" name="entite"  required>
+                                        <option value="" style="display: none"></option>
+                                        {% for entite in entites %}
+                                            <option>{{ entite.libelleentitefr}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <br class="divisiondiv">
+                            <div class="row divisiondiv">
+                                <div class="col-md-10">
+                                    <label class="texts float-right" for="division"> القسم :</label>
+                                    <select class="form-control text-center" id="division" name="division">
+
+                                    </select>
+                                </div>
+                            </div>
+
+                            <br class="districtpashalikdiv">
+                            <div class="row districtpashalikdiv">
+                                <div class="col-md-10">
+                                    <label class="texts float-right" for="districtpashalik"> المقاطعة :</label>
+                                    <select class="form-control text-center" id="districtpashalik" name="districtpashalik">
+                                        <option value="" id="iddps" style="display: none"></option>
+                                        <option>District</option>
+                                        <option>Pashalik</option>
+                                        <option>Cercle</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <br class="cerclediv">
+                            <div class="row cerclediv">
+                                <div class="col-md-10">
+                                    <label class="texts float-right" for="cercle"> الدائرة :</label>
+                                    <select class="form-control text-center" id="cercle" name="cercle">
+                                        <option id="idcercle" style="display: none"></option>
+                                        {% for cercle in cercles %}
+                                            <option value="{{ cercle.idcercle}}">{{ cercle.libellecerclefr }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <br class="caidadiv">
+                            <div class="row caidadiv">
+                                <div class="col-md-10">
+                                    <label class="texts float-right" for="caida"> القيادة :</label>
+                                    <select class="form-control text-center" id="caida" name="caida">
+
+                                    </select>
+                                </div>
+                            </div>
+
+                            <br class="districtdiv">
+                            <div class="row districtdiv">
+                                <div class="col-md-10">
+                                    <label class="texts float-right" for="district"> المقاطعة :</label>
+                                    <select class="form-control text-center" id="district" name="district">
+                                        <option  value="" id="iddistrict" style="display: none"></option>
+                                        {% for district in districts %}
+                                            <option value="{{ district.iddistrict }}">{{ district.libelledistrictfr }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <br class="pashalikdiv">
+                            <div class="row pashalikdiv">
+                                <div class="col-md-10">
+                                    <label class="texts float-right" for="pashalik"> الباشوية :</label>
+                                    <select class="form-control text-center" id="pashalik" name="pashalik">
+                                        <option value="" id="idpashalik" style="display: none"></option>
+                                        {% for pashalik in pashaliks %}
+                                            <option value="{{ pashalik.idpashalik }}">{{ pashalik.libellepashalikfr}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <br class="annexediv">
+                            <div class="row annexediv">
+
+                                <div class="col-md-10">
+                                    <label class="texts float-right" for="annexe"> ملحقة إدارية :</label>
+                                    <select class="form-control text-center" id="annexe" name="annexe">
+
+                                    </select>
+                                </div>
+                            </div>
+
+                            <br class="servicediv">
+                            <div class="row servicediv">
+                                <div class="col-md-10">
+                                    <label class="texts float-right" for="service"> إدارة :</label>
+                                    <select class="form-control text-center" id="service" name="service">
+                                    </select>
+                                </div>
                             </div>
                         </div>
                         <br>
+                        <hr>
+                        <br>
                         <div class="row">
-                            <div class="col-md-12">
-                                <label class="col-form-label float-right" for="grade"> الدرجة :</label>
-                                    <select class="form-control text-center" name="grade" id="grade"  required>
+                           <div class="row mr-2">
+                                <div class="col-md-10">
+                                    <label class="texts float-right" for="statutgrade"> حالة الدرجة :</label>
+                                    <select class="form-control text-center" name="statutgrade" id="statutgrade" required>
+                                            <option  id="op1" value="-1" style="display: none"></option>
+                                        {% for statut in statutgrades %}
+                                            <option value="{{ statut.idstatutgrade }}">{{ statut.statutgradear }}</option>
+                                        {% endfor %}
                                     </select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label class="texts float-right" for="grade"> الدرجة :</label>
+                                        <select class="form-control text-center" name="grade" id="grade"  required>
+                                        </select>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <hr>
+                        <br>
+                        <div class="row">
+                            <div class="col-1"><label class="texts form-check-inline">الجنس &nbsp;:</label></div>
+                            <div class="col-3">
+                                <label class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="radioGenre" value="Homme"/>
+                                    <span class="form-check-label"> &nbsp; ذكر </span>
+                                </label>
+                            </div>
+                            <div class="col-3">
+                                <label class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="radioGenre" value="Femme"/>
+                                    <span class="form-check-label">  &nbsp; أنثى </span>
+                                </label>
                             </div>
                         </div>
                     </div>
-                    <br>
+                </div>
+            </div>
+            <div class="col-sm-12 col-lg-12 d-flex">
+                <div class="card flex-fill">
+                    <div class="card-header d-flex h-25" id="donneprof" >
+                        <h3 class="text-center text-white"  dir="ltr">
+                            الموظفين
+                        </h3>
+                    </div>
                     <hr>
-                    <br>
-                    <div class="row">
-                        <div class="col-1"><label class="col-form-label form-check-inline">الجنس &nbsp;:</label></div>
-                        <div class="col-3">
-                            <label class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="radioGenre" value="Homme"/>
-                                <span class="form-check-label"> &nbsp; ذكر </span>
-                            </label>
-                        </div>
-                        <div class="col-3">
-                            <label class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="radioGenre" value="Femme"/>
-                                <span class="form-check-label">  &nbsp; أنثى </span>
-                            </label>
+                    <div class="card-body" id="procard">
+                        <div class="col-12 col-lg-12 col-xxl-12 d-flex tablechange">
+                            <table class="table table-hover text-center" id="table">
+                                <thead style="background-color: #efefef; color: black;">
+                                    <tr>
+                                        <th>ر.ب.و</th>
+                                        <th>رقم التاجير</th>
+                                        <th>الاسم الكامل</th>
+                                        <th>الجنس</th>
+                                        <th>الميزانية</th>
+                                        <th>قسم</th>
+                                         <th>الدرجة</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tbody">
+                                 {% for personnel in listPerso %}
+                                          <tr class="tb-colon"  >
+                                                <td>{{ personnel.cin }}</td>
+                                                <td>{{ personnel.ppr }}</td>
+                                                <td>{{personnel.nomfr}} - {{ personnel.prenomfr }}</td>
+                                                <td>{{ personnel.sexe }} </td>
+                                                <td>{{personnel.administrationapp}}</td>
+                                              {% if 'idservice_field__libelleservicefr' in personnel %}
+                                                  <td>{{ personnel.idservice_field__libelleservicear }}</td>
+                                              {% elif 'idannexe_field__libelleannexefr' in personnel %}
+                                                  <td>{{ personnel.idannexe_field__libelleannexefr  }}</td>
+                                              {% elif 'idcaidat_field__libellecaidatfr' in personnel %}
+                                                  <td>{{ personnel.idcaidat_field__libellecaidatfr }}</td>
+                                              {% elif 'idpashalik_field__libellepashalikfr' in personnel %}
+                                                  <td>{{ personnel.idpashalik_field__libellepashalikfr }}</td>
+                                              {% endif %}
+                                              <td>{{ personnel.idgrade_field__gradefr }}</td>
+                                              <td><a href="{% url 'personnelinfo' personnel.idpersonnel %}" class="btn btn-transparent m-1"><i class="fa-solid fa-arrow-up-right-from-square fa-lg " ></i></a><a href="{% url 'modifier' personnel.idpersonnel %}"class="btn btn-transparent btn-icon  mx-1"><i class="fa-solid fa-pen-to-square fa-lg"></i></a> </td>
+                                          </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-                </div>
-            </form>
-        </div>
-    </div>
-    <form method="POST">
-    {% csrf_token %}
-        <div class="col-12 col-xl-12">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="text-right">الموظفين</h3>
-                    <hr>
-                </div>
-                <div class="col-12 col-lg-12 col-xxl-12 d-flex tablechange">
-                    <table class="table table-striped text-center" id="table">
-                        <thead style="background-color: #45B668; color: white">
-                            <tr>
-                                <th>ر.ب.و</th>
-                                <th>رقم التاجير</th>
-                                <th>الاسم الكامل</th>
-                                <th>الجنس</th>
-                                <th>الميزانية</th>
-                                <th>قسم</th>
-                                 <th>الدرجة</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody id="tbody">
-                         {% for personnel in listPerso %}
-                                  <tr class="tb-colon"  >
-                                        <td>{{ personnel.cin }}</td>
-                                        <td>{{ personnel.ppr }}</td>
-                                        <td>{{personnel.nomfr}} - {{ personnel.prenomfr }}</td>
-                                        <td>{{ personnel.sexe }} </td>
-                                        <td>{{personnel.administrationapp}}</td>
-                                      {% if 'idservice_field__libelleservicefr' in personnel %}
-                                          <td>{{ personnel.idservice_field__libelleservicear }}</td>
-                                      {% elif 'idannexe_field__libelleannexefr' in personnel %}
-                                          <td>{{ personnel.idannexe_field__libelleannexefr  }}</td>
-                                      {% elif 'idcaidat_field__libellecaidatfr' in personnel %}
-                                          <td>{{ personnel.idcaidat_field__libellecaidatfr }}</td>
-                                      {% elif 'idpashalik_field__libellepashalikfr' in personnel %}
-                                          <td>{{ personnel.idpashalik_field__libellepashalikfr }}</td>
-                                      {% endif %}
-                                      <td>{{ personnel.idgrade_field__gradefr }}</td>
-                                      <td><a href="{% url 'personnelinfo' personnel.idpersonnel %}" class="btn btn-success m-1"><i class="fa-solid fa-arrow-up-right-from-square fa-lg " ></i></a><a href="{% url 'modifier' personnel.idpersonnel %}"class="btn btn-warning btn-icon  mx-1"><i class="fa-solid fa-pen-to-square fa-lg"></i></a> </td>
-                                  </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
                 </div>
             </div>
         </div>
@@ -254,4 +277,5 @@ var url0 = "{% url 'ajaxajouterloadannexe' %}"
 <script src="{% static 'js/xlsx.full.min.js' %}"></script>
 <script src="{% static 'js/semantic.min.js' %}"></script>
 <script src="{% static 'js/scriptConsultation.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/GestionPersonnel/consultation.js' %}"></script>
 {% endblock %}

@@ -5,15 +5,12 @@ from fpdf import FPDF
 from django.http import HttpResponse, JsonResponse
 import os
 import datetime
-import csv
 import pandas as pd
 import seaborn as sns
-from .utils import calculate_age, get_graph, count_age_int, dictfetchall, dateRetraiteCalc
+from .utils import *
 from django.db.models import Q
 from django.views.decorators.csrf import csrf_exempt
-from django.core import serializers
 import json
-from django.db import connection
 import arabic_reshaper
 from bidi.algorithm import get_display
 from pathlib import Path
@@ -21,7 +18,7 @@ from operator import itemgetter
 
 
 #personnel -------------------------------.
-@login_required(login_url='/connexion')
+@login_required(login_url='/')
 def consultation(request):
     perso=Personnel.objects.all()
     grades = Grade.objects.all()
@@ -31,7 +28,6 @@ def consultation(request):
     districts = District.objects.all()
     divisions = Division.objects.all()
     cercles = Cercle.objects.all()
-
     listPerso=[]
     idperso =perso.order_by('idpersonnel').values_list('idpersonnel', flat=True).distinct()
     for id in idperso:
@@ -73,6 +69,7 @@ def consultation(request):
                                                                   'statutgrades': statutgrades, 'cercles': cercles})
 
 #personnel information images -------------------------------.
+@login_required(login_url='/')
 def persoinfoimg(request) :
     division = Division.objects.all()
     grade = Grade.objects.all()
@@ -80,7 +77,7 @@ def persoinfoimg(request) :
     return render(request, 'GestionPersonnel/persoinfoimg.html',personnels)
 
 # filter -------------------------------.
-@login_required(login_url='/connexion')
+@login_required(login_url='/')
 def get_json_perso_data(request, *args, **kwargs):
     selected_obj = kwargs.get('obj')
     arr=selected_obj.split("&")
@@ -816,7 +813,7 @@ def get_json_perso_data(request, *args, **kwargs):
     return JsonResponse({'data': data})
 
 
-
+@login_required(login_url='/')
 def personnelinfo(request,id):
     grades = Gradepersonnel.objects.filter(idpersonnel_field=id).values('idgrade_field__gradefr',
                                                                         'idgrade_field__gradear',
@@ -903,42 +900,42 @@ def personnelinfo(request,id):
 
 
 # ajouter -------------------------------.
-@login_required(login_url='/connexion')
+@login_required(login_url='/')
 @csrf_exempt
 def ajaxajouterloaddivision(request):
     entite = Entite.objects.get(libelleentitefr=request.POST['entite'])
     objdivision = {"divisions": list(Division.objects.filter(identite_field=entite).values('iddivision','libelledivisionar','libelledivisionfr'))}
     return JsonResponse(objdivision, safe=False)
 
-@login_required(login_url='/connexion')
+@login_required(login_url='/')
 @csrf_exempt
 def ajaxajouterloadcaida(request):
     cercle = Cercle.objects.get(idcercle=request.POST.get('cercle', None))
     objcaida = {"caidas": list(Caidat.objects.filter(idcercle_field=cercle).values('idcaidat','libellecaidatar','libellecaidatfr'))}
     return JsonResponse(objcaida, safe=False)
 
-@login_required(login_url='/connexion')
+@login_required(login_url='/')
 @csrf_exempt
 def ajaxajouterloadsevice(request):
     division = Division.objects.get(iddivision=request.POST.get('division', None))
     objservice = {"services": list(Service.objects.filter(iddivision_field=division).values('idservice','libelleservicear','libelleservicefr'))}
     return JsonResponse(objservice, safe=False)
 
-@login_required(login_url='/connexion')
+@login_required(login_url='/')
 @csrf_exempt
 def ajaxajouterloadannexe(request):
     district = District.objects.get(iddistrict=request.POST.get('district', None))
     objannexe = {"annexes": list(Annexe.objects.filter(iddistrict_field=district).values('idannexe','libelleannexear','libelleannexefr'))}
     return JsonResponse(objannexe, safe=False)
 
-@login_required(login_url='/connexion')
+@login_required(login_url='/')
 @csrf_exempt
 def ajaxajouterloadgrade(request):
     statutgrade = Statutgrade.objects.get(idstatutgrade=request.POST.get('statutgrade', None))
     objstatutgrade = {"grades": list(Grade.objects.filter(idstatutgrade_field=statutgrade).values('idgrade','gradear','gradefr'))}
     return JsonResponse(objstatutgrade,safe=False)
 
-@login_required(login_url='/connexion')
+@login_required(login_url='/')
 @csrf_exempt
 def ajaxajouterloadechellon(request):
 
@@ -1016,7 +1013,7 @@ def ajaxajouterloadechellon(request):
     data = {'echellon': echellon, 'indice': indice}
     return JsonResponse(data, safe=False)
 
-@login_required(login_url='/connexion')
+@login_required(login_url='/')
 def ajouter(request):
 
     services = Service.objects.all()
@@ -1156,7 +1153,7 @@ def ajouter(request):
 
 
 # modifier -------------------------------.
-@login_required(login_url='/connexion')
+@login_required(login_url='/')
 def modifier(request, id):
     if request.method == 'POST':
         daten = request.POST["daten"]
@@ -1272,7 +1269,7 @@ def modifier(request, id):
 
 
 # Reafectation -----------------------------------
-@login_required(login_url='/connexion')
+@login_required(login_url='/')
 def addreaffectation(request):
     id = request.GET.get("id", None)
     date = request.GET.get("date", None)
@@ -1317,18 +1314,18 @@ def addreaffectation(request):
     return redirect('/personnel/reaffectation')
 
 
-@login_required(login_url='/connexion')
+@login_required(login_url='/')
 def deletereaffectation(request, id):
     Reafectation.objects.filter(idreafectation=id).delete()
     return redirect('/personnel/reaffectation')
 
-@login_required(login_url='/connexion')
+@login_required(login_url='/')
 @csrf_exempt
 def ajaxloadadministration(request):
     objpersonneladmi = {'personnels': list(Personnel.objects.filter(administrationapp=request.POST.get("administration", None)).values('idpersonnel','nomar','nomfr','cin','prenomar','prenomfr'))}
     return JsonResponse(objpersonneladmi, safe=False)
 
-@login_required(login_url='/connexion')
+@login_required(login_url='/')
 @csrf_exempt
 def ajaxloadpersonnel(request):
     personnelFor = Personnel.objects.filter(idpersonnel=request.POST['personnel']).first()
@@ -1381,7 +1378,7 @@ def ajaxloadpersonnel(request):
                               'reafectation': objreaffectation.values_list('idreafectation','libellereafectationar').first()}}
         return JsonResponse(data, safe=False)
 
-@login_required(login_url='/connexion')
+@login_required(login_url='/')
 def reaffectation(request):
     grades = Grade.objects.all()
     fonctions = Fonction.objects.all()
@@ -1442,7 +1439,7 @@ def reaffectation(request):
                                                                    'cercles': cercles, 'personnels': personnels})
 
 # conjoint -----------------------------------
-@login_required(login_url='/connexion')
+@login_required(login_url='/')
 def ajouter_conjoint(request):
     if request.method == 'POST':
         nomfr = request.POST["nomfr"]
@@ -1474,8 +1471,8 @@ def ajouter_conjoint(request):
         return render(request, 'GestionPersonnel/ajouter_conjoint.html')
 
 
-@login_required(login_url='/connexion')
-def modifier_conjoint(request,id):
+@login_required(login_url='/')
+def modifier_conjoint(request, id):
     suc = "no"
     conjoint = Conjoint.objects.get(idconjoint=id)
     if request.method == 'POST':
@@ -1496,7 +1493,7 @@ def modifier_conjoint(request,id):
 
 
 # enfant -----------------------------------
-@login_required(login_url='/connexion')
+@login_required(login_url='/')
 def ajouter_enfant(request):
     cinpersonnel = request.GET.get('personnel', None)
     personnel = Personnel.objects.filter(cin=cinpersonnel).first()
@@ -1519,7 +1516,7 @@ def ajouter_enfant(request):
         return render(request, 'GestionPersonnel/ajouter_enfant.html', {'enfant': Enfant.objects.all(),'personnel': cinpersonnel, 'conjoints':conjoints})
     return render(request, 'GestionPersonnel/ajouter_enfant.html', {'personnel': cinpersonnel, 'conjoints':conjoints})
 
-@login_required(login_url='/connexion')
+@login_required(login_url='/')
 def modifier_enfant(request,id):
     suc = 'no'
     objenfant = Enfant.objects.get(idenfant=id)
@@ -1539,7 +1536,7 @@ def modifier_enfant(request,id):
     return render(request, 'GestionPersonnel/modifier_enfant.html', {'enfant': objenfant, 'conjoints':conjoints,'suc':suc})
 
 # diplome -----------------------------------
-@login_required(login_url='/connexion')
+@login_required(login_url='/')
 def ajouter_diplome(request):
     cinpersonnel = request.GET.get('personnel', None)
     personnel = Personnel.objects.filter(cin=cinpersonnel).first()
@@ -1558,7 +1555,7 @@ def ajouter_diplome(request):
     return render(request, 'GestionPersonnel/ajouter_diplome.html', {'personnel': cinpersonnel})
 
 
-@login_required(login_url='/connexion')
+@login_required(login_url='/')
 def modifer_diplome(request,id):
     suc = 'no'
     objdiplome = Diplome.objects.get(iddiplome=id)
@@ -1575,7 +1572,7 @@ def modifer_diplome(request,id):
                   {'diplome': objdiplome, 'suc': suc})
 
 # Attestations ---------------------------
-@login_required(login_url='/connexion')
+@login_required(login_url='/')
 def printpdfquitter(req,id):
     personnel = Personnel.objects.get(idpersonnel=id)
     gradepersonnel = Gradepersonnel.objects.filter(idpersonnel_field=personnel).last()
@@ -1656,7 +1653,7 @@ def printpdfquitter(req,id):
     return (response)
 
 
-@login_required(login_url='/connexion')
+@login_required(login_url='/')
 def printpdf(req,id):
    personnel = Personnel.objects.get(idpersonnel=id)
    empName = str(personnel.nomfr + " " + personnel.prenomfr)
@@ -1714,6 +1711,7 @@ def printpdf(req,id):
    #return FileResponse(open('foobar.pdf', 'rb'), content_type='application/pdf')
 
 
+@login_required(login_url='/')
 def printpdfar(req, id):
     BASE_DIR = Path(__file__).resolve().parent.parent
     personnel = Personnel.objects.get(idpersonnel=id)
@@ -1782,7 +1780,9 @@ def printpdfar(req, id):
     response['Content-Disposition'] = 'filename='+ empName+str(dataattes)+'.pdf' 
     ##response.TransmitFile(pathtofile) 
     return response
-@login_required(login_url='/connexion')
+
+
+@login_required(login_url='/')
 @csrf_exempt
 def ajaxtaboardpersonnel(request):
 
@@ -1811,7 +1811,7 @@ def ajaxtaboardpersonnel(request):
 
 
 #taboard------------------------------------------------------
-@login_required(login_url='/connexion')
+@login_required(login_url='/')
 @csrf_exempt
 def taboardpersonnel(request):
 
