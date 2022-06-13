@@ -1,10 +1,12 @@
 {% extends 'menu.html' %}
 {% block content %}
     {% load static %}
+    {% load has_group %}
     <title>{% block title %}لوحة القيادة{% endblock title %}</title>
     <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/all.min.css' %}"/>
     <link href="{% static 'css/feather.css' %}" rel="stylesheet" type="text/css">
+    {% if request.user|has_group:"GestionPersonnel" %}
     <div class="row">
         <div class="col-12 col-sm-6 col-xl d-flex">
             <div class="card flex-fill">
@@ -82,8 +84,6 @@
             </div>
         </div>
     </div>
-
-
 
     <div class="col-md-12 title">
         <h5 class="card-title mb-0">Départ en retraite <span class="float-right">الإحالة على التقاعد</span></h5>
@@ -523,4 +523,18 @@
              })
         }
     </script>
+{% else %}
+      <div class="row h-100">
+				<div class="col-sm-10 col-md-8 col-lg-6 mx-auto d-table h-100">
+					<div class="d-table-cell align-middle">
+						<div class="text-center">
+							<h1 class="display-1 font-weight-bold" style="color: red">401</h1>
+							<p class="h1"></p>
+							<p class="h2 font-weight-normal mt-3 mb-4"  style="color: red">ليس لديكم الحق للولوج لهته الصفحة</p>
+							<a href="{% url 'consultation' %}" class="btn btn-primary btn-lg">الرجوع</a>
+						</div>
+					</div>
+				</div>
+			</div>
+{% endif %}
 {% endblock content %}

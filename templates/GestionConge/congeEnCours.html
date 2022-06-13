@@ -4,171 +4,110 @@
     <link href="{% static 'css/absenceajouter.css' %}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="{% static 'css/all.min.css' %}"/>
     <link rel="stylesheet" type="text/css" href="{% static 'css/semantic.min.css' %}">
-   <section  class="container-fluidd-flex mt-3 absence p-3 " style="background-color: white !important;">
-        <div class="col-12 col-xl-12">
-        <div class="card shadow">
-            <form method="get" id="formsearch">
-                <div class="card-header text-right">
-                    <h3 class="text-right"><strong>البحث</strong></h3>
+    <style>
+    th{
+        color: white;
+        font-family: "Cairo ExtraLight";
+        font-weight: bold;
+    }
+    h3{
+        font-family: "Cairo ExtraLight";
+        font-weight: bold;
+        color: #45B668;
+    }
+    </style>
+<form method="post">
+{% csrf_token %}
+    <div class="row">
+        <div class="col-12 col-lg-12 col-xxl-12 d-flex">
+            <div class="card flex-fill">
+                <div class="card-header">
+                    <h3 class="text-right">إضافة رخصة</h3>
                     <hr>
-                    <div class="row">
-                        <div class="col-3">
-                            <label class="col-form-label">الميزانية :</label>
-                            <div class="ui selection dropdown mr-5 text-right">
-                                <input type="hidden" name="budget" id="budget">
-                                <i class="dropdown icon"></i>
-                                <div class="default text">الميزانية</div>
-                                <div class="menu">
-                                    <div class="item" data-value="-1">الكل</div>
-                                    <div class="item">Général</div>
-                                    <div class="item">Préfectoral</div>
-                                </div>
-                            </div>
-                        </div>
-
-                         <div class="col-3">
-                            <label class="col-form-label">القسم :</label>
-                            <div class="ui selection dropdown mr-5 text-right">
-                              <input type="hidden" name="div" id="div">
-                              <i class="dropdown icon"></i>
-                              <div class="default text">القسم</div>
-                              <div class="menu">
-                                  <div class="item" data-value="-1">الكل</div>
-                                  {% for div in divs %}
-                                        <div class="item" data-value="{{ div.iddivision }}">{{ div.libelledivisionfr }}</div>
-                                  {% endfor %}
-                              </div>
-                            </div>
-                         </div>
-
-                        <div class="col-3">
-                            <label class="col-form-label">الرتبة :</label>
-                            <div class="ui selection dropdown mr-5 text-right">
-                              <input type="hidden" name="grade" id="grade">
-                              <i class="dropdown icon"></i>
-                              <div class="default text">الرتبة</div>
-                              <div class="menu">
-                                  <div class="item" data-value="-1">الكل</div>
-                                  {% for grade in grades %}
-                                     <div class="item" data-value="{{ grade.idgrade }}">{{ grade.gradefr }}</div>
-                                  {% endfor %}
-                              </div>
-                            </div>
-                        </div>
-                    </div>
-                    <br>
-                    <div class="row">
-                        <div class="col-1"><label class="col-form-label block">الجنس &nbsp;:</label></div>
-
-                        <div class="col-3">
-                            <label class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="radioGenre" value="Homme"/>
-                                <span class="form-check-label"> &nbsp; ذكر </span>
-                            </label>
-                        </div>
-                        <div class="col-3">
-                            <label class="form-check form-check-inline">
-                                <input class="form-check-input" type="radio" name="radioGenre" value="Femme"/>
-                                <span class="form-check-label">  &nbsp; أنثى </span>
-                            </label>
-                        </div>
+                </div>
+                <div class="card-body">
+                    <div class="col-12 col-sm-12 d-flex">
+                        <table id="datatables-dashboard-projects" class="table table-striped my-0 text-center">
+                            <thead style="background-color: #45B668">
+                                <tr>
+                                    <th class="d-none d-xl-table-cell">الاسم الكامل</th>
+                                    <th>النوع</th>
+                                    <th>تاريخ البداية </th>
+                                    <th> تاريخ النهاية</th>
+                                    <th>عدد الأيام</th>
+                                    <th>الأيام المتبقية</th>
+                                     <th>الأيام المتبقية في الإجازة</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% now "Y-m-d" as todays %}
+                            {% for item,a in congesEnCours %}
+                                <tr >
+                                    <td>{{ item.idconge}}</td>
+                                    <td>{{ item.type_conge }}</td>
+                                    <td class="d-none d-xl-table-cell">{{ item.datedebut|date:'Y-m-d' }} </td>
+                                    <td class="d-none d-xl-table-cell">{{ item.dateretour|date:'Y-m-d' }}</td>
+                                    <td>{{ item.nbjour}}</td>
+                                    <td>{{ a.joursrestan}}</td>
+                                    <td>{{ a.joursrestanConge }}</td>
+                                    <td class="collapsing">
+                                        <a href="{% url 'stopeconge' item.idconge %}" class="btn btn-danger">توقيف</a>
+                                     </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-            </form>
+            </div>
+        </div>
+        <div class="col-12 col-lg-12 col-xxl-12 d-flex">
+            <div class="card flex-fill">
+                <div class="card-header">
+                    <h3 class="text-right">إضافة رخصة</h3>
+                    <hr>
+                </div>
+                <div class="card-body">
+                    <div class="col-12 col-sm-12 d-flex">
+                        <table id="tableEnCoursFini"  class="table table-striped my-0 text-center">
+                            <thead style="background-color: #45B668;">
+                                <tr>
+                                    <th class="d-none d-xl-table-cell">الاسم الكامل</th>
+                                    <th>النوع</th>
+                                    <th>تاريخ البداية </th>
+                                    <th> تاريخ النهاية</th>
+                                    <th>عدد الأيام</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% now "Y-m-d" as todays %}
+                            {% for item in enCoursFini %}
+                                <tr id="{{ item.IdConge }}">
+                                    <td>{{ item.IdPersonnel  }}</td>
+                                    <td>{{ item.type_conge }}</td>
+                                    <td class="d-none d-xl-table-cell">{{ item.dateDebut|date:'Y-m-d' }} </td>
+                                    <td class="d-none d-xl-table-cell">{{ item.dateRetour|date:'Y-m-d' }}</td>
+                                    <td>{{ item.nbJour}}</td>
+                                    <td class="collapsing">
+                                        <div class="ui fitted slider checkbox">
+                                          <input type="checkbox" name="check" value="{{ item.IdConge }}"> <label></label>
+                                        </div>
+                                     </td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="float-left">
+                        <a class="btn btn-success mx-3" id="update" style="color:white; font-size: 17px;" >تاكيد الدخول</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    </section>
-     <section class="container-fluidd-flex mt-3 absence " style="background-color: white !important;">
-              <form method="POST">
-              {% csrf_token %}
-                  <div class="row p-2">
-                        <div class="col-12 col-sm-12 d-flex">
-                            <div class="card flex-fill">
-                                <div class="card-header">
-                                    <h5 class="card-title mb-0">En Cours</h5>
-                                </div>
-                                <table id="datatables-dashboard-projects"  class="table table-striped my-0 text-center">
-                                    <thead>
-                                        <tr>
-                                            <th class="d-none d-xl-table-cell">الاسم الكامل</th>
-                                            <th>النوع</th>
-                                            <th>تاريخ البداية </th>
-                                            <th> تاريخ النهاية</th>
-                                            <th>عدد الأيام</th>
-                                            <th>الأيام المتبقية</th>
-                                             <th>الأيام المتبقية في الإجازة</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    {% now "Y-m-d" as todays %}
-                                    {% for item,a in congesEnCours %}
-                                        <tr >
-                                            <td>{{ item.idconge}}</td>
-                                            <td>{{ item.type_conge }}</td>
-                                            <td class="d-none d-xl-table-cell">{{ item.datedebut|date:'Y-m-d' }} </td>
-                                            <td class="d-none d-xl-table-cell">{{ item.dateretour|date:'Y-m-d' }}</td>
-                                            <td>{{ item.nbjour}}</td>
-                                            <td>{{ a.joursrestan}}</td>
-                                            <td>{{ a.joursrestanConge }}</td>
-                                            <td class="collapsing">
-                                                <a href="{% url 'stopeconge' item.idconge %}" class="btn btn-danger">توقيف</a>
-                                             </td>
-                                        </tr>
-                                    {% endfor %}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                  </div>
-              </form>
-    </section>
-    <section class="container-fluidd-flex mt-3 absence " style="background-color: white !important;">
-              <form method="POST">
-              {% csrf_token %}
-                  <div class="row p-2">
-                        <div class="col-12 col-sm-12 d-flex">
-                            <div class="card flex-fill">
-                                <div class="card-header">
-                                    <h5 class="card-title mb-0">En Cours Fini</h5>
-                                </div>
-                                <table id="tableEnCoursFini"  class="table table-striped my-0 text-center">
-                                    <thead>
-                                        <tr>
-                                            <th class="d-none d-xl-table-cell">الاسم الكامل</th>
-                                            <th>النوع</th>
-                                            <th>تاريخ البداية </th>
-                                            <th> تاريخ النهاية</th>
-                                            <th>عدد الأيام</th>
-                                            <th></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    {% now "Y-m-d" as todays %}
-                                    {% for item in enCoursFini %}
-                                        <tr id="{{ item.IdConge }}">
-                                            <td>{{ item.IdPersonnel  }}</td>
-                                            <td>{{ item.type_conge }}</td>
-                                            <td class="d-none d-xl-table-cell">{{ item.dateDebut|date:'Y-m-d' }} </td>
-                                            <td class="d-none d-xl-table-cell">{{ item.dateRetour|date:'Y-m-d' }}</td>
-                                            <td>{{ item.nbJour}}</td>
-                                            <td class="collapsing">
-                                                <div class="ui fitted slider checkbox">
-                                                  <input type="checkbox" name="check" value="{{ item.IdConge }}"> <label></label>
-                                                </div>
-                                             </td>
-                                        </tr>
-                                    {% endfor %}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                          <div class="float-left">
-                              <a class="btn btn-success mx-3" id="update" style="color:white; font-size: 17px;" >تاكيد الدخول</a>
-                          </div>
-                  </div>
-              </form>
-    </section>
+</form>
     <script src="{% static 'js/semantic.min.js' %}"></script>
     <script>
     let table = document.getElementById("table");
@@ -313,6 +252,5 @@
     })
 
 })
-
     </script>
 {% endblock %}

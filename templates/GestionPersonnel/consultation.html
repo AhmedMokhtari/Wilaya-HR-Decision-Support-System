@@ -1,6 +1,7 @@
 {% extends 'menu.html' %}
 {% block content %}
     {% load static %}
+    {% load has_group %}
     <title>{% block title %} معلومات {% endblock title %}</title>
     <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/all.min.css' %}"/>
@@ -79,7 +80,7 @@
                             <br class="districtpashalikdiv">
                             <div class="row districtpashalikdiv">
                                 <div class="col-md-10">
-                                    <label class="texts float-right" for="districtpashalik"> المقاطعة :</label>
+                                    <label class="texts float-right" for="districtpashalik"> المقاطعة او الباشوية:</label>
                                     <select class="form-control text-center" id="districtpashalik" name="districtpashalik">
                                         <option value="" id="iddps" style="display: none"></option>
                                         <option>District</option>

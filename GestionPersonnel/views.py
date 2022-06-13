@@ -1865,7 +1865,7 @@ def taboardpersonnel(request):
     pallette = sns.color_palette("Blues")
     bar_plot = sns.barplot(x='Male', y='Age', data=ageData, order=AgeClass, lw=0, palette = pallette).set_title('ﺭﺎﻤﻋﻷﺍ ﻡﺮﻫ')
     bar_plot = sns.barplot(x='Female', y='Age', data=ageData, order=AgeClass, lw=0, palette = pallette)
-    bar_plot.set_xlabel("Population")
+    bar_plot.set_xlabel("ﻦﻴﻔﺿﻮﻤﻟﺍ")
     chart = get_graph()
 
 

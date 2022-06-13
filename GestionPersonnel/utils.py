@@ -17,12 +17,16 @@ def get_graph():
 
 
 def calculate_age(data):
-    born  = datetime.strptime(data, '%Y-%m-%d')
-    print(born)
+    born = datetime.strptime(data, '%Y-%m-%d')
     today = datetime.today()
     return today.year - born.year - ((today.month, today.day) < (born.month, born.day))
 
 def count_age_int(sexe):
+    objpersonnels = Personnel.objects.all()
+    for item in objpersonnels:
+        item.age = calculate_age(str(item.datenaissance.date()))
+        item.dateparrainageretraite = dateRetraiteCalc(str(item.datenaissance.date()))
+        item.save()
     age = []
     i = 20
     while i <= 60:
@@ -33,7 +37,6 @@ def count_age_int(sexe):
     return age
 
 def dictfetchall(cursor):
-    "Return all rows from a cursor as a dict"
     columns = [col[0] for col in cursor.description]
     return [
         dict(zip(columns, row))

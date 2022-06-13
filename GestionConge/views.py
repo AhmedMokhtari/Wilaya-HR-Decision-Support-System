@@ -13,43 +13,8 @@ from .utils import *
 
 @login_required(login_url='/')
 def GestionConge(request):
-    personnels = Personnel.objects.all()
-    dateelimine = DateElimine.objects.all()
     conges = Conge.objects.all()
-    congepersonnel = []
-    i = 0
-    while i <= 11:
-        congepersonnel.append(
-            Conge.objects.filter(datedebut__year=datetime.now().year).filter(datedebut__month=i + 1).count())
-        i = i + 1
-    try:
-        sql = 'select d.LibelleDivisionAr,d.LibelleDivisionFr, count(c.IdConge) as total from [dbo].[Division] d inner join [dbo].[Service] s on s.IdDivision# = d.IdDivision inner join [dbo].[ServicePersonnel] sp on s.IdService = sp.IdService# inner join [dbo].[Personnel] p on sp.IdPersonnel# = p.IdPersonnel inner join [dbo].[Conge] c on p.IdPersonnel = c.IdPersonnel# group by d.LibelleDivisionAr,d.LibelleDivisionFr,d.IdDivision'
-        cursor = connection.cursor()
-        cursor.execute(sql)
-        divisions = list(cursor.fetchall())
-    except Exception as e:
-        exception = str(e)
-    finally:
-        cursor.close
-
-    if request.method == 'POST':
-        perso = Personnel.objects.filter(idpersonnel=request.POST.get('perso')).first()
-        datedecom = request.POST.get("datedecon")
-        typede = request.POST["typede"]
-        nbjours = int(request.POST["nbjours"])
-
-        a1 = datetime.strptime(datedecom, "%Y-%m-%d")
-        a2 = datetime.strptime(datedecom, "%Y-%m-%d")
-        data = [s.dateelimine.date() for s in dateelimine]
-        while (i < nbjours):
-            if(date.today().weekday() != 5 and date.today().weekday() != 6 and a2 in data):
-                a1 = a1 + timedelta(days=nbjours)
-        datere = a1
-        objconge = Conge(type_conge=typede, datedebut=a2, dateretour=datere, idpersonnel_field=perso, nbjour=nbjours)
-        objconge.save()
-
-        return render(request, 'GestionConge/gestionConge.html', {'personnels': personnels, 'congepersonnel': congepersonnel, 'objconge': objconge, 'conges': conges, 'divisions': divisions})
-    return render(request, 'GestionConge/gestionConge.html', {'personnels': personnels, 'congepersonnel': congepersonnel, 'conges': conges,'divisions': divisions})
+    return render(request, 'GestionConge/consultationconge.html', {'conges': conges})
 
 
 @login_required(login_url='/')
