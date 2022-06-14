@@ -83,6 +83,7 @@
                                     <h5 class="card-title mb-0">Activity</h5>
                                 </div>
                                 <div class="card-body my-2">
+
                                     <div class="row d-flex align-items-center mb-4">
                                         <div class="col-8">
                                             <h2 class="d-flex align-items-center mb-0 font-weight-light">
@@ -97,6 +98,7 @@
                                     <div class="progress progress-sm shadow-sm mb-1">
                                         <div class="progress-bar bg-success" role="progressbar" style="width: 32%"></div>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
@@ -132,138 +134,133 @@
         </div>
 
         <div class="row">
-            <div class="col-6 col-lg-6 d-flex">
-                <div class="card flex-fill w-100">
-                    <div class="card-header">
-                        <div class="card-actions float-right">
-                            <div class="dropdown show">
-                                <a href="#" data-toggle="dropdown" data-display="static">
-                                    <i class="align-middle" data-feather="more-horizontal"></i>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <a class="dropdown-item" href="#">Something else here</a>
-                                </div>
-                            </div>
-                        </div>
-                        <h5 class="card-title mb-0">Languages</h5>
-                    </div>
-                    <table class="table table-striped my-0">
-                        <thead>
-                            <tr>
-                                <th>Language</th>
-                                <th class="text-right">Users</th>
-                                <th class="d-none d-xl-table-cell w-75">% Users</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>en-us</td>
-                                <td class="text-right">735</td>
-                                <td class="d-none d-xl-table-cell">
-                                    <div class="progress">
-                                        <div class="progress-bar bg-info" role="progressbar" style="width: 43%;" aria-valuenow="43" aria-valuemin="0" aria-valuemax="100">43%</div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>en-gb</td>
-                                <td class="text-right">223</td>
-                                <td class="d-none d-xl-table-cell">
-                                    <div class="progress">
-                                        <div class="progress-bar bg-info" role="progressbar" style="width: 27%;" aria-valuenow="27" aria-valuemin="0" aria-valuemax="100">27%</div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>fr-fr</td>
-                                <td class="text-right">181</td>
-                                <td class="d-none d-xl-table-cell">
-                                    <div class="progress">
-                                        <div class="progress-bar bg-info" role="progressbar" style="width: 22%;" aria-valuenow="22" aria-valuemin="0" aria-valuemax="100">22%</div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>es-es</td>
-                                <td class="text-right">132</td>
-                                <td class="d-none d-xl-table-cell">
-                                    <div class="progress">
-                                        <div class="progress-bar bg-info" role="progressbar" style="width: 16%;" aria-valuenow="16" aria-valuemin="0" aria-valuemax="100">16%</div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>de-de</td>
-                                <td class="text-right">118</td>
-                                <td class="d-none d-xl-table-cell">
-                                    <div class="progress">
-                                        <div class="progress-bar bg-info" role="progressbar" style="width: 15%;" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100">15%</div>
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>ru-ru</td>
-                                <td class="text-right">98</td>
-                                <td class="d-none d-xl-table-cell">
-                                    <div class="progress">
-                                        <div class="progress-bar bg-info" role="progressbar" style="width: 13%;" aria-valuenow="13" aria-valuemin="0" aria-valuemax="100">13%</div>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
             <div class="col-6 col-lg-6 col-xl-6 d-flex">
                 <div class="card flex-fill w-100">
                     <div class="card-header">
-                        <div class="card-actions float-right">
-                            <div class="dropdown show">
-                                <a href="#" data-toggle="dropdown" data-display="static">
-                                  <i class="align-middle" data-feather="more-horizontal"></i>
-                                </a>
-
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <a class="dropdown-item" href="#">Something else here</a>
-                                </div>
+                        <div class="card-actions float-right p-3">
+                           <h5 class="card-title mb-0">عدد الإجازات</h5>
+                        </div>
+                         <div class="card-actions float-left p-3">
+                            <div class="btn-group">
+                              <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              السنة
+                              </button>
+                              <div class="dropdown-menu">
+                                <a class="dropdown-item" href="#">2020</a>
+                                <a class="dropdown-item" href="#">2021</a>
+                                <a class="dropdown-item" href="#">2022</a>
+                              </div>
                             </div>
                         </div>
-                        <h5 class="card-title mb-0">Source / Medium</h5>
                     </div>
                     <div class="card-body d-flex">
                         <div class="align-self-center w-100">
                             <div class="py-3">
-                                <div class="chart chart-xs">
+                                <div class="chart chart-xs" id="chartCongeCount">
                                     <canvas id="chartjs-dashboard-pie"></canvas>
                                 </div>
                             </div>
-                            <table class="table mb-0 text-center">
-                                <thead>
+                            <table id="tablecount" class="table table-hover mb-0 text-center">
+                                <thead id="tablehead">
                                     <tr>
-                                        <th>Division</th>
+                                        <th>Entité</th>
                                         <th>قطاع</th>
-                                        <th>Congés</th>
+                                        <th>عدد الرخص</th>
                                     </tr>
                                 </thead>
 
-                                <tbody>
-                                {% for division in divisions %}
-                                    <tr >
-                                        <td><i class="fas fa-square-full text-primary"></i> {{ division.0 }}</td>
-                                        <td >{{ division.1}}</td>
-                                        <td class="text-success">{{ division.2}}</td>
+                                <tbody id="tablebody">
+                                <tr class="trcount">
+                                    <td><i class="fas fa-square-full text-primary float-right"></i>Pashalik</td>
+                                    <td >الباشوية</td>
+                                    <td class="text-success">{{ Ps}}</td>
+                                </tr>
+                                <tr class="trcount">
+                                        <td><i class="fas fa-square-full text-primary float-right"></i>Secretariat Genéral</td>
+                                        <td >الأمانة العامة</td>
+                                        <td class="text-success">{{ Sc}}</td>
                                     </tr>
-                                {% endfor %}
+                                <tr class="trcount">
+                                        <td><i class="fas fa-square-full text-primary float-right"></i>Cercle</td>
+                                        <td >الدائرة</td>
+                                        <td class="text-success">{{ Cr}}</td>
+                                    </tr>
+                                <tr class="trcount">
+                                        <td><i class="fas fa-square-full text-primary float-right"></i>District</td>
+                                        <td >المقاطعة</td>
+                                        <td class="text-success">{{ Ds}}</td>
+                                    </tr>
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
             </div>
+            <div class="col-6 col-lg-6 d-flex">
+                <div class="card flex-fill w-100">
+                    <div class="card-header">
+                        <div class="card-actions float-right p-3">
+                            <h5 class="card-title mb-0">نوع الرخص</h5>
+                        </div>
+                    </div>
+                    <table class="table table-striped my-0">
+                        <thead>
+                        <tr>
+                            <th>نوع الإجازة</th>
+                            <th class="text-right">العدد</th>
+                            <th class="d-none d-xl-table-cell w-75">%</th>
+                        </tr>
+                        </thead>
+                        <tbody id="tbodytypeconge">
+                        <tr>
+                            <td>رخصة إدارية</td>
+                            <td class="text-right" id="congeAdmiCount">{{ congeAdmiCount }}</td>
+                            <td class="d-none d-xl-table-cell">
+                                <div class="progress" id="congeAdmiCountPer">
+                                    <div class="progress-bar bg-info" role="progressbar" style="width: {{ congeAdmiCountPer }}%;" aria-valuenow="{{ congeAdmiCountPer }}" aria-valuemin="0" aria-valuemax="100">{{ congeAdmiCountPer }}%</div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>رخصة الأموة</td>
+                            <td class="text-right" id="congeMotCount">{{ congeMotCount }}</td>
+                            <td class="d-none d-xl-table-cell" >
+                                <div class="progress" id="congeMotCountPer">
+                                    <div class="progress-bar bg-info" role="progressbar" style="width: {{ congeMotCountPer }}%;" aria-valuenow="{{ congeMotCountPer }}" aria-valuemin="0" aria-valuemax="100">{{ congeMotCountPer }}%</div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>رخصة إستثنائية</td>
+                            <td class="text-right" id="congeExpCount">{{ congeExpCount }}</td>
+                            <td class="d-none d-xl-table-cell">
+                                <div class="progress" id="congeExpCountPer">
+                                    <div class="progress-bar bg-info" role="progressbar" style="width: {{ congeExpCountPer }}%;" aria-valuenow="{{ congeExpCountPer }}" aria-valuemin="0" aria-valuemax="100">{{ congeExpCountPer }}%</div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>رخصة الحج</td>
+                            <td class="text-right" id="congeHajCount">{{ congeHajCount }}</td>
+                            <td class="d-none d-xl-table-cell" >
+                                <div class="progress" id="congeHajCountPer">
+                                    <div class="progress-bar bg-info" role="progressbar" style="width: {{ congeHajCountPer }}%;" aria-valuenow="{{ congeHajCountPer }}" aria-valuemin="0" aria-valuemax="100">{{ congeHajCountPer }}%</div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>الرخصة الأبوية</td>
+                            <td class="text-right" id="congeFatCount">{{ congeFatCount }}</td>
+                            <td class="d-none d-xl-table-cell" >
+                                <div class="progress" id="congeFatCountPer">
+                                    <div class="progress-bar bg-info" role="progressbar" style="width: {{ congeFatCountPer }}%;" aria-valuenow="{{ congeFatCountPer }}" aria-valuemin="0" aria-valuemax="100">{{ congeFatCountPer }}%</div>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>n
         </div>
     </form>
     <script>
@@ -392,19 +389,23 @@
 	</script>
 
     <script>
+    // *****************************************************************
 		$(function() {
 			// Pie chart
-			new Chart(document.getElementById("chartjs-dashboard-pie"), {
+			 new Chart(document.getElementById("chartjs-dashboard-pie"), {
 				type: "pie",
 				data: {
-					labels: [{% for division in divisions %}'{{ division.0 }}',{% endfor %}],
+					labels: ['Secretariat Genéral','District','Cercle','Pashalik'],
 					datasets: [{
-						data: [{% for division in divisions %}'{{ division.2 }}',{% endfor %}],
+						data: [{{Sc  }},{{ Ds }},{{ Cr }},{{ Ps }}],
 						backgroundColor: [
 							window.theme.primary,
 							window.theme.warning,
 							window.theme.danger,
-							"#E8EAED"
+							"#B51390  ",
+                            "#FF9774",
+                            "#33FF3C",
+                            "#FF0000",
 						],
 						borderColor: "transparent"
 					}]
@@ -419,5 +420,637 @@
 			});
 		});
 	</script>
+   <script>
+    $('#tablehead').on('click',function (){
+        let tbody=document.getElementById('tablebody')
+        tbody.innerHTML=''
+        tbodyy=`<tr class="trcount">
+                                    <td><i class="fas fa-square-full text-primary float-right"></i>Pashalik</td>
+                                    <td >الباشوية</td>
+                                    <td class="text-success">{{ Ps}}</td>
+                                </tr>
+                                <tr class="trcount">
+                                        <td><i class="fas fa-square-full text-primary float-right"></i>Secretariat Genéral</td>
+                                        <td >الأمانة العامة</td>
+                                        <td class="text-success">{{ Sc}}</td>
+                                    </tr>
+                                <tr class="trcount">
+                                        <td><i class="fas fa-square-full text-primary float-right"></i>Cercle</td>
+                                        <td >الدائرة</td>
+                                        <td class="text-success">{{ Cr}}</td>
+                                    </tr>
+                                <tr class="trcount">
+                                        <td><i class="fas fa-square-full text-primary float-right"></i>District</td>
+                                        <td >المقاطعة</td>
+                                        <td class="text-success">{{ Ds}}</td>
+                                    </tr>`
+        tbody.innerHTML=tbodyy
+        document.getElementById('chartCongeCount').innerHTML=''
+        document.getElementById('chartCongeCount').innerHTML=`<canvas id="chartjs-dashboard-pie"></canvas>`
+        new Chart(document.getElementById("chartjs-dashboard-pie"), {
+				type: "pie",
+				data: {
+					labels: ['Secretariat Genéral','District','Cercle','Pashalik'],
+					datasets: [{
+						data: [{{Sc  }},{{ Ds }},{{ Cr }},{{ Ps }}],
+						backgroundColor: [
+							window.theme.primary,
+							window.theme.warning,
+							window.theme.danger,
+							"#B51390  ",
+                            "#FF9774",
+                            "#33FF3C",
+                            "#FF0000",
+						],
+						borderColor: "transparent"
+					}]
+				},
+				options: {
+					responsive: !window.MSInputMethodContext,
+					maintainAspectRatio: false,
+					legend: {
+						display: false
+					}
+				}
+			});
+        document.getElementById('tbodytypeconge').innerHTML=`<tr>
+                            <td>رخصة إدارية</td>
+                            <td class="text-right" id="congeAdmiCount">{{ congeAdmiCount }}</td>
+                            <td class="d-none d-xl-table-cell">
+                                <div class="progress" id="congeAdmiCountPer">
+                                    <div class="progress-bar bg-info" role="progressbar" style="width: {{ congeAdmiCountPer }}%;" aria-valuenow="{{ congeAdmiCountPer }}" aria-valuemin="0" aria-valuemax="100">{{ congeAdmiCountPer }}%</div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>رخصة الأموة</td>
+                            <td class="text-right" id="congeMotCount">{{ congeMotCount }}</td>
+                            <td class="d-none d-xl-table-cell" >
+                                <div class="progress" id="congeMotCountPer">
+                                    <div class="progress-bar bg-info" role="progressbar" style="width: {{ congeMotCountPer }}%;" aria-valuenow="{{ congeMotCountPer }}" aria-valuemin="0" aria-valuemax="100">{{ congeMotCountPer }}%</div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>رخصة إستثنائية</td>
+                            <td class="text-right" id="congeExpCount">{{ congeExpCount }}</td>
+                            <td class="d-none d-xl-table-cell">
+                                <div class="progress" id="congeExpCountPer">
+                                    <div class="progress-bar bg-info" role="progressbar" style="width: {{ congeExpCountPer }}%;" aria-valuenow="{{ congeExpCountPer }}" aria-valuemin="0" aria-valuemax="100">{{ congeExpCountPer }}%</div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>رخصة الحج</td>
+                            <td class="text-right" id="congeHajCount">{{ congeHajCount }}</td>
+                            <td class="d-none d-xl-table-cell" >
+                                <div class="progress" id="congeHajCountPer">
+                                    <div class="progress-bar bg-info" role="progressbar" style="width: {{ congeHajCountPer }}%;" aria-valuenow="{{ congeHajCountPer }}" aria-valuemin="0" aria-valuemax="100">{{ congeHajCountPer }}%</div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>الرخصة الأبوية</td>
+                            <td class="text-right" id="congeFatCount">{{ congeFatCount }}</td>
+                            <td class="d-none d-xl-table-cell" >
+                                <div class="progress" id="congeFatCountPer">
+                                    <div class="progress-bar bg-info" role="progressbar" style="width: {{ congeFatCountPer }}%;" aria-valuenow="{{ congeFatCountPer }}" aria-valuemin="0" aria-valuemax="100">{{ congeFatCountPer }}%</div>
+                                </div>
+                            </td>
+                        </tr>`
+        $('.trcount').on('click', function(){
+              let val=$(this).find("td:eq(0)").text()
+              if(val=='Pashalik'){
+                  filterPashlik()
+                  filterPashlikTypeConge('test')
+              }else if(val =='Secretariat Genéral'){
+                  filterdivision()
+                  filterDivisionTypeConge('test')
+              }else if(val =='Cercle'){
+                  filterCercle()
+                  filterCercleTypeConge('test')
+              }else if(val =='District'){
+                  filterDistrict()
+                  filterDistrictTypeConge('test')
+              }
+          });
+    })
+    $('.trcount').on('click', function(){
+              let val=$(this).find("td:eq(0)").text()
+              if(val=='Pashalik'){
+                  filterPashlik()
+                  filterPashlikTypeConge('test')
+              }else if(val =='Secretariat Genéral'){
+                  filterdivision()
+                  filterDivisionTypeConge('test')
+              }else if(val =='Cercle'){
+                  filterCercle()
+                  filterCercleTypeConge('test')
+              }else if(val =='District'){
+                  filterDistrict()
+                  filterDistrictTypeConge('test')
+              }
+          });
+function filterdivision(){
+        $.ajax({
+            type: 'get',
+            url: `tboardajaxfilterdivision/`,
+            success: function(response){
+                const persoData =JSON.parse(response.data)
+                let tbody=document.getElementById('tablebody')
+                tbody.innerHTML=''
+                let divisionName=[]
+                let divisionValue=[]
+                for(let i=0;i<persoData.length;i++){
+                    divisionName.push(persoData[i].idservice_field__iddivision_field__libelledivisionfr)
+                    divisionValue.push(persoData[i].dcount)
+                    let tr =`<tr class="divisiondetail">
+            <td><i class="fas fa-square-full text-primary float-right"></i>${persoData[i].idservice_field__iddivision_field__libelledivisionfr}</td>
+            <td>${persoData[i].idservice_field__iddivision_field__libelledivisionar}</td>
+            <td>${persoData[i].dcount}</td>
+</tr>`
+                    tbody.innerHTML+=tr
+                }
+                document.getElementById('chartCongeCount').innerHTML=''
+                document.getElementById('chartCongeCount').innerHTML=`<canvas id="chartjs-dashboard-pie"></canvas>`
+                new Chart(document.getElementById("chartjs-dashboard-pie"), {
+                    type: "pie",
+                    data: {
+                        labels: divisionName,
+                        datasets: [{
+                            data: divisionValue,
+                            backgroundColor: [
+                                window.theme.primary,
+                                window.theme.warning,
+                                window.theme.danger,
+                                "#B51390  ",
+                                "#FF9774",
+                                "#33FF3C",
+                                "#FF0000",
+                            ],
+                            borderColor: "transparent"
+                        }]
+                    },
+                    options: {
+                        responsive: !window.MSInputMethodContext,
+                        maintainAspectRatio: false,
+                        legend: {
+                            display: false
+                        }
+                    }
+                });
+                $('.divisiondetail').on('click', function(){
+                    console.log("dlddl")
+                    let val=$(this).find("td:eq(0)").text()
+                    filterdivisionService(val)
+                    filterdivisionTypeConge(val)
+                });
+            },
+            error: function(error){
+                console.log(error)
+            }
+        })
+    }
+function filterdivisionService(val){
+    $.ajax({
+        type: 'get',
+        url: `tboardajaxfilterdivisionservice/${val}/`,
+        success: function(response){
+            const persoData =JSON.parse(response.data)
+            let tbody=document.getElementById('tablebody')
+            tbody.innerHTML=''
+            let serviceName=[]
+            let serviceValue=[]
+            for(let i=0;i<persoData.length;i++){
+                serviceName.push(persoData[i].idservice_field__libelleservicefr)
+                serviceValue.push(persoData[i].dcount)
+                let tr =`<tr class="divisiondetail">
+            <td><i class="fas fa-square-full text-primary float-right"></i>${persoData[i].idservice_field__libelleservicefr}</td>
+            <td>${persoData[i].idservice_field__libelleservicear}</td>
+            <td>${persoData[i].dcount}</td>
+</tr>`
+                tbody.innerHTML+=tr
+            }
+            document.getElementById('chartCongeCount').innerHTML=''
+            document.getElementById('chartCongeCount').innerHTML=`<canvas id="chartjs-dashboard-pie"></canvas>`
+            new Chart(document.getElementById("chartjs-dashboard-pie"), {
+				type: "pie",
+				data: {
+					labels: serviceName,
+					datasets: [{
+						data: serviceValue,
+						backgroundColor: [
+							window.theme.primary,
+							window.theme.warning,
+							window.theme.danger,
+							"#B51390  ",
+                            "#FF9774",
+                            "#33FF3C",
+                            "#FF0000",
+						],
+						borderColor: "transparent"
+					}]
+				},
+				options: {
+					responsive: !window.MSInputMethodContext,
+					maintainAspectRatio: false,
+					legend: {
+						display: false
+					}
+				}
+			});
+
+            },
+        error: function(error){
+            console.log(error)
+        }
+    })}
+function filterPashlik(){
+    $.ajax({
+        type: 'get',
+        url: `tboardajaxfilterpashalik/`,
+        success: function(response){
+            const persoData =JSON.parse(response.data)
+            let tbody=document.getElementById('tablebody')
+            tbody.innerHTML=''
+            let pashalikName=[]
+            let pashalikValue=[]
+            for(let i=0;i<persoData.length;i++){
+                pashalikName.push(persoData[i].idpashalik_field__libellepashalikar)
+                pashalikValue.push(persoData[i].dcount)
+                let tr =`<tr class="pashalikdetail">
+            <td><i class="fas fa-square-full text-primary float-right"></i>${persoData[i].idpashalik_field__libellepashalikar}</td>
+            <td>${persoData[i].idpashalik_field__libellepashalikfr}</td>
+            <td>${persoData[i].dcount}</td>
+</tr>`
+                tbody.innerHTML+=tr
+            }
+            document.getElementById('chartCongeCount').innerHTML=''
+            document.getElementById('chartCongeCount').innerHTML=`<canvas id="chartjs-dashboard-pie"></canvas>`
+            new Chart(document.getElementById("chartjs-dashboard-pie"), {
+				type: "pie",
+				data: {
+					labels: pashalikName,
+					datasets: [{
+						data: pashalikValue,
+						backgroundColor: [
+							window.theme.primary,
+							window.theme.warning,
+							window.theme.danger,
+							"#B51390  ",
+                            "#FF9774",
+                            "#33FF3C",
+                            "#FF0000",
+						],
+						borderColor: "transparent"
+					}]
+				},
+				options: {
+					responsive: !window.MSInputMethodContext,
+					maintainAspectRatio: false,
+					legend: {
+						display: false
+					}
+				}
+			});
+
+            },
+        error: function(error){
+            console.log(error)
+        }
+    })}
+function filterCercle(){
+    $.ajax({
+        type: 'get',
+        url: `tboardajaxfiltercercle/`,
+        success: function(response){
+            const persoData =JSON.parse(response.data)
+            let tbody=document.getElementById('tablebody')
+            tbody.innerHTML=''
+            let cercleName=[]
+            let cercleValue=[]
+            for(let i=0;i<persoData.length;i++){
+                cercleName.push(persoData[i].idcaidat_field__idcercle_field__libellecerclefr)
+                cercleValue.push(persoData[i].dcount)
+                let tr =`<tr class="cercledetail">
+            <td><i class="fas fa-square-full text-primary float-right"></i>${persoData[i].idcaidat_field__idcercle_field__libellecerclefr}</td>
+            <td>${persoData[i].idcaidat_field__idcercle_field__libellecerclear}</td>
+            <td>${persoData[i].dcount}</td>
+</tr>`
+                tbody.innerHTML+=tr
+            }
+            document.getElementById('chartCongeCount').innerHTML=''
+            document.getElementById('chartCongeCount').innerHTML=`<canvas id="chartjs-dashboard-pie"></canvas>`
+            new Chart(document.getElementById("chartjs-dashboard-pie"), {
+				type: "pie",
+				data: {
+					labels: cercleName,
+					datasets: [{
+						data: cercleValue,
+						backgroundColor: [
+							window.theme.primary,
+							window.theme.warning,
+							window.theme.danger,
+							"#B51390  ",
+                            "#FF9774",
+                            "#33FF3C",
+                            "#FF0000",
+						],
+						borderColor: "transparent"
+					}]
+				},
+				options: {
+					responsive: !window.MSInputMethodContext,
+					maintainAspectRatio: false,
+					legend: {
+						display: false
+					}
+				}
+			});
+         $('.cercledetail').on('click', function(){
+              let val=$(this).find("td:eq(0)").text()
+              filterCaidat(val)
+          });
+            },
+        error: function(error){
+            console.log(error)
+        }
+    })
+}
+function filterCaidat(val){
+    $.ajax({
+        type: 'get',
+        url: `tboardajaxfiltercaidat/${val}/`,
+        success: function(response){
+            const persoData =JSON.parse(response.data)
+            let tbody=document.getElementById('tablebody')
+            tbody.innerHTML=''
+            let caidatName=[]
+            let caidatValue=[]
+            for(let i=0;i<persoData.length;i++){
+                caidatName.push(persoData[i].idcaidat_field__libellecaidatfr)
+                caidatValue.push(persoData[i].dcount)
+                let tr =`<tr class="caidat">
+            <td><i class="fas fa-square-full text-primary float-right"></i>${persoData[i].idcaidat_field__libellecaidatfr}</td>
+            <td>${persoData[i].idcaidat_field__libellecaidatar}</td>
+            <td>${persoData[i].dcount}</td>
+</tr>`
+                tbody.innerHTML+=tr
+            }
+            document.getElementById('chartCongeCount').innerHTML=''
+            document.getElementById('chartCongeCount').innerHTML=`<canvas id="chartjs-dashboard-pie"></canvas>`
+            new Chart(document.getElementById("chartjs-dashboard-pie"), {
+				type: "pie",
+				data: {
+					labels: caidatName,
+					datasets: [{
+						data: caidatValue,
+						backgroundColor: [
+							window.theme.primary,
+							window.theme.warning,
+							window.theme.danger,
+							"#B51390  ",
+                            "#FF9774",
+                            "#33FF3C",
+                            "#FF0000",
+						],
+						borderColor: "transparent"
+					}]
+				},
+				options: {
+					responsive: !window.MSInputMethodContext,
+					maintainAspectRatio: false,
+					legend: {
+						display: false
+					}
+				}
+			});
+
+            },
+        error: function(error){
+            console.log(error)
+        }
+    })}
+function filterDistrict(){
+    $.ajax({
+        type: 'get',
+        url: `tboardajaxfilterdistrict/`,
+        success: function(response){
+            const persoData =JSON.parse(response.data)
+            let tbody=document.getElementById('tablebody')
+            tbody.innerHTML=''
+            let districtName=[]
+            let districtValue=[]
+            for(let i=0;i<persoData.length;i++){
+                districtName.push(persoData[i].idannexe_field__iddistrict_field__libelledistrictar)
+                districtValue.push(persoData[i].dcount)
+                let tr =`<tr class="districtdetail">
+            <td><i class="fas fa-square-full text-primary float-right"></i>${persoData[i].idannexe_field__iddistrict_field__libelledistrictfr}</td>
+            <td>${persoData[i].idannexe_field__iddistrict_field__libelledistrictar}</td>
+            <td>${persoData[i].dcount}</td>
+</tr>`
+                tbody.innerHTML+=tr
+            }
+            document.getElementById('chartCongeCount').innerHTML=''
+            document.getElementById('chartCongeCount').innerHTML=`<canvas id="chartjs-dashboard-pie"></canvas>`
+            new Chart(document.getElementById("chartjs-dashboard-pie"), {
+				type: "pie",
+				data: {
+					labels: districtName,
+					datasets: [{
+						data: districtValue,
+						backgroundColor: [
+							window.theme.primary,
+							window.theme.warning,
+							window.theme.danger,
+							"#B51390  ",
+                            "#FF9774",
+                            "#33FF3C",
+                            "#FF0000",
+						],
+						borderColor: "transparent"
+					}]
+				},
+				options: {
+					responsive: !window.MSInputMethodContext,
+					maintainAspectRatio: false,
+					legend: {
+						display: false
+					}
+				}
+			});
+         $('.districtdetail').on('click', function(){
+              let val=$(this).find("td:eq(0)").text()
+              filterAnnexe(val)
+          });
+            },
+        error: function(error){
+            console.log(error)
+        }
+    })
+}
+function filterAnnexe(val){
+    $.ajax({
+        type: 'get',
+        url: `tboardajaxfilterannexe/${val}/`,
+        success: function(response){
+            const persoData =JSON.parse(response.data)
+            let tbody=document.getElementById('tablebody')
+            tbody.innerHTML=''
+            let annexeName=[]
+            let annexeValue=[]
+            for(let i=0;i<persoData.length;i++){
+                annexeName.push(persoData[i].idannexe_field__libelleannexefr)
+                annexeValue.push(persoData[i].dcount)
+                let tr =`<tr class="annexe">
+            <td><i class="fas fa-square-full text-primary float-right"></i>${persoData[i].idannexe_field__libelleannexefr}</td>
+            <td>${persoData[i].idannexe_field__libelleannexear}</td>
+            <td>${persoData[i].dcount}</td>
+</tr>`
+                tbody.innerHTML+=tr
+            }
+            document.getElementById('chartCongeCount').innerHTML=''
+            document.getElementById('chartCongeCount').innerHTML=`<canvas id="chartjs-dashboard-pie"></canvas>`
+            new Chart(document.getElementById("chartjs-dashboard-pie"), {
+				type: "pie",
+				data: {
+					labels: annexeName,
+					datasets: [{
+						data: annexeValue,
+						backgroundColor: [
+							window.theme.primary,
+							window.theme.warning,
+							window.theme.danger,
+							"#B51390  ",
+                            "#FF9774",
+                            "#33FF3C",
+                            "#FF0000",
+						],
+						borderColor: "transparent"
+					}]
+				},
+				options: {
+					responsive: !window.MSInputMethodContext,
+					maintainAspectRatio: false,
+					legend: {
+						display: false
+					}
+				}
+			});
+
+            },
+        error: function(error){
+            console.log(error)
+        }
+    })}
+function filterPashlikTypeConge(val){
+    $.ajax({
+        type: 'get',
+        url: `tboardajaxfilterpashaliktypeconge/${val}/`,
+        success: function(response){
+            const persoData =JSON.parse(response.data)
+            document.getElementById('congeAdmiCount').innerHTML=persoData.congeAdmiCount
+            document.getElementById('congeExpCount').innerHTML=persoData.congeExpCount
+            document.getElementById('congeHajCount').innerHTML=persoData.congeHajCount
+            document.getElementById('congeMotCount').innerHTML=persoData.congeMotCount
+            document.getElementById('congeFatCount').innerHTML=persoData.congeFatCount
+            document.getElementById('congeFatCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeFatCountPer}%;" aria-valuenow="${persoData.congeFatCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeFatCountPer}%</div>`
+            document.getElementById('congeMotCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeMotCountPer}%;" aria-valuenow="${persoData.congeMotCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeMotCountPer}%</div>`
+            document.getElementById('congeHajCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeHajCountPer}%;" aria-valuenow="${persoData.congeHajCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeHajCountPer}%</div>`
+            document.getElementById('congeExpCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeExpCountPer}%;" aria-valuenow="${persoData.congeExpCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeExpCountPer}%</div>`
+            document.getElementById('congeAdmiCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeAdmiCountPer}%;" aria-valuenow="${persoData.congeAdmiCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeAdmiCountPer}%</div>`
+            },
+        error: function(error){
+            console.log(error)
+        }
+    })}
+function filterDivisionTypeConge(val){
+    $.ajax({
+        type: 'get',
+        url: `tboardajaxfiltersecretariattypeconge/${val}/`,
+        success: function(response){
+            const persoData =JSON.parse(response.data)
+            document.getElementById('congeAdmiCount').innerHTML=persoData.congeAdmiCount
+            document.getElementById('congeExpCount').innerHTML=persoData.congeExpCount
+            document.getElementById('congeHajCount').innerHTML=persoData.congeHajCount
+            document.getElementById('congeMotCount').innerHTML=persoData.congeMotCount
+            document.getElementById('congeFatCount').innerHTML=persoData.congeFatCount
+            document.getElementById('congeFatCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeFatCountPer}%;" aria-valuenow="${persoData.congeFatCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeFatCountPer}%</div>`
+            document.getElementById('congeMotCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeMotCountPer}%;" aria-valuenow="${persoData.congeMotCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeMotCountPer}%</div>`
+            document.getElementById('congeHajCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeHajCountPer}%;" aria-valuenow="${persoData.congeHajCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeHajCountPer}%</div>`
+            document.getElementById('congeExpCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeExpCountPer}%;" aria-valuenow="${persoData.congeExpCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeExpCountPer}%</div>`
+            document.getElementById('congeAdmiCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeAdmiCountPer}%;" aria-valuenow="${persoData.congeAdmiCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeAdmiCountPer}%</div>`
+            },
+        error: function(error){
+            console.log(error)
+        }
+    })}
+function filterDistrictTypeConge(val){
+    $.ajax({
+        type: 'get',
+        url: `tboardajaxfilterdistricttypeconge/${val}/`,
+        success: function(response){
+            const persoData =JSON.parse(response.data)
+            document.getElementById('congeAdmiCount').innerHTML=persoData.congeAdmiCount
+            document.getElementById('congeExpCount').innerHTML=persoData.congeExpCount
+            document.getElementById('congeHajCount').innerHTML=persoData.congeHajCount
+            document.getElementById('congeMotCount').innerHTML=persoData.congeMotCount
+            document.getElementById('congeFatCount').innerHTML=persoData.congeFatCount
+            document.getElementById('congeFatCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeFatCountPer}%;" aria-valuenow="${persoData.congeFatCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeFatCountPer}%</div>`
+            document.getElementById('congeMotCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeMotCountPer}%;" aria-valuenow="${persoData.congeMotCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeMotCountPer}%</div>`
+            document.getElementById('congeHajCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeHajCountPer}%;" aria-valuenow="${persoData.congeHajCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeHajCountPer}%</div>`
+            document.getElementById('congeExpCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeExpCountPer}%;" aria-valuenow="${persoData.congeExpCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeExpCountPer}%</div>`
+            document.getElementById('congeAdmiCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeAdmiCountPer}%;" aria-valuenow="${persoData.congeAdmiCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeAdmiCountPer}%</div>`
+            },
+        error: function(error){
+            console.log(error)
+        }
+    })}
+function filterCercleTypeConge(val){
+    $.ajax({
+        type: 'get',
+        url: `tboardajaxfiltercercletypeconge/${val}/`,
+        success: function(response){
+            const persoData =JSON.parse(response.data)
+            document.getElementById('congeAdmiCount').innerHTML=persoData.congeAdmiCount
+            document.getElementById('congeExpCount').innerHTML=persoData.congeExpCount
+            document.getElementById('congeHajCount').innerHTML=persoData.congeHajCount
+            document.getElementById('congeMotCount').innerHTML=persoData.congeMotCount
+            document.getElementById('congeFatCount').innerHTML=persoData.congeFatCount
+            document.getElementById('congeFatCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeFatCountPer}%;" aria-valuenow="${persoData.congeFatCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeFatCountPer}%</div>`
+            document.getElementById('congeMotCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeMotCountPer}%;" aria-valuenow="${persoData.congeMotCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeMotCountPer}%</div>`
+            document.getElementById('congeHajCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeHajCountPer}%;" aria-valuenow="${persoData.congeHajCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeHajCountPer}%</div>`
+            document.getElementById('congeExpCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeExpCountPer}%;" aria-valuenow="${persoData.congeExpCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeExpCountPer}%</div>`
+            document.getElementById('congeAdmiCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeAdmiCountPer}%;" aria-valuenow="${persoData.congeAdmiCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeAdmiCountPer}%</div>`
+            },
+        error: function(error){
+            console.log(error)
+        }
+    })}
+function filterdivisionTypeConge(val){
+    $.ajax({
+        type: 'get',
+        url: `tboardajaxfilterdivisiontypeconge/${val}/`,
+        success: function(response){
+            const persoData =JSON.parse(response.data)
+            document.getElementById('congeAdmiCount').innerHTML=persoData.congeAdmiCount
+            document.getElementById('congeExpCount').innerHTML=persoData.congeExpCount
+            document.getElementById('congeHajCount').innerHTML=persoData.congeHajCount
+            document.getElementById('congeMotCount').innerHTML=persoData.congeMotCount
+            document.getElementById('congeFatCount').innerHTML=persoData.congeFatCount
+            document.getElementById('congeFatCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeFatCountPer}%;" aria-valuenow="${persoData.congeFatCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeFatCountPer}%</div>`
+            document.getElementById('congeMotCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeMotCountPer}%;" aria-valuenow="${persoData.congeMotCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeMotCountPer}%</div>`
+            document.getElementById('congeHajCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeHajCountPer}%;" aria-valuenow="${persoData.congeHajCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeHajCountPer}%</div>`
+            document.getElementById('congeExpCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeExpCountPer}%;" aria-valuenow="${persoData.congeExpCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeExpCountPer}%</div>`
+            document.getElementById('congeAdmiCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeAdmiCountPer}%;" aria-valuenow="${persoData.congeAdmiCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeAdmiCountPer}%</div>`
+
+            },
+        error: function(error){
+            console.log(error)
+        }
+    })}
+
+
+   </script>
     <script type="text/javascript" src="{% static 'js/Global/validation.js' %}"></script>
 {% endblock content %}
