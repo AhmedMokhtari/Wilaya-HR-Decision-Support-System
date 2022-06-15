@@ -239,7 +239,7 @@
         let patt="";
         patt=`{% for prc in personnels %}{{ prc.cin }}|{% endfor %}`
         document.getElementById('personneldata').setAttribute("pattern",patt)
-        $('.addyear').on('click', function(){
+         $('.addyear').on('click', function(){
               document.getElementById('annee').innerHTML = `<option selected>${$(this).parents('tr').find("td:eq(2)").text()}</option>`;
               document.getElementById('personneldata').value = $(this).parents('tr').find("td:eq(0)").text();
           });

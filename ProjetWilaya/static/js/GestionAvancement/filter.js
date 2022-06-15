@@ -3,7 +3,6 @@
             let val= e.target.getAttribute('name') +'&'+e.target.value  
             ajaxPerso(val)
             ajaxYearsEmpty(val)
-
       })
 
       function ajaxPerso(selected){ 
@@ -40,10 +39,14 @@
                         item.cin,
                         item.name ,
                         item.year,
-                        item.year,
+                       `<span class="btn btn-primary addyear"><i class="fa fa-plus" aria-hidden="true"></i></span>`,
                        `<a href="http://127.0.0.1:8000/personnel/personnelinfo/${idpersonnel}" class="btn btn-success m-1"><i class="fa-solid fa-arrow-up-right-from-square fa-lg " ></i></a>`
                     ]).draw();
                 })
+                $('.addyear').on('click', function(){
+                    document.getElementById('annee').innerHTML = `<option selected>${$(this).parents('tr').find("td:eq(2)").text()}</option>`;
+                    document.getElementById('personneldata').value = $(this).parents('tr').find("td:eq(0)").text();
+                });
             },
             error: function(error){
                 console.log(error)

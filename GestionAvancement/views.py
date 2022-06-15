@@ -87,7 +87,6 @@ def ajouternotation(request):
     cercles = Cercle.objects.all()
     persoId = Personnel.objects.all().values_list('idpersonnel', flat=True)
     listPerso = yearempty(persoId)
-
     return render(request, 'GestionAvancement/ajouternotation.html', {'personnels': personnels, 'divsions': divisions,
                                                             'persoempty': listPerso,
                                                             'entites': entites, 'pashaliks': pashaliks,
@@ -185,7 +184,9 @@ def ajaxannee(req,*args, **kwargs):
     personnel=Personnel.objects.get(cin=cinPerso)
     notationAnnee=Notation.objects.filter(idpersonnel_field=personnel).values_list('annee', flat=True)
     dateDemaration=Personnel.objects.get(cin=cinPerso)
-    dateDemarationYear = datetime.strptime(str(dateDemaration.datedemarcation), '%Y-%m-%d %H:%M:%S%z')
+    #dateDemarationYear = datetime.strptime(str(dateDemaration.datedemarcation), '%Y-%m-%d %H:%M:%S%z')
+    yearnoww= datetime.now().year
+    dateDemarationYear = datetime(yearnoww-10,1, 1)
     yearNow = datetime.now().year
     listyearempty=[]
     listyear=[]
@@ -194,8 +195,6 @@ def ajaxannee(req,*args, **kwargs):
     for a in listyear:
         if a not in list(notationAnnee):
             listyearempty.append(a)
-    print(personnel)
-    print(listyear)
     data = json.dumps(listyearempty)
     return JsonResponse({'data': data})
 

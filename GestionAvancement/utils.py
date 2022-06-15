@@ -6,7 +6,9 @@ def yearempty(listpersoid):
     for id in listpersoid:
         notationAnnee = Notation.objects.filter(idpersonnel_field=id).values_list('annee', flat=True)
         perso = Personnel.objects.get(idpersonnel=id)
-        dateDemarationYear = datetime.strptime(str(perso.datedemarcation), '%Y-%m-%d %H:%M:%S%z')
+        #dateDemarationYear = datetime.strptime(str(perso.datedemarcation), '%Y-%m-%d %H:%M:%S%z')
+        yearnoww = datetime.now().year
+        dateDemarationYear = datetime(yearnoww - 10, 1, 1)
         yearNow = datetime.now().year
         listyearempty = []
         listyear = []
