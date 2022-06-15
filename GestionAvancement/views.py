@@ -7,11 +7,11 @@ from django.db import connection
 import arabic_reshaper
 from bidi.algorithm import get_display
 from pathlib import Path
+from django.db.models import Q
 from operator import itemgetter
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from GestionPersonnel.models import *
-from GestionAvancement.models import *
 from .utils import *
 from .models import Notation
 from django.views.decorators.csrf import csrf_exempt

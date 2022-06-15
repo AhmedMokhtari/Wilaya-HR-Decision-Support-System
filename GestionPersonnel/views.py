@@ -71,9 +71,15 @@ def consultation(request):
 #personnel information images -------------------------------.
 @login_required(login_url='/')
 def persoinfoimg(request) :
-    division = Division.objects.all()
-    grade = Grade.objects.all()
-    personnels = { 'divs': division, 'grades': grade}
+    grades = Grade.objects.all()
+    statutgrades = Statutgrade.objects.all()
+    entites = Entite.objects.all()
+    pashaliks = Pashalik.objects.all()
+    districts = District.objects.all()
+    divisions = Division.objects.all()
+    cercles = Cercle.objects.all()
+    personnels = {'divsions': divisions,'grades': grades,'entites': entites, 'pashaliks': pashaliks, 'districts':districts,'statutgrades': statutgrades, 'cercles': cercles}
+
     return render(request, 'GestionPersonnel/persoinfoimg.html',personnels)
 
 # filter -------------------------------.
