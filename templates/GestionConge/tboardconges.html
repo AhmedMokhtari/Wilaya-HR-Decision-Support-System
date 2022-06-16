@@ -141,16 +141,23 @@
                            <h5 class="card-title mb-0">عدد الإجازات</h5>
                         </div>
                          <div class="card-actions float-left p-3">
+                             <!--
                             <div class="btn-group">
                               <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                               السنة
                               </button>
-                              <div class="dropdown-menu">
-                                <a class="dropdown-item" href="#">2020</a>
-                                <a class="dropdown-item" href="#">2021</a>
-                                <a class="dropdown-item" href="#">2022</a>
+                              <div class="dropdown-menu" id="dropdownyear">
+                                <a class="dropdown-item"  class="yearconge">2020</a>
+                                <a class="dropdown-item"  class="yearconge">2021</a>
+                                <a class="dropdown-item"  class="yearconge">2022</a>
                               </div>
-                            </div>
+                            </div>-->
+                            <select class="form-select" aria-label="Default select example" id="selectyear">
+                                <option value="" style="display: none">السنة</option>
+                                <option >2020</option>
+                                <option >2021</option>
+                                <option >2022</option>
+                              </select>
                         </div>
                     </div>
                     <div class="card-body d-flex">
@@ -260,7 +267,7 @@
                         </tbody>
                     </table>
                 </div>
-            </div>n
+            </div>
         </div>
     </form>
     <script>
@@ -422,6 +429,7 @@
 	</script>
    <script>
     $('#tablehead').on('click',function (){
+        document.getElementById('selectyear').value=''
         let tbody=document.getElementById('tablebody')
         tbody.innerHTML=''
         tbodyy=`<tr class="trcount">
@@ -520,41 +528,55 @@
                         </tr>`
         $('.trcount').on('click', function(){
               let val=$(this).find("td:eq(0)").text()
+              let year=document.getElementById('selectyear').value
+              let url=year
+              if(url==''){
+                  url='none'
+              }
               if(val=='Pashalik'){
-                  filterPashlik()
-                  filterPashlikTypeConge('test')
+                  filterPashlik(url)
+                  filterPashlikTypeConge(url)
               }else if(val =='Secretariat Genéral'){
-                  filterdivision()
-                  filterDivisionTypeConge('test')
+                  filterdivision(url)   
+                  filterDivisionTypeConge(url)
               }else if(val =='Cercle'){
-                  filterCercle()
-                  filterCercleTypeConge('test')
+                  filterCercle(url)
+                  filterCercleTypeConge(url)
               }else if(val =='District'){
-                  filterDistrict()
-                  filterDistrictTypeConge('test')
+                  filterDistrict(url)
+                  filterDistrictTypeConge(url)
               }
           });
     })
     $('.trcount').on('click', function(){
               let val=$(this).find("td:eq(0)").text()
+              let year=document.getElementById('selectyear').value
+              let url=year
+              if(url==''){
+                  url='none'
+              }
               if(val=='Pashalik'){
-                  filterPashlik()
-                  filterPashlikTypeConge('test')
+                  filterPashlik(url)
+                  filterPashlikTypeConge(url)
               }else if(val =='Secretariat Genéral'){
-                  filterdivision()
-                  filterDivisionTypeConge('test')
+                  filterdivision(url)
+                  filterDivisionTypeConge(url)
               }else if(val =='Cercle'){
-                  filterCercle()
-                  filterCercleTypeConge('test')
+                  filterCercle(url)
+                  filterCercleTypeConge(url)
               }else if(val =='District'){
-                  filterDistrict()
-                  filterDistrictTypeConge('test')
+                  filterDistrict(url)
+                  filterDistrictTypeConge(url)
               }
           });
-function filterdivision(){
-        $.ajax({
+$('#selectyear').change(function(){
+    let val=$(this).val()
+    yeardefault(val)
+})
+function filterdivision(val){
+            $.ajax({
             type: 'get',
-            url: `tboardajaxfilterdivision/`,
+            url: `tboardajaxfilterdivision/${val}`,
             success: function(response){
                 const persoData =JSON.parse(response.data)
                 let tbody=document.getElementById('tablebody')
@@ -600,8 +622,12 @@ function filterdivision(){
                     }
                 });
                 $('.divisiondetail').on('click', function(){
-                    console.log("dlddl")
-                    let val=$(this).find("td:eq(0)").text()
+                    let year=document.getElementById('selectyear').value
+                    let url=year
+                    if(url==''){
+                        url='none'
+                    }
+                    let val=$(this).find("td:eq(0)").text()+'-'+url
                     filterdivisionService(val)
                     filterdivisionTypeConge(val)
                 });
@@ -665,10 +691,10 @@ function filterdivisionService(val){
             console.log(error)
         }
     })}
-function filterPashlik(){
+function filterPashlik(val){
     $.ajax({
         type: 'get',
-        url: `tboardajaxfilterpashalik/`,
+        url: `tboardajaxfilterpashalik/${val}/`,
         success: function(response){
             const persoData =JSON.parse(response.data)
             let tbody=document.getElementById('tablebody')
@@ -719,10 +745,10 @@ function filterPashlik(){
             console.log(error)
         }
     })}
-function filterCercle(){
+function filterCercle(val){
     $.ajax({
         type: 'get',
-        url: `tboardajaxfiltercercle/`,
+        url: `tboardajaxfiltercercle/${val}`,
         success: function(response){
             const persoData =JSON.parse(response.data)
             let tbody=document.getElementById('tablebody')
@@ -768,9 +794,14 @@ function filterCercle(){
 				}
 			});
          $('.cercledetail').on('click', function(){
-              let val=$(this).find("td:eq(0)").text()
-              filterCaidat(val)
-              filtercaidatTypeConge(val)
+                let year=document.getElementById('selectyear').value
+                let url=year
+                if(url==''){
+                    url='none'
+                }
+                let val=$(this).find("td:eq(0)").text()+'-'+url
+                filterCaidat(val)
+                filtercaidatTypeConge(val)
           });
             },
         error: function(error){
@@ -832,10 +863,10 @@ function filterCaidat(val){
             console.log(error)
         }
     })}
-function filterDistrict(){
+function filterDistrict(val){
     $.ajax({
         type: 'get',
-        url: `tboardajaxfilterdistrict/`,
+        url: `tboardajaxfilterdistrict/${val}`,
         success: function(response){
             const persoData =JSON.parse(response.data)
             let tbody=document.getElementById('tablebody')
@@ -881,8 +912,12 @@ function filterDistrict(){
 				}
 			});
          $('.districtdetail').on('click', function(){
-              let val=$(this).find("td:eq(0)").text()
-              console.log(val)
+            let year=document.getElementById('selectyear').value
+                let url=year
+                if(url==''){
+                    url='none'
+                }
+                let val=$(this).find("td:eq(0)").text()+'-'+url
               filterAnnexe(val)
               filterannexeTypeConge(val)
           });
@@ -1009,7 +1044,7 @@ function filterDistrictTypeConge(val){
             console.log(error)
         }
     })}
-function filterCercleTypeConge(val){
+function    filterCercleTypeConge(val){
     $.ajax({
         type: 'get',
         url: `tboardajaxfiltercercletypeconge/${val}/`,
@@ -1096,7 +1131,101 @@ function filtercaidatTypeConge(val){
             console.log(error)
         }
     })}
-
+function yeardefault(val){
+    $.ajax({
+        type: 'get',
+        url: `tboardcongedefaultyear/${val}/`,
+        success: function(response){
+            const persoData =JSON.parse(response.data)
+            console.log(persoData.congeExpCountPer)
+            let tbody=document.getElementById('tablebody')
+            tbody.innerHTML=''
+            tbodyy=`<tr class="trcount">
+                                        <td><i class="fas fa-square-full text-primary float-right"></i>Pashalik</td>
+                                        <td >الباشوية</td>
+                                        <td class="text-success">${persoData.congePsCount}</td>
+                                    </tr>
+                                    <tr class="trcount">
+                                            <td><i class="fas fa-square-full text-primary float-right"></i>Secretariat Genéral</td>
+                                            <td >الأمانة العامة</td>
+                                            <td class="text-success">${persoData.congeScCount}</td>
+                                        </tr>
+                                    <tr class="trcount">
+                                            <td><i class="fas fa-square-full text-primary float-right"></i>Cercle</td>
+                                            <td >الدائرة</td>
+                                            <td class="text-success">${persoData.congeCrCount}</td>
+                                        </tr>
+                                    <tr class="trcount">
+                                            <td><i class="fas fa-square-full text-primary float-right"></i>District</td>
+                                            <td >المقاطعة</td>
+                                            <td class="text-success">${persoData.congeDsCount}</td>
+                                        </tr>`
+            tbody.innerHTML=tbodyy
+            document.getElementById('chartCongeCount').innerHTML=''
+            document.getElementById('chartCongeCount').innerHTML=`<canvas id="chartjs-dashboard-pie"></canvas>`
+            new Chart(document.getElementById("chartjs-dashboard-pie"), {
+                    type: "pie",
+                    data: {
+                        labels: ['Secretariat Genéral','District','Cercle','Pashalik'],
+                        datasets: [{
+                            data: [persoData.congeScCount,persoData.congeDsCount,persoData.congeCrCount,persoData.congePsCount],
+                            backgroundColor: [
+                                window.theme.primary,
+                                window.theme.warning,
+                                window.theme.danger,
+                                "#B51390  ",
+                                "#FF9774",
+                                "#33FF3C",
+                                "#FF0000",
+                            ],
+                            borderColor: "transparent"
+                        }]
+                    },
+                    options: {
+                        responsive: !window.MSInputMethodContext,
+                        maintainAspectRatio: false,
+                        legend: {
+                            display: false
+                        }
+                    }
+                });
+            document.getElementById('congeAdmiCount').innerHTML=persoData.congeAdmiCount
+            document.getElementById('congeExpCount').innerHTML=persoData.congeExpCount
+            document.getElementById('congeHajCount').innerHTML=persoData.congeHajCount
+            document.getElementById('congeMotCount').innerHTML=persoData.congeMotCount
+            document.getElementById('congeFatCount').innerHTML=persoData.congeFatCount
+            document.getElementById('congeFatCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeFatCountPer}%;" aria-valuenow="${persoData.congeFatCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeFatCountPer}%</div>`
+            document.getElementById('congeMotCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeMotCountPer}%;" aria-valuenow="${persoData.congeMotCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeMotCountPer}%</div>`
+            document.getElementById('congeHajCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeHajCountPer}%;" aria-valuenow="${persoData.congeHajCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeHajCountPer}%</div>`
+            document.getElementById('congeExpCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeExpCountPer}%;" aria-valuenow="${persoData.congeExpCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeExpCountPer}%</div>`
+            document.getElementById('congeAdmiCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeAdmiCountPer}%;" aria-valuenow="${persoData.congeAdmiCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeAdmiCountPer}%</div>`
+            $('.trcount').on('click', function(){
+              let val=$(this).find("td:eq(0)").text()
+              let year=document.getElementById('selectyear').value
+              let url=year
+              if(url==''){
+                  url='none'
+              }
+              if(val=='Pashalik'){
+                  filterPashlik(url)
+                  filterPashlikTypeConge(url)
+              }else if(val =='Secretariat Genéral'){
+                  filterdivision(url)
+                  filterDivisionTypeConge(url)
+              }else if(val =='Cercle'){
+                  filterCercle(url)
+                  filterCercleTypeConge(url)
+              }else if(val =='District'){
+                  filterDistrict(url)
+                  filterDistrictTypeConge(url)
+              }
+          });
+        },
+        error: function(error){
+            console.log(error)
+        }
+    })
+}
    </script>
     <script type="text/javascript" src="{% static 'js/Global/validation.js' %}"></script>
 {% endblock content %}
