@@ -397,7 +397,7 @@
 				data: {
 					labels: ['Secretariat Genéral','District','Cercle','Pashalik'],
 					datasets: [{
-						data: [{{Sc  }},{{ Ds }},{{ Cr }},{{ Ps }}],
+						data: [{{Sc }},{{ Ds }},{{ Cr }},{{ Ps }}],
 						backgroundColor: [
 							window.theme.primary,
 							window.theme.warning,
@@ -881,6 +881,7 @@ function filterDistrict(){
 			});
          $('.districtdetail').on('click', function(){
               let val=$(this).find("td:eq(0)").text()
+              console.log(val)
               filterAnnexe(val)
           });
             },

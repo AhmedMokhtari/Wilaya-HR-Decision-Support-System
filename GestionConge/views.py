@@ -2,6 +2,8 @@ from django.shortcuts import render,redirect
 from django.contrib.auth.decorators import login_required
 from .models import *
 from GestionPersonnel.models import *
+import collections
+from pydash import at
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import numpy as np
@@ -288,97 +290,182 @@ def tboardconge(request):
     congeExpCountPer=(congeExpCount/congeCount)*100
 
     context={'personnels': personnels, 'congepersonnel': congepersonnel, 'conges': conges,'divisions': divisions,"Sc":congeScCount,'Ps':congePsCount,'Cr':congeCrCount,'Ds':congeDsCount,
-            'congeAdmiCount':congeAdmiCount,'congeExpC ount':congeExpCount,'congeHajCount':congeHajCount,'congeMotCount':congeMotCount ,'congeFatCount':congeFatCount,
-             'congeAdmiCountPer':congeAdmiCountPer,'congeMotCountPer':congeMotCountPer,'congeFatCountPer':congeFatCountPer,'congeExpCountPer':congeExpCountPer,'congeHajCountPer':congeHajCountPer}
+            'congeAdmiCount':congeAdmiCount,'congeExpCount':congeExpCount,'congeHajCount':congeHajCount,'congeMotCount':congeMotCount ,'congeFatCount':congeFatCount,
+             'congeAdmiCountPer':'{:.2f}'.format(congeAdmiCountPer),'congeMotCountPer':'{:.2f}'.format(congeMotCountPer),'congeFatCountPer':'{:.2f}'.format(congeFatCountPer),'congeExpCountPer':'{:.2f}'.format(congeExpCountPer),'congeHajCountPer':'{:.2f}'.format(congeHajCountPer)}
     return render (request,'GestionConge/tboardconges.html', context)
 
 def tboardfilterdiv(req,*args, **kwargs):
-    congeids=Conge.objects.filter(idpersonnel_field__organisme='Service').values_list('idpersonnel_field',flat=True)
     '''groupByDivision = (Servicepersonnel.objects.filter(idpersonnel_field__in=congeids)
                        .values('idservice_field__iddivision_field__libelledivisionar',
                                'idservice_field__iddivision_field__libelledivisionfr')
                        .annotate(dcount=Count('idservice_field__iddivision_field'))
                        .order_by()
                        )'''
-    sql = "select d.LibelleDivisionAr as idservice_field__iddivision_field__libelledivisionar,d.LibelleDivisionFr as idservice_field__iddivision_field__libelledivisionfr, count(c.IdConge) as dcount from [dbo].[Division] d inner join [dbo].[Service] s on s.IdDivision# = d.IdDivision inner join [dbo].[ServicePersonnel] sp on s.IdService = sp.IdService# inner join [dbo].[Personnel] p on sp.IdPersonnel# = p.IdPersonnel  inner join [dbo].[Conge] c on p.IdPersonnel = c.IdPersonnel# where p.organisme='Service' group by d.LibelleDivisionAr,d.LibelleDivisionFr,d.IdDivision"
+    congeids=Conge.objects.filter(idpersonnel_field__organisme='Service').values_list('idpersonnel_field',flat=True)
+    listPerso=[]
+    for id in congeids:
+        objj=Servicepersonnel.objects.filter(idpersonnel_field=id).values('idpersonnel_field','idservice_field__iddivision_field__libelledivisionar',
+                                                                          'idservice_field__iddivision_field__libelledivisionfr').first()
+        listPerso.append(objj)
+    count = collections.Counter([d['idservice_field__iddivision_field__libelledivisionfr'] for d in listPerso])
+    groupByDivision=[]
+    for key, value in dict(count).items():
+        divar=Division.objects.get(libelledivisionfr=key)
+        val={'idservice_field__iddivision_field__libelledivisionfr':key,'idservice_field__iddivision_field__libelledivisionar':divar.libelledivisionar,'dcount':value}
+        groupByDivision.append(val)
+    '''sql = "select d.LibelleDivisionAr as idservice_field__iddivision_field__libelledivisionar,d.LibelleDivisionFr as idservice_field__iddivision_field__libelledivisionfr, count(c.IdConge) as dcount from [dbo].[Division] d inner join [dbo].[Service] s on s.IdDivision# = d.IdDivision inner join [dbo].[ServicePersonnel] sp on s.IdService = sp.IdService# inner join [dbo].[Personnel] p on sp.IdPersonnel# = p.IdPersonnel  inner join [dbo].[Conge] c on p.IdPersonnel = c.IdPersonnel# where p.organisme='Service' group by d.LibelleDivisionAr,d.LibelleDivisionFr,d.IdDivision"
     cursor = connection.cursor()
     cursor.execute(sql)
     #groupByDivision = cursor.fetchall()
     groupByDivision = dictfetchall(cursor)
-    print(groupByDivision)
-    data = json.dumps(list(groupByDivision))
+    print(groupByDivision)'''
+    data = json.dumps(groupByDivision)
     return JsonResponse({'data': data})
 def tboardfilterdivse(req,*args, **kwargs):
     obj=kwargs.get('obj')
     congeids=Conge.objects.filter(idpersonnel_field__organisme='Service').values_list('idpersonnel_field',flat=True)
     Qdiv = Q(idservice_field__iddivision_field__libelledivisionfr=obj)
-    Qperso=Q(idpersonnel_field__in=congeids)### here 159 159
-    groupByService = (Servicepersonnel.objects.filter(Qperso & Qdiv)
+    '''groupByService = (Servicepersonnel.objects.filter(Qperso & Qdiv)
                       .values('idservice_field__libelleservicear', 'idservice_field__libelleservicefr')
                       .annotate(dcount=Count('idservice_field'))
                       .order_by()
-                      )
+                      )'''
+    idsdiv=Servicepersonnel.objects.filter(Qdiv).values_list('idpersonnel_field',flat=True)
+    listfinal=[]
+    for a in congeids:
+        if a in idsdiv:
+            listfinal.append(a)
+    listPerso = []
+    for id in listfinal:
+        Qid=Q(idpersonnel_field=id)
+        objj = Servicepersonnel.objects.filter(Qid & Qdiv ).values('idpersonnel_field',
+                                                                   'idservice_field__libelleservicear',
+                                                                   'idservice_field__libelleservicefr').first()
+        listPerso.append(objj)
+    count = collections.Counter([d['idservice_field__libelleservicefr'] for d in listPerso])
+    groupByService = []
+    for key, value in dict(count).items():
+        servar = Service.objects.get(libelleservicefr=key)
+        val = {'idservice_field__libelleservicefr': key,
+               'idservice_field__libelleservicear': servar.libelleservicear, 'dcount': value}
+        groupByService.append(val)
+
     '''sql = "select S.LibellServicenAr as idservice_field__libelleservicear,S.LibelleServiceFr as idservice_field__libelleservicefr, count(c.IdConge) as dcount from [dbo].[Division] d inner join [dbo].[Service] s on s.IdDivision# = d.IdDivision inner join [dbo].[ServicePersonnel] sp on s.IdService = sp.IdService# inner join [dbo].[Personnel] p on sp.IdPersonnel# = p.IdPersonnel  inner join [dbo].[Conge] c on p.IdPersonnel = c.IdPersonnel# where p.organisme='Service' and d.LibelleDivisionFr= {obj} group by d.LibelleDivisionAr,d.LibelleDivisionFr,d.IdDivision".format(obj = obj)
     cursor = connection.cursor()
     cursor.execute(sql)
     # groupByDivision = cursor.fetchall()
     groupByDivision = dictfetchall(cursor)
     data = json.dumps(list(groupByDivision))'''
-    data = json.dumps(list(groupByService))
+    data = json.dumps(groupByService)
     return JsonResponse({'data': data})
 def tboardfiltercercle(req,*args, **kwargs):
-    congeids=Conge.objects.filter(idpersonnel_field__organisme='Caida').values_list('idpersonnel_field',flat=True)
-    groupByDivision = (Caidatpersonnel.objects.filter(idpersonnel_field__in=congeids)
-                       .values('idcaidat_field__idcercle_field__libellecerclear',
-                               'idcaidat_field__idcercle_field__libellecerclefr')
-                       .annotate(dcount=Count('idcaidat_field__idcercle_field'))
-                       .order_by()
-                       )
-    data = json.dumps(list(groupByDivision))
+    congeids = Conge.objects.filter(idpersonnel_field__organisme='Caida').values_list('idpersonnel_field', flat=True)
+    listPerso = []
+    for id in congeids:
+        objj = Caidatpersonnel.objects.filter(idpersonnel_field=id).values('idpersonnel_field',
+                                                                           'idcaidat_field__idcercle_field__libellecerclear',
+                                                                           'idcaidat_field__idcercle_field__libellecerclefr').first()
+        listPerso.append(objj)
+    count = collections.Counter([d['idcaidat_field__idcercle_field__libellecerclefr'] for d in listPerso])
+    groupByDivision = []
+    for key, value in dict(count).items():
+        cercar = Cercle.objects.get(libellecerclefr=key)
+        val = {'idcaidat_field__idcercle_field__libellecerclefr': key,
+               'idcaidat_field__idcercle_field__libellecerclear': cercar.libellecerclear, 'dcount': value}
+        groupByDivision.append(val)
+    data = json.dumps(groupByDivision)
     return JsonResponse({'data': data})
 def tboardfiltercaidat(req,*args, **kwargs):
     obj=kwargs.get('obj')
-    congeids=Conge.objects.filter(idpersonnel_field__organisme='Caida').values_list('idpersonnel_field',flat=True)
+    congeids = Conge.objects.filter(idpersonnel_field__organisme='Caida').values_list('idpersonnel_field', flat=True)
     Qdiv = Q(idcaidat_field__idcercle_field__libellecerclefr=obj)
-    Qperso=Q(idpersonnel_field__in=congeids)
-    groupByCaidat = (Caidatpersonnel.objects.filter(Qperso & Qdiv)
-                      .values('idcaidat_field__libellecaidatar', 'idcaidat_field__libellecaidatfr')
-                      .annotate(dcount=Count('idcaidat_field'))
+    '''groupByService = (Servicepersonnel.objects.filter(Qperso & Qdiv)
+                      .values('idservice_field__libelleservicear', 'idservice_field__libelleservicefr')
+                      .annotate(dcount=Count('idservice_field'))
                       .order_by()
-                      )
-    data = json.dumps(list(groupByCaidat))
+                      )'''
+    idscaida = Caidatpersonnel.objects.filter(Qdiv).values_list('idpersonnel_field', flat=True)
+    listfinal = []
+    for a in congeids:
+        if a in idscaida:
+            listfinal.append(a)
+    listPerso = []
+    for id in listfinal:
+        Qid = Q(idpersonnel_field=id)
+        objj = Caidatpersonnel.objects.filter(Qid & Qdiv).values('idpersonnel_field',
+                                                                  'idcaidat_field__libellecaidatar',
+                                                                  'idcaidat_field__libellecaidatfr').first()
+        listPerso.append(objj)
+    count = collections.Counter([d['idcaidat_field__libellecaidatfr'] for d in listPerso])
+    groupByCaidat = []
+    for key, value in dict(count).items():
+        caidaar = Caidat.objects.get(libellecaidatfr=key)
+        val = {'idcaidat_field__libellecaidatfr': key,
+               'idcaidat_field__libellecaidatar': caidaar.libellecaidatar, 'dcount': value}
+        groupByCaidat.append(val)
+    data = json.dumps(groupByCaidat)
     return JsonResponse({'data': data})
 def tboardfilterpashalik(req,*args, **kwargs):
-    congeids=Conge.objects.filter(idpersonnel_field__organisme='pashalik').values_list('idpersonnel_field',flat=True)
-    groupByPashalik = (Pashalikpersonnel.objects.filter(idpersonnel_field__in=congeids)
-                       .values('idpashalik_field__libellepashalikar',
-                               'idpashalik_field__libellepashalikfr')
-                       .annotate(dcount=Count('idpashalik_field'))
-                       .order_by()
-                       )
-    data = json.dumps(list(groupByPashalik))
+    congeids = Conge.objects.filter(idpersonnel_field__organisme='pashalik').values_list('idpersonnel_field', flat=True)
+    listPerso = []
+    for id in congeids:
+        objj = Pashalikpersonnel.objects.filter(idpersonnel_field=id).values('idpersonnel_field',
+                                                                            'idpashalik_field__libellepashalikar',
+                                                                            'idpashalik_field__libellepashalikfr').first()
+        listPerso.append(objj)
+    count = collections.Counter([d['idpashalik_field__libellepashalikfr'] for d in listPerso])
+    groupByPashalik = []
+    for key, value in dict(count).items():
+        pashar = Pashalik.objects.get(libellepashalikfr=key)
+        val = {'idpashalik_field__libellepashalikfr': key,
+               'idpashalik_field__libellepashalikar': pashar.libellepashalikar, 'dcount': value}
+        groupByPashalik.append(val)
+    data = json.dumps(groupByPashalik)
     return JsonResponse({'data': data})
 def tboardfilterdistrict(req,*args, **kwargs):
-    congeids=Conge.objects.filter(idpersonnel_field__organisme='Annexe').values_list('idpersonnel_field',flat=True)
-    groupByDistrict = (Annexepersonnel.objects.filter(idpersonnel_field__in=congeids)
-                       .values('idannexe_field__iddistrict_field__libelledistrictar',
-                               'idannexe_field__iddistrict_field__libelledistrictfr')
-                       .annotate(dcount=Count('idannexe_field__iddistrict_field'))
-                       .order_by()
-                       )
-    data = json.dumps(list(groupByDistrict))
+    congeids = Conge.objects.filter(idpersonnel_field__organisme='Annexe').values_list('idpersonnel_field', flat=True)
+    listPerso = []
+    for id in congeids:
+        objj = Annexepersonnel.objects.filter(idpersonnel_field=id).values('idpersonnel_field',
+                                                                           'idannexe_field__iddistrict_field__libelledistrictar',
+                                                                           'idannexe_field__iddistrict_field__libelledistrictfr').first()
+        listPerso.append(objj)
+    count = collections.Counter([d['idannexe_field__iddistrict_field__libelledistrictfr'] for d in listPerso])
+    groubByDistrict = []
+    for key, value in dict(count).items():
+        discar = District.objects.get(libelledistrictfr=key)
+        val = {'idannexe_field__iddistrict_field__libelledistrictfr': key,
+               'idannexe_field__iddistrict_field__libelledistrictar': discar.libelledistrictar, 'dcount': value}
+        groubByDistrict.append(val)
+    data = json.dumps(groubByDistrict)
     return JsonResponse({'data': data})
 def tboardfilterannexe(req,*args, **kwargs):
     obj=kwargs.get('obj')
-    congeids=Conge.objects.filter(idpersonnel_field__organisme='Annexe').values_list('idpersonnel_field',flat=True)
-    Qdiv = Q(idannexe_field__iddistrict_field__libelledistrictfr=obj)
-    Qperso=Q(idpersonnel_field__in=congeids)
-    groupByAnnexe = (Annexepersonnel.objects.filter(Qperso & Qdiv)
-                      .values('idannexe_field__libelleannexear', 'idannexe_field__libelleannexefr')
-                      .annotate(dcount=Count('idannexe_field'))
-                      .order_by()
-                      )
-    data = json.dumps(list(groupByAnnexe))
+    print(obj)
+    congeids = Conge.objects.filter(idpersonnel_field__organisme='Annexe').values_list('idpersonnel_field', flat=True)
+    QAnnexe = Q(idannexe_field__iddistrict_field__libelledistrictfr=obj)
+    idsAnnexe = Annexepersonnel.objects.filter(QAnnexe).values_list('idpersonnel_field', flat=True)
+    listfinal = []
+    print(idsAnnexe)
+    for a in congeids:
+        if a in idsAnnexe:
+            listfinal.append(a)
+    listPerso = []
+    for id in listfinal:
+        Qid = Q(idpersonnel_field=id)
+        objj = Annexepersonnel.objects.filter(Qid & QAnnexe).values('idpersonnel_field',
+                                                                 'idannexe_field__libelleannexear',
+                                                                 'idannexe_field__libelleannexefr').first()
+        listPerso.append(objj)
+    count = collections.Counter([d['idannexe_field__libelleannexefr'] for d in listPerso])
+    groubByAnnexe = []
+    for key, value in dict(count).items():
+        annexeAr = Annexe.objects.get(libelleannexefr=key)
+        val = {'idannexe_field__libelleannexefr': key,
+               'idannexe_field__libelleannexear': annexeAr.libelleannexear, 'dcount': value}
+        groubByAnnexe.append(val)
+    data = json.dumps(groubByAnnexe)
+    print(data)
     return JsonResponse({'data': data})
 def tboardajaxfilterpashaliktypeconge(req,*args, **kwargs):
     obj=kwargs.get('obj')
