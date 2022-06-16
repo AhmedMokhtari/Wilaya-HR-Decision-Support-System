@@ -770,6 +770,7 @@ function filterCercle(){
          $('.cercledetail').on('click', function(){
               let val=$(this).find("td:eq(0)").text()
               filterCaidat(val)
+              filtercaidatTypeConge(val)
           });
             },
         error: function(error){
@@ -883,6 +884,7 @@ function filterDistrict(){
               let val=$(this).find("td:eq(0)").text()
               console.log(val)
               filterAnnexe(val)
+              filterannexeTypeConge(val)
           });
             },
         error: function(error){
@@ -1050,7 +1052,50 @@ function filterdivisionTypeConge(val){
             console.log(error)
         }
     })}
+function filterannexeTypeConge(val){
+    $.ajax({
+        type: 'get',
+        url: `tboardajaxfilterannexetypeconge/${val}/`,
+        success: function(response){
+            const persoData =JSON.parse(response.data)
+            document.getElementById('congeAdmiCount').innerHTML=persoData.congeAdmiCount
+            document.getElementById('congeExpCount').innerHTML=persoData.congeExpCount
+            document.getElementById('congeHajCount').innerHTML=persoData.congeHajCount
+            document.getElementById('congeMotCount').innerHTML=persoData.congeMotCount
+            document.getElementById('congeFatCount').innerHTML=persoData.congeFatCount
+            document.getElementById('congeFatCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeFatCountPer}%;" aria-valuenow="${persoData.congeFatCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeFatCountPer}%</div>`
+            document.getElementById('congeMotCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeMotCountPer}%;" aria-valuenow="${persoData.congeMotCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeMotCountPer}%</div>`
+            document.getElementById('congeHajCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeHajCountPer}%;" aria-valuenow="${persoData.congeHajCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeHajCountPer}%</div>`
+            document.getElementById('congeExpCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeExpCountPer}%;" aria-valuenow="${persoData.congeExpCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeExpCountPer}%</div>`
+            document.getElementById('congeAdmiCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeAdmiCountPer}%;" aria-valuenow="${persoData.congeAdmiCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeAdmiCountPer}%</div>`
 
+            },
+        error: function(error){
+            console.log(error)
+        }
+    })}
+function filtercaidatTypeConge(val){
+    $.ajax({
+        type: 'get',
+        url: `tboardajaxfiltercaidattypeconge/${val}/`,
+        success: function(response){
+            const persoData =JSON.parse(response.data)
+            document.getElementById('congeAdmiCount').innerHTML=persoData.congeAdmiCount
+            document.getElementById('congeExpCount').innerHTML=persoData.congeExpCount
+            document.getElementById('congeHajCount').innerHTML=persoData.congeHajCount
+            document.getElementById('congeMotCount').innerHTML=persoData.congeMotCount
+            document.getElementById('congeFatCount').innerHTML=persoData.congeFatCount
+            document.getElementById('congeFatCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeFatCountPer}%;" aria-valuenow="${persoData.congeFatCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeFatCountPer}%</div>`
+            document.getElementById('congeMotCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeMotCountPer}%;" aria-valuenow="${persoData.congeMotCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeMotCountPer}%</div>`
+            document.getElementById('congeHajCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeHajCountPer}%;" aria-valuenow="${persoData.congeHajCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeHajCountPer}%</div>`
+            document.getElementById('congeExpCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeExpCountPer}%;" aria-valuenow="${persoData.congeExpCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeExpCountPer}%</div>`
+            document.getElementById('congeAdmiCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeAdmiCountPer}%;" aria-valuenow="${persoData.congeAdmiCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeAdmiCountPer}%</div>`
+
+            },
+        error: function(error){
+            console.log(error)
+        }
+    })}
 
    </script>
     <script type="text/javascript" src="{% static 'js/Global/validation.js' %}"></script>

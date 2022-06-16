@@ -20,6 +20,8 @@ urlpatterns = [
     path('tboardajaxfiltercercletypeconge/<str:obj>/', views.tboardajaxfiltercercletypeconge, name='tboardajaxfiltercercletypeconge'),
     path('tboardajaxfilterdistricttypeconge/<str:obj>/', views.tboardajaxfilterdistricttypeconge, name='tboardajaxfilterdistricttypeconge'),
     path('tboardajaxfilterdivisiontypeconge/<str:obj>/', views.tboardajaxfilterdivisiontypeconge, name='tboardajaxfilterdivisiontypeconge'),
+    path('tboardajaxfiltercaidattypeconge/<str:obj>/', views.tboardajaxfiltercaidattypeconge, name='tboardajaxfiltercaidattypeconge'),
+    path('tboardajaxfilterannexetypeconge/<str:obj>/', views.tboardajaxfilterannexetypeconge, name='tboardajaxfilterannexetypeconge'),
     path('tboardajaxfilterpashalik/', views.tboardfilterpashalik, name='tboardajaxfilterpashalik'),
 ]
 

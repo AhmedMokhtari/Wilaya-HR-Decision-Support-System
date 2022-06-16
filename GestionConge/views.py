@@ -546,14 +546,15 @@ def tboardajaxfiltercercletypeconge(req,*args, **kwargs):
          'congeAdmiCountPer':congeAdmiCountPer,'congeMotCountPer':congeMotCountPer,'congeFatCountPer':congeFatCountPer,'congeHajCountPer':congeHajCountPer,'congeExpCountPer':congeExpCountPer}
     data = json.dumps(objdata)
     return JsonResponse({'data': data})
-def tboardajaxfilterservicetypeconge(req,*args, **kwargs):
+def tboardajaxfilterdivisiontypeconge(req,*args, **kwargs):
     obj=kwargs.get('obj')
-    congeCount = Conge.objects.filter(Q(idpersonnel_field__organisme='Service') & Q(idservice_field__iddivision_field__libelledivisionfr=obj)).count()
-    congeAdmiCount = Conge.objects.filter(Q(type_conge='رخصة إدراية') & Q(idpersonnel_field__organisme='Service') & Q(idservice_field__iddivision_field__libelledivisionfr=obj)).count()
-    congeExpCount = Conge.objects.filter(Q(type_conge='رخصة استثنائية') & Q(idpersonnel_field__organisme='Service') & Q(idservice_field__iddivision_field__libelledivisionfr=obj)).count()
-    congeHajCount = Conge.objects.filter(Q(type_conge='رخصة الحج') & Q(idpersonnel_field__organisme='Service') & Q(idservice_field__iddivision_field__libelledivisionfr=obj)).count()
-    congeMotCount = Conge.objects.filter(Q(type_conge='رخصة الأموة') & Q(idpersonnel_field__organisme='Service') & Q(idservice_field__iddivision_field__libelledivisionfr=obj)).count()
-    congeFatCount = Conge.objects.filter(Q(type_conge='الرخصة الأبوية') & Q(idpersonnel_field__organisme='Service') & Q(idservice_field__iddivision_field__libelledivisionfr=obj)).count()
+    divids=Servicepersonnel.objects.filter(idservice_field__iddivision_field__libelledivisionfr=obj).values_list('idpersonnel_field',flat=True)
+    congeCount = Conge.objects.filter(Q(idpersonnel_field__organisme='Service') & Q(idpersonnel_field__in=divids)).count()
+    congeAdmiCount = Conge.objects.filter(Q(type_conge='رخصة إدراية') & Q(idpersonnel_field__organisme='Service') & Q(idpersonnel_field__in=divids)).count()
+    congeExpCount = Conge.objects.filter(Q(type_conge='رخصة استثنائية') & Q(idpersonnel_field__organisme='Service') & Q(idpersonnel_field__in=divids)).count()
+    congeHajCount = Conge.objects.filter(Q(type_conge='رخصة الحج') & Q(idpersonnel_field__organisme='Service') & Q(idpersonnel_field__in=divids)).count()
+    congeMotCount = Conge.objects.filter(Q(type_conge='رخصة الأموة') & Q(idpersonnel_field__organisme='Service') & Q(idpersonnel_field__in=divids)).count()
+    congeFatCount = Conge.objects.filter(Q(type_conge='الرخصة الأبوية') & Q(idpersonnel_field__organisme='Service') & Q(idpersonnel_field__in=divids)).count()
     if(congeCount==0):
         congeCount=1
     congeAdmiCountPer = (congeAdmiCount / congeCount) * 100
@@ -565,15 +566,35 @@ def tboardajaxfilterservicetypeconge(req,*args, **kwargs):
          'congeAdmiCountPer':congeAdmiCountPer,'congeMotCountPer':congeMotCountPer,'congeFatCountPer':congeFatCountPer,'congeHajCountPer':congeHajCountPer,'congeExpCountPer':congeExpCountPer}
     data = json.dumps(objdata)
     return JsonResponse({'data': data})
-def tboardajaxfilterdivisiontypeconge(req,*args, **kwargs):
+def tboardajaxfilterannexetypeconge(req,*args, **kwargs):
     obj=kwargs.get('obj')
-    divids=Servicepersonnel.objects.filter(idservice_field__iddivision_field__libelledivisionfr=obj).values_list('idpersonnel_field',flat=True)
-    congeCount = Conge.objects.filter(Q(idpersonnel_field__organisme='Service') & Q(idpersonnel_field__in=divids)).count()
-    congeAdmiCount = Conge.objects.filter(Q(type_conge='رخصة إدراية') & Q(idpersonnel_field__organisme='Service') & Q(idpersonnel_field__in=divids)).count()
-    congeExpCount = Conge.objects.filter(Q(type_conge='رخصة استثنائية') & Q(idpersonnel_field__organisme='Service') & Q(idpersonnel_field__in=divids)).count()
-    congeHajCount = Conge.objects.filter(Q(type_conge='رخصة الحج') & Q(idpersonnel_field__organisme='Service') & Q(idpersonnel_field__in=divids)).count()
-    congeMotCount = Conge.objects.filter(Q(type_conge='رخصة الأموة') & Q(idpersonnel_field__organisme='Service') & Q(idpersonnel_field__in=divids)).count()
-    congeFatCount = Conge.objects.filter(Q(type_conge='الرخصة الأبوية') & Q(idpersonnel_field__organisme='Service') & Q(idpersonnel_field__in=divids)).count()
+    divids=Annexepersonnel.objects.filter(idannexe_field__iddistrict_field__libelledistrictfr=obj).values_list('idpersonnel_field',flat=True)
+    congeCount = Conge.objects.filter(Q(idpersonnel_field__organisme='Annexe') & Q(idpersonnel_field__in=divids)).count()
+    congeAdmiCount = Conge.objects.filter(Q(type_conge='رخصة إدراية') & Q(idpersonnel_field__organisme='Annexe') & Q(idpersonnel_field__in=divids)).count()
+    congeExpCount = Conge.objects.filter(Q(type_conge='رخصة استثنائية') & Q(idpersonnel_field__organisme='Annexe') & Q(idpersonnel_field__in=divids)).count()
+    congeHajCount = Conge.objects.filter(Q(type_conge='رخصة الحج') & Q(idpersonnel_field__organisme='Annexe') & Q(idpersonnel_field__in=divids)).count()
+    congeMotCount = Conge.objects.filter(Q(type_conge='رخصة الأموة') & Q(idpersonnel_field__organisme='Annexe') & Q(idpersonnel_field__in=divids)).count()
+    congeFatCount = Conge.objects.filter(Q(type_conge='الرخصة الأبوية') & Q(idpersonnel_field__organisme='Annexe') & Q(idpersonnel_field__in=divids)).count()
+    if(congeCount==0):
+        congeCount=1
+    congeAdmiCountPer = (congeAdmiCount / congeCount) * 100
+    congeMotCountPer = (congeMotCount / congeCount) * 100
+    congeFatCountPer = (congeFatCount / congeCount) * 100
+    congeHajCountPer = (congeHajCount / congeCount) * 100
+    congeExpCountPer = (congeExpCount / congeCount) * 100
+    objdata={'congeAdmiCount':congeAdmiCount,'congeExpCount':congeExpCount,'congeHajCount':congeHajCount,'congeMotCount':congeMotCount,'congeFatCount':congeFatCount,
+         'congeAdmiCountPer':congeAdmiCountPer,'congeMotCountPer':congeMotCountPer,'congeFatCountPer':congeFatCountPer,'congeHajCountPer':congeHajCountPer,'congeExpCountPer':congeExpCountPer}
+    data = json.dumps(objdata)
+    return JsonResponse({'data': data})
+def tboardajaxfiltercaidattypeconge(req,*args, **kwargs):
+    obj=kwargs.get('obj')
+    divids=Caidatpersonnel.objects.filter(idcaidat_field__idcercle_field__libellecerclefr=obj).values_list('idpersonnel_field',flat=True)
+    congeCount = Conge.objects.filter(Q(idpersonnel_field__organisme='Caida') & Q(idpersonnel_field__in=divids)).count()
+    congeAdmiCount = Conge.objects.filter(Q(type_conge='رخصة إدراية') & Q(idpersonnel_field__organisme='Caida') & Q(idpersonnel_field__in=divids)).count()
+    congeExpCount = Conge.objects.filter(Q(type_conge='رخصة استثنائية') & Q(idpersonnel_field__organisme='Caida') & Q(idpersonnel_field__in=divids)).count()
+    congeHajCount = Conge.objects.filter(Q(type_conge='رخصة الحج') & Q(idpersonnel_field__organisme='Caida') & Q(idpersonnel_field__in=divids)).count()
+    congeMotCount = Conge.objects.filter(Q(type_conge='رخصة الأموة') & Q(idpersonnel_field__organisme='Caida') & Q(idpersonnel_field__in=divids)).count()
+    congeFatCount = Conge.objects.filter(Q(type_conge='الرخصة الأبوية') & Q(idpersonnel_field__organisme='Caida') & Q(idpersonnel_field__in=divids)).count()
     if(congeCount==0):
         congeCount=1
     congeAdmiCountPer = (congeAdmiCount / congeCount) * 100
