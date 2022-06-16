@@ -95,9 +95,16 @@ def ajouternotation(request):
 
 
 @login_required(login_url='/')
-def tboardavancement(request):
+def avancementnormal(request):
+    """personnel = Personnel.objects.all()
+    for item in personnel:
+        date = 2012
+        while(date<=2022):
+            notation = Notation.objects.create(annee=date,note=20,idpersonnel_field=item)
+            notation.save()
+            date = date + 1"""
     grades = Grade.objects.all()
-    return render(request, 'GestionAvancement/tboardavancememnt.html', {'grades': grades})
+    return render(request, 'GestionAvancement/avancementnormal.html', {'grades': grades})
 
 @login_required(login_url='/')
 @csrf_exempt
@@ -122,7 +129,7 @@ def loadpersonnelavancement(request):
             moyenne = sum(listnote) / len(listnote)
             mois = 1
             if (item2.idgrade_field.gradefr == 'Administrateur adjoint' or item2.idgrade_field.gradefr == 'Administrateur'):
-                if(item2.idechellon_field == '6' or item2.idechellon_field == '10' ):
+                if(item2.idechellon_field.echellon == '6' or item2.idechellon_field.echellon == '10' ):
                     mois = 1
                 else:
                     if(moyenne>= 19 and moyenne <=20):
@@ -178,6 +185,87 @@ def loadpersonnelavancement(request):
             datamart = None
         datawarehouse.append(datamart)
     return JsonResponse(datawarehouse, safe=False)
+
+
+def avancementexceptionel(request):
+    """personnel = Personnel.objects.all()
+        for item in personnel:
+            date = 2012
+            while(date<=2022):
+                notation = Notation.objects.create(annee=date,note=20,idpersonnel_field=item)
+                notation.save()
+                date = date + 1"""
+    grades = Grade.objects.all()
+    return render(request, 'GestionAvancement/avancementexceptionel.html', {'grades': grades})
+
+@login_required(login_url='/')
+@csrf_exempt
+def loadpersonnelavancementexeptionnel(request):
+    grades = Grade.objects.get(idgrade=request.POST.get("grade"))
+
+    personnels = Personnel.objects.all()
+    listoutput = []
+    datawarehouse = []
+    for item in personnels:
+        objgradepersonnel = Gradepersonnel.objects.filter(idpersonnel_field=item)
+        if(objgradepersonnel.last() != None and objgradepersonnel.last().idgrade_field == grades):
+            listoutput.append(objgradepersonnel.last())
+
+    for item2 in listoutput:
+        objrythme = Rythme.objects.filter(echellondebut=item2.idechellon_field, idgrade_field=item2.idgrade_field).first()
+        if( objrythme != None):
+            date = item2.dateechellon + timedelta(30 * objrythme.rapide)
+            note = Notation.objects.filter(idpersonnel_field=item2.idpersonnel_field, annee__lte=date.year, annee__gte= item2.dateechellon.year)
+            listnote = []
+            for item3 in note:
+                listnote.append(item3.note)
+            moyenne = sum(listnote) / len(listnote)
+            mois = None
+            if (item2.idgrade_field.gradefr == 'Technicien 2ème grade' or item2.idgrade_field.gradefr == 'Rédacteur 2ème grader'):
+                if(item2.idechellon_field.echellon == '10'):
+                    mois = 1
+            elif(item2.idgrade_field.gradefr == 'Administrateur 2ème grade' or item2.idgrade_field.gradefr == 'Administrateur 3ème grade'):
+                if (item2.idechellon_field.echellon== '10'):
+                    mois = 24
+
+            if(mois != None):
+                datefin = item2.dateechellon + timedelta(30 * mois)
+                indicebr = indice(item2.idgrade_field.idgrade)
+                datamart = {'idpersonnel': item2.idpersonnel_field.idpersonnel,
+                            'cin': item2.idpersonnel_field.cin,
+                            'personnelnar': item2.idpersonnel_field.nomar,
+                            'personnelnfr': item2.idpersonnel_field.nomfr,
+                            'personnelpar': item2.idpersonnel_field.prenomar,
+                            'personnelpfr': item2.idpersonnel_field.prenomfr,
+                            'datefin': datefin.date(),
+                            'datedebut': item2.dateechellon.date(),
+                            'rythm': mois,
+                            'grade': item2.idgrade_field.gradear,
+                            'moyenne': f'{moyenne:.2f}',
+                            'ppr': item2.idpersonnel_field.ppr,
+                            'indicesebut': indicebr[item2.idechellon_field.idechellon - 1],
+                            'indicesefin': indicebr[item2.idechellon_field.idechellon],
+                            'echellondebut': item2.idechellon_field.echellon,
+                            'echellondefin': Echellon.objects.get(
+                                idechellon=item2.idechellon_field.idechellon + 1).echellon}
+            else:
+                datamart = None
+        else:
+            datamart = None
+        datawarehouse.append(datamart)
+    dataw = []
+    for val in datawarehouse:
+        if(val != None):
+            dataw.append(val)
+
+    value = round(int(request.POST.get("nb"))/10)
+    valuemod = int(request.POST.get("nb"))%10
+    calcule = {
+        'div': value,
+        'mod':  valuemod
+    }
+    dataw = sorted(dataw, key=lambda x: x['datefin'])
+    return JsonResponse({'datawarehouse': dataw, 'calcule': calcule}, safe=False)
 
 def ajaxannee(req,*args, **kwargs):
     cinPerso=kwargs.get('obj')
@@ -695,8 +783,6 @@ def get_json_perso_year_empty(request, *args, **kwargs):
 def pdfavencement(request, id):
     grade = Grade.objects.get(idgrade=id)
     annee = str(datetime.now().year)
-    decision1 = 'يترقى'
-    decision2 = 'يترقى'
     BASE_DIR = Path(__file__).resolve().parent.parent
     fontdir = os.path.join(BASE_DIR, 'static/filefonts')
     pdf = FPDF(orientation='L')
@@ -718,26 +804,26 @@ def pdfavencement(request, id):
     pdf.set_left_margin(0)
     pdf.set_x(0)
     pdf.set_font('TradArabB',size=8)
-    pdf.cell(17,24,txt=get_display(arabic_reshaper.reshape('ملاحظات')),border=1,align='C',fill=True)
+    pdf.cell(17,24,txt=get_display(arabic_reshaper.reshape('ملاحظات')), border=1, align='C', fill=True)
     #pdf.set_x(35)
-    pdf.multi_cell(22,12,txt=get_display(arabic_reshaper.reshape(' المتساوية الأعضاء   رأي اللجنة الإدارية')),border=1,align='C',fill=True)
+    pdf.multi_cell(22,12,txt=get_display(arabic_reshaper.reshape(' المتساوية الأعضاء   رأي اللجنة الإدارية')),border=1,align='C', fill=True)
     pdf.set_y(85)
     pdf.set_x(39)
-    pdf.cell(69,12,txt=get_display(arabic_reshaper.reshape(f'الوضعية الإدارية الجديدة درجة {grade.gradear}')),border=1,align='C',fill=True,ln=2)
-    pdf.cell(34,12,txt=get_display(arabic_reshaper.reshape('تاريخ الفعالية في الرتبة')),border=1,fill=True,align='C')
-    pdf.cell(24,12,txt=get_display(arabic_reshaper.reshape('الرقم الاستدلالي')),border=1,fill=True,align='C')
-    pdf.cell(11,12,txt=get_display(arabic_reshaper.reshape('الرتبة')),border=1,fill=True,align='C',ln=2)
+    pdf.cell(69,12,txt=get_display(arabic_reshaper.reshape(f'الوضعية الإدارية الجديدة درجة {grade.gradear}')), border=1,align='C', fill=True, ln=2)
+    pdf.cell(34,12,txt=get_display(arabic_reshaper.reshape('تاريخ الفعالية في الرتبة')), border=1, fill=True,align='C')
+    pdf.cell(24,12,txt=get_display(arabic_reshaper.reshape('الرقم الاستدلالي')), border=1, fill=True, align='C')
+    pdf.cell(11,12,txt=get_display(arabic_reshaper.reshape('الرتبة')), border=1, fill=True, align='C', ln=2)
     pdf.set_y(85)
     pdf.set_x(108)
-    pdf.cell(12,24,txt=get_display(arabic_reshaper.reshape('النقطة')),border=1,fill=True,align='C')
-    pdf.cell(12,24,txt=get_display(arabic_reshaper.reshape('النسق')),border=1,fill=True,align='C')
-    pdf.cell(69, 12,txt=get_display(arabic_reshaper.reshape(f'الوضعية الإدارية القديمة درجة {grade.gradear}')), border=1,align='C', fill=True, ln=2)
-    pdf.cell(34, 12, txt=get_display(arabic_reshaper.reshape('تاريخ الفعالية في الرتبة')),border=1, fill=True, align='C')
-    pdf.cell(24, 12, txt=get_display(arabic_reshaper.reshape('الرقم الاستدلالي')), border=1,fill=True, align='C')
-    pdf.cell(11, 12, txt=get_display(arabic_reshaper.reshape('الرتبة')), border=1, fill=True,align='C', ln=2)
+    pdf.cell(12,24,txt=get_display(arabic_reshaper.reshape('النقطة')),border=1,fill=True, align='C')
+    pdf.cell(12,24,txt=get_display(arabic_reshaper.reshape('النسق')),border=1,fill=True, align='C')
+    pdf.cell(69, 12,txt=get_display(arabic_reshaper.reshape(f'الوضعية الإدارية القديمة درجة {grade.gradear}')), border=1, align='C', fill=True, ln=2)
+    pdf.cell(34, 12, txt=get_display(arabic_reshaper.reshape('تاريخ الفعالية في الرتبة')), border=1, fill=True, align='C')
+    pdf.cell(24, 12, txt=get_display(arabic_reshaper.reshape('الرقم الاستدلالي')), border=1, fill=True, align='C')
+    pdf.cell(11, 12, txt=get_display(arabic_reshaper.reshape('الرتبة')), border=1, fill=True, align='C', ln=2)
     pdf.set_y(85)
     pdf.set_x(201)
-    pdf.cell(19,24, txt="Nom",border=1,fill=True,align='C')
+    pdf.cell(19,24, txt="Nom",border=1,fill=True, align='C')
     pdf.cell(19, 24, txt="Prenom", border=1, fill=True, align='C')
     pdf.cell(15, 24, txt=get_display(arabic_reshaper.reshape('الاسم العائلي')), border=1, fill=True, align='C')
     pdf.cell(15, 24, txt=get_display(arabic_reshaper.reshape('الاسم الشخصي')), border=1, fill=True, align='C')
@@ -804,6 +890,13 @@ def pdfavencement(request, id):
                     mois = objrythme.lent
 
             datefin = item2.dateechellon + timedelta(30 * mois)
+            if datefin.year <= datetime.now().year:
+                decision1 = 'يترقى'
+                decision2 = 'يترقى'
+            else:
+                decision1 = 'يؤجل'
+                decision2 = 'يؤجل'
+
             indicebr = indice(item2.idgrade_field.idgrade)
             pdf.cell(17, 10, txt=get_display(arabic_reshaper.reshape(decision1)), border=1, align='C')
             pdf.cell(22, 10, txt=get_display(arabic_reshaper.reshape(decision2)), border=1, align='C')
@@ -826,6 +919,186 @@ def pdfavencement(request, id):
             else:
                 y = y + 10
                 pdf.set_y(y)
+
+
+    pdfAF = pdf.output(dest='S').encode('latin-1')
+    response = HttpResponse(pdfAF, content_type='application/pdf')
+    response['Content-Disposition'] = 'filename="pdfavencement.pdf"'
+    return response
+
+
+
+def pdfavencementexceptionnel(request):
+    grade = Grade.objects.get(idgrade=request.GET.get('id', None))
+    annee = str(datetime.now().year)
+    BASE_DIR = Path(__file__).resolve().parent.parent
+    fontdir = os.path.join(BASE_DIR, 'static/filefonts')
+    pdf = FPDF(orientation='L')
+    pdf.add_font('TradArab', '', os.path.join(fontdir, 'TradArab.ttf'), uni=True)
+    pdf.add_font('TradArabB', '', os.path.join(fontdir, 'TradArabB.ttf'), uni=True)
+    pdf.add_page()
+    pdf.set_font('TradArabB',size=11)
+    pdf.text(269-10, 7, txt=get_display(arabic_reshaper.reshape('المملكة المغربية')))
+    pdf.text(271-11, 12, txt=get_display(arabic_reshaper.reshape("وزارة الداخلية")))
+    pdf.text(271-12, 17, txt=get_display(arabic_reshaper.reshape('ولاية جهة الشرق')))
+    pdf.text(274-15, 22, txt=get_display((arabic_reshaper.reshape('عمالة وجدة أنكاد'))))
+    pdf.text(269-15, 27, txt=get_display(arabic_reshaper.reshape('مجلس عمالة وجدة أنكاد')))
+    pdf.text(270-15, 32, txt=get_display(arabic_reshaper.reshape('المديرية العامة للمصالح')))
+    pdf.text(270-15, 37, txt=get_display(arabic_reshaper.reshape('مصلحة الموارد البشرية')))
+    pdf.set_font('TradArabB',size=15)
+    pdf.text(85-len(grade.gradear)-len(annee),64,txt=get_display(arabic_reshaper.reshape(f'مشروع لائحة الترسيم و الترقية في الرتبة الاستثنائية في درجة {grade.gradear} لوزارة الداخلية برسم سنة {annee} والسنوات السابقة')))
+    pdf.set_fill_color(r=191, g=191, b=191)
+    pdf.ln(75)
+    pdf.set_left_margin(0)
+    pdf.set_x(0)
+    pdf.set_font('TradArabB',size=8)
+    pdf.cell(17,24,txt=get_display(arabic_reshaper.reshape('ملاحظات')), border=1, align='C', fill=True)
+    #pdf.set_x(35)
+    pdf.multi_cell(22,12,txt=get_display(arabic_reshaper.reshape(' المتساوية الأعضاء   رأي اللجنة الإدارية')),border=1,align='C', fill=True)
+    pdf.set_y(85)
+    pdf.set_x(39)
+    pdf.cell(69,12,txt=get_display(arabic_reshaper.reshape(f'الوضعية الإدارية الجديدة درجة {grade.gradear}')), border=1,align='C', fill=True, ln=2)
+    pdf.cell(34,12,txt=get_display(arabic_reshaper.reshape('تاريخ الفعالية في الرتبة')), border=1, fill=True,align='C')
+    pdf.cell(24,12,txt=get_display(arabic_reshaper.reshape('الرقم الاستدلالي')), border=1, fill=True, align='C')
+    pdf.cell(11,12,txt=get_display(arabic_reshaper.reshape('الرتبة')), border=1, fill=True, align='C', ln=2)
+    pdf.set_y(85)
+    pdf.set_x(108)
+    pdf.cell(12,24,txt=get_display(arabic_reshaper.reshape('النقطة')),border=1,fill=True, align='C')
+    pdf.cell(12,24,txt=get_display(arabic_reshaper.reshape('النسق')),border=1,fill=True, align='C')
+    pdf.cell(69, 12,txt=get_display(arabic_reshaper.reshape(f'الوضعية الإدارية القديمة درجة {grade.gradear}')), border=1, align='C', fill=True, ln=2)
+    pdf.cell(34, 12, txt=get_display(arabic_reshaper.reshape('تاريخ الفعالية في الرتبة')), border=1, fill=True, align='C')
+    pdf.cell(24, 12, txt=get_display(arabic_reshaper.reshape('الرقم الاستدلالي')), border=1, fill=True, align='C')
+    pdf.cell(11, 12, txt=get_display(arabic_reshaper.reshape('الرتبة')), border=1, fill=True, align='C', ln=2)
+    pdf.set_y(85)
+    pdf.set_x(201)
+    pdf.cell(19,24, txt="Nom",border=1,fill=True, align='C')
+    pdf.cell(19, 24, txt="Prenom", border=1, fill=True, align='C')
+    pdf.cell(15, 24, txt=get_display(arabic_reshaper.reshape('الاسم العائلي')), border=1, fill=True, align='C')
+    pdf.cell(15, 24, txt=get_display(arabic_reshaper.reshape('الاسم الشخصي')), border=1, fill=True, align='C')
+    pdf.cell(14,24, txt=get_display(arabic_reshaper.reshape('رقم التاجير')), border=1, fill=True, align='C')
+    #pdf.cell(18, 18, txt=get_display(arabic_reshaper.reshape('1234567891011')), border=1, fill=True, align='C')
+    pdf.cell(15, 24, txt="Cin", border=1, fill=True, align='C')
+    pdf.set_x(0)
+    y = 109
+    pdf.set_y(y)
+    pdf.set_auto_page_break(True,20)
+
+    grades = Grade.objects.get(idgrade=request.GET.get('id', None))
+    personnels = Personnel.objects.all()
+    i=0
+    datawarehouse = []
+    listoutput = []
+    for item in personnels:
+        objgradepersonnel = Gradepersonnel.objects.filter(idpersonnel_field=item)
+        if (objgradepersonnel.last() != None and objgradepersonnel.last().idgrade_field == grades):
+            listoutput.append(objgradepersonnel.last())
+
+    for item2 in listoutput:
+        objrythme = Rythme.objects.filter(echellondebut=item2.idechellon_field,
+                                          idgrade_field=item2.idgrade_field).first()
+        if(objrythme != None):
+            date = item2.dateechellon + timedelta(30 * objrythme.rapide)
+            note = Notation.objects.filter(idpersonnel_field=item2.idpersonnel_field, annee__lte=date.year,
+                                           annee__gte=item2.dateechellon.year)
+            listnote = []
+            for item3 in note:
+                listnote.append(item3.note)
+            moyenne = sum(listnote) / len(listnote)
+            mois = None
+            if (item2.idgrade_field.gradefr == 'Technicien 2ème grade' or item2.idgrade_field.gradefr == 'Rédacteur 2ème grader'):
+                if (item2.idechellon_field.echellon == '10'):
+                    mois = 1
+            elif (item2.idgrade_field.gradefr == 'Administrateur 2ème grade' or item2.idgrade_field.gradefr == 'Administrateur 3ème grade'):
+                if (item2.idechellon_field.echellon == '10'):
+                    mois = 24
+
+            if (mois != None):
+                datefin = item2.dateechellon + timedelta(30 * mois)
+                indicebr = indice(item2.idgrade_field.idgrade)
+                datamart = {'idpersonnel': item2.idpersonnel_field.idpersonnel,
+                            'cin': item2.idpersonnel_field.cin,
+                            'personnelnar': item2.idpersonnel_field.nomar,
+                            'personnelnfr': item2.idpersonnel_field.nomfr,
+                            'personnelpar': item2.idpersonnel_field.prenomar,
+                            'personnelpfr': item2.idpersonnel_field.prenomfr,
+                            'datefin': datefin.date(),
+                            'datedebut': item2.dateechellon.date(),
+                            'rythm': mois,
+                            'mois': mois,
+                            'grade': item2.idgrade_field.gradear,
+                            'moyenne': f'{moyenne:.2f}',
+                            'ppr': item2.idpersonnel_field.ppr,
+                            'indicesebut': indicebr[item2.idechellon_field.idechellon - 1],
+                            'indicesefin': indicebr[item2.idechellon_field.idechellon],
+                            'echellondebut': item2.idechellon_field.echellon,
+                            'echellondefin': Echellon.objects.get(
+                                idechellon=item2.idechellon_field.idechellon + 1).echellon}
+                datawarehouse.append(datamart)
+
+    dataw = sorted(datawarehouse, key=lambda x: x['datefin'])
+
+    for item in dataw:
+        if datefin.year <= datetime.now().year:
+            if (i < int(request.GET.get('first', None))):
+                decision1 = 'يترقى'
+                decision2 = 'يترقى'
+            else:
+                decision1 = 'يؤجل'
+                decision2 = 'يؤجل'
+        else:
+            decision1 = 'يؤجل'
+            decision2 = 'يؤجل'
+        i = i + 1
+        pdf.cell(17, 10, txt=get_display(arabic_reshaper.reshape(decision1)), border=1, align='C')
+        pdf.cell(22, 10, txt=get_display(arabic_reshaper.reshape(decision2)), border=1, align='C')
+        pdf.cell(34, 10, txt=str(item['datefin']), border=1, align='C')
+        pdf.cell(24, 10, txt=item['indicesebut'], border=1, align='C')
+        pdf.cell(11, 10, txt=item['echellondefin'], border=1,
+                 align='C')
+        pdf.cell(12, 10, txt=item['moyenne'], border=1, align='C')
+        pdf.cell(12, 10, txt=str(item['mois']), border=1, align='C')
+        pdf.cell(34, 10, txt=str(item['datedebut']), border=1, align='C')
+        pdf.cell(24, 10, txt=item['indicesefin'], border=1, align='C')
+        pdf.cell(11, 10, txt=item['echellondebut'], border=1, align='C')
+        pdf.cell(19, 10, txt=item['personnelnfr'], border=1, align='C')
+        pdf.cell(19, 10, txt=item['personnelpfr'], border=1, align='C')
+        pdf.cell(15, 10, txt=get_display(arabic_reshaper.reshape(item['personnelnar'])), border=1, align='C')
+        pdf.cell(15, 10, txt=get_display(arabic_reshaper.reshape(item['personnelpar'])), border=1,
+                 align='C')
+        pdf.cell(14, 10, txt=item['ppr'], border=1, align='C')
+        pdf.cell(15, 10, txt=item['cin'], border=1, align='C')
+        if y >= 189:
+            y = 10
+        else:
+            y = y + 10
+            pdf.set_y(y)
+
+    value = round(int(request.GET.get("nb")) / 10)
+    valuemod = int(request.GET.get("nb")) % 10
+
+    pdf.cell(15, 24, txt=get_display(arabic_reshaper.reshape('	الحصيص	')), border=1,
+             fill=True, align='C')
+    pdf.cell(30, 36, txt=str(value), border=1, align='C')
+
+    pdf.cell(15, 24, txt=get_display(arabic_reshaper.reshape('	الخارج	')), border=1,
+             fill=True, align='C')
+    pdf.cell(30, 36, txt=str(value), border=1, align='C')
+
+    pdf.cell(15, 24, txt=get_display(arabic_reshaper.reshape('	الباقي	')), border=1,
+             fill=True, align='C')
+    pdf.cell(30, 36, txt=str(valuemod), border=1, align='C')
+
+    pdf.cell(15, 24, txt=get_display(arabic_reshaper.reshape('المقسوم عليه')), border=1,
+             fill=True, align='C')
+    pdf.cell(30, 36, txt=str(10), border=1, align='C')
+
+    pdf.cell(15, 24, txt=get_display(arabic_reshaper.reshape('عدد المستوفين لشروط الترقي في الرتبة')), border=1,
+             fill=True, align='C')
+    pdf.cell(30, 36, txt=str(10), border=1, align='C')
+
+    pdf.cell(15, 24, txt=get_display(arabic_reshaper.reshape('عدد المناصب في السلك المقيدة في الميزانية')), border=1,
+             fill=True, align='C')
+    pdf.cell(30, 36, txt=str(request.GET.get('nb')), border=1, align='C')
 
 
     pdfAF = pdf.output(dest='S').encode('latin-1')

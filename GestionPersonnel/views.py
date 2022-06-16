@@ -1086,7 +1086,7 @@ def ajouter(request):
                             adressefr=adressefr, numerofinancier=numiden, daterecrutement=daterec,
                             datedemarcation=datedec, dateparrainageretraite=dateretr, numcnopsaf=numcnopsaf,
                             numcnopsim=numcnopsim, rib=rib, ancienneteadmi=ancadmi, administrationapp=adminiapp,
-                            situationfamilialear=situatar, photo=photo, sexe=sexe, age=age, lastupdate=datetime.date.today(),
+                            situationfamilialear=situatar, photo=photo, sexe=sexe, age=age, lastupdate=datetime.today(),
                                            ppr=ppr)
         objperso.save()
 
@@ -1178,7 +1178,7 @@ def modifier(request, id):
         rib = request.POST["rib"]
         ancadmi = request.POST["ancadmi"]
         adminiapp = request.POST["adminiapp"]
-        photo = request.POST["photo"]
+        photo = request.FILES.get('photo')
         #service = request.POST["service"]
         #grade = request.POST["grade"]
         #fonction = request.POST["fonction"]
@@ -1219,7 +1219,7 @@ def modifier(request, id):
         objperso2.photo = photo
         objperso2.sexe = sexe
         objperso2.age = age
-        objperso2.lastupdate = datetime.date.today()
+        objperso2.lastupdate = datetime.today()
         objperso2.save()
 
         """objservice = Service(idservice=service)
@@ -1660,7 +1660,7 @@ def printpdfquitter(req,id):
 
 
 @login_required(login_url='/')
-def printpdf(req,id):
+def printpdf(req, id):
    personnel = Personnel.objects.get(idpersonnel=id)
    empName = str(personnel.nomfr + " " + personnel.prenomfr)
    gradepersonnel = Gradepersonnel.objects.filter(idpersonnel_field=personnel).last()

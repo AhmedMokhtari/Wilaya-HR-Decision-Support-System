@@ -1,0 +1,66 @@
+{% extends 'menu.html' %}
+{% block content %}
+    {% load static %}
+    <title>{% block title %}الترقية في الرتبة{% endblock title %}</title>
+    <style>
+    h3{
+        font-family: Cairo;
+    }
+    </style>
+    <link rel="stylesheet" href="{% static 'css/all.min.css' %}"/>
+     <form method="POST" action="{% url 'avancementnormal' %}" autocomplete="off">
+        {% csrf_token %}
+            <div class="row">
+                <div class="col-12 col-lg-12 col-xxl-12 d-flex">
+                    <div class="card flex-fill">
+                        <div class="card-header" id="title">
+
+                        </div>
+                        <div class="card-body">
+                            <div class="row mb-4">
+                                <div class="col-md-3">
+                                    <label class="label" ></label>
+                                    <select class="form-control" id="grade" name="grade">
+                                        {% for grade in grades %}
+                                            <option value="{{ grade.idgrade }}">{{ grade.gradear }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="table-responsive ">
+                                        <table class="table-bordered col-md-12">
+                                            <caption id="linq"><a class="btn btn-success" href="{% url 'pdfavencement' 1 %}"> لائحة {% now "Y" %}</a></caption>
+                                            <thead>
+                                            <caption></caption>
+                                            <th>CIN</th>
+                                            <th>الاسم الشخصي</th>
+                                            <th>الاسم العائلي</th>
+                                            <th>Prénom </th>
+                                            <th>Nom</th>
+                                            <th>رقم الـتأجير</th>
+                                            <th>الرتبة</th><th>الرقم الاستدلال</th><th>تاريخ الفعالية في الرتبة</th>
+                                            <th>النسق</th>
+                                            <th>النقطة</th>
+                                            <th>الرتبة</th>
+                                            <th>الرقم الاستدلالي</th>
+                                            <th>تاريخ الفعالية في الرتبة</th>
+                                            </thead>
+                                            <tbody id="table">
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+     </form>
+    <script>
+        var url1 = "{% url 'loadpersonnelavancement' %}";
+    </script>
+    <script type="text/javascript" src="{% static 'js/GestionAvancement/avn.js' %}"></script>
+{% endblock content %}

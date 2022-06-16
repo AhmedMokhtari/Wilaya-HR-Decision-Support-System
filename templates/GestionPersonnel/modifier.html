@@ -1,6 +1,7 @@
 {% extends 'menu.html' %}
 {% block content %}
     {% load static %}
+    {% load has_group %}
     <title>{% block title %}تعديل{% endblock title %}</title>
     <link rel="stylesheet" href="{% static 'css/all.min.css' %}"/>
     <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
@@ -10,18 +11,32 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200&family=Montserrat:wght@800;900&display=swap" rel="stylesheet">
     <style>
         h3{
-            font-family: "Cairo ExtraLight"
-        }
-        #donneperso{
-            background-color: #D42D1E;
-        }
-        div#donneperso:hover{
-            background-color: #eb3121;
+            font-family: "Cairo ExtraLight";
+            font-weight: bold;
+            color: #45B668;
         }
         #photo{
             display: none;
         }
     </style>
+    <script>
+        window.onload = function (){
+        var image = document.getElementById("image");
+
+        // La fonction previewPicture
+        var previewPicture  = function (e) {
+
+            // e.files contient un objet FileList
+            const [picture] = e.files
+            alert('gargr')
+            // "picture" est un objet File
+            if (picture) {
+                // On change l'URL de l'image
+                image.src = URL.createObjectURL(picture)
+            }
+         }
+    }
+    </script>
 
 {% if request.user|has_group:"GestionPersonnel" %}
     <form action="" method="POST" enctype="multipart/form-data">
@@ -30,8 +45,8 @@
                 <div class="col-sm-12 col-lg-12 d-flex">
                     <div class="card flex-fill">
                         <div class="card-header d-flex h-25" id="donneperso">
-                            <h3 class="card-title text-center text-white" dir="ltr">
-                                <strong>معلومات شخصية</strong>
+                            <h3 class="text-center" dir="ltr">
+                                معلومات شخصية
                             </h3>
                         </div>
                         <hr>
@@ -41,7 +56,7 @@
                                     <div class="mb-3">
                                         <div class="text-center">
                                             <div class="mt-2">
-                                                <input type="image" src="{% static 'images/genericpersonnel.webp' %}" id="image" class="rounded-circle img-responsive mt-2" width="124" height="124"/>
+                                                <input type="image" {% if personnel.photo %} src="{{ personnel.photo.url }}" {% else %} src="{% static 'images/genericpersonnel.webp' %}" {% endif %} id="image" class="rounded-circle img-responsive mt-2" width="124" height="124"/>
                                                 <input type="file" name="photo" id="photo"  onchange="previewPicture(this)"/>
                                             </div>
                                         </div>
@@ -244,14 +259,13 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
 
                 <div class="col-sm-12 col-lg-12 d-flex">
                     <div class="card flex-fill">
-                         <div class="card-header d-flex h-25" id="donneprof" style="background-color: #D42D1E;">
-                            <h3 class="card-title text-center text-white"  dir="ltr">
-                                <strong>معلومات مهنية</strong>
+                         <div class="card-header d-flex h-25" id="donneprof">
+                            <h3 class="text-center"  dir="ltr">
+                                معلومات مهنية
                             </h3>
                         </div>
                         <hr>

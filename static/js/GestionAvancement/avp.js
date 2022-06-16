@@ -1,6 +1,6 @@
 window.onload = function (){
 
-    selgrade = document.getElementById('grade')
+    selgrade = document.getElementById('nb')
 
      function ajaxgrade(){
         $("#table tr").remove();
@@ -40,7 +40,7 @@ window.onload = function (){
             });
     }
     ajaxgrade()
-    selgrade.addEventListener('change',ajaxgrade)
+    selgrade.addEventListener('input',ajaxgrade)
 
 
 }

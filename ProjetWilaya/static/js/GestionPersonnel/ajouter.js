@@ -245,70 +245,79 @@ window.onload = function ()
     }
 
     const seldistrict= document.getElementById('district');
-    seldistrict.onchange= function()
-    {
-        $(".annexediv").show();
-        $("#annexe option").remove();
-        $('#op0').remove()
-        $.ajax(
+    if(seldistrict != null){
+        seldistrict.onchange= function()
         {
-            type:"POST",
-            url: url0,
-            data:{ district: seldistrict.value},
-            success: function(data)
+            $(".annexediv").show();
+            $("#annexe option").remove();
+            $('#op0').remove()
+            $.ajax(
             {
-                for(var i = 0; i < data.annexes.length; i++)
+                type:"POST",
+                url: url0,
+                data:{ district: seldistrict.value},
+                success: function(data)
                 {
-                    $("#annexe").append(`<option value="${data.annexes[i].idannexe}">${data.annexes[i].libelleannexefr}</option>`);
+                    for(var i = 0; i < data.annexes.length; i++)
+                    {
+                        $("#annexe").append(`<option value="${data.annexes[i].idannexe}">${data.annexes[i].libelleannexefr}</option>`);
 
+                    }
                 }
-            }
-        });
+            });
+        }
     }
+
 
     const selcercle= document.getElementById('cercle');
-    selcercle.onchange= function()
-    {
-        $(".caidadiv").show();
-        $("#caida option").remove();
-        $('#op4').remove()
-        $.ajax(
+    if(selcercle){
+        selcercle.onchange= function()
         {
-            type:"POST",
-            url: url4,
-            data:{ cercle: selcercle.value},
-            success: function(data)
+            $(".caidadiv").show();
+            $("#caida option").remove();
+            $('#op4').remove()
+            $.ajax(
             {
-                for(var i = 0; i < data.caidas.length; i++)
+                type:"POST",
+                url: url4,
+                data:{ cercle: selcercle.value},
+                success: function(data)
                 {
-                    $("#caida").append(`<option value="${data.caidas[i].idcaidat}">${data.caidas[i].libellecaidatfr}</option>`);
+                    for(var i = 0; i < data.caidas.length; i++)
+                    {
+                        $("#caida").append(`<option value="${data.caidas[i].idcaidat}">${data.caidas[i].libellecaidatfr}</option>`);
 
+                    }
                 }
-            }
-        });
+            });
+        }
     }
+
 
     const seldivision= document.getElementById('division');
-    seldivision.onchange= function()
-    {
-        $(".servicediv").show();
-        $("#service option").remove();
-        $('#op3').remove()
-        $.ajax(
+    if(seldivision != null){
+        seldivision.onchange= function()
         {
-            type:"POST",
-            url: url3,
-            data:{ division: seldivision.value},
-            success: function(data)
+            $(".servicediv").show();
+            $("#service option").remove();
+            $('#op3').remove()
+            $.ajax(
             {
-                for(var i = 0; i < data.services.length; i++)
+                type:"POST",
+                url: url3,
+                data:{ division: seldivision.value},
+                success: function(data)
                 {
-                    $("#service").append(`<option value="${data.services[i].idservice}">${data.services[i].libelleservicefr}</option>`);
+                    for(var i = 0; i < data.services.length; i++)
+                    {
+                        $("#service").append(`<option value="${data.services[i].idservice}">${data.services[i].libelleservicefr}</option>`);
 
+                    }
                 }
-            }
-        });
+            });
+        }
     }
+
 
     //ajaxstatutgrade
     const sel= document.getElementById('statutgrade');
