@@ -283,15 +283,15 @@ def tboardconge(request):
               )
     #######################################""
     congeCount=Conge.objects.all().count()
-    congeAdmiCountPer=(congeAdmiCount/congeCount)*100
-    congeMotCountPer=(congeMotCount/congeCount)*100
-    congeFatCountPer=(congeFatCount/congeCount)*100
-    congeHajCountPer=(congeHajCount/congeCount)*100
-    congeExpCountPer=(congeExpCount/congeCount)*100
+    congeAdmiCountPer = '{:.2f}'.format((congeAdmiCount / congeCount) * 100)
+    congeMotCountPer = '{:.2f}'.format((congeMotCount / congeCount) * 100)
+    congeFatCountPer = '{:.2f}'.format((congeFatCount / congeCount) * 100)
+    congeHajCountPer = '{:.2f}'.format((congeHajCount / congeCount) * 100)
+    congeExpCountPer = '{:.2f}'.format((congeExpCount / congeCount) * 100)
 
     context={'personnels': personnels, 'congepersonnel': congepersonnel, 'conges': conges,'divisions': divisions,"Sc":congeScCount,'Ps':congePsCount,'Cr':congeCrCount,'Ds':congeDsCount,
             'congeAdmiCount':congeAdmiCount,'congeExpCount':congeExpCount,'congeHajCount':congeHajCount,'congeMotCount':congeMotCount ,'congeFatCount':congeFatCount,
-             'congeAdmiCountPer':'{:.2f}'.format(congeAdmiCountPer),'congeMotCountPer':'{:.2f}'.format(congeMotCountPer),'congeFatCountPer':'{:.2f}'.format(congeFatCountPer),'congeExpCountPer':'{:.2f}'.format(congeExpCountPer),'congeHajCountPer':'{:.2f}'.format(congeHajCountPer)}
+             'congeAdmiCountPer':congeAdmiCountPer,'congeMotCountPer':congeMotCountPer,'congeFatCountPer':congeFatCountPer,'congeExpCountPer':congeExpCountPer,'congeHajCountPer':congeHajCountPer}
     return render (request,'GestionConge/tboardconges.html', context)
 
 def tboardfilterdiv(req,*args, **kwargs):
