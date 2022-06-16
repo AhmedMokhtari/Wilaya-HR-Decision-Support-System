@@ -9,9 +9,9 @@ urlpatterns = [
     path('persoinfo/<int:id>', views.persoinfo, name='persoinfo'),
     path('ajaxloadpersonnelforconge', views.ajaxloadpersonnelforconge, name='ajaxloadpersonnelforconge'),
     path('tboardconge', views.tboardconge, name='tboardconge'),
-    path('tboardajaxfilterdivision/', views.tboardfilterdiv, name='tboardajaxfilterdivision'),
-    path('tboardajaxfiltercercle/', views.tboardfiltercercle, name='tboardajaxfiltercercle'),
-    path('tboardajaxfilterdistrict/', views.tboardfilterdistrict, name='tboardajaxfilterdistrict'),
+    path('tboardajaxfilterdivision/<str:obj>/', views.tboardfilterdiv, name='tboardajaxfilterdivision'),
+    path('tboardajaxfiltercercle/<str:obj>/', views.tboardfiltercercle, name='tboardajaxfiltercercle'),
+    path('tboardajaxfilterdistrict/<str:obj>/', views.tboardfilterdistrict, name='tboardajaxfilterdistrict'),
     path('tboardajaxfilterdivisionservice/<str:obj>/', views.tboardfilterdivse, name='tboardajaxfilterdivision'),
     path('tboardajaxfiltercaidat/<str:obj>/', views.tboardfiltercaidat, name='tboardajaxfiltercaidat'),
     path('tboardajaxfilterannexe/<str:obj>/', views.tboardfilterannexe, name='tboardajaxfilterannexe'),
@@ -22,7 +22,8 @@ urlpatterns = [
     path('tboardajaxfilterdivisiontypeconge/<str:obj>/', views.tboardajaxfilterdivisiontypeconge, name='tboardajaxfilterdivisiontypeconge'),
     path('tboardajaxfiltercaidattypeconge/<str:obj>/', views.tboardajaxfiltercaidattypeconge, name='tboardajaxfiltercaidattypeconge'),
     path('tboardajaxfilterannexetypeconge/<str:obj>/', views.tboardajaxfilterannexetypeconge, name='tboardajaxfilterannexetypeconge'),
-    path('tboardajaxfilterpashalik/', views.tboardfilterpashalik, name='tboardajaxfilterpashalik'),
+    path('tboardcongedefaultyear/<str:obj>/', views.tboardcongedefaultyear,name='tboardcongedefaultyear'),
+    path('tboardajaxfilterpashalik/<str:obj>/', views.tboardfilterpashalik, name='tboardajaxfilterpashalik'),
 ]
 
 
