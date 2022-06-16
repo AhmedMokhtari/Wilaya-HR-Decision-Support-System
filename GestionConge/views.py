@@ -478,11 +478,11 @@ def tboardajaxfilterpashaliktypeconge(req,*args, **kwargs):
     congeFatCount = Conge.objects.filter(Q(type_conge='الرخصة الأبوية') & Q(idpersonnel_field__organisme='pashalik')).count()
     if (congeCount == 0):
         congeCount = 1
-    congeAdmiCountPer = (congeAdmiCount / congeCount) * 100
-    congeMotCountPer = (congeMotCount / congeCount) * 100
-    congeFatCountPer = (congeFatCount / congeCount) * 100
-    congeHajCountPer = (congeHajCount / congeCount) * 100
-    congeExpCountPer = (congeExpCount / congeCount) * 100
+    congeAdmiCountPer ='{:.2f}'.format((congeAdmiCount / congeCount) * 100)
+    congeMotCountPer = '{:.2f}'.format((congeMotCount / congeCount) * 100)
+    congeFatCountPer = '{:.2f}'.format((congeFatCount / congeCount) * 100)
+    congeHajCountPer = '{:.2f}'.format((congeHajCount / congeCount) * 100)
+    congeExpCountPer = '{:.2f}'.format((congeExpCount / congeCount) * 100)
     objdata={'congeAdmiCount':congeAdmiCount,'congeExpCount':congeExpCount,'congeHajCount':congeHajCount,'congeMotCount':congeMotCount,'congeFatCount':congeFatCount,
          'congeAdmiCountPer':congeAdmiCountPer,'congeMotCountPer':congeMotCountPer,'congeFatCountPer':congeFatCountPer,'congeHajCountPer':congeHajCountPer,'congeExpCountPer':congeExpCountPer}
     data = json.dumps(objdata)
@@ -499,11 +499,11 @@ def tboardajaxfiltersecretariattypeconge(req,*args, **kwargs):
     congeFatCount = Conge.objects.filter(Q(type_conge='الرخصة الأبوية') & Q(idpersonnel_field__organisme='Service')).count()
     if (congeCount == 0):
         congeCount = 1
-    congeAdmiCountPer = (congeAdmiCount / congeCount) * 100
-    congeMotCountPer = (congeMotCount / congeCount) * 100
-    congeFatCountPer = (congeFatCount / congeCount) * 100
-    congeHajCountPer = (congeHajCount / congeCount) * 100
-    congeExpCountPer = (congeExpCount / congeCount) * 100
+    congeAdmiCountPer = '{:.2f}'.format((congeAdmiCount / congeCount) * 100)
+    congeMotCountPer = '{:.2f}'.format((congeMotCount / congeCount) * 100)
+    congeFatCountPer = '{:.2f}'.format((congeFatCount / congeCount) * 100)
+    congeHajCountPer = '{:.2f}'.format((congeHajCount / congeCount) * 100)
+    congeExpCountPer = '{:.2f}'.format((congeExpCount / congeCount) * 100)
     objdata={'congeAdmiCount':congeAdmiCount,'congeExpCount':congeExpCount,'congeHajCount':congeHajCount,'congeMotCount':congeMotCount,'congeFatCount':congeFatCount,
          'congeAdmiCountPer':congeAdmiCountPer,'congeMotCountPer':congeMotCountPer,'congeFatCountPer':congeFatCountPer,'congeHajCountPer':congeHajCountPer,'congeExpCountPer':congeExpCountPer}
     data = json.dumps(objdata)
@@ -518,11 +518,11 @@ def tboardajaxfilterdistricttypeconge(req,*args, **kwargs):
     congeFatCount = Conge.objects.filter(Q(type_conge='الرخصة الأبوية') & Q(idpersonnel_field__organisme='Annexe')).count()
     if (congeCount == 0):
         congeCount = 1
-    congeAdmiCountPer = (congeAdmiCount / congeCount) * 100
-    congeMotCountPer = (congeMotCount / congeCount) * 100
-    congeFatCountPer = (congeFatCount / congeCount) * 100
-    congeHajCountPer = (congeHajCount / congeCount) * 100
-    congeExpCountPer = (congeExpCount / congeCount) * 100
+    congeAdmiCountPer = '{:.2f}'.format((congeAdmiCount / congeCount) * 100)
+    congeMotCountPer = '{:.2f}'.format((congeMotCount / congeCount) * 100)
+    congeFatCountPer = '{:.2f}'.format((congeFatCount / congeCount) * 100)
+    congeHajCountPer = '{:.2f}'.format((congeHajCount / congeCount) * 100)
+    congeExpCountPer = '{:.2f}'.format((congeExpCount / congeCount) * 100)
     objdata={'congeAdmiCount':congeAdmiCount,'congeExpCount':congeExpCount,'congeHajCount':congeHajCount,'congeMotCount':congeMotCount,'congeFatCount':congeFatCount,
          'congeAdmiCountPer':congeAdmiCountPer,'congeMotCountPer':congeMotCountPer,'congeFatCountPer':congeFatCountPer,'congeHajCountPer':congeHajCountPer,'congeExpCountPer':congeExpCountPer}
     data = json.dumps(objdata)
@@ -537,11 +537,11 @@ def tboardajaxfiltercercletypeconge(req,*args, **kwargs):
     congeFatCount = Conge.objects.filter(Q(type_conge='الرخصة الأبوية') & Q(idpersonnel_field__organisme='Caida')).count()
     if(congeCount==0):
         congeCount=1
-    congeAdmiCountPer = (congeAdmiCount / congeCount) * 100
-    congeMotCountPer = (congeMotCount / congeCount) * 100
-    congeFatCountPer = (congeFatCount / congeCount) * 100
-    congeHajCountPer = (congeHajCount / congeCount) * 100
-    congeExpCountPer = (congeExpCount / congeCount) * 100
+    congeAdmiCountPer = '{:.2f}'.format((congeAdmiCount / congeCount) * 100)
+    congeMotCountPer = '{:.2f}'.format((congeMotCount / congeCount) * 100)
+    congeFatCountPer = '{:.2f}'.format((congeFatCount / congeCount) * 100)
+    congeHajCountPer = '{:.2f}'.format((congeHajCount / congeCount) * 100)
+    congeExpCountPer = '{:.2f}'.format((congeExpCount / congeCount) * 100)
     objdata={'congeAdmiCount':congeAdmiCount,'congeExpCount':congeExpCount,'congeHajCount':congeHajCount,'congeMotCount':congeMotCount,'congeFatCount':congeFatCount,
          'congeAdmiCountPer':congeAdmiCountPer,'congeMotCountPer':congeMotCountPer,'congeFatCountPer':congeFatCountPer,'congeHajCountPer':congeHajCountPer,'congeExpCountPer':congeExpCountPer}
     data = json.dumps(objdata)
@@ -557,11 +557,11 @@ def tboardajaxfilterdivisiontypeconge(req,*args, **kwargs):
     congeFatCount = Conge.objects.filter(Q(type_conge='الرخصة الأبوية') & Q(idpersonnel_field__organisme='Service') & Q(idpersonnel_field__in=divids)).count()
     if(congeCount==0):
         congeCount=1
-    congeAdmiCountPer = (congeAdmiCount / congeCount) * 100
-    congeMotCountPer = (congeMotCount / congeCount) * 100
-    congeFatCountPer = (congeFatCount / congeCount) * 100
-    congeHajCountPer = (congeHajCount / congeCount) * 100
-    congeExpCountPer = (congeExpCount / congeCount) * 100
+    congeAdmiCountPer = '{:.2f}'.format((congeAdmiCount / congeCount) * 100)
+    congeMotCountPer = '{:.2f}'.format((congeMotCount / congeCount) * 100)
+    congeFatCountPer = '{:.2f}'.format((congeFatCount / congeCount) * 100)
+    congeHajCountPer = '{:.2f}'.format((congeHajCount / congeCount) * 100)
+    congeExpCountPer = '{:.2f}'.format((congeExpCount / congeCount) * 100)
     objdata={'congeAdmiCount':congeAdmiCount,'congeExpCount':congeExpCount,'congeHajCount':congeHajCount,'congeMotCount':congeMotCount,'congeFatCount':congeFatCount,
          'congeAdmiCountPer':congeAdmiCountPer,'congeMotCountPer':congeMotCountPer,'congeFatCountPer':congeFatCountPer,'congeHajCountPer':congeHajCountPer,'congeExpCountPer':congeExpCountPer}
     data = json.dumps(objdata)
@@ -577,11 +577,11 @@ def tboardajaxfilterannexetypeconge(req,*args, **kwargs):
     congeFatCount = Conge.objects.filter(Q(type_conge='الرخصة الأبوية') & Q(idpersonnel_field__organisme='Annexe') & Q(idpersonnel_field__in=divids)).count()
     if(congeCount==0):
         congeCount=1
-    congeAdmiCountPer = (congeAdmiCount / congeCount) * 100
-    congeMotCountPer = (congeMotCount / congeCount) * 100
-    congeFatCountPer = (congeFatCount / congeCount) * 100
-    congeHajCountPer = (congeHajCount / congeCount) * 100
-    congeExpCountPer = (congeExpCount / congeCount) * 100
+    congeAdmiCountPer = '{:.2f}'.format((congeAdmiCount / congeCount) * 100)
+    congeMotCountPer = '{:.2f}'.format((congeMotCount / congeCount) * 100)
+    congeFatCountPer = '{:.2f}'.format((congeFatCount / congeCount) * 100)
+    congeHajCountPer = '{:.2f}'.format((congeHajCount / congeCount) * 100)
+    congeExpCountPer = '{:.2f}'.format((congeExpCount / congeCount) * 100)
     objdata={'congeAdmiCount':congeAdmiCount,'congeExpCount':congeExpCount,'congeHajCount':congeHajCount,'congeMotCount':congeMotCount,'congeFatCount':congeFatCount,
          'congeAdmiCountPer':congeAdmiCountPer,'congeMotCountPer':congeMotCountPer,'congeFatCountPer':congeFatCountPer,'congeHajCountPer':congeHajCountPer,'congeExpCountPer':congeExpCountPer}
     data = json.dumps(objdata)
@@ -597,11 +597,11 @@ def tboardajaxfiltercaidattypeconge(req,*args, **kwargs):
     congeFatCount = Conge.objects.filter(Q(type_conge='الرخصة الأبوية') & Q(idpersonnel_field__organisme='Caida') & Q(idpersonnel_field__in=divids)).count()
     if(congeCount==0):
         congeCount=1
-    congeAdmiCountPer = (congeAdmiCount / congeCount) * 100
-    congeMotCountPer = (congeMotCount / congeCount) * 100
-    congeFatCountPer = (congeFatCount / congeCount) * 100
-    congeHajCountPer = (congeHajCount / congeCount) * 100
-    congeExpCountPer = (congeExpCount / congeCount) * 100
+    congeAdmiCountPer = '{:.2f}'.format((congeAdmiCount / congeCount) * 100)
+    congeMotCountPer = '{:.2f}'.format((congeMotCount / congeCount) * 100)
+    congeFatCountPer = '{:.2f}'.format((congeFatCount / congeCount) * 100)
+    congeHajCountPer = '{:.2f}'.format((congeHajCount / congeCount) * 100)
+    congeExpCountPer = '{:.2f}'.format((congeExpCount / congeCount) * 100)
     objdata={'congeAdmiCount':congeAdmiCount,'congeExpCount':congeExpCount,'congeHajCount':congeHajCount,'congeMotCount':congeMotCount,'congeFatCount':congeFatCount,
          'congeAdmiCountPer':congeAdmiCountPer,'congeMotCountPer':congeMotCountPer,'congeFatCountPer':congeFatCountPer,'congeHajCountPer':congeHajCountPer,'congeExpCountPer':congeExpCountPer}
     data = json.dumps(objdata)
