@@ -13,6 +13,8 @@ class Conge(models.Model):
     class Meta:
         managed = False
         db_table = 'Conge'
+        verbose_name = "الرخصة"
+        verbose_name_plural = "الرخص"
 
 
 class DateElimine(models.Model):
@@ -24,3 +26,5 @@ class DateElimine(models.Model):
     class Meta:
         managed = False
         db_table = 'DateElimine'
+        verbose_name = "العطلة"
+        verbose_name_plural = "العطل"

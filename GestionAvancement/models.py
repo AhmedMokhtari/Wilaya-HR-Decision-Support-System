@@ -12,6 +12,8 @@ class Notation(models.Model):
     class Meta:
         managed = False
         db_table = 'Notation'
+        verbose_name = "النقطة"
+        verbose_name_plural = "النقط"
 
 
 class Avencement(models.Model):
@@ -28,6 +30,8 @@ class Avencement(models.Model):
     class Meta:
         managed = False
         db_table = 'Avencement'
+        verbose_name = "الترقية"
+        verbose_name_plural = "الترقيات"
 
 
 class Rythme(models.Model):
@@ -42,3 +46,5 @@ class Rythme(models.Model):
     class Meta:
         managed = False
         db_table = 'Rythme'
+        verbose_name = "النسق"
+        verbose_name_plural = "النسق"

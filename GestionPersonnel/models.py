@@ -43,6 +43,8 @@ class Personnel(models.Model):
     class Meta:
         managed = False
         db_table = 'Personnel'
+        verbose_name = "الموظف"
+        verbose_name_plural = "الموظفين"
 
 # -------------------------------------------------------
 class Fonction(models.Model):
@@ -53,7 +55,8 @@ class Fonction(models.Model):
     class Meta:
         managed = False
         db_table = 'Fonction'
-
+        verbose_name = "المهمة"
+        verbose_name_plural = "المهمات"
 # -------------------------------------------------------
 class Fonctionpersonnel(models.Model):
     idfonctionpersonnel = models.AutoField(db_column='IdFonctionPersonnel', primary_key=True)
@@ -65,7 +68,8 @@ class Fonctionpersonnel(models.Model):
         managed = False
         db_table = 'FonctionPersonnel'
         unique_together = (('idfonction_field', 'datefonction'),)
-
+        verbose_name = "مهمة الموظف"
+        verbose_name_plural = "مهمة الموظفين"
 
 # -------------------------------------------------------
 class Concours(models.Model):
@@ -77,6 +81,8 @@ class Concours(models.Model):
     class Meta:
         managed = False
         db_table = 'Concours'
+        verbose_name = "الإمتحان"
+        verbose_name_plural = "الإمتحانات"
 
 
 # -------------------------------------------------------
@@ -86,6 +92,10 @@ class Echelle(models.Model):
     class Meta:
         managed = False
         db_table = 'Echelle'
+        verbose_name = "السلم"
+        verbose_name_plural = "السلم"
+    def __str__(self):
+        return self.echelle
 
 
 # -------------------------------------------------------
@@ -96,7 +106,8 @@ class Echellon(models.Model):
     class Meta:
         managed = False
         db_table = 'Echellon'
-
+        verbose_name = "الرتبة"
+        verbose_name_plural = "الرتب"
 
 # -------------------------------------------------------
 class Statutgrade(models.Model):
@@ -107,6 +118,11 @@ class Statutgrade(models.Model):
     class Meta:
         managed = False
         db_table = 'StatutGrade'
+        verbose_name = "حالة الدرجة"
+        verbose_name_plural = "حالة الدرجات"
+    def __str__(self):
+        return self.statutgradear
+
 
 # -------------------------------------------------------
 class Grade(models.Model):
@@ -119,6 +135,8 @@ class Grade(models.Model):
     class Meta:
         managed = False
         db_table = 'Grade'
+        verbose_name = "الدرجة"
+        verbose_name_plural = "الدرجات"
 
 # -------------------------------------------------------
 class Gradepersonnel(models.Model):
@@ -136,6 +154,8 @@ class Gradepersonnel(models.Model):
         managed = False
         db_table = 'GradePersonnel'
         unique_together = (('idgrade_field', 'idpersonnel_field','idechellon_field'),)
+        verbose_name = "درجة الموظف"
+        verbose_name_plural = "درجة الموظفين"
 
 # -------------------------------------------------------
 class Conjoint(models.Model):
@@ -153,6 +173,8 @@ class Conjoint(models.Model):
     class Meta:
         managed = False
         db_table = 'Conjoint'
+        verbose_name = "الزوج"
+        verbose_name_plural = "الأزواج"
 # -------------------------------------------------------
 class Conjointpersonnel(models.Model):
     idconjoint_field = models.OneToOneField(Conjoint, models.DO_NOTHING, db_column='IdConjoint#', primary_key=True)
@@ -162,7 +184,8 @@ class Conjointpersonnel(models.Model):
         managed = False
         db_table = 'ConjointPersonnel'
         unique_together = (('idconjoint_field', 'idpersonnel_field'),)
-
+        verbose_name = "زوج الموظف"
+        verbose_name_plural = "زوج الموظفين"
 # -------------------------------------------------------
 class Enfant(models.Model):
     idenfant = models.AutoField(db_column='IdEnfant', primary_key=True)
@@ -179,6 +202,8 @@ class Enfant(models.Model):
     class Meta:
         managed = False
         db_table = 'Enfant'
+        verbose_name = "الطفل"
+        verbose_name_plural = "الأطفال"
 
 # -------------------------------------------------------
 class Entite(models.Model):
@@ -189,6 +214,8 @@ class Entite(models.Model):
     class Meta:
         managed = False
         db_table = 'Entite'
+        verbose_name = "الهيئة"
+        verbose_name_plural = "الهيئات"
 # -------------------------------------------------------
 class District(models.Model):
     iddistrict = models.AutoField(db_column='IdDistrict', primary_key=True)
@@ -199,6 +226,8 @@ class District(models.Model):
     class Meta:
         managed = False
         db_table = 'District'
+        verbose_name = "المنطقة"
+        verbose_name_plural = "المنطقات"
 
 # -------------------------------------------------------
 class Annexe(models.Model):
@@ -210,6 +239,8 @@ class Annexe(models.Model):
     class Meta:
         managed = False
         db_table = 'Annexe'
+        verbose_name = "الملحقة"
+        verbose_name_plural = "الملحقات"
 
 # -------------------------------------------------------
 class Annexepersonnel(models.Model):
@@ -221,6 +252,8 @@ class Annexepersonnel(models.Model):
     class Meta:
         managed = False
         db_table = 'AnnexePersonnel'
+        verbose_name = "ملحقة الموظف"
+        verbose_name_plural = "ملحقة الموظفين"
 
 # -------------------------------------------------------
 class Caidat(models.Model):
@@ -231,6 +264,8 @@ class Caidat(models.Model):
     class Meta:
         managed = False
         db_table = 'Caidat'
+        verbose_name = "القيادة"
+        verbose_name_plural = "القيادات"
 
 
 
@@ -242,6 +277,8 @@ class Caidatpersonnel(models.Model):
     class Meta:
         managed = False
         db_table = 'CaidatPersonnel'
+        verbose_name = "قيادة الموظف"
+        verbose_name_plural = "قيادة الموظفين"
 
 
 class Cercle(models.Model):
@@ -252,6 +289,8 @@ class Cercle(models.Model):
     class Meta:
         managed = False
         db_table = 'Cercle'
+        verbose_name = "الدائرة"
+        verbose_name_plural = "الدائرات"
 
 # -------------------------------------------------------
 
@@ -264,6 +303,8 @@ class Division(models.Model):
     class Meta:
         managed = False
         db_table = 'Division'
+        verbose_name = "قسم"
+        verbose_name_plural = "الأقسام"
 
 # -------------------------------------------------------
 class Service(models.Model):
@@ -275,9 +316,10 @@ class Service(models.Model):
     class Meta:
         managed = False
         db_table = 'Service'
+        verbose_name = "المصلحة"
+        verbose_name_plural = "المصلحات"
     def __str__(self):
         return self.libelleservicefr
-
 
 # -------------------------------------------------------
 class Servicepersonnel(models.Model):
@@ -290,6 +332,8 @@ class Servicepersonnel(models.Model):
         managed = False
         db_table = 'ServicePersonnel'
         unique_together = (('idservice_field', 'idpersonnel_field'),)
+        verbose_name = "مصلحة الموظف"
+        verbose_name_plural = "مصلحة الموظفين"
 
 # -------------------------------------------------------
 class Pashalik(models.Model):
@@ -301,6 +345,8 @@ class Pashalik(models.Model):
     class Meta:
         managed = False
         db_table = 'Pashalik'
+        verbose_name = "الباشوية"
+        verbose_name_plural = "الباشاويات"
 
 # -------------------------------------------------------
 class Reafectation(models.Model):
@@ -315,6 +361,8 @@ class Reafectation(models.Model):
     class Meta:
         managed = False
         db_table = 'Reafectation'
+        verbose_name = "التعيين"
+        verbose_name_plural = "التعيينات"
 
 # -------------------------------------------------------
 class Pashalikpersonnel(models.Model):
@@ -326,6 +374,8 @@ class Pashalikpersonnel(models.Model):
     class Meta:
         managed = False
         db_table = 'PashalikPersonnel'
+        verbose_name = "باشوية الموظف"
+        verbose_name_plural = "باشوية الموظفين"
 
 # -------------------------------------------------------
 class Diplome(models.Model):
@@ -341,6 +391,8 @@ class Diplome(models.Model):
     class Meta:
         managed = False
         db_table = 'Diplome'
+        verbose_name = "الشهادة"
+        verbose_name_plural = "الشهادات"
 
 # -------------------------------------------------------
 class ParametrageRetraite(models.Model):
@@ -351,6 +403,8 @@ class ParametrageRetraite(models.Model):
     class Meta:
         managed = False
         db_table = 'ParametrageRetraite'
+        verbose_name = "عدد سنوات التقاعد"
+        verbose_name_plural = "عدد سنوات التقاعد"
 
  # -------------------------------------------------------
 class Statut(models.Model):
@@ -361,6 +415,8 @@ class Statut(models.Model):
     class Meta:
         managed = False
         db_table = 'Statut'
+        verbose_name = "الحالة النضامية"
+        verbose_name_plural = "الحالات النضامية"
 
 
 class Statutpersonnel(models.Model):
@@ -372,6 +428,8 @@ class Statutpersonnel(models.Model):
     class Meta:
         managed = False
         db_table = 'StatutPersonnel'
+        verbose_name = "حالة الموظف"
+        verbose_name_plural = "حالة الموظفين"
 
 
 class Attestationtravail(models.Model):
@@ -383,6 +441,8 @@ class Attestationtravail(models.Model):
     class Meta:
         managed = False
         db_table = 'AttestationTravail'
+        verbose_name = "شهادة العمل"
+        verbose_name_plural = "شهادات العمل"
 
 
 class QuitterTerritoire(models.Model):
@@ -394,3 +454,5 @@ class QuitterTerritoire(models.Model):
     class Meta:
         managed = False
         db_table = 'QuitterTerritoire'
+        verbose_name = "شهادة مغادرة التراب الوطني"
+        verbose_name_plural = "شهادات مغادرة التراب الوطني"
