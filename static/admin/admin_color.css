@@ -1,0 +1,36 @@
+#branding h1, #branding h1 a:link, #branding h1 a:visited {
+
+    color: #fff;
+
+}
+
+#branding h1{
+
+    font-size: x-large;
+
+}
+
+h1{
+
+    color: white;
+
+}
+
+
+#header {
+
+    background: #354052;
+
+    color: #fff;
+
+    height: 78px
+
+
+
+}
+
+#header a:link, #header a:visited {
+
+    color: #fff;
+
+}
