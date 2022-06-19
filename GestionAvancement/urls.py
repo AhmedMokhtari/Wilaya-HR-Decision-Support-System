@@ -16,5 +16,7 @@ urlpatterns = [
     path('pdfavencement/<int:id>/', views.pdfavencement, name='pdfavencement'),
     path('avancementexceptionel', views.avancementexceptionel, name='avancementexceptionel'),
     path('loadpersonnelavancementexeptionnel', views.loadpersonnelavancementexeptionnel, name='loadpersonnelavancementexeptionnel'),
-    path('pdfavencementexceptionnel', views.pdfavencementexceptionnel, name='pdfavencementexceptionnell'),
+    path('pdfavencementexceptionnel/<int:id>/', views.pdfavencementexceptionnel, name='pdfavencementexceptionnel'),
+    path('pdfavencementexceptionnel', views.pdfavencementexceptionnel, name='pdfavencementexceptionnel'),
+    path('ajouteravancementnormal', views.ajouteravancementnormal, name='ajouteravancementnormal'),
 ]

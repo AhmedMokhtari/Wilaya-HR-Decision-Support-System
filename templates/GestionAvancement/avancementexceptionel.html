@@ -39,7 +39,7 @@
                                 <div class="col-md-12">
                                     <div class="table-responsive ">
                                         <table class="table-bordered col-md-12">
-                                            <caption id="linq"><a class="btn btn-success" href="{% url 'pdfavencement' 1 %}"> لائحة {% now "Y" %}</a></caption>
+                                            <caption id="linq"><a class="btn btn-success" href="{% url 'pdfavencementexceptionnel' 1 %}"> لائحة {% now "Y" %}</a></caption>
                                             <thead>
                                             <th>CIN</th>
                                             <th>الاسم الشخصي</th>
@@ -84,7 +84,6 @@
                                             <th>الخارج</th>
                                             <th>الباقي</th>
                                             <th>الحصيص</th>
-
                                             <tbody id="table2">
 
                                             </tbody>
@@ -95,6 +94,14 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-12 col-lg-12 col-xxl-12">
+                    <div class="card flex-fill">
+                        <div class="card-body">
+                        <center><button class="btn btn-success col-md-1">المصادقة</button> &nbsp; <button class="btn btn-danger col-md-1">إلغاء</button></center>
+                        </div>
+                    </div>
+                </div>
+
             </div>
      </form>
     <script>
