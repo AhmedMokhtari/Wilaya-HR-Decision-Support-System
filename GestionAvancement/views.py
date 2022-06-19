@@ -19,7 +19,9 @@ from django.http import HttpResponse, JsonResponse
 from dateutil.relativedelta import relativedelta
 
 
-
+@login_required(login_url='/')
+def ajouteravancementnormal(request, id):
+    pass
 
 @login_required(login_url='/')
 def notation(request):
