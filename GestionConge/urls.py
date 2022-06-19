@@ -24,6 +24,18 @@ urlpatterns = [
     path('tboardajaxfilterannexetypeconge/<str:obj>/', views.tboardajaxfilterannexetypeconge, name='tboardajaxfilterannexetypeconge'),
     path('tboardcongedefaultyear/<str:obj>/', views.tboardcongedefaultyear,name='tboardcongedefaultyear'),
     path('tboardajaxfilterpashalik/<str:obj>/', views.tboardfilterpashalik, name='tboardajaxfilterpashalik'),
+    path('congeconsultationfilter/<str:obj>/', views.congeconsultationfilter, name='congeconsultationfilter'),
+    path('congeconsultationfilterdate/<str:obj>/', views.congeconsultationfilterdate, name='congeconsultationfilterdate'),
+    path('tboardajaxfilterpashalikPer/<str:obj>/', views.tboardajaxfilterpashalikPer, name='tboardajaxfilterpashalikPer'),
+    path('tboardajaxfilterdivisionPer/<str:obj>/', views.tboardajaxfilterdivisionPer, name='tboardajaxfilterdivisionPer'),
+    path('tboardajaxfiltercaerclePer/<str:obj>/', views.tboardajaxfiltercaerclePer, name='tboardajaxfiltercaerclePer'),
+    path('tboardajaxfilterdistrictPer/<str:obj>/', views.tboardajaxfilterdistrictPer, name='tboardajaxfilterdistrictPer'),
+
+    path('tboardajaxfilterdivisionservPer/<str:obj>/', views.tboardajaxfilterdivisionservPer, name='tboardajaxfilterdivisionservPer'),
+    path('tboardajaxfilterannexePer/<str:obj>/', views.tboardajaxfilterannexePer, name='tboardajaxfilterannexePer'),
+    path('tboardajaxfiltercaidatPer/<str:obj>/', views.tboardajaxfiltercaidatPer, name='tboardajaxfiltercaidatPer'),
+    path('congencourfilter/<str:obj>/', views.congencourfilter, name='congencourfilter'),
+    path('congencourfinifilter/<str:obj>/', views.congencourfinifilter, name='congencourfinifilter'),
 ]
 
 

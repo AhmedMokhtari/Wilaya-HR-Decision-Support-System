@@ -11,45 +11,43 @@
                         <div class="col-sm-6">
                             <div class="card flex-fill">
                                 <div class="card-header">
-                                    <span class="badge badge-primary float-right">Today</span>
-                                    <h5 class="card-title mb-0">Visitors</h5>
+                                    <h5 class="card-title mb-0 float-right">مجلس العمالة</h5>
                                 </div>
                                 <div class="card-body my-2">
                                     <div class="row d-flex align-items-center mb-4">
                                         <div class="col-8">
-                                            <h2 class="d-flex align-items-center mb-0 font-weight-light">
-                                                17.212
+                                            <h2 class="d-flex align-items-center mb-0 font-weight-light" id="congePrefectoralCount">
+                                                {{congePrefectoralCount}}
                                             </h2>
                                         </div>
-                                        <div class="col-4 text-right">
-                                            <span class="text-muted">57%</span>
+                                        <div class="col-4 text-right" id="congePrefectoralCountPer">
+                                            <span class="text-muted" >{{congePrefectoralCountPer}}%</span>
                                         </div>
                                     </div>
 
-                                    <div class="progress progress-sm shadow-sm mb-1">
-                                        <div class="progress-bar bg-primary" role="progressbar" style="width: 57%"></div>
+                                    <div class="progress progress-sm shadow-sm mb-1" >
+                                        <div class="progress-bar bg-primary" id="congePrefectoralCountPerStyle" role="progressbar" style="width: {{congePrefectoralCountPer}}%"></div>
                                     </div>
                                 </div>
                             </div>
                             <div class="card flex-fill">
                                 <div class="card-header">
-                                    <span class="badge badge-info float-right">Monthly</span>
-                                    <h5 class="card-title mb-0">Real-Time</h5>
+                                    <h5 class="card-title mb-0 float-right">الرجال</h5>
                                 </div>
                                 <div class="card-body my-2">
                                     <div class="row d-flex align-items-center mb-4">
                                         <div class="col-8">
-                                            <h2 class="d-flex align-items-center mb-0 font-weight-light">
-                                                1.856
+                                            <h2 class="d-flex align-items-center mb-0 font-weight-light" id="congeHommeCount">
+                                                {{ congeHommeCount }}
                                             </h2>
                                         </div>
                                         <div class="col-4 text-right">
-                                            <span class="text-muted">64%</span>
+                                            <span class="text-muted" id="congeHommeCountPer">{{congeHommeCountPer}}%</span>
                                         </div>
                                     </div>
 
-                                    <div class="progress progress-sm shadow-sm mb-1">
-                                        <div class="progress-bar bg-info" role="progressbar" style="width: 64%"></div>
+                                    <div class="progress progress-sm shadow-sm mb-1" >
+                                        <div class="progress-bar bg-info" id="congeHommeCountPerStyle" role="progressbar"  style="width: {{congeHommeCountPer}}%"></div>
                                     </div>
                                 </div>
                             </div>
@@ -57,46 +55,44 @@
                         <div class="col-sm-6">
                             <div class="card flex-fill">
                                 <div class="card-header">
-                                    <span class="badge badge-warning float-right">Annual</span>
-                                    <h5 class="card-title mb-0">Bounce</h5>
+                                    <h5 class="card-title mb-0 float-right">العمالة</h5>
                                 </div>
                                 <div class="card-body my-2">
                                     <div class="row d-flex align-items-center mb-4">
                                         <div class="col-8">
-                                            <h2 class="d-flex align-items-center mb-0 font-weight-light">
-                                                2.364
+                                            <h2 class="d-flex align-items-center mb-0 font-weight-light" id="congeGeneralCount">
+                                                {{congeGeneralCount}}
                                             </h2>
                                         </div>
-                                        <div class="col-4 text-right">
-                                            <span class="text-muted">82%</span>
+                                        <div class="col-4 text-right" id="congeGeneralCountPer">
+                                            <span class="text-muted" >{{congeGeneralCountPer}}%</span>
                                         </div>
                                     </div>
 
-                                    <div class="progress progress-sm shadow-sm mb-1">
-                                        <div class="progress-bar bg-warning" role="progressbar" style="width: 82%"></div>
+                                    <div class="progress progress-sm shadow-sm mb-1" >
+                                        <div class="progress-bar bg-warning" id="congeGeneralCountPerStyle"  role="progressbar" style="width: {{congeGeneralCountPer}}%"></div>
                                     </div>
                                 </div>
                             </div>
                             <div class="card flex-fill">
                                 <div class="card-header">
-                                    <span class="badge badge-success float-right">Yearly</span>
-                                    <h5 class="card-title mb-0">Activity</h5>
+                                    <h5 class="card-title mb-0 float-right">النساء</h5>
                                 </div>
                                 <div class="card-body my-2">
 
                                     <div class="row d-flex align-items-center mb-4">
                                         <div class="col-8">
-                                            <h2 class="d-flex align-items-center mb-0 font-weight-light">
-                                                57.300
+                                            <h2 class="d-flex align-items-center mb-0 font-weight-light" id="congeFemmeCount">
+                                                {{congeFemmeCount}}
                                             </h2>
                                         </div>
                                         <div class="col-4 text-right">
-                                            <span class="text-muted">32%</span>
+                                            <span class="text-muted" id="congeFemmeCountPer">{{congeFemmeCountPer}}%</span>
                                         </div>
                                     </div>
 
-                                    <div class="progress progress-sm shadow-sm mb-1">
-                                        <div class="progress-bar bg-success" role="progressbar" style="width: 32%"></div>
+                                    <div class="progress progress-sm shadow-sm mb-1" >
+                                        <div class="progress-bar bg-success" role="progressbar" id="congeFemmeCountPerStyle" style="width: {{congeFemmeCountPer}}%"></div>
                                     </div>
 
                                 </div>
@@ -429,7 +425,8 @@
 	</script>
    <script>
     $('#tablehead').on('click',function (){
-        document.getElementById('selectyear').value=''
+        document.location.reload(true)
+        /*document.getElementById('selectyear').value=''
         let tbody=document.getElementById('tablebody')
         tbody.innerHTML=''
         tbodyy=`<tr class="trcount">
@@ -453,122 +450,15 @@
                                         <td class="text-success">{{ Ds}}</td>
                                     </tr>`
         tbody.innerHTML=tbodyy
-        document.getElementById('chartCongeCount').innerHTML=''
-        document.getElementById('chartCongeCount').innerHTML=`<canvas id="chartjs-dashboard-pie"></canvas>`
-        new Chart(document.getElementById("chartjs-dashboard-pie"), {
-				type: "pie",
-				data: {
-					labels: ['Secretariat Genéral','District','Cercle','Pashalik'],
-					datasets: [{
-						data: [{{Sc  }},{{ Ds }},{{ Cr }},{{ Ps }}],
-						backgroundColor: [
-							window.theme.primary,
-							window.theme.warning,
-							window.theme.danger,
-							"#B51390  ",
-                            "#FF9774",
-                            "#33FF3C",
-                            "#FF0000",
-						],
-						borderColor: "transparent"
-					}]
-				},
-				options: {
-					responsive: !window.MSInputMethodContext,
-					maintainAspectRatio: false,
-					legend: {
-						display: false
-					}
-				}
-			});
-        document.getElementById('tbodytypeconge').innerHTML=`<tr>
-                            <td>رخصة إدارية</td>
-                            <td class="text-right" id="congeAdmiCount">{{ congeAdmiCount }}</td>
-                            <td class="d-none d-xl-table-cell">
-                                <div class="progress" id="congeAdmiCountPer">
-                                    <div class="progress-bar bg-info" role="progressbar" style="width: {{ congeAdmiCountPer }}%;" aria-valuenow="{{ congeAdmiCountPer }}" aria-valuemin="0" aria-valuemax="100">{{ congeAdmiCountPer }}%</div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>رخصة الأموة</td>
-                            <td class="text-right" id="congeMotCount">{{ congeMotCount }}</td>
-                            <td class="d-none d-xl-table-cell" >
-                                <div class="progress" id="congeMotCountPer">
-                                    <div class="progress-bar bg-info" role="progressbar" style="width: {{ congeMotCountPer }}%;" aria-valuenow="{{ congeMotCountPer }}" aria-valuemin="0" aria-valuemax="100">{{ congeMotCountPer }}%</div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>رخصة إستثنائية</td>
-                            <td class="text-right" id="congeExpCount">{{ congeExpCount }}</td>
-                            <td class="d-none d-xl-table-cell">
-                                <div class="progress" id="congeExpCountPer">
-                                    <div class="progress-bar bg-info" role="progressbar" style="width: {{ congeExpCountPer }}%;" aria-valuenow="{{ congeExpCountPer }}" aria-valuemin="0" aria-valuemax="100">{{ congeExpCountPer }}%</div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>رخصة الحج</td>
-                            <td class="text-right" id="congeHajCount">{{ congeHajCount }}</td>
-                            <td class="d-none d-xl-table-cell" >
-                                <div class="progress" id="congeHajCountPer">
-                                    <div class="progress-bar bg-info" role="progressbar" style="width: {{ congeHajCountPer }}%;" aria-valuenow="{{ congeHajCountPer }}" aria-valuemin="0" aria-valuemax="100">{{ congeHajCountPer }}%</div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>الرخصة الأبوية</td>
-                            <td class="text-right" id="congeFatCount">{{ congeFatCount }}</td>
-                            <td class="d-none d-xl-table-cell" >
-                                <div class="progress" id="congeFatCountPer">
-                                    <div class="progress-bar bg-info" role="progressbar" style="width: {{ congeFatCountPer }}%;" aria-valuenow="{{ congeFatCountPer }}" aria-valuemin="0" aria-valuemax="100">{{ congeFatCountPer }}%</div>
-                                </div>
-                            </td>
-                        </tr>`
-        $('.trcount').on('click', function(){
-              let val=$(this).find("td:eq(0)").text()
-              let year=document.getElementById('selectyear').value
-              let url=year
-              if(url==''){
-                  url='none'
-              }
-              if(val=='Pashalik'){
-                  filterPashlik(url)
-                  filterPashlikTypeConge(url)
-              }else if(val =='Secretariat Genéral'){
-                  filterdivision(url)   
-                  filterDivisionTypeConge(url)
-              }else if(val =='Cercle'){
-                  filterCercle(url)
-                  filterCercleTypeConge(url)
-              }else if(val =='District'){
-                  filterDistrict(url)
-                  filterDistrictTypeConge(url)
-              }
-          });
+        let names= ['Secretariat Genéral','District','Cercle','Pashalik']
+        let values=[{{Sc  }},{{ Ds }},{{ Cr }},{{ Ps }}]
+        createChart(names,values)
+        let persoData={'congeAdmiCount':{{ congeAdmiCount }},'congeAdmiCountPer':{{ congeAdmiCountPer }},'congeMotCount':{{ congeMotCount }},'congeMotCountPer':{{ congeMotCountPer }},
+    'congeExpCount':{{congeExpCount}},'congeExpCountPer':{{congeExpCountPer}},'congeHajCount':{{congeHajCount}},'congeHajCountPer':{{congeHajCountPer}},'congeFatCount':{{congeFatCount}},'congeFatCountPer':{{congeFatCountPer}}}
+       typeCongeChange(persoData)
+        resetEvent()*/
     })
-    $('.trcount').on('click', function(){
-              let val=$(this).find("td:eq(0)").text()
-              let year=document.getElementById('selectyear').value
-              let url=year
-              if(url==''){
-                  url='none'
-              }
-              if(val=='Pashalik'){
-                  filterPashlik(url)
-                  filterPashlikTypeConge(url)
-              }else if(val =='Secretariat Genéral'){
-                  filterdivision(url)
-                  filterDivisionTypeConge(url)
-              }else if(val =='Cercle'){
-                  filterCercle(url)
-                  filterCercleTypeConge(url)
-              }else if(val =='District'){
-                  filterDistrict(url)
-                  filterDistrictTypeConge(url)
-              }
-          });
+    resetEvent()
 $('#selectyear').change(function(){
     let val=$(this).val()
     yeardefault(val)
@@ -593,34 +483,7 @@ function filterdivision(val){
 </tr>`
                     tbody.innerHTML+=tr
                 }
-                document.getElementById('chartCongeCount').innerHTML=''
-                document.getElementById('chartCongeCount').innerHTML=`<canvas id="chartjs-dashboard-pie"></canvas>`
-                new Chart(document.getElementById("chartjs-dashboard-pie"), {
-                    type: "pie",
-                    data: {
-                        labels: divisionName,
-                        datasets: [{
-                            data: divisionValue,
-                            backgroundColor: [
-                                window.theme.primary,
-                                window.theme.warning,
-                                window.theme.danger,
-                                "#B51390  ",
-                                "#FF9774",
-                                "#33FF3C",
-                                "#FF0000",
-                            ],
-                            borderColor: "transparent"
-                        }]
-                    },
-                    options: {
-                        responsive: !window.MSInputMethodContext,
-                        maintainAspectRatio: false,
-                        legend: {
-                            display: false
-                        }
-                    }
-                });
+
                 $('.divisiondetail').on('click', function(){
                     let year=document.getElementById('selectyear').value
                     let url=year
@@ -630,7 +493,9 @@ function filterdivision(val){
                     let val=$(this).find("td:eq(0)").text()+'-'+url
                     filterdivisionService(val)
                     filterdivisionTypeConge(val)
+                    filterServicePer(val)
                 });
+                createChart(divisionName,divisionValue)
             },
             error: function(error){
                 console.log(error)
@@ -657,35 +522,7 @@ function filterdivisionService(val){
 </tr>`
                 tbody.innerHTML+=tr
             }
-            document.getElementById('chartCongeCount').innerHTML=''
-            document.getElementById('chartCongeCount').innerHTML=`<canvas id="chartjs-dashboard-pie"></canvas>`
-            new Chart(document.getElementById("chartjs-dashboard-pie"), {
-				type: "pie",
-				data: {
-					labels: serviceName,
-					datasets: [{
-						data: serviceValue,
-						backgroundColor: [
-							window.theme.primary,
-							window.theme.warning,
-							window.theme.danger,
-							"#B51390  ",
-                            "#FF9774",
-                            "#33FF3C",
-                            "#FF0000",
-						],
-						borderColor: "transparent"
-					}]
-				},
-				options: {
-					responsive: !window.MSInputMethodContext,
-					maintainAspectRatio: false,
-					legend: {
-						display: false
-					}
-				}
-			});
-
+            createChart(serviceName,serviceValue)
             },
         error: function(error){
             console.log(error)
@@ -711,35 +548,7 @@ function filterPashlik(val){
 </tr>`
                 tbody.innerHTML+=tr
             }
-            document.getElementById('chartCongeCount').innerHTML=''
-            document.getElementById('chartCongeCount').innerHTML=`<canvas id="chartjs-dashboard-pie"></canvas>`
-            new Chart(document.getElementById("chartjs-dashboard-pie"), {
-				type: "pie",
-				data: {
-					labels: pashalikName,
-					datasets: [{
-						data: pashalikValue,
-						backgroundColor: [
-							window.theme.primary,
-							window.theme.warning,
-							window.theme.danger,
-							"#B51390  ",
-                            "#FF9774",
-                            "#33FF3C",
-                            "#FF0000",
-						],
-						borderColor: "transparent"
-					}]
-				},
-				options: {
-					responsive: !window.MSInputMethodContext,
-					maintainAspectRatio: false,
-					legend: {
-						display: false
-					}
-				}
-			});
-
+            createChart(pashalikName,pashalikValue)
             },
         error: function(error){
             console.log(error)
@@ -765,34 +574,7 @@ function filterCercle(val){
 </tr>`
                 tbody.innerHTML+=tr
             }
-            document.getElementById('chartCongeCount').innerHTML=''
-            document.getElementById('chartCongeCount').innerHTML=`<canvas id="chartjs-dashboard-pie"></canvas>`
-            new Chart(document.getElementById("chartjs-dashboard-pie"), {
-				type: "pie",
-				data: {
-					labels: cercleName,
-					datasets: [{
-						data: cercleValue,
-						backgroundColor: [
-							window.theme.primary,
-							window.theme.warning,
-							window.theme.danger,
-							"#B51390  ",
-                            "#FF9774",
-                            "#33FF3C",
-                            "#FF0000",
-						],
-						borderColor: "transparent"
-					}]
-				},
-				options: {
-					responsive: !window.MSInputMethodContext,
-					maintainAspectRatio: false,
-					legend: {
-						display: false
-					}
-				}
-			});
+            createChart(cercleName,cercleValue)
          $('.cercledetail').on('click', function(){
                 let year=document.getElementById('selectyear').value
                 let url=year
@@ -802,6 +584,7 @@ function filterCercle(val){
                 let val=$(this).find("td:eq(0)").text()+'-'+url
                 filterCaidat(val)
                 filtercaidatTypeConge(val)
+                filterCaidatPer(val)
           });
             },
         error: function(error){
@@ -829,35 +612,7 @@ function filterCaidat(val){
 </tr>`
                 tbody.innerHTML+=tr
             }
-            document.getElementById('chartCongeCount').innerHTML=''
-            document.getElementById('chartCongeCount').innerHTML=`<canvas id="chartjs-dashboard-pie"></canvas>`
-            new Chart(document.getElementById("chartjs-dashboard-pie"), {
-				type: "pie",
-				data: {
-					labels: caidatName,
-					datasets: [{
-						data: caidatValue,
-						backgroundColor: [
-							window.theme.primary,
-							window.theme.warning,
-							window.theme.danger,
-							"#B51390  ",
-                            "#FF9774",
-                            "#33FF3C",
-                            "#FF0000",
-						],
-						borderColor: "transparent"
-					}]
-				},
-				options: {
-					responsive: !window.MSInputMethodContext,
-					maintainAspectRatio: false,
-					legend: {
-						display: false
-					}
-				}
-			});
-
+            createChart(caidatName,caidatValue)
             },
         error: function(error){
             console.log(error)
@@ -883,34 +638,8 @@ function filterDistrict(val){
 </tr>`
                 tbody.innerHTML+=tr
             }
-            document.getElementById('chartCongeCount').innerHTML=''
-            document.getElementById('chartCongeCount').innerHTML=`<canvas id="chartjs-dashboard-pie"></canvas>`
-            new Chart(document.getElementById("chartjs-dashboard-pie"), {
-				type: "pie",
-				data: {
-					labels: districtName,
-					datasets: [{
-						data: districtValue,
-						backgroundColor: [
-							window.theme.primary,
-							window.theme.warning,
-							window.theme.danger,
-							"#B51390  ",
-                            "#FF9774",
-                            "#33FF3C",
-                            "#FF0000",
-						],
-						borderColor: "transparent"
-					}]
-				},
-				options: {
-					responsive: !window.MSInputMethodContext,
-					maintainAspectRatio: false,
-					legend: {
-						display: false
-					}
-				}
-			});
+            createChart(districtName,districtValue)
+
          $('.districtdetail').on('click', function(){
             let year=document.getElementById('selectyear').value
                 let url=year
@@ -920,6 +649,7 @@ function filterDistrict(val){
                 let val=$(this).find("td:eq(0)").text()+'-'+url
               filterAnnexe(val)
               filterannexeTypeConge(val)
+             filterAnnexePer(val)
           });
             },
         error: function(error){
@@ -947,35 +677,7 @@ function filterAnnexe(val){
 </tr>`
                 tbody.innerHTML+=tr
             }
-            document.getElementById('chartCongeCount').innerHTML=''
-            document.getElementById('chartCongeCount').innerHTML=`<canvas id="chartjs-dashboard-pie"></canvas>`
-            new Chart(document.getElementById("chartjs-dashboard-pie"), {
-				type: "pie",
-				data: {
-					labels: annexeName,
-					datasets: [{
-						data: annexeValue,
-						backgroundColor: [
-							window.theme.primary,
-							window.theme.warning,
-							window.theme.danger,
-							"#B51390  ",
-                            "#FF9774",
-                            "#33FF3C",
-                            "#FF0000",
-						],
-						borderColor: "transparent"
-					}]
-				},
-				options: {
-					responsive: !window.MSInputMethodContext,
-					maintainAspectRatio: false,
-					legend: {
-						display: false
-					}
-				}
-			});
-
+           createChart(annexeName,annexeValue)
             },
         error: function(error){
             console.log(error)
@@ -987,17 +689,8 @@ function filterPashlikTypeConge(val){
         url: `tboardajaxfilterpashaliktypeconge/${val}/`,
         success: function(response){
             const persoData =JSON.parse(response.data)
-            document.getElementById('congeAdmiCount').innerHTML=persoData.congeAdmiCount
-            document.getElementById('congeExpCount').innerHTML=persoData.congeExpCount
-            document.getElementById('congeHajCount').innerHTML=persoData.congeHajCount
-            document.getElementById('congeMotCount').innerHTML=persoData.congeMotCount
-            document.getElementById('congeFatCount').innerHTML=persoData.congeFatCount
-            document.getElementById('congeFatCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeFatCountPer}%;" aria-valuenow="${persoData.congeFatCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeFatCountPer}%</div>`
-            document.getElementById('congeMotCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeMotCountPer}%;" aria-valuenow="${persoData.congeMotCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeMotCountPer}%</div>`
-            document.getElementById('congeHajCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeHajCountPer}%;" aria-valuenow="${persoData.congeHajCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeHajCountPer}%</div>`
-            document.getElementById('congeExpCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeExpCountPer}%;" aria-valuenow="${persoData.congeExpCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeExpCountPer}%</div>`
-            document.getElementById('congeAdmiCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeAdmiCountPer}%;" aria-valuenow="${persoData.congeAdmiCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeAdmiCountPer}%</div>`
-            },
+            typeCongeChange(persoData)
+        },
         error: function(error){
             console.log(error)
         }
@@ -1008,16 +701,7 @@ function filterDivisionTypeConge(val){
         url: `tboardajaxfiltersecretariattypeconge/${val}/`,
         success: function(response){
             const persoData =JSON.parse(response.data)
-            document.getElementById('congeAdmiCount').innerHTML=persoData.congeAdmiCount
-            document.getElementById('congeExpCount').innerHTML=persoData.congeExpCount
-            document.getElementById('congeHajCount').innerHTML=persoData.congeHajCount
-            document.getElementById('congeMotCount').innerHTML=persoData.congeMotCount
-            document.getElementById('congeFatCount').innerHTML=persoData.congeFatCount
-            document.getElementById('congeFatCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeFatCountPer}%;" aria-valuenow="${persoData.congeFatCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeFatCountPer}%</div>`
-            document.getElementById('congeMotCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeMotCountPer}%;" aria-valuenow="${persoData.congeMotCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeMotCountPer}%</div>`
-            document.getElementById('congeHajCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeHajCountPer}%;" aria-valuenow="${persoData.congeHajCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeHajCountPer}%</div>`
-            document.getElementById('congeExpCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeExpCountPer}%;" aria-valuenow="${persoData.congeExpCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeExpCountPer}%</div>`
-            document.getElementById('congeAdmiCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeAdmiCountPer}%;" aria-valuenow="${persoData.congeAdmiCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeAdmiCountPer}%</div>`
+            typeCongeChange(persoData)
             },
         error: function(error){
             console.log(error)
@@ -1029,37 +713,19 @@ function filterDistrictTypeConge(val){
         url: `tboardajaxfilterdistricttypeconge/${val}/`,
         success: function(response){
             const persoData =JSON.parse(response.data)
-            document.getElementById('congeAdmiCount').innerHTML=persoData.congeAdmiCount
-            document.getElementById('congeExpCount').innerHTML=persoData.congeExpCount
-            document.getElementById('congeHajCount').innerHTML=persoData.congeHajCount
-            document.getElementById('congeMotCount').innerHTML=persoData.congeMotCount
-            document.getElementById('congeFatCount').innerHTML=persoData.congeFatCount
-            document.getElementById('congeFatCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeFatCountPer}%;" aria-valuenow="${persoData.congeFatCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeFatCountPer}%</div>`
-            document.getElementById('congeMotCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeMotCountPer}%;" aria-valuenow="${persoData.congeMotCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeMotCountPer}%</div>`
-            document.getElementById('congeHajCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeHajCountPer}%;" aria-valuenow="${persoData.congeHajCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeHajCountPer}%</div>`
-            document.getElementById('congeExpCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeExpCountPer}%;" aria-valuenow="${persoData.congeExpCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeExpCountPer}%</div>`
-            document.getElementById('congeAdmiCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeAdmiCountPer}%;" aria-valuenow="${persoData.congeAdmiCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeAdmiCountPer}%</div>`
+            typeCongeChange(persoData)
             },
         error: function(error){
             console.log(error)
         }
     })}
-function    filterCercleTypeConge(val){
+function filterCercleTypeConge(val){
     $.ajax({
         type: 'get',
         url: `tboardajaxfiltercercletypeconge/${val}/`,
         success: function(response){
             const persoData =JSON.parse(response.data)
-            document.getElementById('congeAdmiCount').innerHTML=persoData.congeAdmiCount
-            document.getElementById('congeExpCount').innerHTML=persoData.congeExpCount
-            document.getElementById('congeHajCount').innerHTML=persoData.congeHajCount
-            document.getElementById('congeMotCount').innerHTML=persoData.congeMotCount
-            document.getElementById('congeFatCount').innerHTML=persoData.congeFatCount
-            document.getElementById('congeFatCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeFatCountPer}%;" aria-valuenow="${persoData.congeFatCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeFatCountPer}%</div>`
-            document.getElementById('congeMotCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeMotCountPer}%;" aria-valuenow="${persoData.congeMotCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeMotCountPer}%</div>`
-            document.getElementById('congeHajCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeHajCountPer}%;" aria-valuenow="${persoData.congeHajCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeHajCountPer}%</div>`
-            document.getElementById('congeExpCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeExpCountPer}%;" aria-valuenow="${persoData.congeExpCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeExpCountPer}%</div>`
-            document.getElementById('congeAdmiCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeAdmiCountPer}%;" aria-valuenow="${persoData.congeAdmiCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeAdmiCountPer}%</div>`
+            typeCongeChange(persoData)
             },
         error: function(error){
             console.log(error)
@@ -1071,17 +737,7 @@ function filterdivisionTypeConge(val){
         url: `tboardajaxfilterdivisiontypeconge/${val}/`,
         success: function(response){
             const persoData =JSON.parse(response.data)
-            document.getElementById('congeAdmiCount').innerHTML=persoData.congeAdmiCount
-            document.getElementById('congeExpCount').innerHTML=persoData.congeExpCount
-            document.getElementById('congeHajCount').innerHTML=persoData.congeHajCount
-            document.getElementById('congeMotCount').innerHTML=persoData.congeMotCount
-            document.getElementById('congeFatCount').innerHTML=persoData.congeFatCount
-            document.getElementById('congeFatCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeFatCountPer}%;" aria-valuenow="${persoData.congeFatCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeFatCountPer}%</div>`
-            document.getElementById('congeMotCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeMotCountPer}%;" aria-valuenow="${persoData.congeMotCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeMotCountPer}%</div>`
-            document.getElementById('congeHajCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeHajCountPer}%;" aria-valuenow="${persoData.congeHajCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeHajCountPer}%</div>`
-            document.getElementById('congeExpCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeExpCountPer}%;" aria-valuenow="${persoData.congeExpCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeExpCountPer}%</div>`
-            document.getElementById('congeAdmiCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeAdmiCountPer}%;" aria-valuenow="${persoData.congeAdmiCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeAdmiCountPer}%</div>`
-
+            typeCongeChange(persoData)
             },
         error: function(error){
             console.log(error)
@@ -1093,18 +749,8 @@ function filterannexeTypeConge(val){
         url: `tboardajaxfilterannexetypeconge/${val}/`,
         success: function(response){
             const persoData =JSON.parse(response.data)
-            document.getElementById('congeAdmiCount').innerHTML=persoData.congeAdmiCount
-            document.getElementById('congeExpCount').innerHTML=persoData.congeExpCount
-            document.getElementById('congeHajCount').innerHTML=persoData.congeHajCount
-            document.getElementById('congeMotCount').innerHTML=persoData.congeMotCount
-            document.getElementById('congeFatCount').innerHTML=persoData.congeFatCount
-            document.getElementById('congeFatCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeFatCountPer}%;" aria-valuenow="${persoData.congeFatCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeFatCountPer}%</div>`
-            document.getElementById('congeMotCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeMotCountPer}%;" aria-valuenow="${persoData.congeMotCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeMotCountPer}%</div>`
-            document.getElementById('congeHajCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeHajCountPer}%;" aria-valuenow="${persoData.congeHajCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeHajCountPer}%</div>`
-            document.getElementById('congeExpCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeExpCountPer}%;" aria-valuenow="${persoData.congeExpCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeExpCountPer}%</div>`
-            document.getElementById('congeAdmiCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeAdmiCountPer}%;" aria-valuenow="${persoData.congeAdmiCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeAdmiCountPer}%</div>`
-
-            },
+            typeCongeChange(persoData)
+                        },
         error: function(error){
             console.log(error)
         }
@@ -1115,17 +761,7 @@ function filtercaidatTypeConge(val){
         url: `tboardajaxfiltercaidattypeconge/${val}/`,
         success: function(response){
             const persoData =JSON.parse(response.data)
-            document.getElementById('congeAdmiCount').innerHTML=persoData.congeAdmiCount
-            document.getElementById('congeExpCount').innerHTML=persoData.congeExpCount
-            document.getElementById('congeHajCount').innerHTML=persoData.congeHajCount
-            document.getElementById('congeMotCount').innerHTML=persoData.congeMotCount
-            document.getElementById('congeFatCount').innerHTML=persoData.congeFatCount
-            document.getElementById('congeFatCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeFatCountPer}%;" aria-valuenow="${persoData.congeFatCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeFatCountPer}%</div>`
-            document.getElementById('congeMotCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeMotCountPer}%;" aria-valuenow="${persoData.congeMotCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeMotCountPer}%</div>`
-            document.getElementById('congeHajCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeHajCountPer}%;" aria-valuenow="${persoData.congeHajCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeHajCountPer}%</div>`
-            document.getElementById('congeExpCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeExpCountPer}%;" aria-valuenow="${persoData.congeExpCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeExpCountPer}%</div>`
-            document.getElementById('congeAdmiCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeAdmiCountPer}%;" aria-valuenow="${persoData.congeAdmiCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeAdmiCountPer}%</div>`
-
+            typeCongeChange(persoData)
             },
         error: function(error){
             console.log(error)
@@ -1161,14 +797,26 @@ function yeardefault(val){
                                             <td class="text-success">${persoData.congeDsCount}</td>
                                         </tr>`
             tbody.innerHTML=tbodyy
-            document.getElementById('chartCongeCount').innerHTML=''
-            document.getElementById('chartCongeCount').innerHTML=`<canvas id="chartjs-dashboard-pie"></canvas>`
-            new Chart(document.getElementById("chartjs-dashboard-pie"), {
+            let name=['Secretariat Genéral','District','Cercle','Pashalik']
+            let values=[persoData.congeScCount,persoData.congeDsCount,persoData.congeCrCount,persoData.congePsCount]
+            createChart(name,values)
+            typeCongeChange(persoData)
+            resetEvent()
+        },
+        error: function(error){
+            console.log(error)
+        }
+    })
+}
+function createChart(listeName,listeValue){
+    document.getElementById('chartCongeCount').innerHTML=''
+    document.getElementById('chartCongeCount').innerHTML=`<canvas id="chartjs-dashboard-pie"></canvas>`
+                new Chart(document.getElementById("chartjs-dashboard-pie"), {
                     type: "pie",
                     data: {
-                        labels: ['Secretariat Genéral','District','Cercle','Pashalik'],
+                        labels: listeName,
                         datasets: [{
-                            data: [persoData.congeScCount,persoData.congeDsCount,persoData.congeCrCount,persoData.congePsCount],
+                            data: listeValue,
                             backgroundColor: [
                                 window.theme.primary,
                                 window.theme.warning,
@@ -1189,17 +837,121 @@ function yeardefault(val){
                         }
                     }
                 });
-            document.getElementById('congeAdmiCount').innerHTML=persoData.congeAdmiCount
-            document.getElementById('congeExpCount').innerHTML=persoData.congeExpCount
-            document.getElementById('congeHajCount').innerHTML=persoData.congeHajCount
-            document.getElementById('congeMotCount').innerHTML=persoData.congeMotCount
-            document.getElementById('congeFatCount').innerHTML=persoData.congeFatCount
-            document.getElementById('congeFatCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeFatCountPer}%;" aria-valuenow="${persoData.congeFatCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeFatCountPer}%</div>`
-            document.getElementById('congeMotCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeMotCountPer}%;" aria-valuenow="${persoData.congeMotCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeMotCountPer}%</div>`
-            document.getElementById('congeHajCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeHajCountPer}%;" aria-valuenow="${persoData.congeHajCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeHajCountPer}%</div>`
-            document.getElementById('congeExpCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeExpCountPer}%;" aria-valuenow="${persoData.congeExpCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeExpCountPer}%</div>`
-            document.getElementById('congeAdmiCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeAdmiCountPer}%;" aria-valuenow="${persoData.congeAdmiCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeAdmiCountPer}%</div>`
-            $('.trcount').on('click', function(){
+}
+function typeCongeChange(persoData){
+    document.getElementById('congeAdmiCount').innerHTML=persoData.congeAdmiCount
+    document.getElementById('congeExpCount').innerHTML=persoData.congeExpCount
+    document.getElementById('congeHajCount').innerHTML=persoData.congeHajCount
+    document.getElementById('congeMotCount').innerHTML=persoData.congeMotCount
+    document.getElementById('congeFatCount').innerHTML=persoData.congeFatCount
+    document.getElementById('congeFatCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeFatCountPer}%;" aria-valuenow="${persoData.congeFatCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeFatCountPer}%</div>`
+    document.getElementById('congeMotCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeMotCountPer}%;" aria-valuenow="${persoData.congeMotCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeMotCountPer}%</div>`
+    document.getElementById('congeHajCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeHajCountPer}%;" aria-valuenow="${persoData.congeHajCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeHajCountPer}%</div>`
+    document.getElementById('congeExpCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeExpCountPer}%;" aria-valuenow="${persoData.congeExpCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeExpCountPer}%</div>`
+    document.getElementById('congeAdmiCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeAdmiCountPer}%;" aria-valuenow="${persoData.congeAdmiCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeAdmiCountPer}%</div>`
+
+
+}
+function filterDivisionPer(val){
+    $.ajax({
+        type: 'get',
+        url: `tboardajaxfilterdivisionPer/${val}/`,
+        success: function(response){
+            const persoData =JSON.parse(response.data)
+            console.log(persoData)
+            congeboard(persoData)
+            },
+        error: function(error){
+            console.log(error)
+        }
+    })
+}
+function filterPashalikPer(val){
+    $.ajax({
+        type: 'get',
+        url: `tboardajaxfilterpashalikPer/${val}/`,
+        success: function(response){
+            const persoData =JSON.parse(response.data)
+            congeboard(persoData)
+            },
+        error: function(error){
+            console.log(error)
+        }
+    })
+}
+function filterCerclePer(val){
+    $.ajax({
+        type: 'get',
+        url: `tboardajaxfiltercaerclePer/${val}/`,
+        success: function(response){
+            const persoData =JSON.parse(response.data)
+            congeboard(persoData)
+            },
+        error: function(error){
+            console.log(error)
+        }
+    })
+}
+function filterDistrictPer(val){
+    $.ajax({
+        type: 'get',
+        url: `tboardajaxfilterdistrictPer/${val}/`,
+        success: function(response){
+            const persoData =JSON.parse(response.data)
+            console.log(persoData)
+            congeboard(persoData)
+            },
+        error: function(error){
+            console.log(error)
+        }
+    })
+}
+function filterServicePer(val){
+    $.ajax({
+        type: 'get',
+        url: `tboardajaxfilterdivisionservPer/${val}/`,
+        success: function(response){
+            const persoData =JSON.parse(response.data)
+            console.log(persoData)
+            congeboard(persoData)
+            },
+        error: function(error){
+            console.log(error)
+        }
+    })
+}
+function filterAnnexePer(val){
+    $.ajax({
+        type: 'get',
+        url: `tboardajaxfilterannexePer/${val}/`,
+        success: function(response){
+            const persoData =JSON.parse(response.data)
+            console.log(persoData)
+            congeboard(persoData)
+            },
+        error: function(error){
+            console.log(error)
+        }
+    })
+}
+function filterCaidatPer(val){
+    $.ajax({
+        type: 'get',
+        url: `tboardajaxfiltercaidatPer/${val}/`,
+        success: function(response){
+            const persoData =JSON.parse(response.data)
+            console.log(persoData)
+            congeboard(persoData)
+            },
+        error: function(error){
+            console.log(error)
+        }
+    })
+}
+
+
+function resetEvent(){
+    $('.trcount').on('click', function(){
               let val=$(this).find("td:eq(0)").text()
               let year=document.getElementById('selectyear').value
               let url=year
@@ -1209,23 +961,41 @@ function yeardefault(val){
               if(val=='Pashalik'){
                   filterPashlik(url)
                   filterPashlikTypeConge(url)
+                  filterPashalikPer(url)
               }else if(val =='Secretariat Genéral'){
                   filterdivision(url)
                   filterDivisionTypeConge(url)
+                  filterDivisionPer(url)
               }else if(val =='Cercle'){
                   filterCercle(url)
                   filterCercleTypeConge(url)
+                  filterCerclePer(url)
               }else if(val =='District'){
                   filterDistrict(url)
                   filterDistrictTypeConge(url)
+                  filterDistrictPer(url)
               }
           });
-        },
-        error: function(error){
-            console.log(error)
-        }
-    })
+
 }
-   </script>
+function congeboard(persoData){
+    document.getElementById('congeHommeCount').innerHTML=persoData.congeHommeCount
+    document.getElementById('congeFemmeCount').innerHTML=persoData.congeFemmeCount
+    document.getElementById('congePrefectoralCount').innerHTML=persoData.congePrefectoralCount
+    document.getElementById('congeGeneralCount').innerHTML=persoData.congeGeneralCount
+
+
+    document.getElementById('congeHommeCountPer').innerHTML=`${persoData.congeHommeCountPer}%`
+    document.getElementById('congeFemmeCountPer').innerHTML=`${persoData.congeFemmeCountPer}%`
+    document.getElementById('congePrefectoralCountPer').innerHTML=`${persoData.congePrefectoralCountPer}%`
+    document.getElementById('congeGeneralCountPer').innerHTML=`${persoData.congeGeneralCountPer}%`
+
+
+    document.getElementById('congeHommeCountPerStyle').style.cssText=`width: ${persoData.congeHommeCountPer}%`
+    document.getElementById('congeFemmeCountPerStyle').style.cssText =`width: ${persoData.congeFemmeCountPer}%`
+    document.getElementById('congePrefectoralCountPerStyle').style.cssText=`width: ${persoData.congePrefectoralCountPer}%`
+    document.getElementById('congeGeneralCountPerStyle').style.cssText=`width: ${persoData.congeGeneralCountPer}%`
+    }
+</script>
     <script type="text/javascript" src="{% static 'js/Global/validation.js' %}"></script>
 {% endblock content %}

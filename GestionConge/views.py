@@ -3,7 +3,6 @@ from django.contrib.auth.decorators import login_required
 from .models import *
 from GestionPersonnel.models import *
 import collections
-from pydash import at
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import numpy as np
@@ -18,6 +17,7 @@ from django.db.models import Count
 
 @login_required(login_url='/')
 def GestionConge(request):
+    convertCongeToEnCour()
     """
             nbiterationHoly = 0
             for item in dateelimine:
@@ -59,8 +59,8 @@ def GestionConge(request):
         objconge = Conge(type_conge=typede, datedebut=a2, dateretour=datere, idpersonnel_field=perso, nbjour=nbjours)
         objconge.save()
 
-        return render(request, 'GestionConge/gestionConge.html', {'personnels': personnels, 'congepersonnel': congepersonnel, 'objconge': objconge, 'conges': conges, 'divisions': divisions})
-    return render(request, 'GestionConge/gestionConge.html', {'personnels': personnels, 'congepersonnel': congepersonnel, 'conges': conges,'divisions': divisions})
+        return render(request, 'GestionConge/consultationconge.html', {'personnels': personnels, 'congepersonnel': congepersonnel, 'objconge': objconge, 'conges': conges, 'divisions': divisions})
+    return render(request, 'GestionConge/consultationconge.html', {'personnels': personnels, 'congepersonnel': congepersonnel, 'conges': conges,'divisions': divisions})
 
 
 @login_required(login_url='/')
@@ -79,38 +79,73 @@ def persoinfo(request,id):
 
 @login_required(login_url='/')
 def GestionCongeEnCours(request):
-    Q1 = Q(statut='En Cours')
+    convertCongeToEnCour()
+    Q1 = Q(statut='حاليا')
     Q2 = Q(dateretour__gt= datetime.now())
     congesEncour = Conge.objects.filter(Q1 & Q2)
-    print(congesEncour)
     listdate =[]
     dateelimine = DateElimine.objects.all()
     for a in congesEncour:
-        d1 = datetime.strptime(str(a.dateretour.strftime('%Y/%m/%d')), "%Y/%m/%d")
+        '''d1 = datetime.strptime(str(a.dateretour.strftime('%Y/%m/%d')), "%Y/%m/%d")
         d2 = datetime.strptime(str(date.today().strftime('%Y/%m/%d')), "%Y/%m/%d")
-        delta = d1 - d2;
+        delta = d1 - d2; delta.days'''
         datedecom = a.dateretour
         a2 = datetime.strptime(str(datedecom.strftime('%Y/%m/%d')), "%Y/%m/%d")
         a1 = datetime.now()
         data = [s.dateelimine.date() for s in dateelimine]
         datenbjours = np.busday_count(a1.date(), a2.date(), holidays=data)
-        b={'joursrestan':delta.days,'joursrestanConge':datenbjours}
+        b={'joursrestanConge':datenbjours}
         listdate.append(b);
-    cursor = connection.cursor()
-    cursor.execute('''select * from Conge where Statut='En Cours' and dateRetour <= GETDATE() ''')
-    EncourFini = dictfetchall(cursor)
+    EncourFini=Conge.objects.filter(Q1 & Q(dateretour__lte=datetime.now()))
+    congeScCount = Conge.objects.filter(Q(idpersonnel_field__organisme='Service') & Q1).count()
+    congePsCount = Conge.objects.filter(Q(idpersonnel_field__organisme='pashalik') & Q1).count()
+    congeDsCount = Conge.objects.filter(Q(idpersonnel_field__organisme='Annexe') & Q1).count()
+    congeCrCount = Conge.objects.filter(Q(idpersonnel_field__organisme='Caida') & Q1).count()
+
     if(request.method=='POST'):
         id=request.POST.getlist('id[]')
         Conge.objects.filter(idconge__in=id).update(statut='Terminer')
-    '''dateelimine = DateElimine.objects.all()
-    datedecom = congesEncour.dateretour
-    a1 = datetime.strptime(str(datedecom.strftime('%Y/%m/%d')), "%Y/%m/%d")
-    a2 = datetime.now()
-    data = [s.dateelimine.date() for s in dateelimine]
-    datenbjours = np.busday_count(a1.date(), a2.date(), holidays=data)
-    objconge.nbjour = datenbjours;'''
-    return render(request, 'GestionConge/congeEnCours.html', {'congesEnCours':zip(congesEncour,listdate),'enCoursFini':EncourFini})
+    return render(request, 'GestionConge/congeEnCours.html', {'congesEnCours':zip(congesEncour,listdate),'enCoursFini':EncourFini,'congeScCount':congeScCount,
+                                                              'congePsCount':congePsCount,'congeDsCount':congeDsCount,'congeCrCount':congeCrCount})
 
+
+@login_required(login_url='/')
+def congeconsultationfilter(req,*args, **kwargs):
+    vl = kwargs.get('obj')
+    arr = vl.split('-')
+    etatconge = arr[0]
+    if (etatconge != ''):
+        statut = Q(statut=etatconge)
+    else:
+        statut = ~Q(idconge=None)  ## Always true0
+    typeconge = arr[1]
+    if (typeconge != ''):
+        type_conge = Q(type_conge=typeconge)
+    else:
+        type_conge = ~Q(idconge=None)  ## Always true0
+    conge = Conge.objects.filter(type_conge & statut).values('idpersonnel_field__nomar','idpersonnel_field__prenomar','type_conge','statut','datedebut__date','dateretour__date','nbjour')
+    data = json.dumps(list(conge), default=str)
+    return JsonResponse({'data': data})
+
+@login_required(login_url='/')
+def congeconsultationfilterdate(req,*args, **kwargs):
+    vl = kwargs.get('obj')
+    arr = vl.split('&')
+    etatconge = arr[0]
+    if (etatconge != ''):
+        statut = Q(statut=etatconge)
+    else:
+        statut = ~Q(idconge=None)  ## Always true0
+    typeconge = arr[1]
+    if (typeconge != ''):
+        type_conge = Q(type_conge=typeconge)
+    else:
+        type_conge = ~Q(idconge=None)  ## Always true0
+    conge = Conge.objects.filter(type_conge & statut & Q(datedebut__gte=datetime.fromisoformat(arr[2])) & Q(dateretour__lt=datetime.fromisoformat(arr[3]) ) ).values('idpersonnel_field__nomar','idpersonnel_field__prenomar','type_conge','statut','datedebut__date','dateretour__date','nbjour')
+    print(conge)
+    data = json.dumps(list(conge), default=str)
+    print(data)
+    return JsonResponse({'data': data})
 
 @login_required(login_url='/')
 def persoinfo(request, id):
@@ -129,6 +164,7 @@ def persoinfo(request, id):
 
 @login_required(login_url='/')
 def conge(request):
+    convertCongeToEnCour()
     """
             nbiterationHoly = 0
             for item in dateelimine:
@@ -232,6 +268,7 @@ def ajaxloadpersonnelforconge(request):
         return JsonResponse(objconge, safe=False)
 
 def tboardconge(request):
+    convertCongeToEnCour()
     personnels = Personnel.objects.all()
     dateelimine = DateElimine.objects.all()
     conges = Conge.objects.all()
@@ -250,7 +287,7 @@ def tboardconge(request):
         exception = str(e)
     finally:
         cursor.close
-    congeAdmiCount=Conge.objects.filter(type_conge='رخصة إدراية').count()
+    congeAdmiCount=Conge.objects.filter(type_conge='رخصة إدارية').count()
     congeExpCount=Conge.objects.filter(type_conge='رخصة استثنائية').count()
     congeHajCount=Conge.objects.filter(type_conge='رخصة الحج').count()
     congeMotCount=Conge.objects.filter(type_conge='رخصة الأموة').count()
@@ -260,38 +297,26 @@ def tboardconge(request):
     congePsCount = Conge.objects.filter(idpersonnel_field__organisme='pashalik').count()
     congeDsCount = Conge.objects.filter(idpersonnel_field__organisme='Annexe').count()
     congeCrCount = Conge.objects.filter(idpersonnel_field__organisme='Caida').count()
-    congeids=Conge.objects.filter(idpersonnel_field__organisme='Service').values_list('idpersonnel_field',flat=True)
-    ## Group Conge By  Service
-    groupByService=(Servicepersonnel.objects.filter(idpersonnel_field__in=congeids)
-     .values('idservice_field__libelleservicear','idservice_field__libelleservicefr')
-     .annotate(dcount=Count('idservice_field'))
-     .order_by()
-     )
-    #######################
-    ## Group Conge By  Division
-    groupByDivision=(Servicepersonnel.objects.filter(idpersonnel_field__in=congeids)
-     .values('idservice_field__iddivision_field__libelledivisionar','idservice_field__iddivision_field__libelledivisionfr')
-     .annotate(dcount=Count('idservice_field__iddivision_field'))
-     .order_by()
-     )
-    #######################
-    #Group by Type Conge
-    result = (Conge.objects
-              .values('type_conge')
-              .annotate(dcount=Count('type_conge'))
-              .order_by()
-              )
-    #######################################""
+
     congeCount=Conge.objects.all().count()
     congeAdmiCountPer = '{:.2f}'.format((congeAdmiCount / congeCount) * 100)
     congeMotCountPer = '{:.2f}'.format((congeMotCount / congeCount) * 100)
     congeFatCountPer = '{:.2f}'.format((congeFatCount / congeCount) * 100)
     congeHajCountPer = '{:.2f}'.format((congeHajCount / congeCount) * 100)
     congeExpCountPer = '{:.2f}'.format((congeExpCount / congeCount) * 100)
-
+    congeHommeCount=Conge.objects.filter(idpersonnel_field__sexe='Homme-ذكر').count()
+    congeFemmeCount=Conge.objects.filter(idpersonnel_field__sexe='Femme-أنثى').count()
+    congeFemmeCountPer='{:.2f}'.format((congeFemmeCount / congeCount) * 100)
+    congeHommeCountPer='{:.2f}'.format((congeHommeCount / congeCount) * 100)
+    congePrefectoralCount=Conge.objects.filter(idpersonnel_field__administrationapp='مجلس عمالة وجدة أنجاد-Préfectoral').count()
+    congeGeneralCount=Conge.objects.filter(idpersonnel_field__administrationapp='عمالة وجدة أنجاد-Général').count()
+    congeGeneralCountPer = '{:.2f}'.format((congeGeneralCount / congeCount) * 100)
+    congePrefectoralCountPer = '{:.2f}'.format((congePrefectoralCount / congeCount) * 100)
     context={'personnels': personnels, 'congepersonnel': congepersonnel, 'conges': conges,'divisions': divisions,"Sc":congeScCount,'Ps':congePsCount,'Cr':congeCrCount,'Ds':congeDsCount,
             'congeAdmiCount':congeAdmiCount,'congeExpCount':congeExpCount,'congeHajCount':congeHajCount,'congeMotCount':congeMotCount ,'congeFatCount':congeFatCount,
-             'congeAdmiCountPer':congeAdmiCountPer,'congeMotCountPer':congeMotCountPer,'congeFatCountPer':congeFatCountPer,'congeExpCountPer':congeExpCountPer,'congeHajCountPer':congeHajCountPer}
+             'congeAdmiCountPer':congeAdmiCountPer,'congeMotCountPer':congeMotCountPer,'congeFatCountPer':congeFatCountPer,'congeExpCountPer':congeExpCountPer,'congeHajCountPer':congeHajCountPer,
+             'congeHommeCount':congeHommeCount,'congeFemmeCount':congeFemmeCount,'congeFemmeCountPer':congeFemmeCountPer,'congeHommeCountPer':congeHommeCountPer,
+             'congePrefectoralCount':congePrefectoralCount,'congeGeneralCount':congeGeneralCount,'congeGeneralCountPer':congeGeneralCountPer,'congePrefectoralCountPer':congePrefectoralCountPer}
     return render (request,'GestionConge/tboardconges.html', context)
 
 def tboardfilterdiv(req,*args, **kwargs):
@@ -303,7 +328,10 @@ def tboardfilterdiv(req,*args, **kwargs):
                        )'''
     year = kwargs.get('obj')
     if (year != 'none'):
-        Qyear = Q(dateretour__year=year)
+        if (year == 'encour'):
+            Qyear = Q(statut='حاليا')
+        else:
+            Qyear = Q(dateretour__year=year)
     else:
         Qyear = ~Q(idconge=None)  ## Always true0
     congeids=Conge.objects.filter(Q(idpersonnel_field__organisme='Service') & Qyear).values_list('idpersonnel_field',flat=True)
@@ -318,12 +346,6 @@ def tboardfilterdiv(req,*args, **kwargs):
         divar=Division.objects.get(libelledivisionfr=key)
         val={'idservice_field__iddivision_field__libelledivisionfr':key,'idservice_field__iddivision_field__libelledivisionar':divar.libelledivisionar,'dcount':value}
         groupByDivision.append(val)
-    '''sql = "select d.LibelleDivisionAr as idservice_field__iddivision_field__libelledivisionar,d.LibelleDivisionFr as idservice_field__iddivision_field__libelledivisionfr, count(c.IdConge) as dcount from [dbo].[Division] d inner join [dbo].[Service] s on s.IdDivision# = d.IdDivision inner join [dbo].[ServicePersonnel] sp on s.IdService = sp.IdService# inner join [dbo].[Personnel] p on sp.IdPersonnel# = p.IdPersonnel  inner join [dbo].[Conge] c on p.IdPersonnel = c.IdPersonnel# where p.organisme='Service' group by d.LibelleDivisionAr,d.LibelleDivisionFr,d.IdDivision"
-    cursor = connection.cursor()
-    cursor.execute(sql)
-    #groupByDivision = cursor.fetchall()
-    groupByDivision = dictfetchall(cursor)
-    print(groupByDivision)'''
     data = json.dumps(groupByDivision)
     return JsonResponse({'data': data})
 def tboardfilterdivse(req,*args, **kwargs):
@@ -373,7 +395,10 @@ def tboardfilterdivse(req,*args, **kwargs):
 def tboardfiltercercle(req,*args, **kwargs):
     year = kwargs.get('obj')
     if (year != 'none'):
-        Qyear = Q(dateretour__year=year)
+        if (year == 'encour'):
+            Qyear = Q(statut='حاليا')
+        else:
+            Qyear = Q(dateretour__year=year)
     else:
         Qyear = ~Q(idconge=None)  ## Always true0
     congeids = Conge.objects.filter(Q(idpersonnel_field__organisme='Caida') & Qyear).values_list('idpersonnel_field', flat=True)
@@ -432,7 +457,10 @@ def tboardfiltercaidat(req,*args, **kwargs):
 def tboardfilterpashalik(req,*args, **kwargs):
     year = kwargs.get('obj')
     if (year != 'none'):
-        Qyear = Q(dateretour__year=year)
+        if (year == 'encour'):
+            Qyear = Q(statut='حاليا')
+        else:
+            Qyear = Q(dateretour__year=year)
     else:
         Qyear = ~Q(idconge=None)  ## Always true0
     congeids = Conge.objects.filter(Q(idpersonnel_field__organisme='pashalik') &Qyear).values_list('idpersonnel_field', flat=True)
@@ -454,7 +482,10 @@ def tboardfilterpashalik(req,*args, **kwargs):
 def tboardfilterdistrict(req,*args, **kwargs):
     year = kwargs.get('obj')
     if (year != 'none'):
-        Qyear = Q(dateretour__year=year)
+        if (year == 'encour'):
+            Qyear = Q(statut='حاليا')
+        else:
+            Qyear = Q(dateretour__year=year)
     else:
         Qyear = ~Q(idconge=None)  ## Always true0
     congeids = Conge.objects.filter(Q(idpersonnel_field__organisme='Annexe') & Qyear).values_list('idpersonnel_field', flat=True)
@@ -514,7 +545,7 @@ def tboardajaxfilterpashaliktypeconge(req,*args, **kwargs):
         Qyear = ~Q(idconge=None)  ## Always true0
     congeCount = Conge.objects.filter(Q(idpersonnel_field__organisme='pashalik') &Qyear).count()
 
-    congeAdmiCount = Conge.objects.filter(Q(type_conge='رخصة إدراية') & Q(idpersonnel_field__organisme='pashalik') &Qyear).count()
+    congeAdmiCount = Conge.objects.filter(Q(type_conge='رخصة إدارية') & Q(idpersonnel_field__organisme='pashalik') &Qyear).count()
     congeExpCount = Conge.objects.filter(Q(type_conge='رخصة استثنائية') & Q(idpersonnel_field__organisme='pashalik') &Qyear).count()
     congeHajCount = Conge.objects.filter(Q(type_conge='رخصة الحج') & Q(idpersonnel_field__organisme='pashalik') &Qyear).count()
     congeMotCount = Conge.objects.filter(Q(type_conge='رخصة الأموة') & Q(idpersonnel_field__organisme='pashalik') &Qyear).count()
@@ -539,7 +570,7 @@ def tboardajaxfiltersecretariattypeconge(req,*args, **kwargs):
     else:
         Qyear = ~Q(idconge=None)  ## Always true0
     congeCount = Conge.objects.filter(Q(idpersonnel_field__organisme='Service') &Qyear).count()
-    congeAdmiCount = Conge.objects.filter(Q(type_conge='رخصة إدراية') & Q(idpersonnel_field__organisme='Service') &Qyear).count()
+    congeAdmiCount = Conge.objects.filter(Q(type_conge='رخصة إدارية') & Q(idpersonnel_field__organisme='Service') &Qyear).count()
     congeExpCount = Conge.objects.filter(Q(type_conge='رخصة استثنائية') & Q(idpersonnel_field__organisme='Service') &Qyear).count()
     congeHajCount = Conge.objects.filter(Q(type_conge='رخصة الحج') & Q(idpersonnel_field__organisme='Service') &Qyear).count()
     congeMotCount = Conge.objects.filter(Q(type_conge='رخصة الأموة') & Q(idpersonnel_field__organisme='Service') &Qyear).count()
@@ -562,7 +593,7 @@ def tboardajaxfilterdistricttypeconge(req,*args, **kwargs):
     else:
         Qyear = ~Q(idconge=None)  ## Always true0
     congeCount = Conge.objects.filter(Q(idpersonnel_field__organisme='Annexe') &Qyear).count()
-    congeAdmiCount = Conge.objects.filter(Q(type_conge='رخصة إدراية') & Q(idpersonnel_field__organisme='Annexe') &Qyear).count()
+    congeAdmiCount = Conge.objects.filter(Q(type_conge='رخصة إدارية') & Q(idpersonnel_field__organisme='Annexe') &Qyear).count()
     congeExpCount = Conge.objects.filter(Q(type_conge='رخصة استثنائية') & Q(idpersonnel_field__organisme='Annexe') &Qyear).count()
     congeHajCount = Conge.objects.filter(Q(type_conge='رخصة الحج') & Q(idpersonnel_field__organisme='Annexe') &Qyear).count()
     congeMotCount = Conge.objects.filter(Q(type_conge='رخصة الأموة') & Q(idpersonnel_field__organisme='Annexe') &Qyear).count()
@@ -585,7 +616,7 @@ def tboardajaxfiltercercletypeconge(req,*args, **kwargs):
     else:
         Qyear = ~Q(idconge=None)  ## Always true0
     congeCount = Conge.objects.filter(Q(idpersonnel_field__organisme='Caida') &Qyear).count()
-    congeAdmiCount = Conge.objects.filter(Q(type_conge='رخصة إدراية') & Q(idpersonnel_field__organisme='Caida') &Qyear).count()
+    congeAdmiCount = Conge.objects.filter(Q(type_conge='رخصة إدارية') & Q(idpersonnel_field__organisme='Caida') &Qyear).count()
     congeExpCount = Conge.objects.filter(Q(type_conge='رخصة استثنائية') & Q(idpersonnel_field__organisme='Caida') &Qyear).count()
     congeHajCount = Conge.objects.filter(Q(type_conge='رخصة الحج') & Q(idpersonnel_field__organisme='Caida') &Qyear).count()
     congeMotCount = Conge.objects.filter(Q(type_conge='رخصة الأموة') & Q(idpersonnel_field__organisme='Caida') &Qyear).count()
@@ -612,7 +643,7 @@ def tboardajaxfilterdivisiontypeconge(req,*args, **kwargs):
     obj = arr[0]
     divids=Servicepersonnel.objects.filter(idservice_field__iddivision_field__libelledivisionfr=obj).values_list('idpersonnel_field',flat=True)
     congeCount = Conge.objects.filter(Q(idpersonnel_field__organisme='Service') & Q(idpersonnel_field__in=divids) &Qyear).count()
-    congeAdmiCount = Conge.objects.filter(Q(type_conge='رخصة إدراية') & Q(idpersonnel_field__organisme='Service') & Q(idpersonnel_field__in=divids) &Qyear).count()
+    congeAdmiCount = Conge.objects.filter(Q(type_conge='رخصة إدارية') & Q(idpersonnel_field__organisme='Service') & Q(idpersonnel_field__in=divids) &Qyear).count()
     congeExpCount = Conge.objects.filter(Q(type_conge='رخصة استثنائية') & Q(idpersonnel_field__organisme='Service') & Q(idpersonnel_field__in=divids) &Qyear).count()
     congeHajCount = Conge.objects.filter(Q(type_conge='رخصة الحج') & Q(idpersonnel_field__organisme='Service') & Q(idpersonnel_field__in=divids) &Qyear).count()
     congeMotCount = Conge.objects.filter(Q(type_conge='رخصة الأموة') & Q(idpersonnel_field__organisme='Service') & Q(idpersonnel_field__in=divids) &Qyear).count()
@@ -639,7 +670,7 @@ def tboardajaxfilterannexetypeconge(req,*args, **kwargs):
     obj = arr[0]
     divids=Annexepersonnel.objects.filter(idannexe_field__iddistrict_field__libelledistrictfr=obj).values_list('idpersonnel_field',flat=True)
     congeCount = Conge.objects.filter(Q(idpersonnel_field__organisme='Annexe') & Q(idpersonnel_field__in=divids) &Qyear).count()
-    congeAdmiCount = Conge.objects.filter(Q(type_conge='رخصة إدراية') & Q(idpersonnel_field__organisme='Annexe') & Q(idpersonnel_field__in=divids) &Qyear).count()
+    congeAdmiCount = Conge.objects.filter(Q(type_conge='رخصة إدارية') & Q(idpersonnel_field__organisme='Annexe') & Q(idpersonnel_field__in=divids) &Qyear).count()
     congeExpCount = Conge.objects.filter(Q(type_conge='رخصة استثنائية') & Q(idpersonnel_field__organisme='Annexe') & Q(idpersonnel_field__in=divids) &Qyear).count()
     congeHajCount = Conge.objects.filter(Q(type_conge='رخصة الحج') & Q(idpersonnel_field__organisme='Annexe') & Q(idpersonnel_field__in=divids) &Qyear).count()
     congeMotCount = Conge.objects.filter(Q(type_conge='رخصة الأموة') & Q(idpersonnel_field__organisme='Annexe') & Q(idpersonnel_field__in=divids) &Qyear).count()
@@ -666,7 +697,7 @@ def tboardajaxfiltercaidattypeconge(req,*args, **kwargs):
     obj=arr[0]
     divids=Caidatpersonnel.objects.filter(idcaidat_field__idcercle_field__libellecerclefr=obj).values_list('idpersonnel_field',flat=True)
     congeCount = Conge.objects.filter(Q(idpersonnel_field__organisme='Caida') & Q(idpersonnel_field__in=divids) & Qyear).count()
-    congeAdmiCount = Conge.objects.filter(Q(type_conge='رخصة إدراية') & Q(idpersonnel_field__organisme='Caida') & Q(idpersonnel_field__in=divids) & Qyear).count()
+    congeAdmiCount = Conge.objects.filter(Q(type_conge='رخصة إدارية') & Q(idpersonnel_field__organisme='Caida') & Q(idpersonnel_field__in=divids) & Qyear).count()
     congeExpCount = Conge.objects.filter(Q(type_conge='رخصة استثنائية') & Q(idpersonnel_field__organisme='Caida') & Q(idpersonnel_field__in=divids) & Qyear).count()
     congeHajCount = Conge.objects.filter(Q(type_conge='رخصة الحج') & Q(idpersonnel_field__organisme='Caida') & Q(idpersonnel_field__in=divids) & Qyear).count()
     congeMotCount = Conge.objects.filter(Q(type_conge='رخصة الأموة') & Q(idpersonnel_field__organisme='Caida') & Q(idpersonnel_field__in=divids) & Qyear).count()
@@ -682,7 +713,203 @@ def tboardajaxfiltercaidattypeconge(req,*args, **kwargs):
          'congeAdmiCountPer':congeAdmiCountPer,'congeMotCountPer':congeMotCountPer,'congeFatCountPer':congeFatCountPer,'congeHajCountPer':congeHajCountPer,'congeExpCountPer':congeExpCountPer}
     data = json.dumps(objdata)
     return JsonResponse({'data': data})
-
+def tboardajaxfilterpashalikPer(req,*arg,**kwargs):
+    year = kwargs.get('obj')
+    if (year != 'none'):
+        Qyear = Q(dateretour__year=year)
+    else:
+        Qyear = ~Q(idconge=None)  ## Always true0
+    Qpashalik=Q(idpersonnel_field__organisme='pashalik')
+    congeCount = Conge.objects.filter(Qpashalik & Qyear).count()
+    if (congeCount == 0):
+        congeCount = 1
+    congeHommeCount = Conge.objects.filter(Q(idpersonnel_field__sexe='Homme-ذكر') & Qpashalik  & Qyear).count()
+    congeFemmeCount = Conge.objects.filter(Q(idpersonnel_field__sexe='Femme-أنثى') & Qpashalik & Qyear).count()
+    congeFemmeCountPer = '{:.2f}'.format((congeFemmeCount / congeCount) * 100)
+    congeHommeCountPer = '{:.2f}'.format((congeHommeCount / congeCount) * 100)
+    congePrefectoralCount = Conge.objects.filter(Q(idpersonnel_field__administrationapp='مجلس عمالة وجدة أنجاد-Préfectoral') & Qpashalik & Qyear ).count()
+    congeGeneralCount = Conge.objects.filter(Q(idpersonnel_field__administrationapp='عمالة وجدة أنجاد-Général') & Qpashalik & Qyear).count()
+    congeGeneralCountPer = '{:.2f}'.format((congeGeneralCount / congeCount) * 100)
+    congePrefectoralCountPer = '{:.2f}'.format((congePrefectoralCount / congeCount) * 100)
+    objdata = {'congeHommeCount': congeHommeCount, 'congeFemmeCount': congeFemmeCount, 'congeFemmeCountPer': congeFemmeCountPer,
+               'congeHommeCountPer': congeHommeCountPer, 'congePrefectoralCount': congePrefectoralCount,
+               'congeGeneralCount': congeGeneralCount, 'congeGeneralCountPer': congeGeneralCountPer,
+               'congePrefectoralCountPer': congePrefectoralCountPer}
+    data = json.dumps(objdata)
+    return JsonResponse({'data': data})
+def tboardajaxfilterdivisionPer(req,*arg,**kwargs):
+    year = kwargs.get('obj')
+    if (year != 'none'):
+        Qyear = Q(dateretour__year=year)
+    else:
+        Qyear = ~Q(idconge=None)  ## Always true0
+    Qpashalik = Q(idpersonnel_field__organisme='Service')
+    congeCount = Conge.objects.filter(Qpashalik & Qyear).count()
+    if (congeCount == 0):
+        congeCount = 1
+    congeHommeCount = Conge.objects.filter(Q(idpersonnel_field__sexe='Homme-ذكر') & Qpashalik & Qyear).count()
+    congeFemmeCount = Conge.objects.filter(Q(idpersonnel_field__sexe='Femme-أنثى') & Qpashalik & Qyear).count()
+    congeFemmeCountPer = '{:.2f}'.format((congeFemmeCount / congeCount) * 100)
+    congeHommeCountPer = '{:.2f}'.format((congeHommeCount / congeCount) * 100)
+    congePrefectoralCount = Conge.objects.filter(Q(idpersonnel_field__administrationapp='مجلس عمالة وجدة أنجاد-Préfectoral') & Qpashalik & Qyear).count()
+    congeGeneralCount = Conge.objects.filter(Q(idpersonnel_field__administrationapp='عمالة وجدة أنجاد-Général') & Qpashalik & Qyear).count()
+    congeGeneralCountPer = '{:.2f}'.format((congeGeneralCount / congeCount) * 100)
+    congePrefectoralCountPer = '{:.2f}'.format((congePrefectoralCount / congeCount) * 100)
+    objdata = {'congeHommeCount': congeHommeCount, 'congeFemmeCount': congeFemmeCount,
+               'congeFemmeCountPer': congeFemmeCountPer,
+               'congeHommeCountPer': congeHommeCountPer, 'congePrefectoralCount': congePrefectoralCount,
+               'congeGeneralCount': congeGeneralCount, 'congeGeneralCountPer': congeGeneralCountPer,
+               'congePrefectoralCountPer': congePrefectoralCountPer}
+    data = json.dumps(objdata)
+    return JsonResponse({'data': data})
+def tboardajaxfiltercaerclePer(req,*arg,**kwargs):
+    year = kwargs.get('obj')
+    if (year != 'none'):
+        Qyear = Q(dateretour__year=year)
+    else:
+        Qyear = ~Q(idconge=None)  ## Always true0
+    Qpashalik = Q(idpersonnel_field__organisme='Caida')
+    congeCount = Conge.objects.filter(Qpashalik & Qyear).count()
+    if (congeCount == 0):
+        congeCount = 1
+    congeHommeCount = Conge.objects.filter(Q(idpersonnel_field__sexe='Homme-ذكر') & Qpashalik & Qyear).count()
+    congeFemmeCount = Conge.objects.filter(Q(idpersonnel_field__sexe='Femme-أنثى') & Qpashalik & Qyear).count()
+    congeFemmeCountPer = '{:.2f}'.format((congeFemmeCount / congeCount) * 100)
+    congeHommeCountPer = '{:.2f}'.format((congeHommeCount / congeCount) * 100)
+    congePrefectoralCount = Conge.objects.filter(Q(idpersonnel_field__administrationapp='مجلس عمالة وجدة أنجاد-Préfectoral') & Qpashalik & Qyear).count()
+    congeGeneralCount = Conge.objects.filter(Q(idpersonnel_field__administrationapp='عمالة وجدة أنجاد-Général') & Qpashalik & Qyear).count()
+    congeGeneralCountPer = '{:.2f}'.format((congeGeneralCount / congeCount) * 100)
+    congePrefectoralCountPer = '{:.2f}'.format((congePrefectoralCount / congeCount) * 100)
+    objdata = {'congeHommeCount': congeHommeCount, 'congeFemmeCount': congeFemmeCount,
+               'congeFemmeCountPer': congeFemmeCountPer,
+               'congeHommeCountPer': congeHommeCountPer, 'congePrefectoralCount': congePrefectoralCount,
+               'congeGeneralCount': congeGeneralCount, 'congeGeneralCountPer': congeGeneralCountPer,
+               'congePrefectoralCountPer': congePrefectoralCountPer}
+    data = json.dumps(objdata)
+    return JsonResponse({'data': data})
+def tboardajaxfilterdistrictPer(req,*arg,**kwargs):
+    year = kwargs.get('obj')
+    if (year != 'none'):
+        Qyear = Q(dateretour__year=year)
+    else:
+        Qyear = ~Q(idconge=None)  ## Always true0
+    QDistrict = Q(idpersonnel_field__organisme='Annexe')
+    congeCount = Conge.objects.filter(QDistrict & Qyear).count()
+    if (congeCount == 0):
+        congeCount = 1
+    congeHommeCount = Conge.objects.filter(Q(idpersonnel_field__sexe='Homme-ذكر') & QDistrict & Qyear).count()
+    congeFemmeCount = Conge.objects.filter(Q(idpersonnel_field__sexe='Femme-أنثى') & QDistrict & Qyear).count()
+    congeFemmeCountPer = '{:.2f}'.format((congeFemmeCount / congeCount) * 100)
+    congeHommeCountPer = '{:.2f}'.format((congeHommeCount / congeCount) * 100)
+    congePrefectoralCount = Conge.objects.filter(
+        Q(idpersonnel_field__administrationapp='مجلس عمالة وجدة أنجاد-Préfectoral') & QDistrict & Qyear).count()
+    congeGeneralCount = Conge.objects.filter(
+        Q(idpersonnel_field__administrationapp='عمالة وجدة أنجاد-Général') & QDistrict & Qyear).count()
+    congeGeneralCountPer = '{:.2f}'.format((congeGeneralCount / congeCount) * 100)
+    congePrefectoralCountPer = '{:.2f}'.format((congePrefectoralCount / congeCount) * 100)
+    objdata = {'congeHommeCount': congeHommeCount, 'congeFemmeCount': congeFemmeCount,
+               'congeFemmeCountPer': congeFemmeCountPer,
+               'congeHommeCountPer': congeHommeCountPer, 'congePrefectoralCount': congePrefectoralCount,
+               'congeGeneralCount': congeGeneralCount, 'congeGeneralCountPer': congeGeneralCountPer,
+               'congePrefectoralCountPer': congePrefectoralCountPer}
+    data = json.dumps(objdata)
+    return JsonResponse({'data': data})
+def tboardajaxfilterdivisionservPer(req,*args, **kwargs):
+    vl = kwargs.get('obj')
+    arr = vl.split('-')
+    year = arr[1]
+    if (year != 'none'):
+        Qyear = Q(dateretour__year=year)
+    else:
+        Qyear = ~Q(idconge=None)  ## Always true0
+    obj = arr[0]
+    divids=Servicepersonnel.objects.filter(idservice_field__iddivision_field__libelledivisionfr=obj).values_list('idpersonnel_field',flat=True)
+    Qorganisme=Q(idpersonnel_field__organisme='Service')
+    Qdiv=Q(idpersonnel_field__in=divids)
+    congeCount = Conge.objects.filter(Qdiv & Qorganisme & Qyear).count()
+    if (congeCount == 0):
+        congeCount = 1
+    congeHommeCount = Conge.objects.filter(Q(idpersonnel_field__sexe='Homme-ذكر') & Qdiv & Qorganisme & Qyear).count()
+    congeFemmeCount = Conge.objects.filter(Q(idpersonnel_field__sexe='Femme-أنثى') & Qdiv & Qorganisme & Qyear).count()
+    congeFemmeCountPer = '{:.2f}'.format((congeFemmeCount / congeCount) * 100)
+    congeHommeCountPer = '{:.2f}'.format((congeHommeCount / congeCount) * 100)
+    congePrefectoralCount = Conge.objects.filter(
+        Q(idpersonnel_field__administrationapp='مجلس عمالة وجدة أنجاد-Préfectoral')& Qdiv & Qorganisme & Qyear).count()
+    congeGeneralCount = Conge.objects.filter(
+        Q(idpersonnel_field__administrationapp='عمالة وجدة أنجاد-Général')& Qdiv & Qorganisme & Qyear).count()
+    congeGeneralCountPer = '{:.2f}'.format((congeGeneralCount / congeCount) * 100)
+    congePrefectoralCountPer = '{:.2f}'.format((congePrefectoralCount / congeCount) * 100)
+    objdata = {'congeHommeCount': congeHommeCount, 'congeFemmeCount': congeFemmeCount,
+               'congeFemmeCountPer': congeFemmeCountPer,
+               'congeHommeCountPer': congeHommeCountPer, 'congePrefectoralCount': congePrefectoralCount,
+               'congeGeneralCount': congeGeneralCount, 'congeGeneralCountPer': congeGeneralCountPer,
+               'congePrefectoralCountPer': congePrefectoralCountPer}
+    data = json.dumps(objdata)
+    return JsonResponse({'data': data})
+def tboardajaxfilterannexePer(req,*args, **kwargs):
+    vl = kwargs.get('obj')
+    arr = vl.split('-')
+    year = arr[1]
+    if (year != 'none'):
+        Qyear = Q(dateretour__year=year)
+    else:
+        Qyear = ~Q(idconge=None)  ## Always true0
+    obj = arr[0]
+    divids=Annexepersonnel.objects.filter(idannexe_field__iddistrict_field__libelledistrictfr=obj).values_list('idpersonnel_field',flat=True)
+    Qorganisme=Q(idpersonnel_field__organisme='Annexe')
+    Qdiv=Q(idpersonnel_field__in=divids)
+    congeCount = Conge.objects.filter(Qdiv & Qorganisme & Qyear).count()
+    if (congeCount == 0):
+        congeCount = 1
+    congeHommeCount = Conge.objects.filter(Q(idpersonnel_field__sexe='Homme-ذكر') & Qdiv & Qorganisme & Qyear).count()
+    congeFemmeCount = Conge.objects.filter(Q(idpersonnel_field__sexe='Femme-أنثى') & Qdiv & Qorganisme & Qyear).count()
+    congeFemmeCountPer = '{:.2f}'.format((congeFemmeCount / congeCount) * 100)
+    congeHommeCountPer = '{:.2f}'.format((congeHommeCount / congeCount) * 100)
+    congePrefectoralCount = Conge.objects.filter(
+        Q(idpersonnel_field__administrationapp='مجلس عمالة وجدة أنجاد-Préfectoral')& Qdiv & Qorganisme & Qyear).count()
+    congeGeneralCount = Conge.objects.filter(
+        Q(idpersonnel_field__administrationapp='عمالة وجدة أنجاد-Général')& Qdiv & Qorganisme & Qyear).count()
+    congeGeneralCountPer = '{:.2f}'.format((congeGeneralCount / congeCount) * 100)
+    congePrefectoralCountPer = '{:.2f}'.format((congePrefectoralCount / congeCount) * 100)
+    objdata = {'congeHommeCount': congeHommeCount, 'congeFemmeCount': congeFemmeCount,
+               'congeFemmeCountPer': congeFemmeCountPer,
+               'congeHommeCountPer': congeHommeCountPer, 'congePrefectoralCount': congePrefectoralCount,
+               'congeGeneralCount': congeGeneralCount, 'congeGeneralCountPer': congeGeneralCountPer,
+               'congePrefectoralCountPer': congePrefectoralCountPer}
+    data = json.dumps(objdata)
+    return JsonResponse({'data': data})
+def tboardajaxfiltercaidatPer(req,*args, **kwargs):
+    vl = kwargs.get('obj')
+    arr = vl.split('-')
+    year = arr[1]
+    if (year != 'none'):
+        Qyear = Q(dateretour__year=year)
+    else:
+        Qyear = ~Q(idconge=None)  ## Always true0
+    obj = arr[0]
+    divids=Caidatpersonnel.objects.filter(idcaidat_field__idcercle_field__libellecerclefr=obj).values_list('idpersonnel_field',flat=True)
+    Qorganisme=Q(idpersonnel_field__organisme='Caida')
+    Qdiv=Q(idpersonnel_field__in=divids)
+    congeCount = Conge.objects.filter(Qdiv & Qorganisme & Qyear).count()
+    if (congeCount == 0):
+        congeCount = 1
+    congeHommeCount = Conge.objects.filter(Q(idpersonnel_field__sexe='Homme-ذكر') & Qdiv & Qorganisme & Qyear).count()
+    congeFemmeCount = Conge.objects.filter(Q(idpersonnel_field__sexe='Femme-أنثى') & Qdiv & Qorganisme & Qyear).count()
+    congeFemmeCountPer = '{:.2f}'.format((congeFemmeCount / congeCount) * 100)
+    congeHommeCountPer = '{:.2f}'.format((congeHommeCount / congeCount) * 100)
+    congePrefectoralCount = Conge.objects.filter(
+        Q(idpersonnel_field__administrationapp='مجلس عمالة وجدة أنجاد-Préfectoral')& Qdiv & Qorganisme & Qyear).count()
+    congeGeneralCount = Conge.objects.filter(
+        Q(idpersonnel_field__administrationapp='عمالة وجدة أنجاد-Général')& Qdiv & Qorganisme & Qyear).count()
+    congeGeneralCountPer = '{:.2f}'.format((congeGeneralCount / congeCount) * 100)
+    congePrefectoralCountPer = '{:.2f}'.format((congePrefectoralCount / congeCount) * 100)
+    objdata = {'congeHommeCount': congeHommeCount, 'congeFemmeCount': congeFemmeCount,
+               'congeFemmeCountPer': congeFemmeCountPer,
+               'congeHommeCountPer': congeHommeCountPer, 'congePrefectoralCount': congePrefectoralCount,
+               'congeGeneralCount': congeGeneralCount, 'congeGeneralCountPer': congeGeneralCountPer,
+               'congePrefectoralCountPer': congePrefectoralCountPer}
+    data = json.dumps(objdata)
+    return JsonResponse({'data': data})
 def tboardcongedefaultyear(req,*args, **kwargs):
     year = kwargs.get('obj')
     if(year!='none'):
@@ -690,7 +917,7 @@ def tboardcongedefaultyear(req,*args, **kwargs):
     else:
         Qyear=~Q(idconge=None) ## Always true0
     congeCount = Conge.objects.filter(Qyear).count()
-    congeAdmiCount = Conge.objects.filter(Q(type_conge='رخصة إدراية') & Qyear).count()
+    congeAdmiCount = Conge.objects.filter(Q(type_conge='رخصة إدارية') & Qyear).count()
     congeExpCount = Conge.objects.filter(Q(type_conge='رخصة استثنائية') & Qyear).count()
     congeHajCount = Conge.objects.filter(Q(type_conge='رخصة الحج') & Qyear).count()
     congeMotCount = Conge.objects.filter(Q(type_conge='رخصة الأموة') & Qyear).count()
@@ -715,3 +942,33 @@ def tboardcongedefaultyear(req,*args, **kwargs):
                'congePsCount':congePsCount,'congeScCount':congeScCount}
     data = json.dumps(objdata)
     return JsonResponse({'data': data})
+def congencourfilter(req,*args, **kwargs):
+    obj = kwargs.get('obj')
+    conge=Conge.objects.filter(Q(idpersonnel_field__organisme=obj) & Q(statut='حاليا') & Q(dateretour__gt= datetime.now())).values('idconge','idpersonnel_field__nomar',
+                                                                                                                                   'idpersonnel_field__prenomar','type_conge','datedebut__date',
+                                                                                                                                   'dateretour__date','nbjour')
+    listdate = []
+    dateelimine = DateElimine.objects.all()
+    print(list(conge))
+    for a in list(conge):
+        print(a)
+        '''d1 = datetime.strptime(str(a.dateretour.strftime('%Y/%m/%d')), "%Y/%m/%d")
+        d2 = datetime.strptime(str(date.today().strftime('%Y/%m/%d')), "%Y/%m/%d")
+        delta = d1 - d2; delta.days'''
+        datedecom = a['dateretour__date']
+        a2 = datetime.strptime(str(datedecom.strftime('%Y/%m/%d')), "%Y/%m/%d")
+        a1 = datetime.now()
+        data = [s.dateelimine.date() for s in dateelimine]
+        datenbjours = np.busday_count(a1.date(), a2.date(), holidays=data)
+        b = {'idconge':a['idconge'],'idpersonnel_field__nomar':a['idpersonnel_field__nomar'],'idpersonnel_field__prenomar':a['idpersonnel_field__prenomar'],
+            'type_conge':a['type_conge'],'datedebut__date':a['datedebut__date'],'dateretour__date':a['dateretour__date'],'nbjour':a['nbjour'],'joursrestanConge': datenbjours}
+        listdate.append(b);
+    data = json.dumps(listdate,default=str)
+    return JsonResponse({'data': data},safe=False)
+def congencourfinifilter(req,*args, **kwargs):
+    obj = kwargs.get('obj')
+    conge=Conge.objects.filter(Q(idpersonnel_field__organisme=obj) & Q(statut='حاليا') & Q(dateretour__lte=datetime.now())).values('idconge','idpersonnel_field__nomar',
+                                                                                                                                   'idpersonnel_field__prenomar','type_conge','datedebut__date',
+                                                                                                                                   'dateretour__date','nbjour')
+    datafini = json.dumps(list(conge),default=str)
+    return JsonResponse({'datafini': datafini},safe=False)

@@ -1,0 +1,54 @@
+.absence{
+    box-shadow: 0 0.3rem 0.9rem rgb(5 92 98 / 14%) !important;
+    margin: 3%;
+    border-radius: 8px;
+}
+
+.absence .abs-head{
+    margin: 3%;
+    padding: 1%;
+    width: 94% !important;
+    border-radius: 5px;
+}
+
+.btn-search{
+    border: none;
+    background: none;
+    border-radius: 64%; 
+}
+
+.fa-search{
+    font-size: 20px;
+    color: #0688a3;     
+}
+
+.absence .abs-data {
+    margin: 3%;
+    padding: 1%;
+    width: 94% !important;
+    height: 60vh;
+    overflow: auto;
+    border-radius: 5px;
+}
+.fa-circle-check{
+    color: rgb(75, 209, 13);
+}
+
+.absence .abs-info{
+    margin: 3%;
+    padding: 1%;
+    width: 94% !important;
+    height: 5rem;
+    border-radius: 5px;
+    bottom: -2rem;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.absence .abs-info article{
+    border-radius: 3px;
+    padding: 8px 10px;
+    width: 25rem;
+}
+
