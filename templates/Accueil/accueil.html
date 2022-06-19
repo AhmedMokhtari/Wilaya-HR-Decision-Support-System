@@ -16,15 +16,19 @@
      .card-body:hover{
          background-color:#79AEC8;
          transform: scale(1.05);
-         color: white;
+         color: white !important;
 
      }
      .card-body:hover>h3{
          background-color:#79AEC8;
          transform: scale(1.05);
-         color: white;
-
+         color: white !important;
      }
+
+     .card-body:hover .fa-solid{
+         color: white !important;
+     }
+
      .not-allowed {cursor: not-allowed;}
     </style>
 
@@ -68,7 +72,7 @@
                 <div class="card text-center h-100">
                     <a class="card-body d-flex flex-column text-decoration-none" id="perso" href="{% url 'taboard' %}">
                         <div class="mb-4">
-                            <span class="display-4"><i class="fa-solid fa-user"></i></span>
+                            <span class="display-4"><i class="fa-solid fa-user" style="color: #79AEC8"></i></span>
                         </div>
                         <h3> فضاء الموظفون</h3>
                     </a>
@@ -79,7 +83,7 @@
                 <div class="card text-center h-100">
                     <a class="card-body d-flex flex-column text-decoration-none" href="{% url 'consultationconge' %}" id="conge">
                         <div class="mb-4">
-                            <span class="display-4"><i class="fa-solid fa-calendar"></i></span>
+                            <span class="display-4"><i class="fa-solid fa-calendar" style="color: #79AEC8;"></i></span>
                         </div>
                         <h3> فضاء الرخص</h3>
                     </a>
@@ -90,7 +94,7 @@
                 <div class="card text-center h-100">
                     <a class="card-body d-flex flex-column text-decoration-none" href="{% url 'ajouternotation' %}" id="avancement">
                         <div class="mb-4">
-                            <span class="display-4"><i class="fa-solid fa-briefcase"></i></span>
+                            <span class="display-4"><i class="fa-solid fa-briefcase" style="color: #79AEC8"></i></span>
                         </div>
                         <h3> فضاء الترقيات</h3>
                     </a>
@@ -104,7 +108,7 @@
                 <div class="card text-center h-100">
                     <a class="card-body d-flex flex-column text-decoration-none" href="" id="abc">
                         <div class="mb-4">
-                            <span class="display-4"><i class="fa-solid fa-address-card"></i></span>
+                            <span class="display-4"><i class="fa-solid fa-address-card" style="color: #79AEC8"></i></span>
                         </div>
                         <h3> فضاء الغيابات </h3>
                     </a>
@@ -115,7 +119,7 @@
                 <div class="card text-center h-100" >
                     <a class="card-body d-flex flex-column text-decoration-none" href="">
                         <div class="mb-4">
-                            <span class="display-4"><i class="fa-solid fa-bell"></i></span>
+                            <span class="display-4"><i class="fa-solid fa-bell" style="color: #79AEC8"></i></span>
                         </div>
                         <h3>فضاء الإشعارات</h3>
                     </a>
@@ -126,7 +130,7 @@
                 <div class="card text-center h-100">
                     <a class="card-body d-flex flex-column text-decoration-none" href="{% url 'accueil' %}" id="stagiaire">
                         <div class="mb-4">
-                            <span class="display-4"><i class="fa-solid fa-graduation-cap"></i></span>
+                            <span class="display-4"><i class="fa-solid fa-graduation-cap" style="color: #79AEC8"></i></span>
                         </div>
                         <h3>فضاء المتدربين</h3>
                     </a>

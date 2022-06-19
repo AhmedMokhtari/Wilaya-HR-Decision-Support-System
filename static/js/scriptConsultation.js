@@ -10,7 +10,7 @@ function datatb() {
             language:{
                 "decimal":        "",
                 "emptyTable":     "لا يوجد معلومات",
-                "info":           "<span class='btn btn-warning' style='color: white;font-size: 16px;'> <span class='' >العدد الإجمالي :</span> _TOTAL_</span>",
+                "info":           "<span class='btn btn-warning' style='color: black; font-size: 16px;'> <span class='' >العدد الإجمالي :</span> _TOTAL_</span>",
                 "infoEmpty":      "إضهار 0 من 0 ",
                 "infoFiltered":   "",
                 "infoPostFix":    "",
