@@ -2,6 +2,7 @@
 from .models import *
 from GestionPersonnel.models import *
 import numpy as np
+from django.db.models import Q
 from datetime import date, datetime, timedelta
 
 def dictfetchall(cursor):
@@ -32,5 +33,9 @@ def findWorkingDayAfter(startDate, daysToAdd):
             workingDayCount += 1
 
     return startDate
+
+def convertCongeToEnCour():
+    conge=Conge.objects.filter(Q(statut='لم يبدأ') & Q(datedebut__lte=date.today()))
+    conge.update(statut='حاليا')
 
 
