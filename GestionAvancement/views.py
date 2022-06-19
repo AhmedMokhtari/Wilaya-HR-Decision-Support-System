@@ -20,8 +20,65 @@ from dateutil.relativedelta import relativedelta
 
 
 @login_required(login_url='/')
-def ajouteravancementnormal(request, id):
-    pass
+@csrf_exempt
+def ajouteravancementnormal(request):
+    json_data = json.loads(request.body)
+    for item in json_data:
+        if(item != None):
+            datefin =datetime.strptime(item['datefin'], '%Y-%m-%d')
+            if(datefin.year <= datetime.now().year):
+                objavancement = Avencement.objects.create(idpersonnel_field=Personnel.objects.get(idpersonnel=item['idpersonnel']),
+                                                          idgrade_field=Gradepersonnel.objects.filter(idpersonnel_field=Personnel.objects.get(idpersonnel=item['idpersonnel'])).last().idgrade_field,
+                                                          dategrade=Gradepersonnel.objects.filter(idpersonnel_field=Personnel.objects.get(idpersonnel=item['idpersonnel'])).last().dategrade,
+                                                          idechellon_field=Echellon.objects.get(idechellon=item['echellondefin']),
+                                                          indice=item['indicesefin'],
+                                                          dateechellon=item['datefin'])
+
+                objGradepersonnel = Gradepersonnel.objects.create(idpersonnel_field=Personnel.objects.get(idpersonnel=item['idpersonnel']),
+                                                            idgrade_field=Gradepersonnel.objects.filter(
+                                                                idpersonnel_field=Personnel.objects.get(idpersonnel=item['idpersonnel'])).last().idgrade_field,
+                                                            dategrade=Gradepersonnel.objects.filter(
+                                                                idpersonnel_field=Personnel.objects.get(idpersonnel=item['idpersonnel'])).last().dategrade,
+                                                            idechellon_field=Echellon.objects.get(idechellon=item['echellondefin']),
+                                                            indice=item['indicesefin'],
+                                                            dateechellon=item['datefin'])
+                objavancement.save()
+                objGradepersonnel.save()
+    grades = Grade.objects.all()
+    return render(request, 'GestionAvancement/avancementnormal.html', {'grades': grades})
+
+@login_required(login_url='/')
+@csrf_exempt
+def ajouteravancementexceptionnel(request):
+    json_data = json.loads(request.body)
+    i = 0
+    print(json_data['calcule']['div'])
+    for item in json_data['datawarehouse']:
+        if(item != None):
+            if(i == int(json_data['calcule']['div'])):
+                break;
+            objavancement = Avencement.objects.create(idpersonnel_field=Personnel.objects.get(idpersonnel=item['idpersonnel']),
+                                                      idgrade_field=Gradepersonnel.objects.filter(idpersonnel_field=Personnel.objects.get(idpersonnel=item['idpersonnel'])).last().idgrade_field,
+                                                      dategrade=Gradepersonnel.objects.filter(idpersonnel_field=Personnel.objects.get(idpersonnel=item['idpersonnel'])).last().dategrade,
+                                                      idechellon_field=Echellon.objects.get(idechellon=item['echellondefin']),
+                                                      indice=item['indicesefin'],
+                                                      dateechellon=item['datefin'])
+
+            objGradepersonnel = Gradepersonnel.objects.create(idpersonnel_field=Personnel.objects.get(idpersonnel=item['idpersonnel']),
+                                                        idgrade_field=Gradepersonnel.objects.filter(
+                                                            idpersonnel_field=Personnel.objects.get(idpersonnel=item['idpersonnel'])).last().idgrade_field,
+                                                        dategrade=Gradepersonnel.objects.filter(
+                                                            idpersonnel_field=Personnel.objects.get(idpersonnel=item['idpersonnel'])).last().dategrade,
+                                                        idechellon_field=Echellon.objects.get(idechellon=item['echellondefin']),
+                                                        indice=item['indicesefin'],
+                                                        dateechellon=item['datefin'])
+            objavancement.save()
+            objGradepersonnel.save()
+            i=i+1
+    grades = Grade.objects.all()
+    return render(request, 'GestionAvancement/avancementnormal.html', {'grades': grades})
+
+
 
 @login_required(login_url='/')
 def notation(request):
@@ -160,7 +217,6 @@ def loadpersonnelavancement(request):
                         mois = objrythme.rapide + 18
             else:
                 if(item2.idechellon_field.echellon != '10'):
-                    print(item2.idechellon_field.echellon)
                     if (moyenne >= 16 and moyenne <= 20):
                         mois = objrythme.rapide
                     elif (moyenne >= 10 and moyenne <= 16):

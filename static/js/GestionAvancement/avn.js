@@ -1,20 +1,20 @@
 window.onload = function (){
 
     selgrade = document.getElementById('grade')
-
-     function ajaxgrade(){
+    var jsondata;
+   async function ajaxgrade(){
         $("#table tr").remove();
         $("#title center").remove();
         $("#title").append('<center><h3>  لائحة الترسيم والترقية في الرتبة في درجة '+ selgrade.options[selgrade.selectedIndex].text+' لوزارة الداخلية</h3></center>')
         $("#linq a").attr("href","/avancement/pdfavencement/"+selgrade.value+"/")
-        $.ajax(
+       await $.ajax(
             {
                 type: "POST",
                 url: url1,
                 data: {grade: selgrade.value},
                 success: function (data) {
                     console.log(data)
-
+                    jsondata= data;
                     for (var i = 0; i < data.length; i++) {
                         if(data[i] != null)
                         {
@@ -41,6 +41,24 @@ window.onload = function (){
     }
     ajaxgrade()
     selgrade.addEventListener('change',ajaxgrade)
+
+
+    selpersonnels = document.getElementById('accept')
+     function ajaxaccept(){
+       alert('hello');
+       console.log(jsondata)
+        /*$.ajax(
+            {
+                type: "POST",
+                url: url1,
+                data: {},
+                success: function (response) {
+                    console.log(data)
+                }
+            });*/
+    }
+
+    selpersonnels .addEventListener('click',ajaxaccept)
 
 
 }

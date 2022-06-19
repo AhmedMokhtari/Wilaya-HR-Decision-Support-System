@@ -19,4 +19,5 @@ urlpatterns = [
     path('pdfavencementexceptionnel/<int:id>/', views.pdfavencementexceptionnel, name='pdfavencementexceptionnel'),
     path('pdfavencementexceptionnel', views.pdfavencementexceptionnel, name='pdfavencementexceptionnel'),
     path('ajouteravancementnormal', views.ajouteravancementnormal, name='ajouteravancementnormal'),
+    path('ajouteravancementexceptionnell', views.ajouteravancementexceptionnel, name='ajouteravancementexceptionnel'),
 ]

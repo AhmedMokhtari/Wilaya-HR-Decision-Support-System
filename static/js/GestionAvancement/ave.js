@@ -21,6 +21,7 @@ window.onload = function (){
                     $("#table1 tr").empty();
                     $("#table2 tr").empty();
                     $("#title center").empty();
+                    $("#title").append('<center><h3>  لائحة الترسيم والترقية الإستثنائية في الرتبة في درجة '+ selgrade.options[selgrade.selectedIndex].text+' لوزارة الداخلية</h3></center>')
                     console.log(data)
                     if(data.datawarehouse[0]!=null)
                     {
