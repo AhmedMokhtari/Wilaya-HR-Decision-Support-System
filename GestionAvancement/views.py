@@ -21,6 +21,13 @@ from dateutil.relativedelta import relativedelta
 
 @login_required(login_url='/')
 @csrf_exempt
+def tboardavancement(request):
+    """objavancememnt = Avencement.objects.filter(dateechellon__year = datetime.now().year).filter(not idechellon_field__echellon='11')"""
+    return render(request, "GestionAvancement/tboardavancement.html")
+
+
+@login_required(login_url='/')
+@csrf_exempt
 def ajouteravancementnormal(request):
     json_data = json.loads(request.body)
     for item in json_data:
