@@ -200,7 +200,7 @@ def conge(request):
 
 
         dater =  findWorkingDayAfter(a1,nbjours)
-        objconge = Conge(type_conge=typede, datedebut=a2, dateretour=dater, idpersonnel_field=perso, nbjour=nbjours)
+        objconge = Conge(type_conge=typede, datedebut=a2, dateretour=dater, idpersonnel_field=perso, nbjour=nbjours, statut='لم تبدأ')
         objconge.save()
 
         return render(request, 'GestionConge/conge.html', {'personnels': personnels, 'congepersonnel': congepersonnel, 'objconge': objconge, 'conges': conges, 'divisions': divisions})
@@ -348,6 +348,8 @@ def tboardfilterdiv(req,*args, **kwargs):
         groupByDivision.append(val)
     data = json.dumps(groupByDivision)
     return JsonResponse({'data': data})
+
+
 def tboardfilterdivse(req,*args, **kwargs):
     vl = kwargs.get('obj')
     arr = vl.split('-')
@@ -392,6 +394,8 @@ def tboardfilterdivse(req,*args, **kwargs):
     data = json.dumps(list(groupByDivision))'''
     data = json.dumps(groupByService)
     return JsonResponse({'data': data})
+
+
 def tboardfiltercercle(req,*args, **kwargs):
     year = kwargs.get('obj')
     if (year != 'none'):
@@ -417,6 +421,8 @@ def tboardfiltercercle(req,*args, **kwargs):
         groupByDivision.append(val)
     data = json.dumps(groupByDivision)
     return JsonResponse({'data': data})
+
+
 def tboardfiltercaidat(req,*args, **kwargs):
     vl = kwargs.get('obj')
     arr = vl.split('-')
@@ -454,6 +460,8 @@ def tboardfiltercaidat(req,*args, **kwargs):
         groupByCaidat.append(val)
     data = json.dumps(groupByCaidat)
     return JsonResponse({'data': data})
+
+
 def tboardfilterpashalik(req,*args, **kwargs):
     year = kwargs.get('obj')
     if (year != 'none'):
@@ -479,6 +487,8 @@ def tboardfilterpashalik(req,*args, **kwargs):
         groupByPashalik.append(val)
     data = json.dumps(groupByPashalik)
     return JsonResponse({'data': data})
+
+
 def tboardfilterdistrict(req,*args, **kwargs):
     year = kwargs.get('obj')
     if (year != 'none'):
@@ -504,6 +514,8 @@ def tboardfilterdistrict(req,*args, **kwargs):
         groubByDistrict.append(val)
     data = json.dumps(groubByDistrict)
     return JsonResponse({'data': data})
+
+
 def tboardfilterannexe(req,*args, **kwargs):
     vl = kwargs.get('obj')
     arr = vl.split('-')
@@ -537,6 +549,8 @@ def tboardfilterannexe(req,*args, **kwargs):
     data = json.dumps(groubByAnnexe)
     print(data)
     return JsonResponse({'data': data})
+
+
 def tboardajaxfilterpashaliktypeconge(req,*args, **kwargs):
     year = kwargs.get('obj')
     if (year != 'none'):
@@ -563,6 +577,8 @@ def tboardajaxfilterpashaliktypeconge(req,*args, **kwargs):
     print(objdata)
     print(data)
     return JsonResponse({'data': data})
+
+
 def tboardajaxfiltersecretariattypeconge(req,*args, **kwargs):
     year = kwargs.get('obj')
     if (year != 'none'):
@@ -586,6 +602,8 @@ def tboardajaxfiltersecretariattypeconge(req,*args, **kwargs):
          'congeAdmiCountPer':congeAdmiCountPer,'congeMotCountPer':congeMotCountPer,'congeFatCountPer':congeFatCountPer,'congeHajCountPer':congeHajCountPer,'congeExpCountPer':congeExpCountPer}
     data = json.dumps(objdata)
     return JsonResponse({'data': data})
+
+
 def tboardajaxfilterdistricttypeconge(req,*args, **kwargs):
     year = kwargs.get('obj')
     if (year != 'none'):
@@ -609,6 +627,8 @@ def tboardajaxfilterdistricttypeconge(req,*args, **kwargs):
          'congeAdmiCountPer':congeAdmiCountPer,'congeMotCountPer':congeMotCountPer,'congeFatCountPer':congeFatCountPer,'congeHajCountPer':congeHajCountPer,'congeExpCountPer':congeExpCountPer}
     data = json.dumps(objdata)
     return JsonResponse({'data': data})
+
+
 def tboardajaxfiltercercletypeconge(req,*args, **kwargs):
     year = kwargs.get('obj')
     if (year != 'none'):
@@ -632,6 +652,8 @@ def tboardajaxfiltercercletypeconge(req,*args, **kwargs):
          'congeAdmiCountPer':congeAdmiCountPer,'congeMotCountPer':congeMotCountPer,'congeFatCountPer':congeFatCountPer,'congeHajCountPer':congeHajCountPer,'congeExpCountPer':congeExpCountPer}
     data = json.dumps(objdata)
     return JsonResponse({'data': data})
+
+
 def tboardajaxfilterdivisiontypeconge(req,*args, **kwargs):
     vl = kwargs.get('obj')
     arr = vl.split('-')
@@ -659,6 +681,8 @@ def tboardajaxfilterdivisiontypeconge(req,*args, **kwargs):
          'congeAdmiCountPer':congeAdmiCountPer,'congeMotCountPer':congeMotCountPer,'congeFatCountPer':congeFatCountPer,'congeHajCountPer':congeHajCountPer,'congeExpCountPer':congeExpCountPer}
     data = json.dumps(objdata)
     return JsonResponse({'data': data})
+
+
 def tboardajaxfilterannexetypeconge(req,*args, **kwargs):
     vl = kwargs.get('obj')
     arr = vl.split('-')
@@ -686,6 +710,8 @@ def tboardajaxfilterannexetypeconge(req,*args, **kwargs):
          'congeAdmiCountPer':congeAdmiCountPer,'congeMotCountPer':congeMotCountPer,'congeFatCountPer':congeFatCountPer,'congeHajCountPer':congeHajCountPer,'congeExpCountPer':congeExpCountPer}
     data = json.dumps(objdata)
     return JsonResponse({'data': data})
+
+
 def tboardajaxfiltercaidattypeconge(req,*args, **kwargs):
     vl=kwargs.get('obj')
     arr = vl.split('-')
@@ -713,6 +739,8 @@ def tboardajaxfiltercaidattypeconge(req,*args, **kwargs):
          'congeAdmiCountPer':congeAdmiCountPer,'congeMotCountPer':congeMotCountPer,'congeFatCountPer':congeFatCountPer,'congeHajCountPer':congeHajCountPer,'congeExpCountPer':congeExpCountPer}
     data = json.dumps(objdata)
     return JsonResponse({'data': data})
+
+
 def tboardajaxfilterpashalikPer(req,*arg,**kwargs):
     year = kwargs.get('obj')
     if (year != 'none'):
@@ -737,6 +765,8 @@ def tboardajaxfilterpashalikPer(req,*arg,**kwargs):
                'congePrefectoralCountPer': congePrefectoralCountPer}
     data = json.dumps(objdata)
     return JsonResponse({'data': data})
+
+
 def tboardajaxfilterdivisionPer(req,*arg,**kwargs):
     year = kwargs.get('obj')
     if (year != 'none'):
@@ -762,6 +792,8 @@ def tboardajaxfilterdivisionPer(req,*arg,**kwargs):
                'congePrefectoralCountPer': congePrefectoralCountPer}
     data = json.dumps(objdata)
     return JsonResponse({'data': data})
+
+
 def tboardajaxfiltercaerclePer(req,*arg,**kwargs):
     year = kwargs.get('obj')
     if (year != 'none'):
@@ -787,6 +819,8 @@ def tboardajaxfiltercaerclePer(req,*arg,**kwargs):
                'congePrefectoralCountPer': congePrefectoralCountPer}
     data = json.dumps(objdata)
     return JsonResponse({'data': data})
+
+
 def tboardajaxfilterdistrictPer(req,*arg,**kwargs):
     year = kwargs.get('obj')
     if (year != 'none'):
@@ -814,6 +848,8 @@ def tboardajaxfilterdistrictPer(req,*arg,**kwargs):
                'congePrefectoralCountPer': congePrefectoralCountPer}
     data = json.dumps(objdata)
     return JsonResponse({'data': data})
+
+
 def tboardajaxfilterdivisionservPer(req,*args, **kwargs):
     vl = kwargs.get('obj')
     arr = vl.split('-')
@@ -846,6 +882,7 @@ def tboardajaxfilterdivisionservPer(req,*args, **kwargs):
                'congePrefectoralCountPer': congePrefectoralCountPer}
     data = json.dumps(objdata)
     return JsonResponse({'data': data})
+
 def tboardajaxfilterannexePer(req,*args, **kwargs):
     vl = kwargs.get('obj')
     arr = vl.split('-')
@@ -878,6 +915,8 @@ def tboardajaxfilterannexePer(req,*args, **kwargs):
                'congePrefectoralCountPer': congePrefectoralCountPer}
     data = json.dumps(objdata)
     return JsonResponse({'data': data})
+
+
 def tboardajaxfiltercaidatPer(req,*args, **kwargs):
     vl = kwargs.get('obj')
     arr = vl.split('-')
@@ -910,6 +949,8 @@ def tboardajaxfiltercaidatPer(req,*args, **kwargs):
                'congePrefectoralCountPer': congePrefectoralCountPer}
     data = json.dumps(objdata)
     return JsonResponse({'data': data})
+
+
 def tboardcongedefaultyear(req,*args, **kwargs):
     year = kwargs.get('obj')
     if(year!='none'):
@@ -942,6 +983,8 @@ def tboardcongedefaultyear(req,*args, **kwargs):
                'congePsCount':congePsCount,'congeScCount':congeScCount}
     data = json.dumps(objdata)
     return JsonResponse({'data': data})
+
+
 def congencourfilter(req,*args, **kwargs):
     obj = kwargs.get('obj')
     conge=Conge.objects.filter(Q(idpersonnel_field__organisme=obj) & Q(statut='جاري') & Q(dateretour__gt= datetime.now())).values('idconge','idpersonnel_field__nomar',
@@ -965,6 +1008,7 @@ def congencourfilter(req,*args, **kwargs):
         listdate.append(b);
     data = json.dumps(listdate,default=str)
     return JsonResponse({'data': data},safe=False)
+
 def congencourfinifilter(req,*args, **kwargs):
     obj = kwargs.get('obj')
     conge=Conge.objects.filter(Q(idpersonnel_field__organisme=obj) & Q(statut='جاري') & Q(dateretour__lte=datetime.now())).values('idconge','idpersonnel_field__nomar',
@@ -972,6 +1016,7 @@ def congencourfinifilter(req,*args, **kwargs):
                                                                                                                                    'dateretour__date','nbjour')
     datafini = json.dumps(list(conge),default=str)
     return JsonResponse({'datafini': datafini},safe=False)
+
 def tboardajaxfilteryeardefault(req,*args, **kwargs):
     year = kwargs.get('obj')
     if (year != 'none'):
