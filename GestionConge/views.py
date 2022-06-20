@@ -270,7 +270,6 @@ def ajaxloadpersonnelforconge(request):
 def tboardconge(request):
     convertCongeToEnCour()
     personnels = Personnel.objects.all()
-    dateelimine = DateElimine.objects.all()
     conges = Conge.objects.all()
     congepersonnel = []
     i = 0
@@ -278,7 +277,8 @@ def tboardconge(request):
         congepersonnel.append(
             Conge.objects.filter(datedebut__year=datetime.now().year).filter(datedebut__month=i + 1).count())
         i = i + 1
-    try:
+    print(congepersonnel)
+    '''try:
         sql = "select d.LibelleDivisionAr,d.LibelleDivisionFr, count(c.IdConge) as total from [dbo].[Division] d inner join [dbo].[Service] s on s.IdDivision# = d.IdDivision inner join [dbo].[ServicePersonnel] sp on s.IdService = sp.IdService# inner join [dbo].[Personnel] p on sp.IdPersonnel# = p.IdPersonnel  inner join [dbo].[Conge] c on p.IdPersonnel = c.IdPersonnel# where p.organisme='Service' group by d.LibelleDivisionAr,d.LibelleDivisionFr,d.IdDivision"
         cursor = connection.cursor()
         cursor.execute(sql)
@@ -286,7 +286,7 @@ def tboardconge(request):
     except Exception as e:
         exception = str(e)
     finally:
-        cursor.close
+        cursor.close'''
     congeAdmiCount=Conge.objects.filter(type_conge='رخصة إدارية').count()
     congeExpCount=Conge.objects.filter(type_conge='رخصة استثنائية').count()
     congeHajCount=Conge.objects.filter(type_conge='رخصة الحج').count()
@@ -312,7 +312,7 @@ def tboardconge(request):
     congeGeneralCount=Conge.objects.filter(idpersonnel_field__administrationapp='عمالة وجدة أنجاد-Général').count()
     congeGeneralCountPer = '{:.2f}'.format((congeGeneralCount / congeCount) * 100)
     congePrefectoralCountPer = '{:.2f}'.format((congePrefectoralCount / congeCount) * 100)
-    context={'personnels': personnels, 'congepersonnel': congepersonnel, 'conges': conges,'divisions': divisions,"Sc":congeScCount,'Ps':congePsCount,'Cr':congeCrCount,'Ds':congeDsCount,
+    context={'personnels': personnels, 'congepersonnel': congepersonnel, 'conges': conges,'Sc':congeScCount,'Ps':congePsCount,'Cr':congeCrCount,'Ds':congeDsCount,
             'congeAdmiCount':congeAdmiCount,'congeExpCount':congeExpCount,'congeHajCount':congeHajCount,'congeMotCount':congeMotCount ,'congeFatCount':congeFatCount,
              'congeAdmiCountPer':congeAdmiCountPer,'congeMotCountPer':congeMotCountPer,'congeFatCountPer':congeFatCountPer,'congeExpCountPer':congeExpCountPer,'congeHajCountPer':congeHajCountPer,
              'congeHommeCount':congeHommeCount,'congeFemmeCount':congeFemmeCount,'congeFemmeCountPer':congeFemmeCountPer,'congeHommeCountPer':congeHommeCountPer,
@@ -972,6 +972,95 @@ def congencourfinifilter(req,*args, **kwargs):
                                                                                                                                    'dateretour__date','nbjour')
     datafini = json.dumps(list(conge),default=str)
     return JsonResponse({'datafini': datafini},safe=False)
+def tboardajaxfilterentiteyear(req,*arg,**kwargs):
+    vl = kwargs.get('obj')
+    arr = vl.split('-')
+    year = arr[1]
+    orgnisme = arr[0]
+    if (year != 'none'):
+        Qyear = Q(dateretour__year=year)
+    else:
+        Qyear = Q(datedebut__year=datetime.now().year)
+    Qorganisme=Q(idpersonnel_field__organisme=orgnisme)
+
+    congepersonnel = []
+    i = 0
+    while i <= 11:
+        congepersonnel.append(Conge.objects.filter(Qyear & Q(datedebut__month=i + 1) & Qorganisme).count())
+        i = i + 1
+    data = json.dumps(congepersonnel)
+    return JsonResponse({'data': data})
+
+def tboardajaxfilterserviceyear(req,*args, **kwargs):
+    vl = kwargs.get('obj')
+    arr = vl.split('-')
+    year = arr[1]
+    if (year != 'none'):
+        Qyear = Q(dateretour__year=year)
+    else:
+        Qyear = Q(datedebut__year=datetime.now().year)
+    obj = arr[0]
+    divids=Servicepersonnel.objects.filter(idservice_field__iddivision_field__libelledivisionfr=obj).values_list('idpersonnel_field',flat=True)
+    Qorganisme=Q(idpersonnel_field__organisme='Service')
+    Qdiv=Q(idpersonnel_field__in=divids)
+    congepersonnel = []
+    i = 0
+    while i <= 11:
+        congepersonnel.append(Conge.objects.filter(Qyear & Q(datedebut__month=i + 1) & Qorganisme & Qdiv).count())
+        i = i + 1
+    data = json.dumps(congepersonnel)
+    return JsonResponse({'data': data})
+def tboardajaxfilterannexeyear(req,*args, **kwargs):
+    vl = kwargs.get('obj')
+    arr = vl.split('-')
+    year = arr[1]
+    if (year != 'none'):
+        Qyear = Q(dateretour__year=year)
+    else:
+        Qyear = Q(datedebut__year=datetime.now().year)
+    obj = arr[0]
+    divids=Annexepersonnel.objects.filter(idannexe_field__iddistrict_field__libelledistrictfr=obj).values_list('idpersonnel_field',flat=True)
+    Qorganisme=Q(idpersonnel_field__organisme='Annexe')
+    Qdiv=Q(idpersonnel_field__in=divids)
+    congepersonnel = []
+    i = 0
+    while i <= 11:
+        congepersonnel.append(Conge.objects.filter(Qyear & Q(datedebut__month=i + 1) & Qorganisme & Qdiv).count())
+        i = i + 1
+    data = json.dumps(congepersonnel)
+    return JsonResponse({'data': data})
+def tboardajaxfiltercaidatyear(req,*args, **kwargs):
+    vl = kwargs.get('obj')
+    arr = vl.split('-')
+    year = arr[1]
+    if (year != 'none'):
+        Qyear = Q(dateretour__year=year)
+    else:
+        Qyear = Q(datedebut__year=datetime.now().year)
+    obj = arr[0]
+    divids=Caidatpersonnel.objects.filter(idcaidat_field__idcercle_field__libellecerclefr=obj).values_list('idpersonnel_field',flat=True)
+    Qorganisme=Q(idpersonnel_field__organisme='Caida')
+    Qdiv=Q(idpersonnel_field__in=divids)
+    congepersonnel = []
+    i = 0
+    while i <= 11:
+        congepersonnel.append(Conge.objects.filter(Qyear & Q(datedebut__month=i + 1) & Qorganisme & Qdiv).count())
+        i = i + 1
+    data = json.dumps(congepersonnel)
+    return JsonResponse({'data': data})
+def tboardcongedefaultyearchart(req,*arg,**kwargs):
+    year = kwargs.get('obj')
+    if (year != 'none'):
+        Qyear = Q(dateretour__year=year)
+    else:
+        Qyear = Q(datedebut__year=datetime.now().year)
+    congepersonnel = []
+    i = 0
+    while i <= 11:
+        congepersonnel.append(Conge.objects.filter(Qyear & Q(datedebut__month=i + 1)).count())
+        i = i + 1
+    data = json.dumps(congepersonnel)
+    return JsonResponse({'data': data})
 def tboardajaxfilteryeardefault(req,*args, **kwargs):
     year = kwargs.get('obj')
     if (year != 'none'):

@@ -35,7 +35,7 @@ def findWorkingDayAfter(startDate, daysToAdd):
     return startDate
 
 def convertCongeToEnCour():
-    conge=Conge.objects.filter(Q(statut='لم يبدأ') & Q(datedebut__lte=date.today()))
-    conge.update(statut='حاليا')
+    conge=Conge.objects.filter(Q(statut='لم تبدأ') & Q(datedebut__lte=date.today()))
+    conge.update(statut='جاري')
 
 

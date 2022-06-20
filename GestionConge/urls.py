@@ -35,6 +35,11 @@ urlpatterns = [
     path('tboardajaxfilterdivisionservPer/<str:obj>/', views.tboardajaxfilterdivisionservPer, name='tboardajaxfilterdivisionservPer'),
     path('tboardajaxfilterannexePer/<str:obj>/', views.tboardajaxfilterannexePer, name='tboardajaxfilterannexePer'),
     path('tboardajaxfiltercaidatPer/<str:obj>/', views.tboardajaxfiltercaidatPer, name='tboardajaxfiltercaidatPer'),
+    path('tboardajaxfilterentiteyear/<str:obj>/', views.tboardajaxfilterentiteyear, name='tboardajaxfilterentiteyear'),
+    path('tboardajaxfilterserviceyear/<str:obj>/', views.tboardajaxfilterserviceyear, name='tboardajaxfilterserviceyear'),
+    path('tboardajaxfilterannexeyear/<str:obj>/', views.tboardajaxfilterannexeyear, name='tboardajaxfilterannexeyear'),
+    path('tboardajaxfiltercaidatyear/<str:obj>/', views.tboardajaxfiltercaidatyear, name='tboardajaxfiltercaidatyear'),
+    path('tboardcongedefaultyearchart/<str:obj>/', views.tboardcongedefaultyearchart, name='tboardcongedefaultyearchart'),
     path('congencourfilter/<str:obj>/', views.congencourfilter, name='congencourfilter'),
     path('congencourfinifilter/<str:obj>/', views.congencourfinifilter, name='congencourfinifilter'),
 ]
