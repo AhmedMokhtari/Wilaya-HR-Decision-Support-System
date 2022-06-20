@@ -51,9 +51,9 @@
                                   </select>
                                   <select class="form-select m-2 px-3" aria-label="Default select example" id="etatconge">
                                     <option value="" style="display: none">الحالة</option>
-                                    <option >منتهى</option>
-                                    <option >حاليا</option>
+                                    <option >إنتهى</option>
                                     <option >جاري</option>
+                                    <option >لم تبدأ</option>
                                   </select>
                                   <input type="text" class="form-control m-2 px-3 dateinput font-weight-bold" id="datedebut" name="min" placeholder=" تاريخ البداية">
                                 <input type="text" class="form-control px-3 m-2 dateinput font-weight-bold" id="dateretour" name="max" placeholder="تاريخ النهاية">
@@ -93,12 +93,12 @@
                                           <td>{{ cng.datedebut|date:"M d, Y" }}</td>
                                           <td>{{cng.dateretour|date:"M d, Y"}} </td>
                                           <td>{{cng.nbjour}} </td>
-                                        {% if cng.statut == 'لم يبدأ' %}
-                                        <td><span class="badge badge-secondary px-4 py-2">لم يبدأ</span></td>
-                                        {% elif  cng.statut == 'حاليا' %}
-                                            <td><span class="badge badge-warning px-4 py-2">حاليا</span></td>
+                                        {% if cng.statut == 'لم تبدأ' %}
+                                        <td><span class="badge badge-secondary px-4 py-2">لم تبدأ</span></td>
+                                        {% elif  cng.statut == 'جاري' %}
+                                            <td><span class="badge badge-warning px-4 py-2">جاري</span></td>
                                         {% else %}
-                                            <td><span class="badge badge-success  px-4 py-2">انتهى</span></td>
+                                            <td><span class="badge badge-success  px-4 py-2">إنتهى</span></td>
                                         {% endif %}
                                       </tr>
                                     {% endfor %}
@@ -135,6 +135,7 @@
         let typeconge=document.getElementById('typeconge').value
         let datedebut=document.getElementById('datedebut').value
         let dateretour=document.getElementById('dateretour').value
+        console.log(etatconge)
         if(datedebut=='' || dateretour==''){
             alert('ادخل التواريخ')
         }else{
@@ -154,13 +155,21 @@
           let table =$('#table').DataTable();
           table.clear().draw();
         dataa.forEach(item=>{
+            let a
+            if(item.statut=='لم تبدأ'){
+                a=`<span class="badge badge-secondary px-3 py-2">لم تبدأ</span>`
+            }else if(item.statut=='جاري'){
+                a=`<span class="badge badge-warning px-3 py-2">جاري</span>`
+            }else{
+                a=`<span class="badge badge-success px-3 py-2">إنتهى</span>`
+            }
                 table.row.add([
                     item.idpersonnel_field__nomar +' '+ item.idpersonnel_field__prenomar ,
                     item.type_conge,
                     item.datedebut__date,
                     item.dateretour__date,
                     item.nbjour,
-                    item.statut,
+                    a,
                 ]).draw();
             })
         },
@@ -180,12 +189,12 @@
           table.clear().draw();
         dataa.forEach(item=>{
             let a
-            if(item.statut=='لم يبدأ'){
-                a=`<span class="badge badge-secondary px-3 py-2">لم يبدأ</span>`
-            }else if(item.statut=='حاليا'){
-                a=`<span class="badge badge-primary px-3 py-2">حاليا</span>`
+            if(item.statut=='لم تبدأ'){
+                a=`<span class="badge badge-secondary px-3 py-2">لم تبدأ</span>`
+            }else if(item.statut=='جاري'){
+                a=`<span class="badge badge-warning px-3 py-2">جاري</span>`
             }else{
-                a=`<span class="badge badge-primary px-3 py-2">انتهى</span>`
+                a=`<span class="badge badge-success px-3 py-2">إنتهى</span>`
             }
                 table.row.add([
                     item.idpersonnel_field__nomar +' '+ item.idpersonnel_field__prenomar ,

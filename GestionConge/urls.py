@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+
 urlpatterns = [
     path('ajouterconge', views.conge, name='ajouterconje'),
     path('consultation', views.GestionConge, name='consultationconge'),
@@ -30,7 +31,7 @@ urlpatterns = [
     path('tboardajaxfilterdivisionPer/<str:obj>/', views.tboardajaxfilterdivisionPer, name='tboardajaxfilterdivisionPer'),
     path('tboardajaxfiltercaerclePer/<str:obj>/', views.tboardajaxfiltercaerclePer, name='tboardajaxfiltercaerclePer'),
     path('tboardajaxfilterdistrictPer/<str:obj>/', views.tboardajaxfilterdistrictPer, name='tboardajaxfilterdistrictPer'),
-
+    path('tboardajaxfilteryeardefault/<str:obj>/', views.tboardajaxfilteryeardefault, name='tboardajaxfilteryeardefault'),
     path('tboardajaxfilterdivisionservPer/<str:obj>/', views.tboardajaxfilterdivisionservPer, name='tboardajaxfilterdivisionservPer'),
     path('tboardajaxfilterannexePer/<str:obj>/', views.tboardajaxfilterannexePer, name='tboardajaxfilterannexePer'),
     path('tboardajaxfiltercaidatPer/<str:obj>/', views.tboardajaxfiltercaidatPer, name='tboardajaxfiltercaidatPer'),

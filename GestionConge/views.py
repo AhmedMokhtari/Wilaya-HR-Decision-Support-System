@@ -80,7 +80,7 @@ def persoinfo(request,id):
 @login_required(login_url='/')
 def GestionCongeEnCours(request):
     convertCongeToEnCour()
-    Q1 = Q(statut='حاليا')
+    Q1 = Q(statut='جاري')
     Q2 = Q(dateretour__gt= datetime.now())
     congesEncour = Conge.objects.filter(Q1 & Q2)
     listdate =[]
@@ -104,7 +104,7 @@ def GestionCongeEnCours(request):
 
     if(request.method=='POST'):
         id=request.POST.getlist('id[]')
-        Conge.objects.filter(idconge__in=id).update(statut='Terminer')
+        Conge.objects.filter(idconge__in=id).update(statut='انتهى')
     return render(request, 'GestionConge/congeEnCours.html', {'congesEnCours':zip(congesEncour,listdate),'enCoursFini':EncourFini,'congeScCount':congeScCount,
                                                               'congePsCount':congePsCount,'congeDsCount':congeDsCount,'congeCrCount':congeCrCount})
 
@@ -132,6 +132,8 @@ def congeconsultationfilterdate(req,*args, **kwargs):
     vl = kwargs.get('obj')
     arr = vl.split('&')
     etatconge = arr[0]
+    print(etatconge)
+    print(vl)
     if (etatconge != ''):
         statut = Q(statut=etatconge)
     else:
@@ -141,10 +143,8 @@ def congeconsultationfilterdate(req,*args, **kwargs):
         type_conge = Q(type_conge=typeconge)
     else:
         type_conge = ~Q(idconge=None)  ## Always true0
-    conge = Conge.objects.filter(type_conge & statut & Q(datedebut__gte=datetime.fromisoformat(arr[2])) & Q(dateretour__lt=datetime.fromisoformat(arr[3]) ) ).values('idpersonnel_field__nomar','idpersonnel_field__prenomar','type_conge','statut','datedebut__date','dateretour__date','nbjour')
-    print(conge)
+    conge = Conge.objects.filter(type_conge & statut & Q(datedebut__gte=datetime.fromisoformat(arr[2])) & Q(dateretour__lte=datetime.fromisoformat(arr[3]) ) ).values('idpersonnel_field__nomar','idpersonnel_field__prenomar','type_conge','statut','datedebut__date','dateretour__date','nbjour')
     data = json.dumps(list(conge), default=str)
-    print(data)
     return JsonResponse({'data': data})
 
 @login_required(login_url='/')
@@ -944,7 +944,7 @@ def tboardcongedefaultyear(req,*args, **kwargs):
     return JsonResponse({'data': data})
 def congencourfilter(req,*args, **kwargs):
     obj = kwargs.get('obj')
-    conge=Conge.objects.filter(Q(idpersonnel_field__organisme=obj) & Q(statut='حاليا') & Q(dateretour__gt= datetime.now())).values('idconge','idpersonnel_field__nomar',
+    conge=Conge.objects.filter(Q(idpersonnel_field__organisme=obj) & Q(statut='جاري') & Q(dateretour__gt= datetime.now())).values('idconge','idpersonnel_field__nomar',
                                                                                                                                    'idpersonnel_field__prenomar','type_conge','datedebut__date',
                                                                                                                                    'dateretour__date','nbjour')
     listdate = []
@@ -967,8 +967,32 @@ def congencourfilter(req,*args, **kwargs):
     return JsonResponse({'data': data},safe=False)
 def congencourfinifilter(req,*args, **kwargs):
     obj = kwargs.get('obj')
-    conge=Conge.objects.filter(Q(idpersonnel_field__organisme=obj) & Q(statut='حاليا') & Q(dateretour__lte=datetime.now())).values('idconge','idpersonnel_field__nomar',
+    conge=Conge.objects.filter(Q(idpersonnel_field__organisme=obj) & Q(statut='جاري') & Q(dateretour__lte=datetime.now())).values('idconge','idpersonnel_field__nomar',
                                                                                                                                    'idpersonnel_field__prenomar','type_conge','datedebut__date',
                                                                                                                                    'dateretour__date','nbjour')
     datafini = json.dumps(list(conge),default=str)
     return JsonResponse({'datafini': datafini},safe=False)
+def tboardajaxfilteryeardefault(req,*args, **kwargs):
+    year = kwargs.get('obj')
+    if (year != 'none'):
+        Qyear = Q(dateretour__year=year)
+    else:
+        Qyear = ~Q(idconge=None)  ## Always true0
+    congeCount=Conge.objects.filter(Qyear).count()
+    if(congeCount==0):
+        congeCount=1
+    congeHommeCount = Conge.objects.filter(Q(idpersonnel_field__sexe='Homme-ذكر')& Qyear).count()
+    congeFemmeCount = Conge.objects.filter(Q(idpersonnel_field__sexe='Femme-أنثى')& Qyear).count()
+    congeFemmeCountPer = '{:.2f}'.format((congeFemmeCount / congeCount) * 100)
+    congeHommeCountPer = '{:.2f}'.format((congeHommeCount / congeCount) * 100)
+    congePrefectoralCount = Conge.objects.filter(Q(idpersonnel_field__administrationapp='مجلس عمالة وجدة أنجاد-Préfectoral') & Qyear).count()
+    congeGeneralCount = Conge.objects.filter(Q(idpersonnel_field__administrationapp='عمالة وجدة أنجاد-Général')& Qyear).count()
+    congeGeneralCountPer = '{:.2f}'.format((congeGeneralCount / congeCount) * 100)
+    congePrefectoralCountPer = '{:.2f}'.format((congePrefectoralCount / congeCount) * 100)
+    objdata = {'congeHommeCount': congeHommeCount, 'congeFemmeCount': congeFemmeCount,
+               'congeFemmeCountPer': congeFemmeCountPer,
+               'congeHommeCountPer': congeHommeCountPer, 'congePrefectoralCount': congePrefectoralCount,
+               'congeGeneralCount': congeGeneralCount, 'congeGeneralCountPer': congeGeneralCountPer,
+               'congePrefectoralCountPer': congePrefectoralCountPer}
+    data = json.dumps(objdata)
+    return JsonResponse({'data': data})

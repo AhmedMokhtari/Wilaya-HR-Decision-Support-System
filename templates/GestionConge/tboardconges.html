@@ -462,6 +462,7 @@
 $('#selectyear').change(function(){
     let val=$(this).val()
     yeardefault(val)
+    filteryeardefault(val)
 })
 function filterdivision(val){
             $.ajax({
@@ -941,6 +942,19 @@ function filterCaidatPer(val){
         success: function(response){
             const persoData =JSON.parse(response.data)
             console.log(persoData)
+            congeboard(persoData)
+            },
+        error: function(error){
+            console.log(error)
+        }
+    })
+}
+function filteryeardefault(val){
+    $.ajax({
+        type: 'get',
+        url: `tboardajaxfilteryeardefault/${val}/`,
+        success: function(response){
+            const persoData =JSON.parse(response.data)
             congeboard(persoData)
             },
         error: function(error){
