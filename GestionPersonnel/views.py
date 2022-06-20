@@ -1594,7 +1594,7 @@ def printpdfquitter(req,id):
     attestation = QuitterTerritoire()
     attestation.numquitterterritoire = dataattes 
     attestation.idpersonnel_field = personnel
-    attestation.datedelivre = datetime.date.today()
+    attestation.datedelivre = datetime.today()
     attestation.save()
     empName = str(personnel.nomfr + " " + personnel.prenomfr)
     cin = str(personnel.cin)
@@ -1676,7 +1676,7 @@ def printpdf(req, id):
    attestation = Attestationtravail()
    attestation.numattestationtravail=dataattes 
    attestation.idpersonnel_field=personnel
-   attestation.datedelivre=datetime.date.today()
+   attestation.datedelivre= datetime.today().date()
    attestation.save()
    pdf=FPDF()
    pdf.add_page()
@@ -1704,7 +1704,7 @@ def printpdf(req, id):
    pdf.text(25,160,txt="Exerce à la Wilaya de la Région de l'Oriental,Préfecture d'Oujda-Angad")
    pdf.text(25,170,txt="En qualité de                :         "+str(datagrade))
    pdf.text(25,185,txt="En foi de quoi,la présente attestation est délivrée à l'intéressé(e) pour servir et voir ce que de droit ")
-   pdf.text(125, 200, txt="Oujda le :         "+str(datetime.date.today()))
+   pdf.text(125, 200, txt="Oujda le :         "+str(datetime.today().date()))
    ##pdf.cell(80)
    ##pdf.cell(60,10,'Attestation de Travaille',1,1,'C') 
    pdf.output("test.pdf")
@@ -1736,7 +1736,7 @@ def printpdfar(req, id):
     attestation = Attestationtravail()
     attestation.numattestationtravail = dataattes 
     attestation.idpersonnel_field = personnel
-    attestation.datedelivre = datetime.date.today()
+    attestation.datedelivre = datetime.today().date()
     attestation.save()
 
     fontdir = os.path.join(BASE_DIR, 'static/filefonts/')
