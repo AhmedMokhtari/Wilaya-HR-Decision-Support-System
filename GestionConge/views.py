@@ -200,7 +200,7 @@ def conge(request):
 
 
         dater =  findWorkingDayAfter(a1,nbjours)
-        objconge = Conge(type_conge=typede, datedebut=a2, dateretour=dater, idpersonnel_field=perso, nbjour=nbjours)
+        objconge = Conge(type_conge=typede, datedebut=a2, dateretour=dater, idpersonnel_field=perso, nbjour=nbjours, statut='لم تبدأ')
         objconge.save()
 
         return render(request, 'GestionConge/conge.html', {'personnels': personnels, 'congepersonnel': congepersonnel, 'objconge': objconge, 'conges': conges, 'divisions': divisions})
