@@ -1,0 +1,46 @@
+{% extends 'menu.html' %}
+{% block content %}
+    {% load static %}
+    <title>{% block title %}لوحة القيادة{% endblock title %}</title>
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static 'css/all.min.css' %}"/>
+    <link href="assets/css/feather.css" rel="stylesheet" type="text/css">
+    <style >
+    .shadow{
+        box-shadow: 0 0.3rem 0.9rem rgb(5 92 98 / 14%) !important;
+        border-radius: 8px !important;
+    }
+    </style>
+    <div class="row">
+        <div class="col-12 col-sm-6 col-xl d-flex">
+            <div class="card flex-fill">
+                <div class="card-body shadow py-4">
+                    <div class="media">
+                        <div class="d-inline-block mt-2 mr-3">
+                            <i class="feather-lg text-info" data-feather="activity"></i>
+                        </div>
+                        <div class="media-body">
+                            <h3 class="mb-2">{{ totalabsence }}</h3>
+                            <div class="mb-0">عدد المترقين في الرتبة برسم السنة الحالية</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-xl d-flex">
+            <div class="card flex-fill">
+                <div class="card-body shadow py-4">
+                    <div class="media">
+                        <div class="d-inline-block mt-2 mr-3">
+                          <i class="fa-regular fa-calendar-check fa-2xl" style="color: #2ecc71;text-shadow: 1px 1px 1px #ccc;font-size:30px;"></i>
+                        </div>
+                        <div class="media-body">
+                            <h3 class="mb-2">{{ daySum }}</h3>
+                            <div class="mb-0">عدد المترقين في الرتبة الإستثنائية برسم السنة الحالية</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
