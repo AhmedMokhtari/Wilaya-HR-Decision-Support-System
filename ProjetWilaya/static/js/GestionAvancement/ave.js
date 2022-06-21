@@ -50,7 +50,7 @@ window.onload = function (){
                                 `<td>${data.datawarehouse[i].datedebut}</td>`+
                                 `<td>${data.datawarehouse[i].rythm}</td>`+
                                 `<td>${data.datawarehouse[i].moyenne}</td>`+
-                                `<td>${data.datawarehouse[i].echellondefin}</td>`+
+                                `<td>إستثنائية</td>`+
                                 `<td>${data.datawarehouse[i].indicesefin}</td>`+
                                 `<td>${data.datawarehouse[i].datefin}</td>`+
                                 `</tr>`);

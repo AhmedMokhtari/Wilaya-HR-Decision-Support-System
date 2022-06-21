@@ -3,7 +3,6 @@
             let val= e.target.getAttribute('name') +'&'+e.target.value  
             ajaxPerso(val)
             ajaxYearsEmpty(val)
-
       })
 
       function ajaxPerso(selected){ 
@@ -18,7 +17,6 @@
               for (let i=0;i<dataa.length;i++){
                 select.innerHTML+=`<option value="${dataa[i]}"></option>`
              }
-             
             },
             error: function(error){
                 console.log(error)
@@ -41,8 +39,8 @@
                         item.cin,
                         item.name ,
                         item.year,
-                        `<span class="btn btn-primary addyear"><i class="fa fa-plus" aria-hidden="true"></i></span>`,
-                        `<a href="http://127.0.0.1:8000/personnel/personnelinfo/${idpersonnel}" class="btn btn-success m-1"><i class="fa-solid fa-arrow-up-right-from-square fa-lg " ></i></a>`
+                       `<span class="btn btn-primary addyear"><i class="fa fa-plus" aria-hidden="true"></i></span>`,
+                       `<a href="http://127.0.0.1:8000/personnel/personnelinfo/${idpersonnel}" class="btn btn-success m-1"><i class="fa-solid fa-arrow-up-right-from-square fa-lg " ></i></a>`
                     ]).draw();
                 })
                 $('.addyear').on('click', function(){
@@ -57,7 +55,6 @@
     }
 window.onload = function ()
 {
-    console.log('teeeeeeeeeeeeeeeee')
     document.getElementById('personneldata').setAttribute("pattern",patt)
     function frontivision(){
         $(".divisiondiv").show() 

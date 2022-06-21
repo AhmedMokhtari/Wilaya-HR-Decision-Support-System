@@ -2,16 +2,14 @@ window.onload = function (){
 
     selgrade = document.getElementById('grade')
     selnb = document.getElementById('nb')
-
-     function ajaxgrade(){
+    var jsondata;
+    async function ajaxgrade(){
         $("#table tr").remove();
         $("#table1 tr").remove();
         $("#table2 tr").remove();
         $("#title center").remove();
         $("#title").append('<center><h3>  لائحة الترسيم والترقية الإستثنائية في الرتبة في درجة '+ selgrade.options[selgrade.selectedIndex].text+' لوزارة الداخلية</h3></center>')
-
-
-        $.ajax(
+       await $.ajax(
             {
                 type: "POST",
                 url: url1,
@@ -23,6 +21,7 @@ window.onload = function (){
                     $("#title center").empty();
                     $("#title").append('<center><h3>  لائحة الترسيم والترقية الإستثنائية في الرتبة في درجة '+ selgrade.options[selgrade.selectedIndex].text+' لوزارة الداخلية</h3></center>')
                     console.log(data)
+                    jsondata= data;
                     if(data.datawarehouse[0]!=null)
                     {
                         var inc = 0;
@@ -51,7 +50,7 @@ window.onload = function (){
                                 `<td>${data.datawarehouse[i].datedebut}</td>`+
                                 `<td>${data.datawarehouse[i].rythm}</td>`+
                                 `<td>${data.datawarehouse[i].moyenne}</td>`+
-                                `<td>${data.datawarehouse[i].echellondefin}</td>`+
+                                `<td>إستثنائية</td>`+
                                 `<td>${data.datawarehouse[i].indicesefin}</td>`+
                                 `<td>${data.datawarehouse[i].datefin}</td>`+
                                 `</tr>`);
@@ -63,4 +62,25 @@ window.onload = function (){
     ajaxgrade()
     selnb.addEventListener('input',ajaxgrade)
     selgrade.addEventListener('change',ajaxgrade)
+
+    selpersonnels = document.getElementById('accept')
+     function ajaxaccept(){
+        $.ajax(
+            {
+                type: "POST",
+                url: url2,
+                data:JSON.stringify(jsondata),
+                dataType: "json",
+                success: function (response) {
+                    console.log(response)
+                    if(response == 'success')
+                    {
+                        alert('تمت المصادقة');
+                    }
+                }
+            });
+        alert('تمت المصادقة');
+    }
+
+    selpersonnels.addEventListener('click',ajaxaccept)
 }

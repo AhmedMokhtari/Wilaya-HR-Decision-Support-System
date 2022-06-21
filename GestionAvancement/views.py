@@ -286,7 +286,7 @@ def loadpersonnelavancementexeptionnel(request):
     for item2 in listoutput:
         objrythme = Rythme.objects.filter(echellondebut=item2.idechellon_field, idgrade_field=item2.idgrade_field).first()
         if( objrythme != None):
-            date = item2.dateechellon + timedelta(30 * objrythme.rapide)
+            date = item2.dateechellon + relativedelta(months=objrythme.rapide)
             note = Notation.objects.filter(idpersonnel_field=item2.idpersonnel_field, annee__lte=date.year, annee__gte= item2.dateechellon.year)
             listnote = []
             for item3 in note:
@@ -304,7 +304,7 @@ def loadpersonnelavancementexeptionnel(request):
                     mois = 1
 
             if(mois != None):
-                datefin = item2.dateechellon + timedelta(30 * mois)
+                datefin = item2.dateechellon + relativedelta(months=objrythme.rapide)
                 indicebr = indice(item2.idgrade_field.idgrade)
                 datamart = {'idpersonnel': item2.idpersonnel_field.idpersonnel,
                             'cin': item2.idpersonnel_field.cin,
@@ -1130,7 +1130,7 @@ def pdfavencementexceptionnel(request):
         pdf.cell(22, 10, txt=get_display(arabic_reshaper.reshape(decision2)), border=1, align='C')
         pdf.cell(34, 10, txt=str(item['datefin']), border=1, align='C')
         pdf.cell(24, 10, txt=item['indicesebut'], border=1, align='C')
-        pdf.cell(11, 10, txt=item['echellondefin'], border=1,
+        pdf.cell(11, 10, txt=get_display(arabic_reshaper.reshape('إستثنائية')), border=1,
                  align='C')
         pdf.cell(12, 10, txt=item['moyenne'], border=1, align='C')
         pdf.cell(12, 10, txt=str(item['mois']), border=1, align='C')
