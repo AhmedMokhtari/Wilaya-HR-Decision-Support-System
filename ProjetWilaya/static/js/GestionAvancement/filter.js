@@ -55,7 +55,6 @@
     }
 window.onload = function ()
 {
-    console.log('teeeeeeeeeeeeeeeee')
     document.getElementById('personneldata').setAttribute("pattern",patt)
     function frontivision(){
         $(".divisiondiv").show() 
