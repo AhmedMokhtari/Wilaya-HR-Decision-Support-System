@@ -1155,32 +1155,30 @@ def pdfavencementexceptionnel(request):
 
     value = round(int(request.GET.get("nb")) / 10)
     valuemod = int(request.GET.get("nb")) % 10
-
-    pdf.cell(15, 24, txt=get_display(arabic_reshaper.reshape('	الحصيص	')), border=1,
+    pdf.set_y(173)
+    pdf.set_x(95)
+    pdf.cell(15, 12, txt=get_display(arabic_reshaper.reshape('	الحصيص	')), border=1,
              fill=True, align='C')
-    pdf.cell(30, 36, txt=str(value), border=1, align='C')
-
-    pdf.cell(15, 24, txt=get_display(arabic_reshaper.reshape('	الخارج	')), border=1,
+    pdf.cell(15, 12, txt=get_display(arabic_reshaper.reshape('	الخارج	')), border=1,
              fill=True, align='C')
-    pdf.cell(30, 36, txt=str(value), border=1, align='C')
-
-    pdf.cell(15, 24, txt=get_display(arabic_reshaper.reshape('	الباقي	')), border=1,
+    pdf.cell(15, 12, txt=get_display(arabic_reshaper.reshape('	الباقي	')), border=1,
              fill=True, align='C')
-    pdf.cell(30, 36, txt=str(valuemod), border=1, align='C')
-
-    pdf.cell(15, 24, txt=get_display(arabic_reshaper.reshape('المقسوم عليه')), border=1,
+    pdf.cell(25, 12, txt=get_display(arabic_reshaper.reshape('المقسوم عليه')), border=1,
              fill=True, align='C')
-    pdf.cell(30, 36, txt=str(10), border=1, align='C')
-
-    pdf.cell(15, 24, txt=get_display(arabic_reshaper.reshape('عدد المستوفين لشروط الترقي في الرتبة')), border=1,
+    pdf.cell(35, 12, txt=get_display(arabic_reshaper.reshape('عدد المستوفين لشروط الترقي في الرتبة')), border=1,
              fill=True, align='C')
-    pdf.cell(30, 36, txt=str(10), border=1, align='C')
-
-    pdf.cell(15, 24, txt=get_display(arabic_reshaper.reshape('عدد المناصب في السلك المقيدة في الميزانية')), border=1,
+    pdf.cell(40, 12, txt=get_display(arabic_reshaper.reshape('عدد المناصب في السلك المقيدة في الميزانية')), border=1,
              fill=True, align='C')
-    pdf.cell(30, 36, txt=str(request.GET.get('nb')), border=1, align='C')
 
-
+    pdf.set_y(185)
+    pdf.set_x(95)
+    pdf.set_auto_page_break(True, 10)
+    pdf.cell(15, 8, txt=str(value), border=1, align='C')
+    pdf.cell(15, 8, txt=str(value), border=1, align='C')
+    pdf.cell(15, 8, txt=str(valuemod), border=1, align='C')
+    pdf.cell(25, 8, txt=str(10), border=1, align='C')
+    pdf.cell(35, 8, txt=str(10), border=1, align='C')
+    pdf.cell(40, 8, txt=str(request.GET.get('nb')), border=1, align='C')
     pdfAF = pdf.output(dest='S').encode('latin-1')
     response = HttpResponse(pdfAF, content_type='application/pdf')
     response['Content-Disposition'] = 'filename="pdfavencement.pdf"'
