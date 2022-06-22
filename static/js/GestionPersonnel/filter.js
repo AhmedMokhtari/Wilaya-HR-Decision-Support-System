@@ -103,7 +103,7 @@
                     item.administrationapp,
                     item[vl],
                     item.idgrade_field__gradefr,
-                   `<a href="personnelinfo/${idp}" class="btn btn-success m-1"><i class="fa-solid fa-arrow-up-right-from-square fa-lg " ></i></a><a href="modifier/${idp}"class="btn btn-warning btn-icon  mx-1"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>`
+                   `<a href="personnelinfo/${idp}" class="btn btn-transparent m-1"><i class="fa-solid fa-arrow-up-right-from-square fa-lg " ></i></a><a href="modifier/${idp}" class="btn btn-transparent btn-icon  mx-1"><i class="fa-solid fa-pen-to-square fa-lg"></i></a>`
                 ]).draw();
             })
         },

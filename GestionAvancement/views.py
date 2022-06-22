@@ -928,7 +928,10 @@ def pdfavencement(request, id):
             listnote = []
             for item3 in note:
                 listnote.append(item3.note)
-            moyenne = sum(listnote) / len(listnote)
+            a=len(listnote)
+            if(a==0):
+                 a=1
+            moyenne = sum(listnote) / a
             mois = None
             if (item2.idgrade_field.gradefr == 'Administrateur adjoint' or item2.idgrade_field.gradefr == 'Administrateur'):
                 if (item2.idechellon_field == '6'):
