@@ -1,0 +1,329 @@
+{% extends 'menu.html' %}
+{% block content %}
+{% load static %}
+{% load has_group %}
+<title> {% block title %}معلومات{% endblock title %}</title>
+<link href="{% static 'css/GestionPersonnel/PersonnelStyle.css' %}" rel="stylesheet">
+<link href="{% static 'css/font-awesome.min.css' %}" rel="stylesheet">
+<link href="{% static 'css/all.min.css' %}" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200&family=Montserrat:wght@800;900&display=swap"
+      rel="stylesheet">
+
+<style>
+    input {
+        color: black !important;
+        background-color: #ebfeff !important;
+        border-radius: 8px !important;
+    }
+
+    .nav-tabs > li {
+        font-family: "Cairo ExtraLight";
+        font-weight: bold;
+        font-size: 110%;
+        background-color: whitesmoke;
+    }
+
+    h3{
+        color: #79AEC8;
+    }
+    #donneperso , #donneprof {
+        border-radius: 5px;
+        background-color: white;
+    }
+
+    .col-md-6 .row .col-md {
+        margin: 9px 0 !important;
+    }
+</style>
+{% if request.user|has_group:"GestionStagiaire" %}
+<form action="" enctype="multipart/form-data" method="POST">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-sm-12 col-lg-12 d-flex">
+            <div class="card flex-fill">
+                <div class="card-header d-flex h-25 p-3" id="donneperso">
+                    <h3 class=" text-center" dir="ltr">
+                        معلومات شخصية
+                    </h3>
+                </div>
+                <hr>
+
+                <div class="card-body" id="persocard">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md">
+                                    <label class="col-form-label float-right" for="prenomar">الاسم الشخصي :</label>
+                                    <input class="form-control text-center " name="prenomar" readonly type="text"
+                                           value="{{ stagiaire.prenomstagiairear}}">
+                                </div>
+
+                                <div class="col-md">
+                                    <label class="col-form-label" dir="ltr" for="prenomfr">Prénom :</label>
+                                    <input class="form-control text-center " name="prenomfr" readonly
+                                           type="text" value="{{ stagiaire.prenomstagiairefr}}">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md ">
+                                    <label class="col-form-label float-right" for="nomfr"> الاسم العائلي :</label>
+                                    <input class="form-control text-center " name="nomfr" readonly
+                                           type="text" value="{{ stagiaire.nomstagiairear}}">
+                                </div>
+
+                                <div class="col-md ">
+                                    <label class="col-form-label" dir="ltr" for="nomar">Nom :</label>
+                                    <input class="form-control text-center " name="nomar" readonly
+                                           type="text" value="{{ stagiaire.nomstagiairefr}}">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md">
+                                    <label class="col-form-label float-right" for="cin"> ر.ب.و :</label>
+                                    <label class="col-form-label" dir="ltr" for="cin">Cin :</label>
+                                    <input class="form-control text-center" name="cin" readonly
+                                           type="text" value="{{ stagiaire.cin}}">
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <div class="col-md-6" style="bottom: 5px">
+                            <br>
+                            <div class="row">
+                                <div class="col-md">
+                                    <label class="col-form-label float-right" for="sexe"> الجنس :</label>
+                                    <label class="col-form-label" dir="ltr" for="sexe">Sexe :</label>
+                                    <input class="form-control text-center" name="sexe" readonly
+                                           type="text" value="{{ stagiaire.sexe}}">
+
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md">
+                                    <label class="col-form-label float-right" for="email"> البريد الالكتروني :</label>
+                                    <label class="col-form-label" dir="ltr" for="email">Email :</label>
+                                    <input class="form-control text-center" name="email" readonly
+                                           type="text" value="{{ stagiaire.email}}">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md">
+                                    <label class="col-form-label float-right" for="tele"> الهاتف :</label>
+                                    <label class="col-form-label" dir="ltr" for="tele">Tele :</label>
+                                    <input class="form-control text-center" name="tele" readonly
+                                           type="text" value="{{ stagiaire.tele}}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <br>
+
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-sm-12 col-lg-12 d-flex">
+            <div class="card flex-fill">
+                <div class="card-header d-flex h-25 p-3" id="donneprof">
+
+                    <h3 class="text-center" dir="ltr">
+                        معلومات التدريب
+                    </h3>
+                </div>
+                <hr>
+                <div class="card-body" id="procard">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row">
+                                <div class="col-md">
+                                    <div class="card-actions text-right">
+                                        <div class="dropdown show">
+
+                                            <a data-display="static" data-toggle="dropdown" href="#">
+                                                <span class="text-right">الشهادات</span>
+                                                <i class="align-middle" data-feather="more-horizontal"></i>
+                                            </a>
+
+                                            <div class="dropdown-menu dropdown-menu-right text-right">
+                                                <a class="dropdown-item" data-target="#attmodel" data-toggle="modal">شهادة
+                                                    العمل</a>
+                                                <a class="dropdown-item" data-target="#quittermodel"
+                                                   data-toggle="modal">ترخيص مغتدرة التراب الوطني</a>
+                                                <a class="dropdown-item" href="#">Something else here</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md ">
+                                    <label class="col-form-label float-right" for="datedebut"> تاريخ بداية التدريب
+                                        :</label>
+                                    <label class="col-form-label" dir="ltr" for="datedebut">Date Début du stage
+                                        :</label>
+                                    <input class="form-control text-center" id="datedebut" name="datedebut" readonly
+                                           type="text" value="{{ stagiaire.datedebutstage.date.isoformat}}"/>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md ">
+                                    <label class="col-form-label float-right" for="nbmois"> عدد الأشهر :</label>
+                                    <label class="col-form-label" dir="ltr" for="nbmois">Nombre de mois :</label>
+                                    <input class="form-control text-center" name="adminiapp" readonly
+                                           type="text" value="{{ stagiaire.nbmois}}"/>
+                                </div>
+                            </div>
+
+                            <div class="row ">
+                                <div class="col-md ">
+                                    <label class="col-form-label float-right" for="numiden"> تاريخ نهاية التدريب
+                                        :</label>
+                                    <label class="col-form-label" dir="ltr" for="numiden">Date Fin du stage
+                                        :</label>
+                                    <input class="form-control text-center" name="numiden" readonly
+                                           type="text" value="{{stagiaire.datefinstage.date.isoformat}}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6" style="bottom: 5px">
+                            <br>
+                            <br>
+                            <div class="row">
+                                <div class="col-md">
+                                    <label class="col-form-label float-right" for="division">القسم :</label>
+                                    <label class="col-form-label" dir="ltr" for="division">Division :
+                                        :</label>
+                                    <input class="form-control text-center" name="division" readonly
+                                           type="text"
+                                           value="{{stagiaire.idservice_field.iddivision_field.libelledivisionfr}}">
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-md">
+                                    <label class="col-form-label float-right" for="service"> المصلحة :
+                                        </label>
+                                    <label class="col-form-label" dir="ltr" for="service">Service :
+                                        :</label>
+                                    <input class="form-control text-center" name="service" readonly
+                                           type="text" value="{{stagiaire.idservice_field.libelleservicefr}}">
+                                </div>
+                            </div>
+
+                            <div class="row text-center mt-3">
+                                <div class="col-md">
+                                    <a class="btn btn-success mt-1" href="{{stagiaire.cvpdf.url}}"><i class="fa-solid fa-arrow-up-right-from-square fa-lg "></i></a>
+                                    <br>
+                                    <br>
+                                    <span>CV</span>
+                                </div>
+                                <div class="col-md">
+                                    <a class="btn btn-success mt-1" href="{{stagiaire.cinpdf.url}}"><i class="fa-solid fa-arrow-up-right-from-square fa-lg "></i></a>
+                                    <br>
+                                    <br>
+                                    <span>CIN</span>
+                                </div>
+                                <div class="col-md">
+                                    <a class="btn btn-success mt-1" href="{{stagiaire.demandepdf.url}}"><i class="fa-solid fa-arrow-up-right-from-square fa-lg "></i></a>
+                                    <br>
+                                    <br>
+                                    <span>Demande de stage</span>
+                                </div>
+                                <div class="col-md">
+                                    <a class="btn btn-success mt-1" href="{{stagiaire.assurancepdf.url}}"><i class="fa-solid fa-arrow-up-right-from-square fa-lg "></i></a>
+                                    <br>
+                                    <br>
+                                    <span>َAssurance</span>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+<div aria-hidden="true" aria-labelledby="quittermodelcenter" class="modal fade" id="quittermodel" role="dialog"
+     tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="col" id="quitter">
+                    <form action="" class="post-form text-right" method="post"
+                          target="_blank">
+                        {% csrf_token %}
+                        <label class="my-1 " for="de"> :</label> <input class="form-control" id="de" name="De"
+                                                                        type="text "/>
+                        <label class="my-1 " for="de">تبدأ من :</label> <input class="form-control mt-1" id="da"
+                                                                               name="Da" type="date"/>
+                        <label class="my-1 " for="de">السنة :</label> <input class="form-control mt-1" id="an" name="an"
+                                                                             type="text "/>
+                        <div class=" row justify-content-center">
+                            <button class="btn btn-info p-2 w-25 mt-3">طبع</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div aria-hidden="true" aria-labelledby="attmodelcenter" class="modal fade" id="attmodel" role="dialog" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="col">
+                    <div class=" row justify-content-center">
+                        <a class="btn btn-info p-2 w-25 m-3" href=""
+                           target="_blank">العربية</a>
+                        <a class="btn btn-info p-2 w-25 m-3" href=""
+                           target="_blank">الفرنسية</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="row h-100">
+    <div class="col-sm-10 col-md-8 col-lg-6 mx-auto d-table h-100">
+        <div class="d-table-cell align-middle">
+            <div class="text-center">
+                <h1 class="display-1 font-weight-bold" style="color: #47BAC1">401</h1>
+                <p class="h1"></p>
+                <p class="h2 font-weight-normal mt-3 mb-4" style="color: red">ليس لديكم الحق للولوج لهته الصفحة</p>
+                <a class="btn btn-primary btn-lg" href="{% url 'consultationstagiaire' %}">الرجوع</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
+
+
+
+
