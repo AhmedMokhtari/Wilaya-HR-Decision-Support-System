@@ -104,7 +104,7 @@ def GestionCongeEnCours(request):
 
     if(request.method=='POST'):
         id=request.POST.getlist('id[]')
-        Conge.objects.filter(idconge__in=id).update(statut='انتهى')
+        Conge.objects.filter(idconge__in=id).update(statut='إنتهى')
     return render(request, 'GestionConge/congeEnCours.html', {'congesEnCours':zip(congesEncour,listdate),'enCoursFini':EncourFini,'congeScCount':congeScCount,
                                                               'congePsCount':congePsCount,'congeDsCount':congeDsCount,'congeCrCount':congeCrCount})
 
@@ -132,8 +132,6 @@ def congeconsultationfilterdate(req,*args, **kwargs):
     vl = kwargs.get('obj')
     arr = vl.split('&')
     etatconge = arr[0]
-    print(etatconge)
-    print(vl)
     if (etatconge != ''):
         statut = Q(statut=etatconge)
     else:
@@ -143,7 +141,7 @@ def congeconsultationfilterdate(req,*args, **kwargs):
         type_conge = Q(type_conge=typeconge)
     else:
         type_conge = ~Q(idconge=None)  ## Always true0
-    conge = Conge.objects.filter(type_conge & statut & Q(datedebut__gte=datetime.fromisoformat(arr[2])) & Q(dateretour__lte=datetime.fromisoformat(arr[3]) ) ).values('idpersonnel_field__nomar','idpersonnel_field__prenomar','type_conge','statut','datedebut__date','dateretour__date','nbjour')
+    conge = Conge.objects.filter(Q(datedebut__gte=datetime.fromisoformat(arr[2])) & Q(dateretour__lte=datetime.fromisoformat(arr[3])) & type_conge & statut   ).values('idpersonnel_field__nomar','idpersonnel_field__prenomar','type_conge','statut','datedebut__date','dateretour__date','nbjour')
     data = json.dumps(list(conge), default=str)
     return JsonResponse({'data': data})
 
@@ -212,7 +210,7 @@ def stopeConge(request,id):
     dateelimine = DateElimine.objects.all()
     objconge = Conge.objects.get(idconge=id)
     print(objconge)
-    objconge.statut="Terminer";
+    objconge.statut="إنتهى";
     objconge.dateretour= datetime.now();
     datedecom =objconge.datedebut
     a1 = datetime.strptime(str(datedecom.strftime('%Y/%m/%d')),"%Y/%m/%d")
@@ -221,7 +219,7 @@ def stopeConge(request,id):
     datenbjours = np.busday_count(a1.date(), a2.date(), holidays=data)
     objconge.nbjour=datenbjours;
     objconge.save();
-    Q1 = Q(statut='En Cours')
+    Q1 = Q(statut='جاري')
     Q2 = Q(dateretour__gt=datetime.now())
     congesEncour = Conge.objects.filter(Q1 & Q2)
     print(congesEncour)
@@ -233,11 +231,11 @@ def stopeConge(request,id):
         b = {'joursrestan': delta.days}
         listdate.append(b);
     cursor = connection.cursor()
-    cursor.execute('''select * from Conge where Statut='En Cours' and dateRetour <= GETDATE() ''')
+    cursor.execute('''select * from Conge where Statut='جاري' and dateRetour <= GETDATE() ''')
     EncourFini = dictfetchall(cursor)
     if (request.method == 'POST'):
         id = request.POST.getlist('id[]')
-        Conge.objects.filter(idconge__in=id).update(statut='Terminer')
+        Conge.objects.filter(idconge__in=id).update(statut='إنتهى')
 
     return render(request, 'GestionConge/congeEnCours.html',
                   {'congesEnCours': zip(congesEncour, listdate), 'enCoursFini': EncourFini})
@@ -329,7 +327,7 @@ def tboardfilterdiv(req,*args, **kwargs):
     year = kwargs.get('obj')
     if (year != 'none'):
         if (year == 'encour'):
-            Qyear = Q(statut='حاليا')
+            Qyear = Q(statut='جاري')
         else:
             Qyear = Q(dateretour__year=year)
     else:
@@ -396,7 +394,7 @@ def tboardfiltercercle(req,*args, **kwargs):
     year = kwargs.get('obj')
     if (year != 'none'):
         if (year == 'encour'):
-            Qyear = Q(statut='حاليا')
+            Qyear = Q(statut='جاري')
         else:
             Qyear = Q(dateretour__year=year)
     else:
@@ -458,7 +456,7 @@ def tboardfilterpashalik(req,*args, **kwargs):
     year = kwargs.get('obj')
     if (year != 'none'):
         if (year == 'encour'):
-            Qyear = Q(statut='حاليا')
+            Qyear = Q(statut='جاري')
         else:
             Qyear = Q(dateretour__year=year)
     else:
@@ -483,7 +481,7 @@ def tboardfilterdistrict(req,*args, **kwargs):
     year = kwargs.get('obj')
     if (year != 'none'):
         if (year == 'encour'):
-            Qyear = Q(statut='حاليا')
+            Qyear = Q(statut='جاري')
         else:
             Qyear = Q(dateretour__year=year)
     else:
