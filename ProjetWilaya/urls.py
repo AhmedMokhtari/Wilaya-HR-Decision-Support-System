@@ -31,6 +31,8 @@ urlpatterns = [
     path('absence/', include('django.contrib.auth.urls')),
     path('avancement/', include('GestionAvancement.urls')),
     path('avancement/', include('django.contrib.auth.urls')),
+    path('stagiaire/', include('GestionStagiaire.urls')),
+    path('stagiaire/', include('django.contrib.auth.urls')),
 ]
 
 
