@@ -16,13 +16,13 @@
     h3{
         font-family: "Cairo ExtraLight";
         font-weight: bold;
-        color: #79AEC8;
+        color: #45B668;
     }
     </style>
 <form method="post">
 {% csrf_token %}
     <div class="row">
-        <div class="col-4 col-lg-4 d-flex">
+        <div class="col-12 col-lg-4 col-xxl-12 d-flex">
             <div class="card flex-fill p-3">
                 <div class="card-header">
                     <h3 class="text-right">الرخص الحالية</h3>
@@ -37,7 +37,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-8 col-lg-8 col-xxl-8 d-flex">
+        <div class="col-12 col-lg-8 col-xxl-12 d-flex">
             <div class="card flex-fill p-3">
                 <div class="card-header">
                     <h3 class="text-right">الرخص الحالية</h3>
@@ -118,7 +118,7 @@
                         </table>
                     </div>
                     <div class="float-right">
-                        <a class="btn btn-success m-3 " id="update" style="color:white; font-size: 17px;" >تأكيد</a>
+                        <a class="btn btn-success m-3 " id="update" style="color:white; font-size: 17px;" >تاكيد الدخول</a>
                     </div>
                 </div>
             </div>
@@ -281,12 +281,15 @@ function filterdivision(val){
             url: `tboardajaxfilterdivision/${val}`,
             success: function(response){
                 const persoData =JSON.parse(response.data)
+                console.log(persoData)
                 let divisionName=[]
                 let divisionValue=[]
                 for(let i=0;i<persoData.length;i++){
                     divisionName.push(persoData[i].idservice_field__iddivision_field__libelledivisionfr)
                     divisionValue.push(persoData[i].dcount)
                 }
+                console.log(divisionName)
+                console.log(divisionValue)
                 createChart(divisionName,divisionValue)
                },
             error: function(error){
@@ -343,6 +346,7 @@ function filterDistrict(val){
                 districtName.push(persoData[i].idannexe_field__iddistrict_field__libelledistrictar)
                 districtValue.push(persoData[i].dcount)
             }
+            
             createChart(districtName,districtValue)
             },
         error: function(error){

@@ -121,11 +121,15 @@
         location.reload();
     }
     document.getElementById('typeconge').onchange=function(e){
+        datedebut=document.getElementById('datedebut').value=''
+        dateretour=document.getElementById('dateretour').value=''
         let etatconge=document.getElementById('etatconge').value
         let val =etatconge+ '-' + e.target.value
         ajaxfilterconge(val)
     }
     document.getElementById('etatconge').onchange=function(e){
+        datedebut=document.getElementById('datedebut').value=''
+        dateretour=document.getElementById('dateretour').value=''
         let typeconge=document.getElementById('typeconge').value
         let val=e.target.value+'-'+typeconge
         ajaxfilterconge(val)
