@@ -20,8 +20,7 @@
                 if(entite.val()!=''){
                   if(division.val()!='') {
                       if (service.val() != '') {
-                            console.log('filter service')
-                            let val= service.getAttribute('name') +'&'+service.val()+'&'+statutgrade+'&'+gradeper+'&'+radioval;
+                            let val= service.attr("name") +'&'+service.val()+'&'+statutgrade+'&'+gradeper+'&'+radioval;
                             ajaxPerso(val)
 
                       }else {
@@ -49,12 +48,10 @@
                                      ajaxPerso(val)
                                 }
                             }else{
-                               // console.log('filter with sdd' +districtpashalik)
                                 let val= districtpashalik.attr("name") +'&'+districtpashalik.val()+'&'+statutgrade+'&'+gradeper+'&'+radioval;
                                 ajaxPerso(val)
                             }
                   }else{
-                            //console.log('filter with '+entite.val())
                             let val= entite.attr("name") +'&'+entite.val()+'&'+statutgrade+'&'+gradeper+'&'+radioval;
                             ajaxPerso(val)
                   }
@@ -67,7 +64,7 @@
             let statutgrade=document.getElementById('statutgrade').value;
             let gradeper=document.getElementById('grade').value;
             let radioval=$('input[name=radioGenre]:checked', '#formsearch').val()
-            let val= e.target.getAttribute('name') +'&'+e.target.value+'&'+statutgrade+'&'+gradeper+'&'+radioval;
+            let val= e.target.attr('name') +'&'+e.target.value+'&'+statutgrade+'&'+gradeper+'&'+radioval;
             ajaxPerso(val)
           }
       })
@@ -88,7 +85,7 @@
            tb1.innerHTML=""
            dataa.map(item=>{
                let idp = item.idpersonnel;
-              personnels=`<div class="col-12 col-sm-8 col-md-6 col-lg-4">
+              personnels=`<div class="col-lg-8 col-xs-4 col-centered">
               <div class="card-container">  
                   <div class="card-vertical">
                       <div class="card-front">
@@ -96,7 +93,7 @@
                       </div>
                       
                           <div class="card-back clippath">
-                              <a href="http://127.0.0.1:8000/personnel/personnelinfo/${idp}"></a>
+                              <a href="personnel/personnelinfo/${idp}"></a>
                               <article class="card-back-content ">
                                   <h1>${item.nomfr} ${item.prenomfr} </h1>
                                   <p>${item.cin}</p>

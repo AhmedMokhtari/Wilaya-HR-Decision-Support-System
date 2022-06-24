@@ -212,44 +212,46 @@
                     </div>
                     <hr>
                     <div class="card-body" id="procard">
-                        <div class="col-12 col-lg-12 col-xxl-12 d-flex tablechange">
-                            <table class="table table-hover text-center" id="table">
-                                <thead style="background-color: #efefef; color: black;">
-                                    <tr>
-                                        <th>ر.ب.و</th>
-                                        <th>رقم التاجير</th>
-                                        <th>الاسم الكامل</th>
-                                        <th>الجنس</th>
-                                        <th>الميزانية</th>
-                                        <th>قسم</th>
-                                         <th>الدرجة</th>
-                                        <th></th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tbody">
-                                 {% for personnel in listPerso %}
-                                          <tr class="tb-colon"  >
-                                                <td>{{ personnel.cin }}</td>
-                                                <td>{{ personnel.ppr }}</td>
-                                                <td>{{personnel.nomfr}} - {{ personnel.prenomfr }}</td>
-                                                <td>{{ personnel.sexe }} </td>
-                                                <td>{{personnel.administrationapp}}</td>
-                                              {% if 'idservice_field__libelleservicefr' in personnel %}
-                                                  <td>{{ personnel.idservice_field__libelleservicear }}</td>
-                                              {% elif 'idannexe_field__libelleannexefr' in personnel %}
-                                                  <td>{{ personnel.idannexe_field__libelleannexefr  }}</td>
-                                              {% elif 'idcaidat_field__libellecaidatfr' in personnel %}
-                                                  <td>{{ personnel.idcaidat_field__libellecaidatfr }}</td>
-                                              {% elif 'idpashalik_field__libellepashalikfr' in personnel %}
-                                                  <td>{{ personnel.idpashalik_field__libellepashalikfr }}</td>
-                                              {% endif %}
-                                              <td>{{ personnel.idgrade_field__gradefr }}</td>
-                                              <td><a href="{% url 'personnelinfo' personnel.idpersonnel %}" class="btn btn-transparent m-1"><i class="fa-solid fa-arrow-up-right-from-square fa-lg " ></i></a><a href="{% url 'modifier' personnel.idpersonnel %}" class="btn btn-transparent btn-icon  mx-1"><i class="fa-solid fa-pen-to-square fa-lg"></i></a> </td>
-                                          </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
-                        </div>
+                        <div class="col-12 col-lg-12 col-xxl-12 d-flex">
+                            <div class="table-responsive">
+                                <table class="table table-hover text-center" id="table_consultation">
+                                    <thead style="background-color: #efefef; color: black;">
+                                        <tr>
+                                            <th>ر.ب.و</th>
+                                            <th>رقم التاجير</th>
+                                            <th>الاسم الكامل</th>
+                                            <th>الجنس</th>
+                                            <th>الميزانية</th>
+                                            <th>قسم</th>
+                                            <th>الدرجة</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbody">
+                                    {% for personnel in listPerso %}
+                                            <tr class="tb-colon"  >
+                                                    <td>{{ personnel.cin }}</td>
+                                                    <td>{{ personnel.ppr }}</td>
+                                                    <td>{{personnel.nomfr}} - {{ personnel.prenomfr }}</td>
+                                                    <td>{{ personnel.sexe }} </td>
+                                                    <td>{{personnel.administrationapp}}</td>
+                                                {% if 'idservice_field__libelleservicefr' in personnel %}
+                                                    <td>{{ personnel.idservice_field__libelleservicear }}</td>
+                                                {% elif 'idannexe_field__libelleannexefr' in personnel %}
+                                                    <td>{{ personnel.idannexe_field__libelleannexefr  }}</td>
+                                                {% elif 'idcaidat_field__libellecaidatfr' in personnel %}
+                                                    <td>{{ personnel.idcaidat_field__libellecaidatfr }}</td>
+                                                {% elif 'idpashalik_field__libellepashalikfr' in personnel %}
+                                                    <td>{{ personnel.idpashalik_field__libellepashalikfr }}</td>
+                                                {% endif %}
+                                                <td>{{ personnel.idgrade_field__gradefr }}</td>
+                                                <td><a href="{% url 'personnelinfo' personnel.idpersonnel %}" class="btn btn-transparent m-1"><i class="fa-solid fa-arrow-up-right-from-square fa-lg " ></i></a><a href="{% url 'modifier' personnel.idpersonnel %}" class="btn btn-transparent btn-icon  mx-1"><i class="fa-solid fa-pen-to-square fa-lg"></i></a> </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>    
                     </div>
                 </div>
             </div>
@@ -269,6 +271,117 @@
 				</div>
 			</div>
     {% endif %}
+    <script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'js/dataTables.buttons.min.js' %}"></script>
+    <script src="{% static 'js/buttons.flash.min.js' %}"></script>
+    <script src="{% static 'js/jszip.min.js' %}"></script>
+    <script src="{% static 'js/pdfmake.min.js' %}"></script>
+    <script src="{% static 'js/vfs_fonts.js' %}"></script>
+    <script src="{% static 'js/buttons.html5.min.js' %}"></script>
+    <script src="{% static 'js/buttons.print.min.js' %}"></script>
+    <script src="{% static 'js/xlsx.full.min.js' %}"></script>
+    <script src="{% static 'js/semantic.min.js' %}"></script>
+<script>
+pdfMake.fonts = {
+    Roboto: {
+     normal: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf',
+     bold: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Medium.ttf',
+     italics: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Italic.ttf',
+     bolditalics: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-MediumItalic.ttf'
+   },
+    Cairo: {
+            normal:'Cairo-Regular.ttf',
+            bold: 'Cairo-Regular.ttf',
+            italics: 'Cairo-Regular.ttf',
+            bolditalics: 'Cairo-Regular.ttf',
+        },
+    Tajawal: {
+        normal:'Tajawal-Regular.ttf',
+        bold: 'Tajawal-Regular.ttf',
+        italics: 'Tajawal-Regular.ttf',
+        bolditalics: 'Tajawal-Regular.ttf',
+    },
+        
+};
+function datatb() {
+     datatbl= $('#table_consultation').DataTable(
+	    {
+            "lengthMenu": [[5, 25, 50,75,100, -1],[5, 25, 50,75,100, "الكل"]],
+	        dom: 'Blfrtip',
+            language:{
+                "decimal":        "",
+                "emptyTable":     "لا يوجد معلومات",
+                "info":           "<span class='btn btn-warning' style='color: black; font-size: 16px;'> <span class='' >العدد الإجمالي :</span> _TOTAL_</span>",
+                "infoEmpty":      "إضهار 0 من 0 ",
+                "infoFiltered":   "",
+                "infoPostFix":    "",
+                "thousands":      ",",
+                "lengthMenu":     " _MENU_      ",
+                "loadingRecords": "جار التحميل ...",
+                "processing":     "",
+                "search":         "",
+                "zeroRecords":    "لا يوجد معلومات",
+                "paginate": {
+                    "first":      "الأخير",
+                    "last":       "الاول",
+                    "next":       "التالي",
+                    "previous":   "السابق"
+                },
+                "aria": {
+                    "sortAscending":  ": activate to sort column ascending",
+                    "sortDescending": ": activate to sort column descending"
+                }
+            },
+            buttons: [
+                {
+                    extend: 'excelHtml5',
+                    title: 'لائحة الموظفين',
+                    className: 'btn_excel',
+                    text:'',
+                    exportOptions: {
+                    columns: [ 0, 1, 2, 3,4,5,6 ]
+                }
+                },
+                {
+                    extend: 'print',
+                    title: 'لائحة الموظفين',
+                    className: 'btn_print',
+                    text: '',
+                    exportOptions: {
+                    columns: [ 0, 1, 2, 3,4,5,6 ]
+                }
+                },
+                {
+                    extend: 'pdfHtml5',
+                    exportData:{decodeEntities:true},
+                    title: 'لائحة الموظفين',
+                    className: 'btn_pdf',
+                    charset:'utf-8',
+                    text: '',
+                    exportOptions: {
+                    columns: [ 0, 1, 2, 3,4,5,6 ],
+                },
+                    customize: function (doc) {        
+                        doc.defaultStyle.font = 'Tajawal';
+                    doc.defaultStyle.direction='rtl';
+                },
+
+                },
+	       ],
+	    });
+     $('.btn_excel').html(`<i style="color: green" class="fa-solid fa-file-excel fa-2xl" ></i>`);
+     $('.btn_pdf').html(`<i style="color: orange" class="fa-solid fa-file-pdf fa-2xl "></i>`);
+     $('.btn_print').html(`<i class="fa-solid fa-print fa-2xl"></i>`);
+     $('.btn_excel').removeClass("btn-secondary ");
+     $('.btn_pdf').removeClass("btn-secondary ");
+     $('.btn_print').removeClass("btn-secondary ");
+     //console.log(document.querySelector("#table_filter label").textContent);
+     $('#table_consultation_filter input').attr("placeholder", "بحث ......");
+     $('#table_consultation_filter input').addClass(" form-control-lg")
+	};
+
+$(document).ready(datatb);
+</script>
 <script type="text/javascript" src="{% static 'js/GestionPersonnel/filter.js' %}"></script>
 <script>
 var url0 = "{% url 'ajaxajouterloadannexe' %}"
@@ -277,19 +390,8 @@ var url0 = "{% url 'ajaxajouterloadannexe' %}"
        var url3 = "{% url 'ajaxajouterloadsevice' %}";
        const url4 = "{% url 'ajaxajouterloadcaida' %}";
        const url6 = "{% url 'ajaxajouterloaddivision' %}"
-
-
+      
 </script>
-<script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
-<script src="{% static 'js/dataTables.buttons.min.js' %}"></script>
-<script src="{% static 'js/buttons.flash.min.js' %}"></script>
-<script src="{% static 'js/jszip.min.js' %}"></script>
-<script src="{% static 'js/pdfmake.min.js' %}"></script>
-<script src="{% static 'js/vfs_fonts.js' %}"></script>
-<script src="{% static 'js/buttons.html5.min.js' %}"></script>
-<script src="{% static 'js/buttons.print.min.js' %}"></script>
-<script src="{% static 'js/xlsx.full.min.js' %}"></script>
-<script src="{% static 'js/semantic.min.js' %}"></script>
-<script src="{% static 'js/scriptConsultation.js' %}"></script>
+<!--<script src="{% static 'js/scriptConsultation.js' %}"></script>-->  
 <script type="text/javascript" src="{% static 'js/GestionPersonnel/consultation.js' %}"></script>
 {% endblock %}

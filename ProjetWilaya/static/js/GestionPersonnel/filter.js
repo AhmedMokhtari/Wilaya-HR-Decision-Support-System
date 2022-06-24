@@ -73,7 +73,7 @@
       })
 
  function ajaxPerso(selectedbudget){
-    let table=$('#table').DataTable()
+    let table=$('#table_consultation').DataTable()
     table.clear().draw();
     $.ajax({
         type: 'get',
@@ -84,7 +84,7 @@
            // tb1.innerHTML=""
           dataa=JSON.parse(persoData);
           dataa.forEach(item=>{
-                let table =$('#table').DataTable();
+                let table =$('#table_consultation').DataTable();
                 let idp = item.idpersonnel;
                 let vl;
                 if('idservice_field__libelleservicefr' in item)

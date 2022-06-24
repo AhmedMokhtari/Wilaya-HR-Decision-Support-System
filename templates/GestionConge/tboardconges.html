@@ -397,16 +397,18 @@ function filterdivision(val){
                 }
 
                 $('.divisiondetail').on('click', function(){
-                    let year=document.getElementById('selectyear').value
-                    let url=year
-                    if(url==''){
-                        url='none'
+                    if($(this).find("td:eq(0)").text()!='Autre'){
+                        let year=document.getElementById('selectyear').value
+                        let url=year
+                        if(url==''){
+                            url='none'
+                        }
+                        let val=$(this).find("td:eq(0)").text()+'-'+url
+                        filterdivisionService(val)
+                        filterdivisionTypeConge(val)
+                        filterServicePer(val)
+                        filterServiceyear(val)
                     }
-                    let val=$(this).find("td:eq(0)").text()+'-'+url
-                    filterdivisionService(val)
-                    filterdivisionTypeConge(val)
-                    filterServicePer(val)
-                    filterServiceyear(val)
                 });
                 createChart(divisionName,divisionValue)
             },
@@ -894,10 +896,26 @@ function yeardefault(val){
         url: `tboardcongedefaultyear/${val}/`,
         success: function(response){
             const persoData =JSON.parse(response.data)
-            document.getElementById('ps').innerHTML=persoData.congePsCount
-            document.getElementById('sc').innerHTML=persoData.congeScCount
-            document.getElementById('cr').innerHTML=persoData.congeCrCount
-            document.getElementById('ds').innerHTML=persoData.congeDsCount
+            document.getElementById('tablebody').innerHTML=`<tr class="trcount">
+                                    <td><i class="fas fa-square-full text-primary float-right"></i>Pashalik</td>
+                                    <td >الباشوية</td>
+                                    <td class="text-success" id="ps">${persoData.congePsCount}</td>
+                                </tr>
+                                <tr class="trcount">
+                                        <td><i class="fas fa-square-full text-primary float-right"></i>Secretariat Genéral</td>
+                                        <td >الأمانة العامة</td>
+                                        <td class="text-success" id="sc">${persoData.congeScCount}</td>
+                                    </tr>
+                                <tr class="trcount">
+                                        <td><i class="fas fa-square-full text-primary float-right"></i>Cercle</td>
+                                        <td >الدائرة</td>
+                                        <td class="text-success" id="cr">${persoData.congeCrCount}</td>
+                                    </tr>
+                                <tr class="trcount">
+                                        <td><i class="fas fa-square-full text-primary float-right"></i>District</td>
+                                        <td >المقاطعة</td>
+                                        <td class="text-success" id="ds">${persoData.congeDsCount}</td>
+                                    </tr>`
             let name=['Secretariat Genéral','District','Cercle','Pashalik']
             let values=[persoData.congeScCount,persoData.congeDsCount,persoData.congeCrCount,persoData.congePsCount]
             createChart(name,values)
@@ -978,33 +996,35 @@ function createChartYear(values){
 
 function resetEvent(){
     $('.trcount').on('click', function(){
-              let val=$(this).find("td:eq(0)").text()
-              let year=document.getElementById('selectyear').value
-              let url=year
-              if(url==''){
-                  url='none'
-              }
-              if(val=='Pashalik'){
-                  filterPashlik(url)
-                  filterPashlikTypeConge(url)
-                  filterPashalikPer(url)
-                  filterEntiteyear(`pashalik-${url}`)
-              }else if(val =='Secretariat Genéral'){
-                  filterdivision(url)
-                  filterDivisionTypeConge(url)
-                  filterDivisionPer(url)
-                  filterEntiteyear(`Service-${url}`)
-              }else if(val =='Cercle'){
-                  filterCercle(url)
-                  filterCercleTypeConge(url)
-                  filterCerclePer(url)
-                  filterEntiteyear(`Caida-${url}`)
-              }else if(val =='District'){
-                  filterDistrict(url)
-                  filterDistrictTypeConge(url)
-                  filterDistrictPer(url)
-                  filterEntiteyear(`Annexe-${url}`)
-              }
+              if($(this).find("td:eq(2)").text()!=0){
+                let val=$(this).find("td:eq(0)").text()
+                let year=document.getElementById('selectyear').value
+                let url=year
+                if(url==''){
+                    url='none'
+                }
+                if(val=='Pashalik'){
+                    filterPashlik(url)
+                    filterPashlikTypeConge(url)
+                    filterPashalikPer(url)
+                    filterEntiteyear(`pashalik-${url}`)
+                }else if(val =='Secretariat Genéral'){
+                    filterdivision(url)
+                    filterDivisionTypeConge(url)
+                    filterDivisionPer(url)
+                    filterEntiteyear(`Service-${url}`)
+                }else if(val =='Cercle'){
+                    filterCercle(url)
+                    filterCercleTypeConge(url)
+                    filterCerclePer(url)
+                    filterEntiteyear(`Caida-${url}`)
+                }else if(val =='District'){
+                    filterDistrict(url)
+                    filterDistrictTypeConge(url)
+                    filterDistrictPer(url)
+                    filterEntiteyear(`Annexe-${url}`)
+                }
+            }
           });
 
 }
