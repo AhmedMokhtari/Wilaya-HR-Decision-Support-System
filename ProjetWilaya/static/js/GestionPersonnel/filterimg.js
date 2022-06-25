@@ -64,7 +64,7 @@
             let statutgrade=document.getElementById('statutgrade').value;
             let gradeper=document.getElementById('grade').value;
             let radioval=$('input[name=radioGenre]:checked', '#formsearch').val()
-            let val= e.target.attr('name') +'&'+e.target.value+'&'+statutgrade+'&'+gradeper+'&'+radioval;
+            let val= e.target.getAttribute("name") +'&'+e.target.value+'&'+statutgrade+'&'+gradeper+'&'+radioval;
             ajaxPerso(val)
           }
       })
@@ -85,15 +85,15 @@
            tb1.innerHTML=""
            dataa.map(item=>{
                let idp = item.idpersonnel;
-              personnels=`<div class="col-lg-8 col-xs-4 col-centered">
+              personnels=`<div class="col-md-4">
               <div class="card-container">  
                   <div class="card-vertical">
                       <div class="card-front">
-                          <img src="https://upload.wikimedia.org/wikipedia/commons/b/b9/Steve_Jobs_Headshot_2010-CROP.jpg">
+                          <img src="https://upload.wikimedia.org/wikipedia/commons/b/b9/Steve_Jobs_Headshot_2010-CROP.jpg" width="300" height="300">
                       </div>
                       
                           <div class="card-back clippath">
-                              <a href="personnel/personnelinfo/${idp}"></a>
+                              <a href="personnelinfo/${idp}"></a>
                               <article class="card-back-content ">
                                   <h1>${item.nomfr} ${item.prenomfr} </h1>
                                   <p>${item.cin}</p>

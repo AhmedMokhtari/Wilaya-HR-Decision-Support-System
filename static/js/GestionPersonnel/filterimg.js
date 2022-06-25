@@ -20,7 +20,6 @@
                 if(entite.val()!=''){
                   if(division.val()!='') {
                       if (service.val() != '') {
-                            console.log('filter service')
                             let val= service.attr("name") +'&'+service.val()+'&'+statutgrade+'&'+gradeper+'&'+radioval;
                             ajaxPerso(val)
 
@@ -49,12 +48,10 @@
                                      ajaxPerso(val)
                                 }
                             }else{
-                               // console.log('filter with sdd' +districtpashalik)
                                 let val= districtpashalik.attr("name") +'&'+districtpashalik.val()+'&'+statutgrade+'&'+gradeper+'&'+radioval;
                                 ajaxPerso(val)
                             }
                   }else{
-                            //console.log('filter with '+entite.val())
                             let val= entite.attr("name") +'&'+entite.val()+'&'+statutgrade+'&'+gradeper+'&'+radioval;
                             ajaxPerso(val)
                   }
@@ -67,7 +64,7 @@
             let statutgrade=document.getElementById('statutgrade').value;
             let gradeper=document.getElementById('grade').value;
             let radioval=$('input[name=radioGenre]:checked', '#formsearch').val()
-            let val= e.target.getAttribute('name') +'&'+e.target.value+'&'+statutgrade+'&'+gradeper+'&'+radioval;
+            let val= e.target.attr('name') +'&'+e.target.value+'&'+statutgrade+'&'+gradeper+'&'+radioval;
             ajaxPerso(val)
           }
       })
@@ -88,7 +85,7 @@
            tb1.innerHTML=""
            dataa.map(item=>{
                let idp = item.idpersonnel;
-              personnels=`<div class="col-lg-8 col-xs-12 col-centered">
+              personnels=`<div class="col-md-4">
               <div class="card-container">  
                   <div class="card-vertical">
                       <div class="card-front">
