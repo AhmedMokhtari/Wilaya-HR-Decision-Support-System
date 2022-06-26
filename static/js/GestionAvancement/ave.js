@@ -41,8 +41,8 @@ window.onload = function (){
                             $("#table").append(
                                 `<tr><td>${data.datawarehouse[i].cin}</td>`+
                                 `<td>${data.datawarehouse[i].personnelpar}</td>`+
-                                `<td>${data.datawarehouse[i].personnelpfr}</td>`+
                                 `<td>${data.datawarehouse[i].personnelnar}</td>`+
+                                `<td>${data.datawarehouse[i].personnelpfr}</td>`+
                                 `<td>${data.datawarehouse[i].personnelnfr}</td>`+
                                 `<td>${data.datawarehouse[i].ppr}</td>`+
                                 `<td>${data.datawarehouse[i].echellondebut}</td>`+

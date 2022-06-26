@@ -21,8 +21,8 @@ window.onload = function (){
                             $("#table").append(
                                 `<tr><td>${data[i].cin}</td>`+
                                 `<td>${data[i].personnelpar}</td>`+
-                                `<td>${data[i].personnelpfr}</td>`+
                                 `<td>${data[i].personnelnar}</td>`+
+                                `<td>${data[i].personnelpfr}</td>`+
                                 `<td>${data[i].personnelnfr}</td>`+
                                 `<td>${data[i].ppr}</td>`+
                                 `<td>${data[i].echellondebut}</td>`+

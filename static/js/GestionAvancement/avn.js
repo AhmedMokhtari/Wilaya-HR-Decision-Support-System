@@ -21,8 +21,8 @@ window.onload = function (){
                             $("#table").append(
                                 `<tr><td>${data[i].cin}</td>`+
                                 `<td>${data[i].personnelpar}</td>`+
-                                `<td>${data[i].personnelpfr}</td>`+
                                 `<td>${data[i].personnelnar}</td>`+
+                                `<td>${data[i].personnelpfr}</td>`+
                                 `<td>${data[i].personnelnfr}</td>`+
                                 `<td>${data[i].ppr}</td>`+
                                 `<td>${data[i].echellondebut}</td>`+
@@ -45,20 +45,24 @@ window.onload = function (){
 
     selpersonnels = document.getElementById('accept')
      function ajaxaccept(){
-       alert('hello');
-       console.log(jsondata)
-        /*$.ajax(
+        $.ajax(
             {
                 type: "POST",
-                url: url1,
-                data: {},
+                url: url2,
+                data:JSON.stringify(jsondata),
+                dataType: "json",
                 success: function (response) {
-                    console.log(data)
+                    console.log(response)
+                    if(response == 'success')
+                    {
+                        alert('تمت المصادقة');
+                    }
                 }
-            });*/
+            });
+        alert('تمت المصادقة');
     }
 
-    selpersonnels .addEventListener('click',ajaxaccept)
+    selpersonnels.addEventListener('click',ajaxaccept)
 
 
 }
