@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect
+from django.utils.dateparse import parse_datetime
+
 from .models import *
 from django.contrib.auth.decorators import login_required
 from fpdf import FPDF
@@ -216,7 +218,6 @@ def get_json_perso_data(request, *args, **kwargs):
                 c = Annexepersonnel.objects.filter(idpersonnel_field=id).values(
                     'idannexe_field__libelleannexefr',
                     'idannexe_field__libelleannexear').last()
-                print(c) 
                 if (not b):
                     b = {'idgrade_field__gradefr': '', 'idgrade_field__idstatutgrade_field__statutgradefr': ''}
                 if (not c):
@@ -545,7 +546,6 @@ def get_json_perso_data(request, *args, **kwargs):
                 c = Annexepersonnel.objects.filter(idpersonnel_field=id).values(
                     'idannexe_field__libelleannexefr',
                     'idannexe_field__libelleannexear').last()
-                print(c) 
                 if (not b):
                     b = {'idgrade_field__gradefr': '', 'idgrade_field__idstatutgrade_field__statutgradefr': ''}
                 if (not c):
@@ -1060,8 +1060,8 @@ def ajouter(request):
         dategrade = request.POST["dategrade"]
         datestatut = request.POST["datestatut"]
         grade = request.POST["grade"]
-        fonction = request.POST["fonction"]
-        datefonction = request.POST["datefonction"]
+        fonction = request.POST.get("fonction", None)
+        datefonction = request.POST.get("datefonction",None)
         sexe = request.POST["sexe"]
         age = calculate_age(daten)
         ppr = request.POST["ppr"]
@@ -1104,7 +1104,7 @@ def ajouter(request):
         elif (request.POST.get('entite', None) == "Commandement"):
             if(request.POST.get('districtpashalik', None) == "District"):
                 annexe = request.POST["annexe"]
-                datesannexe= request.POST["dateannexe"]
+                datesannexe= parse_datetime(request.POST["dateannexe"])
                 objannexe = Annexe(idannexe=annexe)
                 objannexeperso = Annexepersonnel.objects.create(idpersonnel_field=objperso, idannexe_field=objannexe, dateaffectation=datesannexe)
                 objannexeperso.save()
@@ -1137,14 +1137,17 @@ def ajouter(request):
         objstatut = Statut(idstatut=statut)
         objechellon = Echellon.objects.get(echellon=echellon)
 
-        objfonctionperso = Fonctionpersonnel.objects.create(idpersonnel_field=objperso, idfonction_field=objfonction, datefonction=datefonction)
+        if(fonction != ''):
+            objfonctionperso = Fonctionpersonnel.objects.create(idpersonnel_field=objperso, idfonction_field=objfonction, datefonction=datefonction)
+            objfonctionperso.save()
+
         objstatutperso = Statutpersonnel.objects.create(idpersonnel_field=objperso, idstatut_field=objstatut, datestatut=datestatut)
         objgradeperso = Gradepersonnel.objects.create(idpersonnel_field=objperso, idgrade_field=objgrade, dategrade=dategrade,
                                                       idechellon_field=objechellon, dateechellon=dateechellon, indice=indice )
 
 
 
-        objfonctionperso.save()
+
         objgradeperso.save()
         objstatutperso.save()
 

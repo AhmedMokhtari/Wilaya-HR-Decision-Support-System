@@ -564,13 +564,14 @@
                                                             <div class="col-md">
                                                                 <label class="col-form-label float-right" for="datefonction"> تاريخ المهمة :</label>
                                                                 <label class="col-form-label" dir="ltr" for="datefonction">Date Fonction :</label>
-                                                                 <input type="date" class="form-control text-center" name="datefonction" required>
+                                                                 <input type="date" class="form-control text-center" name="datefonction">
                                                             </div>
 
                                                             <div class="col-md">
                                                                 <label class="col-form-label float-right" for="grade"> المهمة :</label>
                                                                 <label class="col-form-label" dir="ltr" for="grade">Fonction :</label>
-                                                                <select class="form-control text-center" name="fonction"  required>
+                                                                <select class="form-control text-center" name="fonction">
+                                                                <option></option>
                                                                 {% for fonction in fonctions %}
                                                                     <option value="{{fonction.idfonction}}">{{ fonction.libellefonctionfr }} - {{ fonction.libellefontionar }}</option>
                                                                 {% endfor %}
