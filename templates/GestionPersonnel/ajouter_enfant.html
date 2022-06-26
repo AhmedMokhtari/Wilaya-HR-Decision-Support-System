@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% load static  %}
+    <title>Enfant - الطفل</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/utilespersonnel' %}">
+    <script type="d2d1d6e2f87cbebdf4013b26-text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+</head>
+<body>
+
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Enfant</h5>
+         <h5 class="modal-title textarab" id="exampleModalLabel">الطفل</h5>
+      </div>
+            <form action="" method="POST">
+                  <div class="modal-body">
+                            {% csrf_token %}
+
+                             <div class="row">
+                            <div class="col-sm">
+                                <label class="col-form-label" for="prenomfr">Prénom :</label>
+                                 <input type="text" name="prenomfr" class="form-control">
+                            </div>
+                            <div class="col-sm">
+                                <label class="col-form-label float-right" for="prenomar" >: الاسم الشخصي</label>
+                                  <input type="text"  name="prenomar" class="form-control">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm">
+                                 <label class="col-form-label" for="nomfr">Nom :</label><input type="text" name="nomfr"  class="form-control"">
+                             </div>
+
+                              <div class="col-sm">
+                                 <label class="col-form-label float-right" for="nomar" >: الاسم العائلي</label>
+                                  <input type="text" name="nomar" class="form-control">
+                              </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm">
+                                 <label class="col-form-label" for="lieun">lieu de naissance :</label>
+                                 <input type="text" name="lieunfr" class="form-control">
+                             </div>
+
+                             <div class="col-sm">
+                                 <label class="col-form-label float-right" for="lieun">: مكان الازدياد</label>
+                                 <input type="text" name="lieunar" class="form-control">
+                             </div>
+                        </div>
+
+                          <p>
+                             <label class="col-form-label" for="lienj">Lien juridique :</label> <label class="col-form-label float-right" >: الرابط القانوني</label>
+                              <input type="text"  name="lienj" class="form-control">
+                          </p>
+
+                          <p>
+                             <label class="col-form-label" for="daten">Date de naissance :</label> <label class="col-form-label float-right" for="daten" >: تاريخ الازدياد</label>
+                              <input type="date" name="daten" class="form-control">
+                         </p>
+
+                        <p>
+                             <label class="col-form-label" for="mere">Conjoint :</label> <label class="col-form-label float-right" >: الزوج</label>
+                            <select class="form-control" name="mere">
+                            {% for conjoint in conjoints %}
+                                <option {% if conjoint.id == enfant.idconjoint_field %} selected {% endif %} value="{{ conjoint.idconjoint }}"> {{ conjoint.cin }} - {{ conjoint.nomar }} {{ conjoint.nomar }}</option>
+                            {% endfor %}
+                            </select>
+                         </p>
+
+                  </div>
+                    {% if enfant %}
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <center>ajouté avec succès | أضيف بنجاح.</center>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    {% endif %}
+                  <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">إضافة</button>
+                  </div>
+            </form>
+      </div>
+    </div>
+  </body>
+</html>

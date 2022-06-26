@@ -1,0 +1,879 @@
+{% extends 'navbar.html' %}
+{% block content %}
+    {% load static %}
+   <title>{% block title %} الرئيسية {% endblock title %}</title>
+  <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="{% static 'images/favicon.ico' %}" />
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet" id="bootstrap-css">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{% static 'js/slick/slick.css' %}">
+    <link rel="stylesheet" href="{% static 'js/slick/slick-theme.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style2.css' %}">
+    <link rel="stylesheet" href="{% static 'css/accueil.css' %}">
+
+
+<style>
+    .not-allowed {cursor: not-allowed;}
+    .op-c {
+        background: black;
+        opacity: 0.5;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        left: 0;
+    }
+    .banner {
+        position: relative;
+    }
+    .textfont{color: #fff8f8 !important;}
+    .shadow {
+        box-shadow: 0 4px 7px 0 rgb(0 0 0 / 20%);
+    }
+
+</style>
+
+
+<body id="top">
+
+<!--
+<header>
+	<div class="header-top-bar">
+		<div class="container">
+			<div class="row align-items-center">
+				<div class="col-lg-6">
+					<ul class="top-bar-info list-inline-item pl-0 mb-0">
+						<li class="list-inline-item"><a href="mailto:support@gmail.com"><i class="icofont-support-faq mr-2"></i>+2125366-82902</a></li>
+						<li class="list-inline-item"><i class="icofont-location-pin mr-2"></i>Address Boulevard Hassan II, OUJDA </li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<nav class="navbar navbar-expand-lg navigation" id="navbar" >
+		<div class="container" >
+		 	 <a class="navbar-brand" href="index.html">
+			  	<img src="{% static 'images/logo1.png' %}"  alt="" class="img-fluid">
+			  </a>
+
+		  	<button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarmain" aria-controls="navbarmain" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="icofont-navigation-menu"></span>
+		  </button>
+
+		  <div class="collapse navbar-collapse " id="navbarmain" >
+			<ul class="navbar-nav ml-auto" id="ulstyle">
+			    <li class="nav-item active"><a class="nav-link" href="#">الصفحة الرئيسية</a></li>
+                <li class="nav-item active"><a class="nav-link" href="#">تواصل معنا</a></li>
+			   <li class="nav-item"><a class="nav-link" href="#">فهرس الاستخدام</a></li>
+			</ul>
+		  </div>
+		</div>
+	</nav>
+</header>
+
+-->
+<!-- Slider Start -->
+<br><br>
+        <div class="bg-black">
+            <section class="banner" >
+                <div class="op-c"></div>
+                <div class="container" >
+                    <div class="row" >
+                        <div class="col-lg-10 col-md-12 col-xl-12">
+                            <div class="block" id="blocktext" >
+                                <div class="divider mb-3"></div>
+                                <span class="text-uppercase text-sm letter-spacing textfont" id="slogan">تطبيق</span>
+                                <h1 class="mb-3 mt-3 textfont" >قسم الموارد البشرية</h1>
+                                <!--<p class="mb-4 pr-5" style="color: white">تطبيق خاص بادارة قسم الموارد البشرية بولاية الشرق - عمالة وجدة انجاد</p>-->
+                                <div class="btn-container ">
+                                    <a href="connexion" target="_blank" class="btn btn-main-2 btn-round-full gradient-custom-2 textfont">الدخول</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+
+        <!--    <div class="container">
+                    <h1 class="h3 mb-3">Invoice</h1>
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="card">
+                                <div class="card-body m-sm-3 m-md-5">
+                                    <div class="mb-4">
+                                        Hello <strong>Chris Wood</strong>,
+                                        <br> This is the receipt for a payment of <strong>$268.00</strong> (USD) you made to AppStack.
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="text-muted">Payment No.</div>
+                                            <strong>741037024</strong>
+                                        </div>
+                                        <div class="col-md-6 text-md-right">
+                                            <div class="text-muted">Payment Date</div>
+                                            <strong>October 2, 2018 - 03:45 pm</strong>
+                                        </div>
+                                    </div>
+
+                                    <hr class="my-4">
+
+                                    <div class="row mb-4">
+                                        <div class="col-md-6">
+                                            <div class="text-muted">Client</div>
+                                            <strong>
+                                              Chris Wood
+                                            </strong>
+                                            <p>
+                                                4183 Forest Avenue <br> New York City <br> 10011 <br> USA <br>
+                                                <a href="#">
+                                                    chris.wood@gmail.com
+                                                </a>
+                                            </p>
+                                        </div>
+                                        <div class="col-md-6 text-md-right">
+                                            <div class="text-muted">Payment To</div>
+                                            <strong>
+                                              AppStack LLC
+                                            </strong>
+                                            <p>
+                                                354 Roy Alley <br> Denver <br> 80202 <br> USA <br>
+                                                <a href="#">
+                                                    info@appstack.com
+                                                 </a>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <table class="table table-sm">
+                                        <thead>
+                                            <tr>
+                                                <th>Description</th>
+                                                <th>Quantity</th>
+                                                <th class="text-right">Amount</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>AppStack Theme Customization</td>
+                                                <td>2</td>
+                                                <td class="text-right">$150.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Monthly Subscription </td>
+                                                <td>3</td>
+                                                <td class="text-right">$25.00</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Additional Service</td>
+                                                <td>1</td>
+                                                <td class="text-right">$100.00</td>
+                                            </tr>
+                                            <tr>
+                                                <th>&nbsp;</th>
+                                                <th>Subtotal </th>
+                                                <th class="text-right">$275.00</th>
+                                            </tr>
+                                            <tr>
+                                                <th>&nbsp;</th>
+                                                <th>Shipping </th>
+                                                <th class="text-right">$8.00</th>
+                                            </tr>
+                                            <tr>
+                                                <th>&nbsp;</th>
+                                                <th>Discount </th>
+                                                <th class="text-right">5%</th>
+                                            </tr>
+                                            <tr>
+                                                <th>&nbsp;</th>
+                                                <th>Total </th>
+                                                <th class="text-right">$268.85</th>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <div class="text-center">
+                                        <p class="text-sm">
+                                            <strong>Extra note:</strong> Please send all items at the same time to the shipping address. Thanks in advance.
+                                        </p>
+
+                                        <a href="#" class="btn btn-primary">
+                                            Print this receipt
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                                <div class="card">
+                                    <div class="card-header">
+                                        <div class="card-actions float-right">
+                                            <div class="dropdown show">
+                                                <a href="#" data-toggle="dropdown" data-display="static">
+                                                  <i class="align-middle" data-feather="more-horizontal"></i>
+                                                </a>
+
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                    <a class="dropdown-item" href="#">Action</a>
+                                                    <a class="dropdown-item" href="#">Another action</a>
+                                                    <a class="dropdown-item" href="#">Something else here</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <h5 class="card-title mb-0">Angelica Ramos</h5>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row no-gutters">
+                                            <div class="col-sm-3 col-xl-12 col-xxl-3 text-center">
+                                                <img src="img\avatars\avatar-3.jpg" width="64" height="64" class="rounded-circle mt-2" alt="Angelica Ramos">
+                                            </div>
+                                            <div class="col-sm-9 col-xl-12 col-xxl-9">
+                                                <strong>About me</strong>
+                                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                                            </div>
+                                        </div>
+
+                                        <table class="table table-sm my-2">
+                                            <tbody>
+                                                <tr>
+                                                    <th>Name</th>
+                                                    <td>Angelica Ramos</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Company</th>
+                                                    <td>The Wiz</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Email</th>
+                                                    <td>angelica@ramos.com</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Phone</th>
+                                                    <td>+1234123123123</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Status</th>
+                                                    <td><span class="badge badge-success">Active</span></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+
+                                        <hr>
+
+                                        <strong>Activity</strong>
+
+                                        <ul class="timeline mt-2 mb-0">
+                                            <li class="timeline-item">
+                                                <strong>Signed out</strong>
+                                                <span class="float-right text-muted text-sm">30m ago</span>
+                                                <p>Nam pretium turpis et arcu. Duis arcu tortor, suscipit...</p>
+                                            </li>
+                                            <li class="timeline-item">
+                                                <strong>Created invoice #1204</strong>
+                                                <span class="float-right text-muted text-sm">2h ago</span>
+                                                <p>Sed aliquam ultrices mauris. Integer ante arcu...</p>
+                                            </li>
+                                            <li class="timeline-item">
+                                                <strong>Discarded invoice #1147</strong>
+                                                <span class="float-right text-muted text-sm">3h ago</span>
+                                                <p>Nam pretium turpis et arcu. Duis arcu tortor, suscipit...</p>
+                                            </li>
+                                            <li class="timeline-item">
+                                                <strong>Signed in</strong>
+                                                <span class="float-right text-muted text-sm">3h ago</span>
+                                                <p>Curabitur ligula sapien, tincidunt non, euismod vitae...</p>
+                                            </li>
+                                            <li class="timeline-item">
+                                                <strong>Signed up</strong>
+                                                <span class="float-right text-muted text-sm">2d ago</span>
+                                                <p>Sed aliquam ultrices mauris. Integer ante arcu...</p>
+                                            </li>
+                                        </ul>
+
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+            </div>
+-->
+
+
+
+<!--style="background-color: rgba(255, 255, 255, 0.4); background-image:repeating-linear-gradient( 45deg, #ffffff, #ffffff 6.5px, #fafafa 6.5px, #fafafa 32.5px );"-->
+<section class="section about gray-bg "  >
+	<div class="container" >
+		<div class="shadow p-4 mb-4 bg-white rounded text-right border border-primary">
+            <div class="section-title text-center">
+                <h2 style="font-family: Cairo">كيفية تشغيل الموقع</h2>
+                <div class="divider mx-auto my-4"></div>
+            </div>
+            <div>
+                <h6>  1- الخطوة الأولى</h6>
+                <p>-  تسجيل الدخول بالمعلومات الخاصة بكل مستخدم المقدمة من طرف  قسم الموارد البشرية مع الحرص على عدم نشر المعلومات مع أشخاص أخرين.</p>
+                <p>- في حالة نسيان أحد المعلومات يجب مراسلة قسم التواصل والإتصال.</p>
+                <p>- إستعمالات الموقع محصورة على حسب نوع وضيفة المستعمل.</p>
+            </div>
+		</div>
+
+	</div>
+</section>
+
+<!--
+<section class="features">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="feature-block d-lg-flex">
+					<div class="feature-item mb-5 mb-lg-0">
+						<div class="feature-icon mb-4">
+							<i class="icofont-surgeon-alt"></i>
+						</div>
+						<span>7/24 خدمات</span>
+						<h4 class="mb-3">تواصل عن بعد</h4>
+						<p class="mb-4">تستطيع ان تسألنا هنا وسنجيبك على سؤالك قريبا !</p>
+						<a href="appoinment.html" class="btn btn-main btn-round-full">Make a appoinment</a>
+					</div>
+
+					<div class="feature-item mb-5 mb-lg-0">
+						<div class="feature-icon mb-4">
+							<i class="icofont-ui-clock"></i>
+						</div>
+						<span>الجدول الزمني</span>
+						<h4 class="mb-3">أوقات العمل</h4>
+						<ul class="w-hours list-unstyled">
+		                    <li class="d-flex justify-content-between">8:00 - 16:00  <span> : الاتنين - الجمعة</span></li>
+		                    <li class="d-flex justify-content-between">مغلق<span>: السبت والأحد  </span></li>
+		                </ul>
+					</div>
+
+					<div class="feature-item mb-5 mb-lg-0">
+						<div class="feature-icon mb-4">
+							<i class="icofont-support"></i>
+						</div>
+						<span>Emegency Cases</span>
+						<h4 class="mb-3">1-800-700-6200</h4>
+						<p>Get ALl time support for emergency.We have introduced the principle of family medicine.Get Conneted with us for any urgency .</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+
+<section class="cta-section ">
+	<div class="container">
+		<div class="cta position-relative">
+			<div class="row">
+				<div class="col-lg-3 col-md-6 col-sm-6">
+					<div class="counter-stat">
+						<i class="icofont-doctor"></i>
+						<span class="h3">58</span>k
+						<p>Happy People</p>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-6 col-sm-6">
+					<div class="counter-stat">
+						<i class="icofont-flag"></i>
+						<span class="h3">700</span>+
+						<p>Surgery Comepleted</p>
+					</div>
+				</div>
+				
+				<div class="col-lg-3 col-md-6 col-sm-6">
+					<div class="counter-stat">
+						<i class="icofont-badge"></i>
+						<span class="h3">40</span>+
+						<p>Expert Doctors</p>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-6 col-sm-6">
+					<div class="counter-stat">
+						<i class="icofont-globe"></i>
+						<span class="h3">20</span>
+						<p>Worldwide Branch</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+
+<section class="section service gray-bg">
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-lg-7 text-center">
+				<div class="section-title">
+					<h2>Award winning patient care</h2>
+					<div class="divider mx-auto my-4"></div>
+					<p>Lets know moreel necessitatibus dolor asperiores illum possimus sint voluptates incidunt molestias nostrum laudantium. Maiores porro cumque quaerat.</p>
+				</div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-lg-4 col-md-6 col-sm-6">
+				<div class="service-item mb-4">
+					<div class="icon d-flex align-items-center">
+						<i class="icofont-laboratory text-lg"></i>
+						<h4 class="mt-3 mb-3">Laboratory services</h4>
+					</div>
+
+					<div class="content">
+						<p class="mb-4">Saepe nulla praesentium eaque omnis perferendis a doloremque.</p>
+					</div>
+				</div>
+			</div>
+
+			<div class="col-lg-4 col-md-6 col-sm-6">
+				<div class="service-item mb-4">
+					<div class="icon d-flex align-items-center">
+						<i class="icofont-heart-beat-alt text-lg"></i>
+						<h4 class="mt-3 mb-3">Heart Disease</h4>
+					</div>
+					<div class="content">
+						<p class="mb-4">Saepe nulla praesentium eaque omnis perferendis a doloremque.</p>
+					</div>
+				</div>
+			</div>
+			
+			<div class="col-lg-4 col-md-6 col-sm-6">
+				<div class="service-item mb-4">
+					<div class="icon d-flex align-items-center">
+						<i class="icofont-tooth text-lg"></i>
+						<h4 class="mt-3 mb-3">Dental Care</h4>
+					</div>
+					<div class="content">
+						<p class="mb-4">Saepe nulla praesentium eaque omnis perferendis a doloremque.</p>
+					</div>
+				</div>
+			</div>
+
+
+			<div class="col-lg-4 col-md-6 col-sm-6">
+				<div class="service-item mb-4">
+					<div class="icon d-flex align-items-center">
+						<i class="icofont-crutch text-lg"></i>
+						<h4 class="mt-3 mb-3">Body Surgery</h4>
+					</div>
+
+					<div class="content">
+						<p class="mb-4">Saepe nulla praesentium eaque omnis perferendis a doloremque.</p>
+					</div>
+				</div>
+			</div>
+            {{ user.get_username }}
+			<div class="col-lg-4 col-md-6 col-sm-6">
+				<div class="service-item mb-4">
+					<div class="icon d-flex align-items-center">
+						<i class="icofont-brain-alt text-lg"></i>
+						<h4 class="mt-3 mb-3">Neurology Sargery</h4>
+					</div>
+					<div class="content">
+						<p class="mb-4">Saepe nulla praesentium eaque omnis perferendis a doloremque.</p>
+					</div>
+				</div>
+			</div>
+			
+			<div class="col-lg-4 col-md-6 col-sm-6">
+				<div class="service-item mb-4">
+					<div class="icon d-flex align-items-center">
+						<i class="icofont-dna-alt-1 text-lg"></i>
+						<h4 class="mt-3 mb-3">Gynecology</h4>
+					</div>
+					<div class="content">
+						<p class="mb-4">Saepe nulla praesentium eaque omnis perferendis a doloremque.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>-->
+<!--
+<section class="section appoinment">
+	<div class="container">
+		<div class="row align-items-center">
+			<div class="col-lg-6 ">
+				<div class="appoinment-content">
+					<img src="images/about/img-3.jpg" alt="" class="img-fluid">
+					<div class="emergency">
+						<h2 class="text-lg"><i class="icofont-phone-circle text-lg"></i>+23 345 67980</h2>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-6 col-md-10 ">
+				<div class="appoinment-wrap mt-5 mt-lg-0">
+					<h2 class="mb-2 title-color">Book appoinment</h2>
+					<p class="mb-4">Mollitia dicta commodi est recusandae iste, natus eum asperiores corrupti qui velit . Iste dolorum atque similique praesentium soluta.</p>
+					     <form id="#" class="appoinment-form" method="post" action="#">
+                    <div class="row">
+                         <div class="col-lg-6">
+                            <div class="form-group">
+                                <select class="form-control" id="exampleFormControlSelect1">
+                                  <option>Choose Department</option>
+                                  <option>Software Design</option>
+                                  <option>Development cycle</option>
+                                  <option>Software Development</option>
+                                  <option>Maintenance</option>
+                                  <option>Process Query</option>
+                                  <option>Cost and Duration</option>
+                                  <option>Modal Delivery</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <select class="form-control" id="exampleFormControlSelect2">
+                                  <option>Select Doctors</option>
+                                  <option>Software Design</option>
+                                  <option>Development cycle</option>
+                                  <option>Software Development</option>
+                                  <option>Maintenance</option>
+                                  <option>Process Query</option>
+                                  <option>Cost and Duration</option>
+                                  <option>Modal Delivery</option>
+                                </select>
+                            </div>
+                        </div>
+
+                         <div class="col-lg-6">
+                            <div class="form-group">
+                                <input name="date" id="date" type="text" class="form-control" placeholder="dd/mm/yyyy">
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <input name="time" id="time" type="text" class="form-control" placeholder="Time">
+                            </div>
+                        </div>
+                         <div class="col-lg-6">
+                            <div class="form-group">
+                                <input name="name" id="name" type="text" class="form-control" placeholder="Full Name">
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <input name="phone" id="phone" type="Number" class="form-control" placeholder="Phone Number">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group-2 mb-4">
+                        <textarea name="message" id="message" class="form-control" rows="6" placeholder="Your Message"></textarea>
+                    </div>
+
+                    <a class="btn btn-main btn-round-full" href="appoinment.html" >Make Appoinment <i class="icofont-simple-right ml-2  "></i></a>
+                </form>
+            </div>
+			</div>
+		</div>
+	</div>
+</section>
+<section class="section testimonial-2 gray-bg">
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-lg-7">
+				<div class="section-title text-center">
+					<h2>We served over 5000+ Patients</h2>
+					<div class="divider mx-auto my-4"></div>
+					<p>Lets know moreel necessitatibus dolor asperiores illum possimus sint voluptates incidunt molestias nostrum laudantium. Maiores porro cumque quaerat.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container">
+		<div class="row align-items-center">
+			<div class="col-lg-12 testimonial-wrap-2">
+				<div class="testimonial-block style-2  gray-bg">
+					<i class="icofont-quote-right"></i>
+
+					<div class="testimonial-thumb">
+						<img src="images/team/test-thumb1.jpg" alt="" class="img-fluid">
+					</div>
+
+					<div class="client-info ">
+						<h4>Amazing service!</h4>
+						<span>John Partho</span>
+						<p>
+							They provide great service facilty consectetur adipisicing elit. Itaque rem, praesentium, iure, ipsum magnam deleniti a vel eos adipisci suscipit fugit placeat.
+						</p>
+					</div>
+				</div>
+
+				<div class="testimonial-block style-2  gray-bg">
+					<div class="testimonial-thumb">
+						<img src="images/team/test-thumb2.jpg" alt="" class="img-fluid">
+					</div>
+
+					<div class="client-info">
+						<h4>Expert doctors!</h4>
+						<span>Mullar Sarth</span>
+						<p>
+							They provide great service facilty consectetur adipisicing elit. Itaque rem, praesentium, iure, ipsum magnam deleniti a vel eos adipisci suscipit fugit placeat.
+						</p>
+					</div>
+					
+					<i class="icofont-quote-right"></i>
+				</div>
+
+				<div class="testimonial-block style-2  gray-bg">
+					<div class="testimonial-thumb">
+						<img src="images/team/test-thumb3.jpg" alt="" class="img-fluid">
+					</div>
+
+					<div class="client-info">
+						<h4>Good Support!</h4>
+						<span>Kolis Mullar</span>
+						<p>
+							They provide great service facilty consectetur adipisicing elit. Itaque rem, praesentium, iure, ipsum magnam deleniti a vel eos adipisci suscipit fugit placeat.
+						</p>
+					</div>
+					
+					<i class="icofont-quote-right"></i>
+				</div>
+
+				<div class="testimonial-block style-2  gray-bg">
+					<div class="testimonial-thumb">
+						<img src="images/team/test-thumb4.jpg" alt="" class="img-fluid">
+					</div>
+
+					<div class="client-info">
+						<h4>Nice Environment!</h4>
+						<span>Partho Sarothi</span>
+						<p class="mt-4">
+							They provide great service facilty consectetur adipisicing elit. Itaque rem, praesentium, iure, ipsum magnam deleniti a vel eos adipisci suscipit fugit placeat.
+						</p>
+					</div>
+					<i class="icofont-quote-right"></i>
+				</div>
+
+				<div class="testimonial-block style-2  gray-bg">
+					<div class="testimonial-thumb">
+						<img src="images/team/test-thumb1.jpg" alt="" class="img-fluid">
+					</div>
+
+					<div class="client-info">
+						<h4>Modern Service!</h4>
+						<span>Kolis Mullar</span>
+						<p>
+							They provide great service facilty consectetur adipisicing elit. Itaque rem, praesentium, iure, ipsum magnam deleniti a vel eos adipisci suscipit fugit placeat.
+						</p>
+					</div>
+					<i class="icofont-quote-right"></i>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<section class="section clients">
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-lg-7">
+				<div class="section-title text-center">
+					<h2>Partners who support us</h2>
+					<div class="divider mx-auto my-4"></div>
+					<p>Lets know moreel necessitatibus dolor asperiores illum possimus sint voluptates incidunt molestias nostrum laudantium. Maiores porro cumque quaerat.</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container">
+		<div class="row clients-logo">
+			<div class="col-lg-2">
+				<div class="client-thumb">
+					<img src="images/about/1.png" alt="" class="img-fluid">
+				</div>
+			</div>
+			<div class="col-lg-2">
+				<div class="client-thumb">
+					<img src="images/about/2.png" alt="" class="img-fluid">
+				</div>
+			</div>
+			<div class="col-lg-2">
+				<div class="client-thumb">
+					<img src="images/about/3.png" alt="" class="img-fluid">
+				</div>
+			</div>
+			<div class="col-lg-2">
+				<div class="client-thumb">
+					<img src="images/about/4.png" alt="" class="img-fluid">
+				</div>
+			</div>
+			<div class="col-lg-2">
+				<div class="client-thumb">
+					<img src="images/about/5.png" alt="" class="img-fluid">
+				</div>
+			</div>
+			<div class="col-lg-2">
+				<div class="client-thumb">
+					<img src="images/about/6.png" alt="" class="img-fluid">
+				</div>
+			</div>
+			<div class="col-lg-2">
+				<div class="client-thumb">
+					<img src="images/about/3.png" alt="" class="img-fluid">
+				</div>
+			</div>
+			<div class="col-lg-2">
+				<div class="client-thumb">
+					<img src="images/about/4.png" alt="" class="img-fluid">
+				</div>
+			</div>
+			<div class="col-lg-2">
+				<div class="client-thumb">
+					<img src="images/about/5.png" alt="" class="img-fluid">
+				</div>
+			</div>
+			<div class="col-lg-2">
+				<div class="client-thumb">
+					<img src="images/about/6.png" alt="" class="img-fluid">
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+
+<footer class="footer section gray-bg">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-4 mr-auto col-sm-6">
+				<div class="widget mb-5 mb-lg-0">
+					<div class="logo mb-4">
+						<img src="images/logo.png" alt="" class="img-fluid">
+					</div>
+					<p>Tempora dolorem voluptatum nam vero assumenda voluptate, facilis ad eos obcaecati tenetur veritatis eveniet distinctio possimus.</p>
+
+					<ul class="list-inline footer-socials mt-4">
+						<li class="list-inline-item"><a href="https://www.facebook.com/themefisher"><i class="icofont-facebook"></i></a></li>
+						<li class="list-inline-item"><a href="https://twitter.com/themefisher"><i class="icofont-twitter"></i></a></li>
+						<li class="list-inline-item"><a href="https://www.pinterest.com/themefisher/"><i class="icofont-linkedin"></i></a></li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="col-lg-2 col-md-6 col-sm-6">
+				<div class="widget mb-5 mb-lg-0">
+					<h4 class="text-capitalize mb-3">Department</h4>
+					<div class="divider mb-4"></div>
+
+					<ul class="list-unstyled footer-menu lh-35">
+						<li><a href="#">Surgery </a></li>
+						<li><a href="#">Wome's Health</a></li>
+						<li><a href="#">Radiology</a></li>
+						<li><a href="#">Cardioc</a></li>
+						<li><a href="#">Medicine</a></li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="col-lg-2 col-md-6 col-sm-6">
+				<div class="widget mb-5 mb-lg-0">
+					<h4 class="text-capitalize mb-3">Support</h4>
+					<div class="divider mb-4"></div>
+
+					<ul class="list-unstyled footer-menu lh-35">
+						<li><a href="#">Terms & Conditions</a></li>
+						<li><a href="#">Privacy Policy</a></li>
+						<li><a href="#">Company Support </a></li>
+						<li><a href="#">FAQuestions</a></li>
+						<li><a href="#">Company Licence</a></li>
+					</ul>
+				</div>
+			</div>
+
+			<div class="col-lg-3 col-md-6 col-sm-6">
+				<div class="widget widget-contact mb-5 mb-lg-0">
+					<h4 class="text-capitalize mb-3">Get in Touch</h4>
+					<div class="divider mb-4"></div>
+
+					<div class="footer-contact-block mb-4">
+						<div class="icon d-flex align-items-center">
+							<i class="icofont-email mr-3"></i>
+							<span class="h6 mb-0">Support Available for 24/7</span>
+						</div>
+						<h4 class="mt-2"><a href="tel:+23-345-67890">Support@email.com</a></h4>
+					</div>
+
+					<div class="footer-contact-block">
+						<div class="icon d-flex align-items-center">
+							<i class="icofont-support mr-3"></i>
+							<span class="h6 mb-0">Mon to Fri : 08:30 - 18:00</span>
+						</div>
+						<h4 class="mt-2"><a href="tel:+23-345-67890">+23-456-6588</a></h4>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="footer-btm py-4 mt-5">
+			<div class="row align-items-center justify-content-between">
+				<div class="col-lg-6">
+					<div class="copyright">
+						&copy; Copyright Reserved to <span class="text-color">Novena</span> by <a href="https://themefisher.com/" target="_blank">Themefisher</a>
+					</div>
+				</div>
+				<div class="col-lg-6">
+					<div class="subscribe-form text-lg-right mt-5 mt-lg-0">
+						<form action="#" class="subscribe">
+							<input type="text" class="form-control" placeholder="Your Email address">
+							<a href="#" class="btn btn-main-2 btn-round-full">Subscribe</a>
+						</form>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-lg-4">
+					<a class="backtop js-scroll-trigger" href="#top">
+						<i class="icofont-long-arrow-up"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</footer>
+-->
+   
+    <script>
+        $(document).ready(function (){
+            $('a[class="nav-link dropdown-toggle"]').remove()
+        })
+    </script>
+    <!-- 
+    Essential Scripts
+    =====================================-->
+
+    
+    <!-- Main jQuery -->
+    <script src="{% static 'js/jquery.js' %}"></script>
+    <!-- Bootstrap 4.3.2 -->
+    <script src="{% static 'js/popper.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="js/jquery.easing.js"></script>
+    <!-- Slick Slider -->
+    <script src="js//slick/slick.min.js"></script>
+    <!-- Counterup -->
+    <script src="js/jquery.waypoints.min.js"></script>
+    
+    <script src="js/shuffle.min.js"></script>
+    <script src="js/jquery.counterup.min.js"></script>
+    <!-- Google Map -->
+    <script src="js/map.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAkeLMlsiwzp6b3Gnaxd86lvakimwGA6UA&callback=initMap"></script>    
+    
+    <script src="{% static 'js/script2.js' %}"></script>
+    <script src="{% static 'js/contact.js' %}"></script>
+
+
+
+</body>
+
+
+{% endblock content %}

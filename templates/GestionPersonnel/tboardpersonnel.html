@@ -1,0 +1,545 @@
+{% extends 'menu.html' %}
+{% block content %}
+    {% load static %}
+    {% load has_group %}
+    <title>{% block title %}لوحة القيادة{% endblock title %}</title>
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/all.min.css' %}"/>
+    <link href="{% static 'css/feather.css' %}" rel="stylesheet" type="text/css">
+    <style>
+        #datatables-dashboard-projects2_wrapper{
+            padding: 0 12px;
+        }
+        #datatables-dashboard-projects2_filter{
+            margin-top: 3px;
+            float: right;
+        }
+        #datatables-dashboard-projects2_length{
+            margin-top: 3px;
+            float: left;
+        }
+    </style>
+    {% if request.user|has_group:"GestionPersonnel" %}
+    <div class="row">
+        <div class="col-12 col-sm-6 col-xl d-flex">
+            <div class="card flex-fill">
+                <div class="card-body py-4">
+                    <div class="media">
+                        <div class="d-inline-block mt-2 mr-3">
+                            <i class="feather-lg text-primary" data-feather="user"></i>
+                        </div>
+                        <div class="media-body">
+                            <h3 class="mb-2">{{ hommes }}</h3>
+                            <div class="mb-0">ذكر</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-xl d-flex">
+            <div class="card flex-fill">
+                <div class="card-body py-4">
+                    <div class="media">
+                        <div class="d-inline-block mt-2 mr-3">
+                            <i class="feather-lg text-danger" data-feather="user"></i>
+                        </div>
+                        <div class="media-body">
+                            <h3 class="mb-2">{{ femmes }}</h3>
+                            <div class="mb-0">أنثى</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-xl d-flex">
+            <div class="card flex-fill">
+                <div class="card-body py-4">
+                    <div class="media">
+                        <div class="d-inline-block mt-2 mr-3">
+                            <i class="feather-lg text-success" data-feather="sliders"></i>
+                        </div>
+                        <div class="media-body">
+                            <h3 class="mb-2">{{administrationOne}}</h3>
+                            <div class="mb-0">مجلس العمالة</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-xl d-flex">
+            <div class="card flex-fill">
+                <div class="card-body py-4">
+                    <div class="media">
+                        <div class="d-inline-block mt-2 mr-3">
+                            <i class="feather-lg text-warning" data-feather="sliders"></i>
+                        </div>
+                        <div class="media-body">
+                            <h3 class="mb-2">{{ administrationTwo }}</h3>
+                            <div class="mb-0">العمالة وزارة الداخلية</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-xl d-none d-xxl-flex">
+            <div class="card flex-fill">
+                <div class="card-body py-4">
+                    <div class="media">
+                        <div class="d-inline-block mt-2 mr-3">
+                            <i class="feather-lg text-info" data-feather="activity"></i>
+                        </div>
+                        <div class="media-body">
+                            <h3 class="mb-2">{{personnels}}</h3>
+                            <div class="mb-0">العدد الاجمالي للموضفين </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12 title">
+        <h5 class="card-title mb-0">Départ en retraite <span class="float-right">الإحالة على التقاعد</span></h5>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-12 col-lg-6 d-flex">
+            <div class="card flex-fill w-100">
+                <div class="card-header">
+                  <button type="button" class="btn btn-transparent" data-toggle="modal" data-target="#myModal"><span id="year" class="badge badge-primary float-right">{% now "Y" %}</span></button>
+                 </div>
+                <div class="card-body d-flex w-100">
+                    <div class="align-self-center chart">
+                        <canvas id="chartjs-dashboard-bar-devices"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="col-12 col-lg-6 d-flex">
+            <div class="card flex-fill w-100">
+                <div class="card-header">
+                    <span id="year" class="badge badge-primary float-right">5 ans</span>
+                </div>
+                <div class="table-responsive" style="height: 100%">
+                    <table class="table table-striped my-0 text-center table-hover" style="flex-direction: row-reverse;height: 100%">
+                        <thead>
+                            <tr>
+                                <th>-</th>
+                                <td>مجلس العمالة</td>
+                                <td>العمالة</td>
+                                <td>المجموع</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in cinqdepartretraite %}
+                                <tr id="trelem" onclick="rowdata(this)">
+                                    <td>{{ item.an }}</td>
+                                    <td>{{ item.cinqdepartretraiteone }}</td>
+                                    <td>{{ item.cinqdepartretraitetwo }}</td>
+                                    <td>{{ item.cinqdepartretraite }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+     <div class="row">
+        <div class="col-12 col-sm-4 d-flex">
+            <div class="card flex-fill">
+                <div class="card-header">
+                    <!--<h5 class="card-title mb-0">Calendar</h5>-->
+                </div>
+                <div class="card-body d-flex">
+                    <div class="align-self-center w-100">
+                        <div class="chart">
+                            <img  class="img-fluid" src='data:image/png;base64,{{chart|safe}}' alt="Piramyd"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-sm-8 d-flex">
+            <div class="card flex-fill">
+                <div class="card-header">
+                    <h5 class="card-title mb-0"><span class="float-right">التحديثات</span></h5>
+                </div>
+                <table id="datatables-dashboard-projects2"  class="table table-striped my-0 text-center">
+                    <thead>
+                        <tr>
+                            <th>ر.ب.و</th>
+                            <th>الاسم الكامل</th>
+                            <th class="d-none d-md-table-cell">هاتف</th>
+                            <th class="d-none d-md-table-cell"> أخر تحديت</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for perso in personnelslastup %}
+                        <tr>
+                            <td>{{ perso.cin }}</td>
+                            <td class="d-none d-xl-table-cell">{{ perso.nomar }} - {{ perso.prenomar }}</td>
+                            <td class="d-none d-xl-table-cell">{{ perso.tele }}</td>
+                            <td><span class="badge badge-success">{{ perso.lastupdate }}</span></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="myModal" class="modal fade" role="dialog">
+      <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+          <div class="modal-body">
+              <div class="table-responsive">
+                  <table class="table table-striped ">
+                      <thead>
+                          <th>ر.ب.و</th>
+                          <th>الاسم الكامل</th>
+                          <th class="d-none d-md-table-cell">هاتف</th>
+                          <th class="d-none d-md-table-cell">العمر</th>
+                          <th>معلومات</th>
+                      </thead>
+                      <tbody id="modalsdata">
+
+                      </tbody>
+                  </table>
+              </div>
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">إغلاق</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <script>
+      $(document).ready(function (){
+            $('#trelem').click()
+      })
+    </script>
+    <script>
+		$(function() {
+			$("#datetimepicker-dashboard").datetimepicker({
+				inline: true,
+				sideBySide: false,
+				format: "L"
+			});
+		});
+	</script>
+    <!--
+	<script>
+		$(function() {
+			// Line chart
+			new Chart(document.getElementById("chartjs-dashboard-line"), {
+				type: "line",
+				data: {
+					labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+					datasets: [{
+						label: "Personnel",
+						fill: true,
+						backgroundColor: "Transparent",
+						borderColor: window.theme.primary,
+						data: [{{ departretraiteone.0 }}, {{ departretraiteone.1 }}, {{ departretraiteone.2 }}, {{ departretraiteone.3 }}, {{ departretraiteone.4 }}, {{ departretraiteone.5 }}, {{ departretraiteone.6 }}, {{ departretraiteone.7 }}, {{ departretraiteone.8 }}, {{ departretraiteone.9 }}, {{ departretraiteone.10 }},{{ departretraiteone.11 }}]
+					}, {
+						label: "Personnel",
+						fill: true,
+						backgroundColor: "Transparent",
+						borderColor: window.theme.tertiary,
+						borderDash: [4, 4],
+						data: [{{ departretraitetwo.0 }}, {{ departretraitetwo.1 }}, {{ departretraitetwo.2 }}, {{ departretraitetwo.3 }}, {{ departretraitetwo.4 }}, {{ departretraitetwo.5 }}, {{ departretraitetwo.6 }}, {{ departretraitetwo.7 }}, {{ departretraitetwo.8 }}, {{ departretraitetwo.9 }}, {{ departretraitetwo.10 }},{{ departretraitetwo.11 }}]
+					}]
+				},
+				options: {
+					maintainAspectRatio: false,
+					legend: {
+						display: false
+					},
+					tooltips: {
+						intersect: false
+					},
+					hover: {
+						intersect: true
+					},
+					plugins: {
+						filler: {
+							propagate: false
+						}
+					},
+					scales: {
+						xAxes: [{
+							reverse: true,
+							gridLines: {
+								color: "rgba(0,0,0,0.05)"
+							}
+						}],
+						yAxes: [{
+							ticks: {
+								stepSize: 500
+							},
+							display: true,
+							borderDash: [5, 5],
+							gridLines: {
+								color: "rgba(0,0,0,0)",
+								fontColor: "#fff"
+							}
+						}]
+					}
+				}
+			});
+		});
+	</script>-->
+    <script>
+		$(function() {
+			// Bar chart
+			chart1 =new Chart(document.getElementById("chartjs-dashboard-bar-devices"), {
+				type: "bar",
+				data: {
+                    labels: ["Jan-ينا", "Fev-فبر", "Mar-مارس", "Avr-أبر", "Mai-ماي", "Jun-يونيو", "Jul-يول", "Auo-غشت", "Sep-شتن", "Oct-أكت", "Nov-نون", "Dec-ديس"],
+					datasets: [{
+						label: "Adm1",
+						backgroundColor: window.theme.primary,
+						borderColor: window.theme.primary,
+						hoverBackgroundColor: window.theme.primary,
+						hoverBorderColor: window.theme.primary,
+						data: [{{ departretraiteone.0 }}, {{ departretraiteone.1 }}, {{ departretraiteone.2 }}, {{ departretraiteone.3 }}, {{ departretraiteone.4 }}, {{ departretraiteone.5 }}, {{ departretraiteone.6 }}, {{ departretraiteone.7 }}, {{ departretraiteone.8 }}, {{ departretraiteone.9 }}, {{ departretraiteone.10 }},{{ departretraiteone.11 }}]
+					}, {
+						label: "Adm2",
+						backgroundColor: "#E8EAED",
+						borderColor: "#E8EAED",
+						hoverBackgroundColor: "#E8EAED",
+						hoverBorderColor: "#E8EAED",
+						data: [{{ departretraitetwo.0 }}, {{ departretraitetwo.1 }}, {{ departretraitetwo.2 }}, {{ departretraitetwo.3 }}, {{ departretraitetwo.4 }}, {{ departretraitetwo.5 }}, {{ departretraitetwo.6 }}, {{ departretraitetwo.7 }}, {{ departretraitetwo.8 }}, {{ departretraitetwo.9 }}, {{ departretraitetwo.10 }},{{ departretraitetwo.11 }}]
+					}]
+				},
+				options: {
+					maintainAspectRatio: false,
+					legend: {
+						display: false
+					},
+					scales: {
+						yAxes: [{
+							gridLines: {
+								display: false
+							},
+							stacked: false,
+							ticks: {
+								stepSize: 20
+							}
+						}],
+						xAxes: [{
+							barPercentage: .75,
+							categoryPercentage: .5,
+							stacked: false,
+							gridLines: {
+								color: "transparent"
+							}
+						}]
+					}
+				}
+			});
+		});
+	</script>
+	<script>
+		$(function() {
+			// Pie chart
+			new Chart(document.getElementById("chartjs-dashboard-pie"), {
+				type: "pie",
+				data: {
+					labels: ["Direct", "Affiliate", "E-mail", "Other"],
+					datasets: [{
+						data: [2602, 1253, 541, 1465],
+						backgroundColor: [
+							window.theme.primary,
+							window.theme.warning,
+							window.theme.danger,
+							"#E8EAED"
+						],
+						borderColor: "transparent"
+					}]
+				},
+				options: {
+					responsive: !window.MSInputMethodContext,
+					maintainAspectRatio: false,
+					legend: {
+						display: false
+					}
+				}
+			});
+		});
+	</script>
+
+    <script>
+        var chart = JSC.chart('chartDiv', {
+          debug: true,
+          type: 'horizontal column',
+          title_label_text: 'US population in 2015',
+          yAxis: {
+            scale_type: 'stacked',
+            defaultTick_label_text:
+              '{Math.abs(%Value):a2}'
+          },
+          xAxis: {
+            label_text: 'Age',
+            crosshair_enabled: true
+          },
+          defaultTooltip_label_text:
+            'Ages %xValue:<br><b>%points</b>',
+          defaultPoint_tooltip:
+            '%icon {Math.abs(%Value)}',
+          legend_template:
+            '%name %icon {Math.abs(%Value)}',
+          series: [
+            {
+              name: 'Male',
+              points: {
+                mapTo: 'x,y',
+                data: [
+                  ['0-4', -10059740],
+                  ['5-9', -10517634],
+                  ['10-14', -10526401],
+                  ['15-19', -10631931],
+                  ['20-24', -11996587],
+                  ['25-29', -11254853],
+                  ['30-34', -11114717],
+                  ['35-39', -9932894],
+                  ['40-44', -10390339],
+                  ['45-49', -10378298],
+                  ['50-54', -11387743],
+                  ['55-59', -10872343],
+                  ['60-64', -9145334],
+                  ['65-69', -7618126],
+                  ['70-74', -5246871],
+                  ['75-79', -3617750],
+                  ['80+', -4626342]
+                ]
+              }
+            },
+            {
+              name: 'Female',
+              points: {
+                mapTo: 'x,y',
+                data: [
+                  ['0-4', 9619810],
+                  ['5-9', 10092946],
+                  ['10-14', 10093446],
+                  ['15-19', 10066517],
+                  ['20-24', 11266559],
+                  ['25-29', 10711383],
+                  ['30-34', 10893282],
+                  ['35-39', 9770693],
+                  ['40-44', 10381899],
+                  ['45-49', 10222507],
+                  ['50-54', 11532467],
+                  ['55-59', 11232544],
+                  ['60-64', 9800743],
+                  ['65-69', 8392833],
+                  ['70-74', 6168134],
+                  ['75-79', 4394229],
+                  ['80+', 7460923]
+                ]
+              }
+            }
+          ]
+        });
+    </script>
+    <script>
+        function rowdata(x) {
+            $.ajax(
+            {
+                type:"POST",
+                url: "{% url 'ajaxtaboardpersonnel' %}",
+                data:{annes: $(x).find("td:eq(0)").text()},
+
+                success: function( data )
+                {
+                    $("#modalsdata").empty()
+                    for(var i = 0; i < data.departretraite.length; i++)
+                    {
+                        $("#modalsdata").append('<tr><td>'+data.departretraite[i].cin+'</td><td>'+data.departretraite[i].nomfr+'</td><td>'+data.departretraite[i].nomar+'</td><td>'+data.departretraite[i].age+'</td><td><a href="/personnel/personnelinfo/'+data.departretraite[i].idpersonnel+'" class="btn bg-gray m-1"><i class="fa-solid fa-arrow-up-right-from-square"></i></i></a></td></tr>')
+                    }
+                    console.log(data)
+
+                    $('#year').text($(x).find("td:eq(0)").text())
+                    chart1.destroy();
+
+                    $(function() {
+                        // Bar chart
+                       chart1 =  new Chart(document.getElementById("chartjs-dashboard-bar-devices"), {
+                            type: "bar",
+                            data: {
+					            labels: ["Jan-ينا", "Fev-فبر", "Mar-مارس", "Avr-أبر", "Mai-ماي", "Jun-يونيو", "Jul-يول", "Auo-غشت", "Sep-شتن", "Oct-أكت", "Nov-نون", "Dec-ديس"],
+                                datasets: [{
+                                    label: "Adm1",
+                                    backgroundColor: window.theme.primary,
+                                    borderColor: window.theme.primary,
+                                    hoverBackgroundColor: window.theme.primary,
+                                    hoverBorderColor: window.theme.primary,
+                                    data: data.departretraiteonecount
+                                }, {
+                                    label: "Adm2",
+                                    backgroundColor: "#E8EAED",
+                                    borderColor: "#E8EAED",
+                                    hoverBackgroundColor: "#E8EAED",
+                                    hoverBorderColor: "#E8EAED",
+                                    data: data.departretraitetwocount
+                                }]
+                            },
+                            options: {
+                                maintainAspectRatio: false,
+                                legend: {
+                                    display: false
+                                },
+                                scales: {
+                                    yAxes: [{
+                                        gridLines: {
+                                            display: false
+                                        },
+                                        stacked: false,
+                                        ticks: {
+                                            stepSize: 20
+                                        }
+                                    }],
+                                    xAxes: [{
+                                        barPercentage: .75,
+                                        categoryPercentage: .5,
+                                        stacked: false,
+                                        gridLines: {
+                                            color: "transparent"
+                                        }
+                                    }]
+                                }
+                            }
+                        });
+                    });
+                }
+             })
+        }
+    </script>
+    <script src="{% static 'js/GestionPersonnel/datatable.js' %}"></script>
+{% else %}
+      <div class="row h-100">
+				<div class="col-sm-10 col-md-8 col-lg-6 mx-auto d-table h-100">
+					<div class="d-table-cell align-middle">
+						<div class="text-center">
+							<h1 class="display-1 font-weight-bold" style="color: red">401</h1>
+							<p class="h1"></p>
+							<p class="h2 font-weight-normal mt-3 mb-4"  style="color: red">ليس لديكم الحق للولوج لهته الصفحة</p>
+							<a href="{% url 'consultation' %}" class="btn btn-primary btn-lg">الرجوع</a>
+						</div>
+					</div>
+				</div>
+			</div>
+{% endif %}
+{% endblock content %}

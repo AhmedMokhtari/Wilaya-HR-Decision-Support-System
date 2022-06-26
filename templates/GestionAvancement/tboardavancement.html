@@ -1,0 +1,110 @@
+{% extends 'menu.html' %}
+{% block content %}
+    {% load static %}
+    <title>{% block title %}لوحة القيادة{% endblock title %}</title>
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static 'css/all.min.css' %}"/>
+    <link href="assets/css/feather.css" rel="stylesheet" type="text/css">
+    <style >
+    .shadow{
+        box-shadow: 0 0.3rem 0.9rem rgb(5 92 98 / 14%) !important;
+        border-radius: 8px !important;
+    }
+    </style>
+    <div class="row">
+        <div class="col-12 col-sm-6 col-xl d-flex">
+            <div class="card flex-fill">
+                <div class="card-body shadow py-4">
+                    <div class="media">
+                        <div class="d-inline-block mt-2 mr-3">
+                            <i class="feather-lg text-info" data-feather="activity"></i>
+                        </div>
+                        <div class="media-body">
+                            <h3 class="mb-2">{{ objavancememnt }}</h3>
+                            <div class="mb-0">عدد المترقين في الرتبة برسم السنة الحالية</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-sm-6 col-xl d-flex">
+            <div class="card flex-fill">
+                <div class="card-body shadow py-4">
+                    <div class="media">
+                        <div class="d-inline-block mt-2 mr-3">
+                          <i class="fa-regular fa-calendar-check fa-2xl" style="color: #2ecc71;text-shadow: 1px 1px 1px #ccc;font-size:30px;"></i>
+                        </div>
+                        <div class="media-body">
+                            <h3 class="mb-2">{{ objavancememntexceptionnel }}</h3>
+                            <div class="mb-0">عدد المترقين في الرتبة الإستثنائية برسم السنة الحالية</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-lg-6 text-right">
+            <div class="card shadow py-4">
+                <div class="card-header">
+                    <h5>عدد المترقين في</h5>
+                    <select id="annee" class="form-control col-md-3">
+                        <option value="1">السنتين الماضيتين</option>
+                        <option value="2">الخمس سنوات المستقبلية</option>
+                    </select>
+                </div>
+                <div class="card-body">
+                    <div id="chart_div" style="width: 100%; height: 400px;"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12 col-lg-6 text-right">
+            <div class="card shadow py-4">
+                <div class="card-header">
+                    <h5>عدد المترقين في</h5>
+                    <select id="anneeorga" class="form-control col-md-3">
+                        <option value="1">السنتين الماضيتين</option>
+                        <option value="2">الخمس سنوات المستقبلية</option>
+                    </select>
+                </div>
+                <div class="card-body">
+                    <div id="chart_div1" style="width: 100%; height: 400px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+     <script type="text/javascript" src="{% static 'js/GestionAvancement/loader.js' %}"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['corechart']});
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+          ['السنة', 'الترقية العادية', 'الترقية الإستثنائية'],
+          ['2018',  60,      40],
+          ['2019',  117,      46],
+          ['2020',  66,       112],
+          ['2021',  103,      54]
+        ]);
+
+        var options = {
+          title: 'عدد المترقين في السنة',
+          hAxis: {title: 'السنة',  titleTextStyle: {color: '#333'}},
+          vAxis: {minValue: 0, title: 'الموضفون'}
+        };
+
+        var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
+        chart.draw(data, options);
+      }
+    </script>
+    <script type="text/javascript">
+
+    </script>
+    <script>
+    var url1= "{% url 'tboardavancementloadorga' %}";
+    </script>
+    <script type="text/javascript" src="{% static 'js/GestionAvancement/tboard.js' %}"></script>
+{% endblock %}

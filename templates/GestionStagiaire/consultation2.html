@@ -1,0 +1,230 @@
+{% extends 'menu.html' %}
+{% block content %}
+    {% load static %}
+    <title>{% block title %} معلومات {% endblock title %}</title>
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/all.min.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styleconsultation.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200&family=Montserrat:wght@800;900&display=swap" rel="stylesheet">
+    <!-- CSS only -->
+    <div class="col-12 col-xl-12">
+        <div class="card shadow">
+            <form method="get" id="formsearch">
+                <div class="card-header text-right">
+                    <h3 class="text-right"><strong>البحث</strong></h3>
+                    <hr>
+                    <div class="row mr-2">
+                        <div class="row">
+                            <div class="col-md-10">
+                                <label class="col-form-label float-right" for="entite"> الكيان :</label>
+                                <select class="form-control text-center" id="entite" name="entite"  required>
+                                    <option value="" style="display: none"></option>
+                                    {% for entite in entites %}
+                                        <option>{{ entite.libelleentitefr}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <br class="divisiondiv">
+                        <div class="row divisiondiv">
+                            <div class="col-md-10">
+                                <label class="col-form-label float-right" for="division"> القسم :</label>
+                                <select class="form-control text-center" id="division" name="division">
+
+                                </select>
+                            </div>
+                        </div>
+
+                        <br class="districtpashalikdiv">
+                        <div class="row districtpashalikdiv">
+                            <div class="col-md-10">
+                                <label class="col-form-label float-right" for="districtpashalik"> المقاطعة :</label>
+                                <select class="form-control text-center" id="districtpashalik" name="districtpashalik">
+                                    <option value="" id="iddps" style="display: none"></option>
+                                    <option>District</option>
+                                    <option>Pashalik</option>
+                                    <option>Cercle</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <br class="cerclediv">
+                        <div class="row cerclediv">
+                            <div class="col-md-10">
+                                <label class="col-form-label float-right" for="cercle"> الدائرة :</label>
+                                <select class="form-control text-center" id="cercle" name="cercle">
+                                    <option id="idcercle" style="display: none"></option>
+                                    {% for cercle in cercles %}
+                                        <option value="{{ cercle.idcercle}}">{{ cercle.libellecerclefr }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <br class="caidadiv">
+                        <div class="row caidadiv">
+                            <div class="col-md-10">
+                                <label class="col-form-label float-right" for="caida"> القيادة :</label>
+                                <select class="form-control text-center" id="caida" name="caida">
+
+                                </select>
+                            </div>
+                        </div>
+
+                        <br class="districtdiv">
+                        <div class="row districtdiv">
+                            <div class="col-md-10">
+                                <label class="col-form-label float-right" for="district"> المقاطعة :</label>
+                                <select class="form-control text-center" id="district" name="district">
+                                    <option  value="" id="iddistrict" style="display: none"></option>
+                                    {% for district in districts %}
+                                        <option value="{{ district.iddistrict }}">{{ district.libelledistrictfr }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+                        <br class="pashalikdiv">
+                        <div class="row pashalikdiv">
+                            <div class="col-md-10">
+                                <label class="col-form-label float-right" for="pashalik"> الباشوية :</label>
+                                <select class="form-control text-center" id="pashalik" name="pashalik">
+                                    <option value="" id="idpashalik" style="display: none"></option>
+                                    {% for pashalik in pashaliks %}
+                                        <option value="{{ pashalik.idpashalik }}">{{ pashalik.libellepashalikfr}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                        <br class="annexediv">
+                        <div class="row annexediv">
+
+                            <div class="col-md-10">
+                                <label class="col-form-label float-right" for="annexe"> ملحقة إدارية :</label>
+                                <select class="form-control text-center" id="annexe" name="annexe">
+
+                                </select>
+                            </div>
+                        </div>
+
+                        <br class="servicediv">
+                        <div class="row servicediv">
+                            <div class="col-md-10">
+                                <label class="col-form-label float-right" for="service"> إدارة :</label>
+                                <select class="form-control text-center" id="service" name="service">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <hr>
+                    <br>
+                    <div class="row">
+                        <div class="col-1"><label class="col-form-label form-check-inline">الجنس &nbsp;:</label></div>
+                        <div class="col-1">
+                            <label class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="radioGenre" value="Homme"/>
+                                <span class="form-check-label"> &nbsp; ذكر </span>
+                            </label>
+                        </div>
+                        <div class="col-1">
+                            <label class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="radioGenre" value="Femme"/>
+                                <span class="form-check-label">  &nbsp; أنثى </span>
+                            </label>
+                        </div>
+                    </div>
+                    <br>
+                    <hr>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-2 form-inline">
+                            <label class="col-form-label float-right ml-2" for="statut">الحالة :</label>
+                            <select class="form-control text-center" id="statut" name="statut">
+                                <option value="All">الكل</option>
+                                <option value="yet">yet</option>
+                                <option value="encours">En cours</option>
+                                <option value="finished">Terminés</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <form method="POST">
+    {% csrf_token %}
+        <div class="col-12 col-xl-12">
+            <div class="card shadow">
+                <div class="card-header">
+                    <h3 class="text-right"><strong>المتدربين</strong></h3>
+                    <h6 class="card-subtitle text-muted text-right">معلومات المتدربين</h6>
+                    <br>
+                </div>
+                <div class="col-12 col-lg-12 col-xxl-12 d-flex tablechange">
+                    <table class="table table-striped text-center" id="table">
+                        <thead style="background-color: #ED2B33FF;color: white">
+                            <tr>
+                                <th>ر.ب.و</th>
+                                <th>الاسم الكامل</th>
+                                <th>Nom Complet</th>
+                                <th>الجنس</th>
+                                <th>الوحدة</th>
+                                <th>الحالة</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody">
+                         {% for stagiaire in stagiaires %}
+                                  <tr class="tb-colon"  >
+                                        <td>{{ stagiaire.stage.cin }}</td>
+                                        <td>{{stagiaire.stage.nomstagiairear}} - {{ stagiaire.stage.prenomstagiairear }}</td>
+                                        <td>{{stagiaire.stage.nomstagiairefr}} - {{ stagiaire.stage.prenomstagiairefr }}</td>
+                                        <td>{{ stagiaire.stage.sexe }} </td>
+                                        {% if stagiaire.stage.idcaidat_field__libellecaidatfr%}
+                                            <td>{{stagiaire.stage.idcaidat_field__libellecaidatfr}}</td>
+                                        {%elif stagiaire.stage.idpashalik_field__libellepashalikfr%}
+                                            <td>{{stagiaire.stage.idpashalik_field__libellepashalikfr}}</td>
+                                        {% elif stagiaire.stage.idannexe_field__libelleannexefr %}
+                                            <td>{{stagiaire.stage.idannexe_field__libelleannexefr}}</td>
+                                        {% elif stagiaire.stage.idservice_field__libelleservicefr %}
+                                            <td>{{stagiaire.stage.idservice_field__libelleservicefr}}</td>
+                                        {% endif %}
+                                        {% if stagiaire.statut == 'Pas commencer' %}
+                                           <td><span class="badge badge-primary p-2">{{stagiaire.statut}}</span></td>
+                                        {% elif  stagiaire.statut == 'Terminé' %}
+                                               <td><span class="badge badge-success p-2">{{stagiaire.statut}}</span></td>
+                                        {% else %}
+                                            <td><span class="badge badge-warning p-2">{{stagiaire.statut}}</span></td>
+                                        {% endif %}
+                                        <td><a href="{% url 'infostagiaire' stagiaire.stage.idstage %}" class="btn btn-success m-1"><i class="fa-solid fa-arrow-up-right-from-square fa-lg " ></i></a><a href="{% url 'modifierstagiaire' stagiaire.stage.idstage %}"class="btn btn-warning btn-icon  mx-1"><i class="fa-solid fa-pen-to-square fa-lg"></i></a> </td>
+                                  </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </form>
+<script type="text/javascript" src="{% static 'js/GestionStagiaire/filter2.js' %}"></script>
+<script>
+        var url0 = "{% url 'ajaxloadannexe' %}"
+       const url4 = "{% url 'ajaxloadcaida' %}";
+       const url6 = "{% url 'ajaxloaddivision' %}";
+       var url3 = "{% url 'ajaxloadService' %}";
+</script>
+<script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'js/buttons.flash.min.js' %}"></script>
+<script src="{% static 'js/jszip.min.js' %}"></script>
+<script src="{% static 'js/pdfmake.min.js' %}"></script>
+<script src="{% static 'js/vfs_fonts.js' %}"></script>
+<script src="{% static 'js/buttons.html5.min.js' %}"></script>
+<script src="{% static 'js/buttons.print.min.js' %}"></script>
+<script src="{% static 'js/xlsx.full.min.js' %}"></script>
+<script src="{% static 'js/semantic.min.js' %}"></script>
+<script src="{% static 'js/scriptConsultation.js' %}"></script>
+{% endblock %}

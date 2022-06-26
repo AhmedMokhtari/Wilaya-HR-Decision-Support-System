@@ -1,0 +1,140 @@
+{% extends 'menu.html' %}
+{% block content %}
+    {% load static %}
+    <title>{% block title %} معلومات {% endblock title %}</title>
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/all.min.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styleconsultation.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200&family=Montserrat:wght@800;900&display=swap" rel="stylesheet">
+    <!-- CSS only -->
+    <div class="col-12 col-xl-12">
+        <div class="card shadow">
+            <form method="get" id="formsearch">
+                <div class="card-header text-right">
+                    <h3 class="text-right"><strong>البحث</strong></h3>
+                    <hr>
+                    <div class="row mr-2">
+                        <div class="row">
+                            <div class="col-md-10">
+                                <label class="col-form-label float-right" for="division"> القسم :</label>
+                                <select class="form-control text-center" id="division" name="division"  required>
+                                    <option value="" style="display: none"></option>
+                                    {% for division in divisions %}
+                                        <option value="{{division.iddivision}}">{{ division.libelledivisionfr}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <br class="servicediv">
+                        <div class="row servicediv">
+                            <div class="col-md-10">
+                                <label class="col-form-label float-right" for="service"> المصلحة :</label>
+                                <select class="form-control text-center" id="service" name="service">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <hr>
+                    <br>
+                    <div class="row">
+                        <div class="col-1"><label class="col-form-label form-check-inline">الجنس &nbsp;:</label></div>
+                        <div class="col-1">
+                            <label class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="radioGenre" value="Homme"/>
+                                <span class="form-check-label"> &nbsp; ذكر </span>
+                            </label>
+                        </div>
+                        <div class="col-1">
+                            <label class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="radioGenre" value="Femme"/>
+                                <span class="form-check-label">  &nbsp; أنثى </span>
+                            </label>
+                        </div>
+                    </div>
+                    <br>
+                    <hr>
+                    <br>
+                    <div class="row">
+                        <div class="col-md-2 form-inline">
+                            <label class="col-form-label float-right ml-2" for="statut">الحالة :</label>
+                            <select class="form-control text-center" id="statut" name="statut">
+                                <option value="All">الكل</option>
+                                <option value="yet">yet</option>
+                                <option value="encours">En cours</option>
+                                <option value="finished">Terminés</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <form method="POST">
+    {% csrf_token %}
+        <div class="col-12 col-xl-12">
+            <div class="card shadow">
+                <div class="card-header">
+                    <h3 class="text-right"><strong>المتدربين</strong></h3>
+                    <h6 class="card-subtitle text-muted text-right">معلومات المتدربين</h6>
+                    <br>
+                </div>
+                <div class="col-12 col-lg-12 col-xxl-12 d-flex tablechange">
+                    <table class="table table-striped text-center" id="table">
+                        <thead style="background-color: #ED2B33FF;color: white">
+                            <tr>
+                                <th>ر.ب.و</th>
+                                <th>الاسم الكامل</th>
+                                <th>Nom Complet</th>
+                                <th>الجنس</th>
+                                <th>القسم</th>
+                                <th>المصلحة</th>
+                                <th>الحالة</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody">
+                         {% for stagiaire in stagiaires %}
+                                  <tr class="tb-colon"  >
+                                        <td>{{ stagiaire.stage.cin }}</td>
+                                        <td>{{stagiaire.stage.nomstagiairear}} - {{ stagiaire.stage.prenomstagiairear }}</td>
+                                        <td>{{stagiaire.stage.nomstagiairefr}} - {{ stagiaire.stage.prenomstagiairefr }}</td>
+                                        <td>{{ stagiaire.stage.sexe }} </td>
+                                        <td>{{ stagiaire.stage.idservice_field__iddivision_field__libelledivisionfr }}</td>
+                                        <td>{{ stagiaire.stage.idservice_field__libelleservicefr }}</td>
+                                        {% if stagiaire.statut == 'Pas commencer' %}
+                                           <td><span class="badge badge-primary p-2">{{stagiaire.statut}}</span></td>
+                                        {% elif  stagiaire.statut == 'Terminé' %}
+                                               <td><span class="badge badge-success p-2">{{stagiaire.statut}}</span></td>
+                                        {% else %}
+                                            <td><span class="badge badge-warning p-2">{{stagiaire.statut}}</span></td>
+                                        {% endif %}
+                                        <td><a href="{% url 'infostagiaire' stagiaire.stage.idstage %}" class="btn btn-success m-1"><i class="fa-solid fa-arrow-up-right-from-square fa-lg " ></i></a><a href="{% url 'modifierstagiaire' stagiaire.stage.idstage %}"class="btn btn-warning btn-icon  mx-1"><i class="fa-solid fa-pen-to-square fa-lg"></i></a> </td>
+                                  </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </form>
+<script type="text/javascript" src="{% static 'js/GestionStagiaire/filter.js' %}"></script>
+<script>
+       var url0 = "{% url 'ajaxloadService' %}"
+</script>
+<script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'js/dataTables.buttons.min.js' %}"></script>
+<script src="{% static 'js/buttons.flash.min.js' %}"></script>
+<script src="{% static 'js/jszip.min.js' %}"></script>
+<script src="{% static 'js/pdfmake.min.js' %}"></script>
+<script src="{% static 'js/vfs_fonts.js' %}"></script>
+<script src="{% static 'js/buttons.html5.min.js' %}"></script>
+<script src="{% static 'js/buttons.print.min.js' %}"></script>
+<script src="{% static 'js/xlsx.full.min.js' %}"></script>
+<script src="{% static 'js/semantic.min.js' %}"></script>
+<script src="{% static 'js/scriptConsultation.js' %}"></script>
+{% endblock %}

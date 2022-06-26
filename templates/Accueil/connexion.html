@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    {% load static %}
+    <title>قسم الموارد البشرية - تسجيل الدخول</title>
+
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/connexion.css' %}">
+    <script type="d2d1d6e2f87cbebdf4013b26-text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+</head>
+<body  style="background-color: #eee;">
+<section class="h-100 gradient-form ">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-xl-10">
+        <div class="card rounded-3 text-black shadow bg-white rounded" >
+          <div class="row g-0">
+            <div class="col-lg-6">
+              <div class="card-body p-md-5 mx-md-4 " >
+
+                <div class="text-center">
+                  <img src="{% static 'images/logo1.png' %}"
+                    style="width: 185px;" alt="logo">
+                  <h4 class="mt-1 mb-5 pb-1"></h4>
+                </div>
+                  <form action="" method="post">
+                      {%  csrf_token %}
+                        <form class="shadow p-3 mb-5 bg-white rounded">
+                          <p id="txtp">تسجيل الدخول</p>
+
+                          <div class="form-outline mb-4">
+                            <input type="text" id="form2Example11" class="form-control" name="username"
+                              placeholder="المستخدم" required />
+                          </div>
+
+                          <div class="form-outline mb-4">
+                            <input type="password" id="form2Example22" class="form-control" placeholder="الرقم السري" name="password" pattern=".{8,}" required/>
+                          </div>
+                            <div>
+                                {% if messages %}
+                                    {% for message in messages%}
+                                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                          {{ message }}
+                                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                          </button>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                            </div>
+
+                          <div class="text-center pt-1 mb-5 pb-1">
+                            <input type="submit"  value="الولوج" class="btn btn-primary btn-block fa-lg gradient-custom-2 mb-3" >
+                          </div>
+                        </form>
+                    </form>
+              </div>
+            </div>
+            <div class="col-lg-6 d-flex align-items-center gradient-custom-2" style="background: url('{% static 'images/banner.jpg' %}')">
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script type="text/javascript" src="{% static 'js/Global/validation.js' %}"></script>
+</body>
+</html>

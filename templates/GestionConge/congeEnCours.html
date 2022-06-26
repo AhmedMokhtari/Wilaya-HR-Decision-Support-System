@@ -1,0 +1,429 @@
+{% extends 'menu.html' %}
+{% block content %}
+    {% load static %}
+    <link href="{% static 'css/absenceajouter.css' %}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="{% static 'css/all.min.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/semantic.min.css' %}">
+    <style>
+    #datatables-dashboard-projects_filter input{
+        float: right;
+    }
+    th{
+        color: white;
+        font-family: "Cairo ExtraLight";
+        font-weight: bold;
+    }
+    h3{
+        font-family: "Cairo ExtraLight";
+        font-weight: bold;
+        color: #45B668;
+    }
+    </style>
+<form method="post">
+{% csrf_token %}
+    <div class="row">
+        <div class="col-12 col-lg-4 col-xxl-12 d-flex">
+            <div class="card flex-fill p-3">
+                <div class="card-header">
+                    <h3 class="text-right">الرخص الحالية</h3>
+                    <hr>
+                </div>
+                <div class="card-body">
+                    <div class="col-12 col-sm-12 d-flex">
+                        <div id="chartCongeCount">
+                            <canvas id="pie-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-8 col-xxl-12 d-flex">
+            <div class="card flex-fill p-3">
+                <div class="card-header">
+                    <h3 class="text-right">الرخص الحالية</h3>
+                    <hr>
+                </div>
+                <div class="card-body">
+
+                    <div class="col-12 col-sm-12">
+                        <div class="table-responsive">
+                            <table id="datatables-dashboard-projects" class="table table-striped my-0">
+                                <thead style="background-color: #79AEC8">
+                                    <tr>
+                                        <th class="d-none d-xl-table-cell">الاسم الكامل</th>
+                                        <th>النوع</th>
+                                        <th>تاريخ البداية </th>
+                                        <th> تاريخ النهاية</th>
+                                        <th>عدد الأيام</th>
+                                        <th>الأيام المتبقية </th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% now "Y-m-d" as todays %}
+                                {% for item,a in congesEnCours %}
+                                    <tr >
+                                        <td>{{ item.idpersonnel_field.nomar}} {{ item.idpersonnel_field.prenomar}}</td>
+                                        <td>{{ item.type_conge }}</td>
+                                        <td class="d-none d-xl-table-cell">{{ item.datedebut|date:'Y-m-d' }} </td>
+                                        <td class="d-none d-xl-table-cell">{{ item.dateretour|date:'Y-m-d' }}</td>
+                                        <td>{{ item.nbjour}}</td>
+                                        <td>{{ a.joursrestanConge }}</td>
+                                        <td class="collapsing">
+                                            <a href="{% url 'stopeconge' item.idconge %}" class="btn btn-danger">توقيف</a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-lg-12 col-xxl-12 d-flex">
+            <div class="card flex-fill p-3">
+                <div class="card-header">
+                    <h3 class="text-right">الرخص الحالية المنتهية</h3>
+                    <hr>
+                </div>
+                <div class="card-body">
+                    <div class="col-12 col-sm-12 ">
+                        <div class="table-responsive">
+                            <table id="tableEnCoursFini"  class="table table-striped my-0">
+                                <thead style="background-color: #79AEC8;">
+                                    <tr>
+                                        <th class="d-none d-xl-table-cell">الاسم الكامل</th>
+                                        <th>النوع</th>
+                                        <th>تاريخ البداية </th>
+                                        <th> تاريخ النهاية</th>
+                                        <th>عدد الأيام</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% now "Y-m-d" as todays %}
+                                {% for item in enCoursFini %}
+                                    <tr id="{{ item.idconge }}">
+                                        <td>{{ item.idpersonnel_field.nomar}} {{ item.idpersonnel_field.prenomar}}</td>
+                                        <td>{{ item.type_conge }}</td>
+                                        <td class="d-none d-xl-table-cell">{{ item.datedebut|date:'Y-m-d' }} </td>
+                                        <td class="d-none d-xl-table-cell">{{ item.dateretour|date:'Y-m-d' }}</td>
+                                        <td>{{ item.nbjour}}</td>
+                                        <td class="collapsing">
+                                            <div class="ui fitted slider checkbox">
+                                            <input type="checkbox" name="check" value="{{ item.idconge }}"> <label></label>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="float-right">
+                        <a class="btn btn-success m-3 " id="update" style="color:white; font-size: 17px;" >تاكيد الدخول</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+    <script src="{% static 'js/chart.js' %}"></script>
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/semantic.min.js' %}"></script>
+    <script>
+    $(function() {
+			$("#datatables-dashboard-projects").DataTable({
+				"dom": 'frtip' ,
+                language:{
+                    "decimal":        "",
+                    "emptyTable":     "لا يوجد معلومات",
+                    "info":           "",
+                    "infoEmpty":      "إضهار 0 من 0 ",
+                    "infoFiltered":   "",
+                    "infoPostFix":    "",
+                    "thousands":      ",",
+                    "lengthMenu":     " _MENU_      ",
+                    "loadingRecords": "جار التحميل ...",
+                    "processing":     "",
+                    "search":         "",
+                    "zeroRecords":    "لا يوجد معلومات",
+                    "paginate": {
+                        "first":      "الأخير",
+                        "last":       "الاول",
+                        "next":       "التالي",
+                        "previous":   "السابق"
+                    },
+                    "aria": {
+                        "sortAscending":  ": activate to sort column ascending",
+                        "sortDescending": ": activate to sort column descending"
+                    }
+            },
+			});
+            $('#datatables-dashboard-projects_filter input').attr('placeholder','بحث.........')
+            $('#datatables-dashboard-projects_filter input').attr('style','padding:12px;border-radius:6px')
+            $("#tableEnCoursFini").DataTable({
+				"dom": 'frtip' ,
+                language:{
+                    "decimal":        "",
+                    "emptyTable":     "لا يوجد معلومات",
+                    "info":           "",
+                    "infoEmpty":      "إضهار 0 من 0 ",
+                    "infoFiltered":   "",
+                    "infoPostFix":    "",
+                    "thousands":      ",",
+                    "lengthMenu":     " _MENU_      ",
+                    "loadingRecords": "جار التحميل ...",
+                    "processing":     "",
+                    "search":         "",
+                    "zeroRecords":    "لا يوجد معلومات",
+                    "paginate": {
+                        "first":      "الأخير",
+                        "last":       "الاول",
+                        "next":       "التالي",
+                        "previous":   "السابق"
+                    },
+                    "aria": {
+                        "sortAscending":  ": activate to sort column ascending",
+                        "sortDescending": ": activate to sort column descending"
+                    }
+            },
+			});
+                $('#tableEnCoursFini_filter input').attr('placeholder','بحث.........')
+                $('#tableEnCoursFini_filter input').attr('style','padding:12px;border-radius:6px')
+		});
+    document.getElementById('update').addEventListener('click', e=>{
+     let id=[];
+     $(':checkbox:checked').each(function (i){
+         id[i]=$(this).val();
+     })
+     console.log(id);
+     csrf=$('input[name=csrfmiddlewaretoken]').val()
+     $.ajax({
+        type: 'POST',
+        url: './congeencours',
+         data:{
+            id,
+            csrfmiddlewaretoken:csrf,
+         },
+        success: function(response){
+            for(let i=0;i<id.length;i++){
+                $('tr#'+id[i]+'').css('background-color','#ccc')
+                $('tr#'+id[i]+'').fadeOut('slow');
+            }
+        },
+        error: function(error){
+            console.log(error)
+        }
+    })
+
+})
+    </script>
+    <script>
+    // chart
+    let labelName=["Sécretarit General", "Pashalik", "District", "Cercle"]
+    let values=[{{congeScCount}}, {{ congePsCount }},{{ congeDsCount }},{{ congeCrCount }}]
+    var myNewChart =new Chart(document.getElementById("pie-chart"), {
+    type: 'pie',
+    data: {
+      labels: labelName,
+      datasets: [{
+        label: "Population (millions)",
+        backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9"],
+        data: values
+      }]
+    },
+    options: {
+      title: {
+        display: true,
+        text: ''
+      }
+    }
+});
+    let canvas = document.getElementById("pie-chart");
+     canvas.onclick = function(evt) {
+      var activePoints = myNewChart.getElementsAtEvent(evt);
+      if (activePoints[0]) {
+        let chartData = activePoints[0]['_chart'].config.data;
+        let idx = activePoints[0]['_index'];
+
+        let label = chartData.labels[idx];
+        let value = chartData.datasets[0].data[idx];
+        if (label=='Sécretarit General'){
+            filterdivision('encour')
+            congencourfilter('Service')
+            congencourfinifilter('Service')
+        }else if(label=='Cercle'){
+            filterCercle('encour')
+            congencourfilter('Caida')
+            congencourfinifilter('Caida')
+        }else if(label=='District'){
+            filterDistrict('encour')
+            congencourfilter('Annexe')
+            congencourfinifilter('Annexe')
+        }else if(label=='Pashalik'){
+            filterPashalik('encour')
+            congencourfilter('pashalik')
+            congencourfinifilter('pashalik')
+        }
+
+      }
+    };
+
+function filterdivision(val){
+            $.ajax({
+            type: 'get',
+            url: `tboardajaxfilterdivision/${val}`,
+            success: function(response){
+                const persoData =JSON.parse(response.data)
+                console.log(persoData)
+                let divisionName=[]
+                let divisionValue=[]
+                for(let i=0;i<persoData.length;i++){
+                    divisionName.push(persoData[i].idservice_field__iddivision_field__libelledivisionfr)
+                    divisionValue.push(persoData[i].dcount)
+                }
+                console.log(divisionName)
+                console.log(divisionValue)
+                createChart(divisionName,divisionValue)
+               },
+            error: function(error){
+                console.log(error)
+            }
+        })
+    }
+function filterCercle(val){
+    $.ajax({
+        type: 'get',
+        url: `tboardajaxfiltercercle/${val}`,
+        success: function(response){
+            const persoData =JSON.parse(response.data)
+            let cercleName=[]
+            let cercleValue=[]
+            for(let i=0;i<persoData.length;i++){
+                cercleName.push(persoData[i].idcaidat_field__idcercle_field__libellecerclefr)
+                cercleValue.push(persoData[i].dcount)
+            }
+            createChart(cercleName,cercleValue)
+            },
+        error: function(error){
+            console.log(error)
+        }
+    })
+}
+function filterPashalik(val){
+    $.ajax({
+        type: 'get',
+        url: `tboardajaxfilterpashalik/${val}/`,
+        success: function(response){
+            const persoData =JSON.parse(response.data)
+            let pashalikName=[]
+            let pashalikValue=[]
+            for(let i=0;i<persoData.length;i++){
+                pashalikName.push(persoData[i].idpashalik_field__libellepashalikar)
+                pashalikValue.push(persoData[i].dcount)
+            }
+            createChart(pashalikName,pashalikValue)
+            },
+        error: function(error){
+            console.log(error)
+        }
+    })}
+function filterDistrict(val){
+    $.ajax({
+        type: 'get',
+        url: `tboardajaxfilterdistrict/${val}`,
+        success: function(response){
+            const persoData =JSON.parse(response.data)
+            let districtName=[]
+            let districtValue=[]
+            for(let i=0;i<persoData.length;i++){
+                districtName.push(persoData[i].idannexe_field__iddistrict_field__libelledistrictar)
+                districtValue.push(persoData[i].dcount)
+            }
+            
+            createChart(districtName,districtValue)
+            },
+        error: function(error){
+            console.log(error)
+        }
+    })
+}
+function congencourfilter(val){
+    $.ajax({
+        type: 'get',
+        url: `congencourfilter/${val}`,
+        success: function(response){
+            const persoData =JSON.parse(response.data)
+ let table =$('#datatables-dashboard-projects').DataTable();
+          table.clear().draw();
+        persoData.forEach(item=>{
+                table.row.add([
+                    item.idpersonnel_field__nomar +' '+ item.idpersonnel_field__prenomar ,
+                    item.type_conge,
+                    item.datedebut__date,
+                    item.dateretour__date,
+                    item.nbjour,
+                    item.joursrestanConge,
+                    `<a href="" class="btn btn-danger">توقيف</a>`,
+                ]).draw();
+            })
+
+            },
+        error: function(error){
+            console.log(error)
+        }
+    })
+}
+function congencourfinifilter(val){
+    $.ajax({
+        type: 'get',
+        url: `congencourfinifilter/${val}`,
+        success: function(response){
+            const persoData =JSON.parse(response.datafini)
+            let table =$('#tableEnCoursFini').DataTable();
+          table.clear().draw();
+        persoData.forEach(item=>{
+                table.row.add([
+                    item.idpersonnel_field__nomar +' '+ item.idpersonnel_field__prenomar ,
+                    item.type_conge,
+                    item.datedebut__date,
+                    item.dateretour__date,
+                    item.nbjour,
+                    `<div class="ui fitted slider checkbox">
+                                          <input type="checkbox" name="check" value="${item.idconge}"> <label></label>
+                     </div>`,
+                ]).node().id = item.idconge;
+            table.draw( false );
+            })
+            },
+        error: function(error){
+            console.log(error)
+        }
+    })
+}
+
+function createChart(listeName,listeValue){
+    document.getElementById('chartCongeCount').innerHTML=`<canvas id="pie-chart" width="300px" height="300px"></canvas>`
+     let myNewChart =new Chart(document.getElementById("pie-chart"), {
+    type: 'pie',
+    data: {
+      labels: listeName,
+      datasets: [{
+        label: "Population (millions)",
+        backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9"],
+        data: listeValue
+      }]
+    },
+    options: {
+      title: {
+        display: true,
+        text: ''
+      }
+    }
+});
+}
+
+    </script>
+{% endblock %}

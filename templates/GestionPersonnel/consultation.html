@@ -1,0 +1,397 @@
+{% extends 'menu.html' %}
+{% block content %}
+    {% load static %}
+    {% load has_group %}
+    <title>{% block title %} معلومات {% endblock title %}</title>
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/all.min.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styleconsultation.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200&family=Montserrat:wght@800;900&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic&display=swap" rel="stylesheet">
+
+    <style>
+    h3{
+        font-family: "Cairo ExtraLight";
+        font-weight: bold;
+        color: #79AEC8;
+    }
+
+    th{
+        font-family: "Cairo ExtraLight";
+    }
+
+   label
+   {
+        font-family: 'Noto Kufi Arabic', sans-serif;
+   }
+
+   .texts{
+       font-size: 120%;
+   }
+
+    #donneperso{
+            border-radius: 5px;
+        }
+
+    #donneprof{
+        border-radius: 5px;
+    }
+    </style>
+    {% if request.user|has_group:"GestionPersonnel" %}
+    <form method="get" id="formsearch">
+        <div class="row">
+            <div class="col-sm-12 col-lg-12 d-flex">
+                <div class="card flex-fill">
+                    <div class="card-header d-flex h-25" id="donneperso">
+                        <h3 class="text-center" dir="ltr">
+                            البحث
+                        </h3>
+                        <hr>
+                    </div>
+                    <hr>
+                    <div class="card-body" id="persocard">
+                        <div class="row mr-2">
+                            <div class="row">
+                                <div class="col-md-10">
+                                    <label class="texts float-right" for="entite"> الوحدة الإدارية :</label>
+                                    <select class="form-control text-center" id="entite" name="entite"  required>
+                                        <option value="" style="display: none"></option>
+                                        {% for entite in entites %}
+                                            <option>{{ entite.libelleentitefr}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <br class="divisiondiv">
+                            <div class="row divisiondiv">
+                                <div class="col-md-10">
+                                    <label class="texts float-right" for="division"> القسم :</label>
+                                    <select class="form-control text-center" id="division" name="division">
+
+                                    </select>
+                                </div>
+                            </div>
+
+                            <br class="districtpashalikdiv">
+                            <div class="row districtpashalikdiv">
+                                <div class="col-md-10">
+                                    <label class="texts float-right" for="districtpashalik"> المقاطعة او الباشوية:</label>
+                                    <select class="form-control text-center" id="districtpashalik" name="districtpashalik">
+                                        <option value="" id="iddps" style="display: none"></option>
+                                        <option>District</option>
+                                        <option>Pashalik</option>
+                                        <option>Cercle</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <br class="cerclediv">
+                            <div class="row cerclediv">
+                                <div class="col-md-10">
+                                    <label class="texts float-right" for="cercle"> الدائرة :</label>
+                                    <select class="form-control text-center" id="cercle" name="cercle">
+                                        <option id="idcercle" style="display: none"></option>
+                                        {% for cercle in cercles %}
+                                            <option value="{{ cercle.idcercle}}">{{ cercle.libellecerclefr }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <br class="caidadiv">
+                            <div class="row caidadiv">
+                                <div class="col-md-10">
+                                    <label class="texts float-right" for="caida"> القيادة :</label>
+                                    <select class="form-control text-center" id="caida" name="caida">
+
+                                    </select>
+                                </div>
+                            </div>
+
+                            <br class="districtdiv">
+                            <div class="row districtdiv">
+                                <div class="col-md-10">
+                                    <label class="texts float-right" for="district"> المقاطعة :</label>
+                                    <select class="form-control text-center" id="district" name="district">
+                                        <option  value="" id="iddistrict" style="display: none"></option>
+                                        {% for district in districts %}
+                                            <option value="{{ district.iddistrict }}">{{ district.libelledistrictfr }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <br class="pashalikdiv">
+                            <div class="row pashalikdiv">
+                                <div class="col-md-10">
+                                    <label class="texts float-right" for="pashalik"> الباشوية :</label>
+                                    <select class="form-control text-center" id="pashalik" name="pashalik">
+                                        <option value="" id="idpashalik" style="display: none"></option>
+                                        {% for pashalik in pashaliks %}
+                                            <option value="{{ pashalik.idpashalik }}">{{ pashalik.libellepashalikfr}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <br class="annexediv">
+                            <div class="row annexediv">
+
+                                <div class="col-md-10">
+                                    <label class="texts float-right" for="annexe"> ملحقة إدارية :</label>
+                                    <select class="form-control text-center" id="annexe" name="annexe">
+
+                                    </select>
+                                </div>
+                            </div>
+
+                            <br class="servicediv">
+                            <div class="row servicediv">
+                                <div class="col-md-10">
+                                    <label class="texts float-right" for="service"> إدارة :</label>
+                                    <select class="form-control text-center" id="service" name="service">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <hr>
+                        <br>
+                        <div class="row">
+                           <div class="row mr-2">
+                                <div class="col-md-10">
+                                    <label class="texts float-right" for="statutgrade"> حالة الدرجة :</label>
+                                    <select class="form-control text-center" name="statutgrade" id="statutgrade" required>
+                                            <option  id="op1" value="-1" style="display: none"></option>
+                                        {% for statut in statutgrades %}
+                                            <option value="{{ statut.idstatutgrade }}">{{ statut.statutgradear }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label class="texts float-right" for="grade"> الدرجة :</label>
+                                        <select class="form-control text-center" name="grade" id="grade"  required>
+                                        </select>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <hr>
+                        <br>
+                        <div class="row">
+                            <div class="col-1"><label class="texts form-check-inline">الجنس &nbsp;:</label></div>
+                            <div class="col-3">
+                                <label class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="radioGenre" value="Homme"/>
+                                    <span class="form-check-label"> &nbsp; ذكر </span>
+                                </label>
+                            </div>
+                            <div class="col-3">
+                                <label class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="radioGenre" value="Femme"/>
+                                    <span class="form-check-label">  &nbsp; أنثى </span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-lg-12 d-flex">
+                <div class="card flex-fill">
+                    <div class="card-header d-flex h-25" id="donneprof" >
+                        <h3 class="text-center"  dir="ltr">
+                            الموظفين
+                        </h3>
+                    </div>
+                    <hr>
+                    <div class="card-body" id="procard">
+                        <div class="col-12 col-lg-12 col-xxl-12 d-flex">
+                            <div class="table-responsive">
+                                <table class="table table-hover text-center" id="table_consultation">
+                                    <thead style="background-color: #efefef; color: black;">
+                                        <tr>
+                                            <th>ر.ب.و</th>
+                                            <th>رقم التاجير</th>
+                                            <th>الاسم الكامل</th>
+                                            <th>الجنس</th>
+                                            <th>الميزانية</th>
+                                            <th>قسم</th>
+                                            <th>الدرجة</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="tbody">
+                                    {% for personnel in listPerso %}
+                                            <tr class="tb-colon"  >
+                                                    <td>{{ personnel.cin }}</td>
+                                                    <td>{{ personnel.ppr }}</td>
+                                                    <td>{{personnel.nomfr}} - {{ personnel.prenomfr }}</td>
+                                                    <td>{{ personnel.sexe }} </td>
+                                                    <td>{{personnel.administrationapp}}</td>
+                                                {% if 'idservice_field__libelleservicefr' in personnel %}
+                                                    <td>{{ personnel.idservice_field__libelleservicear }}</td>
+                                                {% elif 'idannexe_field__libelleannexefr' in personnel %}
+                                                    <td>{{ personnel.idannexe_field__libelleannexefr  }}</td>
+                                                {% elif 'idcaidat_field__libellecaidatfr' in personnel %}
+                                                    <td>{{ personnel.idcaidat_field__libellecaidatfr }}</td>
+                                                {% elif 'idpashalik_field__libellepashalikfr' in personnel %}
+                                                    <td>{{ personnel.idpashalik_field__libellepashalikfr }}</td>
+                                                {% endif %}
+                                                <td>{{ personnel.idgrade_field__gradefr }}</td>
+                                                <td><a href="{% url 'personnelinfo' personnel.idpersonnel %}" class="btn btn-transparent m-1"><i class="fa-solid fa-arrow-up-right-from-square fa-lg " ></i></a><a href="{% url 'modifier' personnel.idpersonnel %}" class="btn btn-transparent btn-icon  mx-1"><i class="fa-solid fa-pen-to-square fa-lg"></i></a> </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    {% else %}
+      <div class="row h-100">
+				<div class="col-sm-10 col-md-8 col-lg-6 mx-auto d-table h-100">
+					<div class="d-table-cell align-middle">
+						<div class="text-center">
+							<h1 class="display-1 font-weight-bold" style="color: red">401</h1>
+							<p class="h1"></p>
+							<p class="h2 font-weight-normal mt-3 mb-4"  style="color: red">ليس لديكم الحق للولوج لهته الصفحة</p>
+							<a href="{% url 'consultation' %}" class="btn btn-primary btn-lg">الرجوع</a>
+						</div>
+					</div>
+				</div>
+			</div>
+    {% endif %}
+    <script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+    <script src="{% static 'js/dataTables.buttons.min.js' %}"></script>
+    <script src="{% static 'js/buttons.flash.min.js' %}"></script>
+    <script src="{% static 'js/jszip.min.js' %}"></script>
+    <script src="{% static 'js/pdfmake.min.js' %}"></script>
+    <script src="{% static 'js/vfs_fonts.js' %}"></script>
+    <script src="{% static 'js/buttons.html5.min.js' %}"></script>
+    <script src="{% static 'js/buttons.print.min.js' %}"></script>
+    <script src="{% static 'js/xlsx.full.min.js' %}"></script>
+    <script src="{% static 'js/semantic.min.js' %}"></script>
+<script>
+pdfMake.fonts = {
+    Roboto: {
+     normal: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Regular.ttf',
+     bold: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Medium.ttf',
+     italics: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-Italic.ttf',
+     bolditalics: 'https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/fonts/Roboto/Roboto-MediumItalic.ttf'
+   },
+    Cairo: {
+            normal:'Cairo-Regular.ttf',
+            bold: 'Cairo-Regular.ttf',
+            italics: 'Cairo-Regular.ttf',
+            bolditalics: 'Cairo-Regular.ttf',
+        },
+    Tajawal: {
+        normal:'Tajawal-Regular.ttf',
+        bold: 'Tajawal-Regular.ttf',
+        italics: 'Tajawal-Regular.ttf',
+        bolditalics: 'Tajawal-Regular.ttf',
+    },
+        
+};
+function datatb() {
+     datatbl= $('#table_consultation').DataTable(
+	    {
+            "lengthMenu": [[5, 25, 50,75,100, -1],[5, 25, 50,75,100, "الكل"]],
+	        dom: 'Blfrtip',
+            language:{
+                "decimal":        "",
+                "emptyTable":     "لا يوجد معلومات",
+                "info":           "<span class='btn btn-warning' style='color: black; font-size: 16px;'> <span class='' >العدد الإجمالي :</span> _TOTAL_</span>",
+                "infoEmpty":      "إضهار 0 من 0 ",
+                "infoFiltered":   "",
+                "infoPostFix":    "",
+                "thousands":      ",",
+                "lengthMenu":     " _MENU_      ",
+                "loadingRecords": "جار التحميل ...",
+                "processing":     "",
+                "search":         "",
+                "zeroRecords":    "لا يوجد معلومات",
+                "paginate": {
+                    "first":      "الأخير",
+                    "last":       "الاول",
+                    "next":       "التالي",
+                    "previous":   "السابق"
+                },
+                "aria": {
+                    "sortAscending":  ": activate to sort column ascending",
+                    "sortDescending": ": activate to sort column descending"
+                }
+            },
+            buttons: [
+                {
+                    extend: 'excelHtml5',
+                    title: 'لائحة الموظفين',
+                    className: 'btn_excel',
+                    text:'',
+                    exportOptions: {
+                    columns: [ 0, 1, 2, 3,4,5,6 ]
+                }
+                },
+                {
+                    extend: 'print',
+                    title: 'لائحة الموظفين',
+                    className: 'btn_print',
+                    text: '',
+                    exportOptions: {
+                    columns: [ 0, 1, 2, 3,4,5,6 ]
+                }
+                },
+                {
+                    extend: 'pdfHtml5',
+                    exportData:{decodeEntities:true},
+                    title: 'لائحة الموظفين',
+                    className: 'btn_pdf',
+                    charset:'utf-8',
+                    text: '',
+                    exportOptions: {
+                    columns: [ 0, 1, 2, 3,4,5,6 ],
+                },
+                    customize: function (doc) {        
+                        doc.defaultStyle.font = 'Tajawal';
+                    doc.defaultStyle.direction='rtl';
+                },
+
+                },
+	       ],
+	    });
+     $('.btn_excel').html(`<i style="color: green" class="fa-solid fa-file-excel fa-2xl" ></i>`);
+     $('.btn_pdf').html(`<i style="color: orange" class="fa-solid fa-file-pdf fa-2xl "></i>`);
+     $('.btn_print').html(`<i class="fa-solid fa-print fa-2xl"></i>`);
+     $('.btn_excel').removeClass("btn-secondary ");
+     $('.btn_pdf').removeClass("btn-secondary ");
+     $('.btn_print').removeClass("btn-secondary ");
+     //console.log(document.querySelector("#table_filter label").textContent);
+     $('#table_consultation_filter input').attr("placeholder", "بحث ......");
+     $('#table_consultation_filter input').addClass(" form-control-lg")
+	};
+
+$(document).ready(datatb);
+</script>
+<script type="text/javascript" src="{% static 'js/GestionPersonnel/filter.js' %}"></script>
+<script>
+var url0 = "{% url 'ajaxajouterloadannexe' %}"
+       var url1 = "{% url 'ajaxajouterloadgrade' %}";
+       var url2 = "{% url 'ajaxajouterloadechellon' %}";
+       var url3 = "{% url 'ajaxajouterloadsevice' %}";
+       const url4 = "{% url 'ajaxajouterloadcaida' %}";
+       const url6 = "{% url 'ajaxajouterloaddivision' %}"
+      
+</script>
+<!--<script src="{% static 'js/scriptConsultation.js' %}"></script>-->  
+<script type="text/javascript" src="{% static 'js/GestionPersonnel/consultation.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,1051 @@
+{% extends 'menu.html' %}
+{% block content %}
+    {% load static %}
+    <title>{% block title %}لوحة القيادة{% endblock title %}</title>
+    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static 'css/all.min.css' %}"/>
+    <link href="assets/css/feather.css" rel="stylesheet" type="text/css">
+    <form>
+    {% csrf_token %}
+        <div class="row">
+            <div class="col-5 d-flex">
+                <div class="w-100">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <div class="card flex-fill">
+                                <div class="card-header">
+                                    <h5 class="card-title mb-0 float-right">مجلس العمالة</h5>
+                                </div>
+                                <div class="card-body my-2">
+                                    <div class="row d-flex align-items-center mb-4">
+                                        <div class="col-8">
+                                            <h2 class="d-flex align-items-center mb-0 font-weight-light" id="congePrefectoralCount">
+                                                {{congePrefectoralCount}}
+                                            </h2>
+                                        </div>
+                                        <div class="col-4 text-right" id="congePrefectoralCountPer">
+                                            <span class="text-muted" >{{congePrefectoralCountPer}}%</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="progress progress-sm shadow-sm mb-1" >
+                                        <div class="progress-bar bg-primary" id="congePrefectoralCountPerStyle" role="progressbar" style="width: {{congePrefectoralCountPer}}%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card flex-fill">
+                                <div class="card-header">
+                                    <h5 class="card-title mb-0 float-right">الرجال</h5>
+                                </div>
+                                <div class="card-body my-2">
+                                    <div class="row d-flex align-items-center mb-4">
+                                        <div class="col-8">
+                                            <h2 class="d-flex align-items-center mb-0 font-weight-light" id="congeHommeCount">
+                                                {{ congeHommeCount }}
+                                            </h2>
+                                        </div>
+                                        <div class="col-4 text-right">
+                                            <span class="text-muted" id="congeHommeCountPer">{{congeHommeCountPer}}%</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="progress progress-sm shadow-sm mb-1" >
+                                        <div class="progress-bar bg-info" id="congeHommeCountPerStyle" role="progressbar"  style="width: {{congeHommeCountPer}}%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="card flex-fill">
+                                <div class="card-header">
+                                    <h5 class="card-title mb-0 float-right">العمالة</h5>
+                                </div>
+                                <div class="card-body my-2">
+                                    <div class="row d-flex align-items-center mb-4">
+                                        <div class="col-8">
+                                            <h2 class="d-flex align-items-center mb-0 font-weight-light" id="congeGeneralCount">
+                                                {{congeGeneralCount}}
+                                            </h2>
+                                        </div>
+                                        <div class="col-4 text-right" id="congeGeneralCountPer">
+                                            <span class="text-muted" >{{congeGeneralCountPer}}%</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="progress progress-sm shadow-sm mb-1" >
+                                        <div class="progress-bar bg-warning" id="congeGeneralCountPerStyle"  role="progressbar" style="width: {{congeGeneralCountPer}}%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card flex-fill">
+                                <div class="card-header">
+                                    <h5 class="card-title mb-0 float-right">النساء</h5>
+                                </div>
+                                <div class="card-body my-2">
+
+                                    <div class="row d-flex align-items-center mb-4">
+                                        <div class="col-8">
+                                            <h2 class="d-flex align-items-center mb-0 font-weight-light" id="congeFemmeCount">
+                                                {{congeFemmeCount}}
+                                            </h2>
+                                        </div>
+                                        <div class="col-4 text-right">
+                                            <span class="text-muted" id="congeFemmeCountPer">{{congeFemmeCountPer}}%</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="progress progress-sm shadow-sm mb-1" >
+                                        <div class="progress-bar bg-success" role="progressbar" id="congeFemmeCountPerStyle" style="width: {{congeFemmeCountPer}}%"></div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-7">
+                <div class="card flex-fill w-100">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">عدد الرخص بالشهر</h5>
+                    </div>
+                    <div class="card-body p-2">
+                        <div class="chart" id="chartyear">
+                                 <canvas id="chartjs-line"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-6 d-flex">
+                <div class="card flex-fill w-100">
+                    <div class="card-header">
+                        <div class="card-actions float-right p-3">
+                           <h5 class="card-title mb-0">عدد الإجازات</h5>
+                        </div>
+                         <div class="card-actions float-left p-3">
+                             <!--
+                            <div class="btn-group">
+                              <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              السنة
+                              </button>
+                              <div class="dropdown-menu" id="dropdownyear">
+                                <a class="dropdown-item"  class="yearconge">2020</a>
+                                <a class="dropdown-item"  class="yearconge">2021</a>
+                                <a class="dropdown-item"  class="yearconge">2022</a>
+                              </div>
+                            </div>-->
+                            <select class="form-select" aria-label="Default select example" id="selectyear">
+                                <option value="" style="display: none">السنة</option>
+                                <option >2020</option>
+                                <option >2021</option>
+                                <option >2022</option>
+                              </select>
+                        </div>
+                    </div>
+                    <div class="card-body d-flex">
+                        <div class="align-self-center w-100">
+                            <div class="py-3">
+                                <div class="chart chart-xs" id="chartCongeCount">
+                                    <canvas id="chartjs-dashboard-pie"></canvas>
+                                </div>
+                            </div>
+                            <table id="tablecount" class="table table-hover mb-0 text-center">
+                                <thead id="tablehead">
+                                    <tr>
+                                        <th>Entité</th>
+                                        <th>قطاع</th>
+                                        <th>عدد الرخص</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody id="tablebody">
+                                <tr class="trcount">
+                                    <td><i class="fas fa-square-full text-primary float-right"></i>Pashalik</td>
+                                    <td >الباشوية</td>
+                                    <td class="text-success" id="ps">{{ Ps}}</td>
+                                </tr>
+                                <tr class="trcount">
+                                        <td><i class="fas fa-square-full text-primary float-right"></i>Secretariat Genéral</td>
+                                        <td >الأمانة العامة</td>
+                                        <td class="text-success" id="sc">{{ Sc}}</td>
+                                    </tr>
+                                <tr class="trcount">
+                                        <td><i class="fas fa-square-full text-primary float-right"></i>Cercle</td>
+                                        <td >الدائرة</td>
+                                        <td class="text-success" id="cr">{{ Cr}}</td>
+                                    </tr>
+                                <tr class="trcount">
+                                        <td><i class="fas fa-square-full text-primary float-right"></i>District</td>
+                                        <td >المقاطعة</td>
+                                        <td class="text-success" id="ds">{{ Ds}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 d-flex">
+                <div class="card flex-fill w-100">
+                    <div class="card-header">
+                        <div class="card-actions float-right p-3">
+                            <h5 class="card-title mb-0">نوع الرخص</h5>
+                        </div>
+                    </div>
+                    <table class="table table-striped my-0">
+                        <thead>
+                        <tr>
+                            <th>نوع الإجازة</th>
+                            <th class="text-right">العدد</th>
+                            <th class="d-none d-xl-table-cell w-75">%</th>
+                        </tr>
+                        </thead>
+                        <tbody id="tbodytypeconge">
+                        <tr>
+                            <td>رخصة إدارية</td>
+                            <td class="text-right" id="congeAdmiCount">{{ congeAdmiCount }}</td>
+                            <td class="d-none d-xl-table-cell">
+                                <div class="progress" id="congeAdmiCountPer">
+                                    <div class="progress-bar bg-info" role="progressbar" style="width: {{ congeAdmiCountPer }}%;" aria-valuenow="{{ congeAdmiCountPer }}" aria-valuemin="0" aria-valuemax="100">{{ congeAdmiCountPer }}%</div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>رخصة الأموة</td>
+                            <td class="text-right" id="congeMotCount">{{ congeMotCount }}</td>
+                            <td class="d-none d-xl-table-cell" >
+                                <div class="progress" id="congeMotCountPer">
+                                    <div class="progress-bar bg-info" role="progressbar" style="width: {{ congeMotCountPer }}%;" aria-valuenow="{{ congeMotCountPer }}" aria-valuemin="0" aria-valuemax="100">{{ congeMotCountPer }}%</div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>رخصة إستثنائية</td>
+                            <td class="text-right" id="congeExpCount">{{ congeExpCount }}</td>
+                            <td class="d-none d-xl-table-cell">
+                                <div class="progress" id="congeExpCountPer">
+                                    <div class="progress-bar bg-info" role="progressbar" style="width: {{ congeExpCountPer }}%;" aria-valuenow="{{ congeExpCountPer }}" aria-valuemin="0" aria-valuemax="100">{{ congeExpCountPer }}%</div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>رخصة الحج</td>
+                            <td class="text-right" id="congeHajCount">{{ congeHajCount }}</td>
+                            <td class="d-none d-xl-table-cell" >
+                                <div class="progress" id="congeHajCountPer">
+                                    <div class="progress-bar bg-info" role="progressbar" style="width: {{ congeHajCountPer }}%;" aria-valuenow="{{ congeHajCountPer }}" aria-valuemin="0" aria-valuemax="100">{{ congeHajCountPer }}%</div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>الرخصة الأبوية</td>
+                            <td class="text-right" id="congeFatCount">{{ congeFatCount }}</td>
+                            <td class="d-none d-xl-table-cell" >
+                                <div class="progress" id="congeFatCountPer">
+                                    <div class="progress-bar bg-info" role="progressbar" style="width: {{ congeFatCountPer }}%;" aria-valuenow="{{ congeFatCountPer }}" aria-valuemin="0" aria-valuemax="100">{{ congeFatCountPer }}%</div>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </form>
+    <script>
+		$(function() {
+			// Select2
+			$(".select2").each(function() {
+				$(this)
+					.wrap("<div class=\"position-relative\"></div>")
+					.select2({
+						placeholder: "Select value",
+						dropdownParent: $(this).parent()
+					});
+			})
+			// Daterangepicker
+			$("input[name=\"daterange\"]").daterangepicker({
+				opens: "left"
+			});
+			$("input[name=\"datetimes\"]").daterangepicker({
+				timePicker: true,
+				opens: "left",
+				startDate: moment().startOf("hour"),
+				endDate: moment().startOf("hour").add(32, "hour"),
+				locale: {
+					format: "M/DD hh:mm A"
+				}
+			});
+			$("input[name=\"datesingle\"]").daterangepicker({
+				singleDatePicker: true,
+				showDropdowns: true
+			});
+			// Datetimepicker
+			$('#datetimepicker-minimum').datetimepicker();
+			$('#datetimepicker-view-mode').datetimepicker({
+				viewMode: 'years'
+			});
+			$('#datetimepicker-time').datetimepicker({
+				format: 'LT'
+			});
+			$('#datetimepicker-date').datetimepicker({
+				format: 'L'
+			});
+			var start = moment().subtract(29, "days");
+			var end = moment();
+
+			function cb(start, end) {
+				$("#reportrange span").html(start.format("MMMM D, YYYY") + " - " + end.format("MMMM D, YYYY"));
+			}
+			$("#reportrange").daterangepicker({
+				startDate: start,
+				endDate: end,
+				ranges: {
+					"Today": [moment(), moment()],
+					"Yesterday": [moment().subtract(1, "days"), moment().subtract(1, "days")],
+					"Last 7 Days": [moment().subtract(6, "days"), moment()],
+					"Last 30 Days": [moment().subtract(29, "days"), moment()],
+					"This Month": [moment().startOf("month"), moment().endOf("month")],
+					"Last Month": [moment().subtract(1, "month").startOf("month"), moment().subtract(1, "month").endOf("month")]
+				}
+			}, cb);
+			cb(start, end);
+		});
+
+
+        $(function() {
+            let values=[{{ congepersonnel.0 }},{{ congepersonnel.1 }},{{ congepersonnel.2 }},{{ congepersonnel.3 }},{{ congepersonnel.4 }},{{ congepersonnel.5 }},{{ congepersonnel.6 }},{{ congepersonnel.7 }},{{ congepersonnel.8 }},{{ congepersonnel.9 }},{{ congepersonnel.10 }},{{ congepersonnel.11 }}]
+			createChartYear(values)
+		});
+	</script>
+
+
+    <script>
+    // *****************************************************************
+		$(function() {
+            let labels=['Secretariat Genéral','District','Cercle','Pashalik']
+            let values= [{{Sc }},{{ Ds }},{{ Cr }},{{ Ps }}]
+			// Pie chart
+			 createChart(labels,values)
+		});
+	</script>
+   <script>
+    $('#tablehead').on('click',function (){
+        document.location.reload(true)
+        /*document.getElementById('selectyear').value=''
+        let tbody=document.getElementById('tablebody')
+        tbody.innerHTML=''
+        tbodyy=`<tr class="trcount">
+                                    <td><i class="fas fa-square-full text-primary float-right"></i>Pashalik</td>
+                                    <td >الباشوية</td>
+                                    <td class="text-success">{{ Ps}}</td>
+                                </tr>
+                                <tr class="trcount">
+                                        <td><i class="fas fa-square-full text-primary float-right"></i>Secretariat Genéral</td>
+                                        <td >الأمانة العامة</td>
+                                        <td class="text-success">{{ Sc}}</td>
+                                    </tr>
+                                <tr class="trcount">
+                                        <td><i class="fas fa-square-full text-primary float-right"></i>Cercle</td>
+                                        <td >الدائرة</td>
+                                        <td class="text-success">{{ Cr}}</td>
+                                    </tr>
+                                <tr class="trcount">
+                                        <td><i class="fas fa-square-full text-primary float-right"></i>District</td>
+                                        <td >المقاطعة</td>
+                                        <td class="text-success">{{ Ds}}</td>
+                                    </tr>`
+        tbody.innerHTML=tbodyy
+        let names= ['Secretariat Genéral','District','Cercle','Pashalik']
+        let values=[{{Sc  }},{{ Ds }},{{ Cr }},{{ Ps }}]
+        createChart(names,values)
+        let persoData={'congeAdmiCount':{{ congeAdmiCount }},'congeAdmiCountPer':{{ congeAdmiCountPer }},'congeMotCount':{{ congeMotCount }},'congeMotCountPer':{{ congeMotCountPer }},
+    'congeExpCount':{{congeExpCount}},'congeExpCountPer':{{congeExpCountPer}},'congeHajCount':{{congeHajCount}},'congeHajCountPer':{{congeHajCountPer}},'congeFatCount':{{congeFatCount}},'congeFatCountPer':{{congeFatCountPer}}}
+       typeCongeChange(persoData)
+        resetEvent()*/
+    })
+    resetEvent()
+$('#selectyear').change(function(){
+    let val=$(this).val()
+    yeardefault(val)
+    filteryeardefault(val)
+    yearChartDefault(val)
+})
+function filterdivision(val){
+            $.ajax({
+            type: 'get',
+            url: `tboardajaxfilterdivision/${val}`,
+            success: function(response){
+                const persoData =JSON.parse(response.data)
+                let tbody=document.getElementById('tablebody')
+                tbody.innerHTML=''
+                let divisionName=[]
+                let divisionValue=[]
+                for(let i=0;i<persoData.length;i++){
+                    divisionName.push(persoData[i].idservice_field__iddivision_field__libelledivisionfr)
+                    divisionValue.push(persoData[i].dcount)
+                    let tr =`<tr class="divisiondetail">
+            <td><i class="fas fa-square-full text-primary float-right"></i>${persoData[i].idservice_field__iddivision_field__libelledivisionfr}</td>
+            <td>${persoData[i].idservice_field__iddivision_field__libelledivisionar}</td>
+            <td>${persoData[i].dcount}</td>
+</tr>`
+                    tbody.innerHTML+=tr
+                }
+
+                $('.divisiondetail').on('click', function(){
+                    if($(this).find("td:eq(0)").text()!='Autre'){
+                        let year=document.getElementById('selectyear').value
+                        let url=year
+                        if(url==''){
+                            url='none'
+                        }
+                        let val=$(this).find("td:eq(0)").text()+'-'+url
+                        filterdivisionService(val)
+                        filterdivisionTypeConge(val)
+                        filterServicePer(val)
+                        filterServiceyear(val)
+                    }
+                });
+                createChart(divisionName,divisionValue)
+            },
+            error: function(error){
+                console.log(error)
+            }
+        })
+    }
+function filterdivisionService(val){
+    $.ajax({
+        type: 'get',
+        url: `tboardajaxfilterdivisionservice/${val}/`,
+        success: function(response){
+            const persoData =JSON.parse(response.data)
+            let tbody=document.getElementById('tablebody')
+            tbody.innerHTML=''
+            let serviceName=[]
+            let serviceValue=[]
+            for(let i=0;i<persoData.length;i++){
+                serviceName.push(persoData[i].idservice_field__libelleservicefr)
+                serviceValue.push(persoData[i].dcount)
+                let tr =`<tr class="divisiondetail">
+            <td><i class="fas fa-square-full text-primary float-right"></i>${persoData[i].idservice_field__libelleservicefr}</td>
+            <td>${persoData[i].idservice_field__libelleservicear}</td>
+            <td>${persoData[i].dcount}</td>
+</tr>`
+                tbody.innerHTML+=tr
+            }
+            createChart(serviceName,serviceValue)
+            },
+        error: function(error){
+            console.log(error)
+        }
+    })}
+function filterPashlik(val){
+    $.ajax({
+        type: 'get',
+        url: `tboardajaxfilterpashalik/${val}/`,
+        success: function(response){
+            const persoData =JSON.parse(response.data)
+            let tbody=document.getElementById('tablebody')
+            tbody.innerHTML=''
+            let pashalikName=[]
+            let pashalikValue=[]
+            for(let i=0;i<persoData.length;i++){
+                pashalikName.push(persoData[i].idpashalik_field__libellepashalikar)
+                pashalikValue.push(persoData[i].dcount)
+                let tr =`<tr class="pashalikdetail">
+            <td><i class="fas fa-square-full text-primary float-right"></i>${persoData[i].idpashalik_field__libellepashalikar}</td>
+            <td>${persoData[i].idpashalik_field__libellepashalikfr}</td>
+            <td>${persoData[i].dcount}</td>
+</tr>`
+                tbody.innerHTML+=tr
+            }
+            createChart(pashalikName,pashalikValue)
+            },
+        error: function(error){
+            console.log(error)
+        }
+    })}
+function filterCercle(val){
+    $.ajax({
+        type: 'get',
+        url: `tboardajaxfiltercercle/${val}`,
+        success: function(response){
+            const persoData =JSON.parse(response.data)
+            let tbody=document.getElementById('tablebody')
+            tbody.innerHTML=''
+            let cercleName=[]
+            let cercleValue=[]
+            for(let i=0;i<persoData.length;i++){
+                cercleName.push(persoData[i].idcaidat_field__idcercle_field__libellecerclefr)
+                cercleValue.push(persoData[i].dcount)
+                let tr =`<tr class="cercledetail">
+            <td><i class="fas fa-square-full text-primary float-right"></i>${persoData[i].idcaidat_field__idcercle_field__libellecerclefr}</td>
+            <td>${persoData[i].idcaidat_field__idcercle_field__libellecerclear}</td>
+            <td>${persoData[i].dcount}</td>
+</tr>`
+                tbody.innerHTML+=tr
+            }
+            createChart(cercleName,cercleValue)
+         $('.cercledetail').on('click', function(){
+                let year=document.getElementById('selectyear').value
+                let url=year
+                if(url==''){
+                    url='none'
+                }
+                let val=$(this).find("td:eq(0)").text()+'-'+url
+                filterCaidat(val)
+                filtercaidatTypeConge(val)
+                filterCaidatPer(val)
+                filterCaidayear(val)
+          });
+            },
+        error: function(error){
+            console.log(error)
+        }
+    })
+}
+function filterCaidat(val){
+    $.ajax({
+        type: 'get',
+        url: `tboardajaxfiltercaidat/${val}/`,
+        success: function(response){
+            const persoData =JSON.parse(response.data)
+            let tbody=document.getElementById('tablebody')
+            tbody.innerHTML=''
+            let caidatName=[]
+            let caidatValue=[]
+            for(let i=0;i<persoData.length;i++){
+                caidatName.push(persoData[i].idcaidat_field__libellecaidatfr)
+                caidatValue.push(persoData[i].dcount)
+                let tr =`<tr class="caidat">
+            <td><i class="fas fa-square-full text-primary float-right"></i>${persoData[i].idcaidat_field__libellecaidatfr}</td>
+            <td>${persoData[i].idcaidat_field__libellecaidatar}</td>
+            <td>${persoData[i].dcount}</td>
+</tr>`
+                tbody.innerHTML+=tr
+            }
+            createChart(caidatName,caidatValue)
+            },
+        error: function(error){
+            console.log(error)
+        }
+    })}
+function filterDistrict(val){
+    $.ajax({
+        type: 'get',
+        url: `tboardajaxfilterdistrict/${val}`,
+        success: function(response){
+            const persoData =JSON.parse(response.data)
+            let tbody=document.getElementById('tablebody')
+            tbody.innerHTML=''
+            let districtName=[]
+            let districtValue=[]
+            for(let i=0;i<persoData.length;i++){
+                districtName.push(persoData[i].idannexe_field__iddistrict_field__libelledistrictar)
+                districtValue.push(persoData[i].dcount)
+                let tr =`<tr class="districtdetail">
+            <td><i class="fas fa-square-full text-primary float-right"></i>${persoData[i].idannexe_field__iddistrict_field__libelledistrictfr}</td>
+            <td>${persoData[i].idannexe_field__iddistrict_field__libelledistrictar}</td>
+            <td>${persoData[i].dcount}</td>
+</tr>`
+                tbody.innerHTML+=tr
+            }
+            createChart(districtName,districtValue)
+
+         $('.districtdetail').on('click', function(){
+            let year=document.getElementById('selectyear').value
+                let url=year
+                if(url==''){
+                    url='none'
+                }
+                let val=$(this).find("td:eq(0)").text()+'-'+url
+              filterAnnexe(val)
+              filterannexeTypeConge(val)
+             filterAnnexePer(val)
+             filterAnnexeyear(val)
+          });
+            },
+        error: function(error){
+            console.log(error)
+        }
+    })
+}
+function filterAnnexe(val){
+    $.ajax({
+        type: 'get',
+        url: `tboardajaxfilterannexe/${val}/`,
+        success: function(response){
+            const persoData =JSON.parse(response.data)
+            let tbody=document.getElementById('tablebody')
+            tbody.innerHTML=''
+            let annexeName=[]
+            let annexeValue=[]
+            for(let i=0;i<persoData.length;i++){
+                annexeName.push(persoData[i].idannexe_field__libelleannexefr)
+                annexeValue.push(persoData[i].dcount)
+                let tr =`<tr class="annexe">
+            <td><i class="fas fa-square-full text-primary float-right"></i>${persoData[i].idannexe_field__libelleannexefr}</td>
+            <td>${persoData[i].idannexe_field__libelleannexear}</td>
+            <td>${persoData[i].dcount}</td>
+</tr>`
+                tbody.innerHTML+=tr
+            }
+           createChart(annexeName,annexeValue)
+            },
+        error: function(error){
+            console.log(error)
+        }
+    })}
+function filterPashlikTypeConge(val){
+    $.ajax({
+        type: 'get',
+        url: `tboardajaxfilterpashaliktypeconge/${val}/`,
+        success: function(response){
+            const persoData =JSON.parse(response.data)
+            typeCongeChange(persoData)
+        },
+        error: function(error){
+            console.log(error)
+        }
+    })}
+function filterDivisionTypeConge(val){
+    $.ajax({
+        type: 'get',
+        url: `tboardajaxfiltersecretariattypeconge/${val}/`,
+        success: function(response){
+            const persoData =JSON.parse(response.data)
+            typeCongeChange(persoData)
+            },
+        error: function(error){
+            console.log(error)
+        }
+    })}
+function filterDistrictTypeConge(val){
+    $.ajax({
+        type: 'get',
+        url: `tboardajaxfilterdistricttypeconge/${val}/`,
+        success: function(response){
+            const persoData =JSON.parse(response.data)
+            typeCongeChange(persoData)
+            },
+        error: function(error){
+            console.log(error)
+        }
+    })}
+function filterCercleTypeConge(val){
+    $.ajax({
+        type: 'get',
+        url: `tboardajaxfiltercercletypeconge/${val}/`,
+        success: function(response){
+            const persoData =JSON.parse(response.data)
+            typeCongeChange(persoData)
+            },
+        error: function(error){
+            console.log(error)
+        }
+    })}
+function filterdivisionTypeConge(val){
+    $.ajax({
+        type: 'get',
+        url: `tboardajaxfilterdivisiontypeconge/${val}/`,
+        success: function(response){
+            const persoData =JSON.parse(response.data)
+            typeCongeChange(persoData)
+            },
+        error: function(error){
+            console.log(error)
+        }
+    })}
+function filterannexeTypeConge(val){
+    $.ajax({
+        type: 'get',
+        url: `tboardajaxfilterannexetypeconge/${val}/`,
+        success: function(response){
+            const persoData =JSON.parse(response.data)
+            typeCongeChange(persoData)
+                        },
+        error: function(error){
+            console.log(error)
+        }
+    })}
+function filtercaidatTypeConge(val){
+    $.ajax({
+        type: 'get',
+        url: `tboardajaxfiltercaidattypeconge/${val}/`,
+        success: function(response){
+            const persoData =JSON.parse(response.data)
+            typeCongeChange(persoData)
+            },
+        error: function(error){
+            console.log(error)
+        }
+    })}
+function createChart(listeName,listeValue){
+    document.getElementById('chartCongeCount').innerHTML=''
+    document.getElementById('chartCongeCount').innerHTML=`<canvas id="chartjs-dashboard-pie"></canvas>`
+                new Chart(document.getElementById("chartjs-dashboard-pie"), {
+                    type: "pie",
+                    data: {
+                        labels: listeName,
+                        datasets: [{
+                            data: listeValue,
+                            backgroundColor: [
+                                window.theme.primary,
+                                window.theme.warning,
+                                window.theme.danger,
+                                "#B51390  ",
+                                "#FF9774",
+                                "#33FF3C",
+                                "#FF0000",
+                            ],
+                            borderColor: "transparent"
+                        }]
+                    },
+                    options: {
+                        responsive: !window.MSInputMethodContext,
+                        maintainAspectRatio: false,
+                        legend: {
+                            display: false
+                        }
+                    }
+                });
+}
+function typeCongeChange(persoData){
+    document.getElementById('congeAdmiCount').innerHTML=persoData.congeAdmiCount
+    document.getElementById('congeExpCount').innerHTML=persoData.congeExpCount
+    document.getElementById('congeHajCount').innerHTML=persoData.congeHajCount
+    document.getElementById('congeMotCount').innerHTML=persoData.congeMotCount
+    document.getElementById('congeFatCount').innerHTML=persoData.congeFatCount
+    document.getElementById('congeFatCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeFatCountPer}%;" aria-valuenow="${persoData.congeFatCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeFatCountPer}%</div>`
+    document.getElementById('congeMotCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeMotCountPer}%;" aria-valuenow="${persoData.congeMotCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeMotCountPer}%</div>`
+    document.getElementById('congeHajCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeHajCountPer}%;" aria-valuenow="${persoData.congeHajCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeHajCountPer}%</div>`
+    document.getElementById('congeExpCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeExpCountPer}%;" aria-valuenow="${persoData.congeExpCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeExpCountPer}%</div>`
+    document.getElementById('congeAdmiCountPer').innerHTML=`<div class="progress-bar bg-info" role="progressbar" style="width: ${persoData.congeAdmiCountPer}%;" aria-valuenow="${persoData.congeAdmiCountPer}" aria-valuemin="0" aria-valuemax="100">${persoData.congeAdmiCountPer}%</div>`
+
+
+}
+function filterDivisionPer(val){
+    $.ajax({
+        type: 'get',
+        url: `tboardajaxfilterdivisionPer/${val}/`,
+        success: function(response){
+            const persoData =JSON.parse(response.data)
+            console.log(persoData)
+            congeboard(persoData)
+            },
+        error: function(error){
+            console.log(error)
+        }
+    })
+}
+function filterPashalikPer(val){
+    $.ajax({
+        type: 'get',
+        url: `tboardajaxfilterpashalikPer/${val}/`,
+        success: function(response){
+            const persoData =JSON.parse(response.data)
+            congeboard(persoData)
+            },
+        error: function(error){
+            console.log(error)
+        }
+    })
+}
+function filterCerclePer(val){
+    $.ajax({
+        type: 'get',
+        url: `tboardajaxfiltercaerclePer/${val}/`,
+        success: function(response){
+            const persoData =JSON.parse(response.data)
+            congeboard(persoData)
+            },
+        error: function(error){
+            console.log(error)
+        }
+    })
+}
+function filterDistrictPer(val){
+    $.ajax({
+        type: 'get',
+        url: `tboardajaxfilterdistrictPer/${val}/`,
+        success: function(response){
+            const persoData =JSON.parse(response.data)
+            console.log(persoData)
+            congeboard(persoData)
+            },
+        error: function(error){
+            console.log(error)
+        }
+    })
+}
+function filterServicePer(val){
+    $.ajax({
+        type: 'get',
+        url: `tboardajaxfilterdivisionservPer/${val}/`,
+        success: function(response){
+            const persoData =JSON.parse(response.data)
+            console.log(persoData)
+            congeboard(persoData)
+            },
+        error: function(error){
+            console.log(error)
+        }
+    })
+}
+function filterAnnexePer(val){
+    $.ajax({
+        type: 'get',
+        url: `tboardajaxfilterannexePer/${val}/`,
+        success: function(response){
+            const persoData =JSON.parse(response.data)
+            console.log(persoData)
+            congeboard(persoData)
+            },
+        error: function(error){
+            console.log(error)
+        }
+    })
+}
+function filterCaidatPer(val){
+    $.ajax({
+        type: 'get',
+        url: `tboardajaxfiltercaidatPer/${val}/`,
+        success: function(response){
+            const persoData =JSON.parse(response.data)
+            console.log(persoData)
+            congeboard(persoData)
+            },
+        error: function(error){
+            console.log(error)
+        }
+    })
+}
+function filterEntiteyear(val){
+    $.ajax({
+        type: 'get',
+        url: `tboardajaxfilterentiteyear/${val}/`,
+        success: function(response){
+            const persoData =JSON.parse(response.data)
+            createChartYear(persoData)
+            console.log(persoData)
+            },
+        error: function(error){
+            console.log(error)
+        }
+    })
+}
+function filterServiceyear(val){
+    $.ajax({
+        type: 'get',
+        url: `tboardajaxfilterserviceyear/${val}/`,
+        success: function(response){
+            const persoData =JSON.parse(response.data)
+            createChartYear(persoData)
+            },
+        error: function(error){
+            console.log(error)
+        }
+    })
+}
+function filterAnnexeyear(val){
+    $.ajax({
+        type: 'get',
+        url: `tboardajaxfilterannexeyear/${val}/`,
+        success: function(response){
+            const persoData =JSON.parse(response.data)
+            createChartYear(persoData)
+            },
+        error: function(error){
+            console.log(error)
+        }
+    })
+}
+function filterCaidayear(val){
+    $.ajax({
+        type: 'get',
+        url: `tboardajaxfiltercaidatyear/${val}/`,
+        success: function(response){
+            const persoData =JSON.parse(response.data)
+            createChartYear(persoData)
+            },
+        error: function(error){
+            console.log(error)
+        }
+    })
+}
+function filteryeardefault(val){
+    $.ajax({
+        type: 'get',
+        url: `tboardajaxfilteryeardefault/${val}/`,
+        success: function(response){
+            const persoData =JSON.parse(response.data)
+            congeboard(persoData)
+            },
+        error: function(error){
+            console.log(error)
+        }
+    })
+}
+function yeardefault(val){
+    $.ajax({
+        type: 'get',
+        url: `tboardcongedefaultyear/${val}/`,
+        success: function(response){
+            const persoData =JSON.parse(response.data)
+            document.getElementById('tablebody').innerHTML=`<tr class="trcount">
+                                    <td><i class="fas fa-square-full text-primary float-right"></i>Pashalik</td>
+                                    <td >الباشوية</td>
+                                    <td class="text-success" id="ps">${persoData.congePsCount}</td>
+                                </tr>
+                                <tr class="trcount">
+                                        <td><i class="fas fa-square-full text-primary float-right"></i>Secretariat Genéral</td>
+                                        <td >الأمانة العامة</td>
+                                        <td class="text-success" id="sc">${persoData.congeScCount}</td>
+                                    </tr>
+                                <tr class="trcount">
+                                        <td><i class="fas fa-square-full text-primary float-right"></i>Cercle</td>
+                                        <td >الدائرة</td>
+                                        <td class="text-success" id="cr">${persoData.congeCrCount}</td>
+                                    </tr>
+                                <tr class="trcount">
+                                        <td><i class="fas fa-square-full text-primary float-right"></i>District</td>
+                                        <td >المقاطعة</td>
+                                        <td class="text-success" id="ds">${persoData.congeDsCount}</td>
+                                    </tr>`
+            let name=['Secretariat Genéral','District','Cercle','Pashalik']
+            let values=[persoData.congeScCount,persoData.congeDsCount,persoData.congeCrCount,persoData.congePsCount]
+            createChart(name,values)
+            typeCongeChange(persoData)
+            resetEvent()
+        },
+        error: function(error){
+            console.log(error)
+        }
+    })
+}
+function yearChartDefault(val){
+$.ajax({
+        type: 'get',
+        url: `tboardcongedefaultyearchart/${val}/`,
+        success: function(response){
+            const persoData =JSON.parse(response.data)
+            createChartYear(persoData)
+        },
+        error: function(error){
+            console.log(error)
+        }
+    })
+}
+function createChartYear(values){
+    document.getElementById('chartyear').innerHTML=''
+    document.getElementById('chartyear').innerHTML=`<canvas id="chartjs-line"></canvas>`
+               new Chart(document.getElementById("chartjs-line"), {
+				type: "line",
+				data: {
+					labels: ["Jan-ينا", "Fev-فبر", "Mar-مارس", "Avr-أبر", "Mai-ماي", "Jun-يونيو", "Jul-يول", "Auo-غشت", "Sep-شتن", "Oct-أكت", "Nov-نون", "Dec-ديس"],
+					datasets: [{
+						label: "Personnel",
+						fill: true,
+						backgroundColor: "transparent",
+						borderColor: window.theme.primary,
+						data: values
+					}]
+				},
+				options: {
+					maintainAspectRatio: false,
+					legend: {
+						display: false
+					},
+					tooltips: {
+						intersect: false
+					},
+					hover: {
+						intersect: true
+					},
+					plugins: {
+						filler: {
+							propagate: false
+						}
+					},
+					scales: {
+						xAxes: [{
+							reverse: true,
+							gridLines: {
+								color: "rgba(0,0,0,0.05)"
+							}
+						}],
+						yAxes: [{
+							ticks: {
+								stepSize: 500
+							},
+							display: true,
+							borderDash: [5, 5],
+							gridLines: {
+								color: "rgba(0,0,0,0)",
+								fontColor: "#fff"
+							}
+						}]
+					}
+				}
+			});
+}
+
+function resetEvent(){
+    $('.trcount').on('click', function(){
+              if($(this).find("td:eq(2)").text()!=0){
+                let val=$(this).find("td:eq(0)").text()
+                let year=document.getElementById('selectyear').value
+                let url=year
+                if(url==''){
+                    url='none'
+                }
+                if(val=='Pashalik'){
+                    filterPashlik(url)
+                    filterPashlikTypeConge(url)
+                    filterPashalikPer(url)
+                    filterEntiteyear(`pashalik-${url}`)
+                }else if(val =='Secretariat Genéral'){
+                    filterdivision(url)
+                    filterDivisionTypeConge(url)
+                    filterDivisionPer(url)
+                    filterEntiteyear(`Service-${url}`)
+                }else if(val =='Cercle'){
+                    filterCercle(url)
+                    filterCercleTypeConge(url)
+                    filterCerclePer(url)
+                    filterEntiteyear(`Caida-${url}`)
+                }else if(val =='District'){
+                    filterDistrict(url)
+                    filterDistrictTypeConge(url)
+                    filterDistrictPer(url)
+                    filterEntiteyear(`Annexe-${url}`)
+                }
+            }
+          });
+
+}
+function congeboard(persoData){
+    document.getElementById('congeHommeCount').innerHTML=persoData.congeHommeCount
+    document.getElementById('congeFemmeCount').innerHTML=persoData.congeFemmeCount
+    document.getElementById('congePrefectoralCount').innerHTML=persoData.congePrefectoralCount
+    document.getElementById('congeGeneralCount').innerHTML=persoData.congeGeneralCount
+
+
+    document.getElementById('congeHommeCountPer').innerHTML=`${persoData.congeHommeCountPer}%`
+    document.getElementById('congeFemmeCountPer').innerHTML=`${persoData.congeFemmeCountPer}%`
+    document.getElementById('congePrefectoralCountPer').innerHTML=`${persoData.congePrefectoralCountPer}%`
+    document.getElementById('congeGeneralCountPer').innerHTML=`${persoData.congeGeneralCountPer}%`
+
+
+    document.getElementById('congeHommeCountPerStyle').style.cssText=`width: ${persoData.congeHommeCountPer}%`
+    document.getElementById('congeFemmeCountPerStyle').style.cssText =`width: ${persoData.congeFemmeCountPer}%`
+    document.getElementById('congePrefectoralCountPerStyle').style.cssText=`width: ${persoData.congePrefectoralCountPer}%`
+    document.getElementById('congeGeneralCountPerStyle').style.cssText=`width: ${persoData.congeGeneralCountPer}%`
+    }
+</script>
+    <script type="text/javascript" src="{% static 'js/Global/validation.js' %}"></script>
+{% endblock content %}

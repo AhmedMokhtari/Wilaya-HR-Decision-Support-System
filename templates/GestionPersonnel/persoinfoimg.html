@@ -1,0 +1,302 @@
+{% extends 'menu.html' %}
+{% block content %}
+    {% load static %}
+    <title>{% block title %} معلومات {% endblock title %}</title>
+    <link rel="stylesheet" href="{% static 'css/font-awesome.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/all.min.css' %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/semantic.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styleconsultation.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200&family=Montserrat:wght@800;900&display=swap" rel="stylesheet">
+    <!-- CSS only -->
+    <style>
+.card-container h1{text-align:center;font-size:2em;font-family: Arial, "Helvetica Neue", Helvetica, sans-serif; color:#ff520f; margin-top:40px;}
+.card-container img{width:100%; height:100%;  border-radius:.25em; box-shadow:0 0 0 2px #fff;}
+ .card-container{
+  -webkit-perspective:1200;
+  -moz-perspective:1200;
+  perspective:1200;
+  border-radius: .25em;
+  text-align: center;
+  margin: 10px;
+}
+.card-vertical{
+  height:300px;
+  width:300px;
+  box-shadow: 0 6px 8px #bbb;
+  -moz-transform-style:preserve-3d;
+  -webkit-transform-style:preserve-3d;
+  transform-style:preserve-3d;
+
+  transition:all .4s ease;
+ }
+.card-front, .card-back{
+  color:#fafafa;
+  height:100%;
+  width:100%;
+  position:absolute;
+  background:#ff5252;
+  -moz-backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  -webkit-transform-style:preserve-3d;
+  -moz-transform-style:preserve-3d;
+  transform-style:preserve-3d;
+ }
+
+.card-back{
+  -moz-transform:rotateY(179.9deg);
+  -webkit-transform:rotateY(179.9deg);
+  transform:rotateY(179.9deg);
+  background:#0cdddd ;
+ }
+
+.card-front-content, .card-back-content{
+  padding:2em;
+  color:white;
+  font-weight: bold;
+  box-sizing:border-box;
+  text-align:center;
+  line-height:2.6em;
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  
+}
+.card-back-content p {
+    color: white;
+    font-size: 16px;
+}
+.card-back-content a {
+    color: white;
+    margin-top: 25px;
+    width: 130px;
+    font-size: 15px;
+    padding: 5px;
+}
+.clippath {
+  clip-path: polygon(0 0, 100% 0, 100% 80%, 0 100%);
+  clip-path: polygon(28% 14%, 74% 4%, 100% 0, 100% 71%, 78% 78%, 33% 91%, 0 100%, 0% 20%);
+  clip-path: polygon(25% 9%, 68% 8%, 100% 0, 100% 71%, 69% 91%, 23% 90%, 0 100%, 0 21%);    
+}
+div.card-back {
+        position: relative;
+    }
+
+    div.card-back a {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        left: 0;
+        text-decoration: none; /* No underlines on the link */
+        z-index: 10; /* Places the link above everything else in the div */
+        background-color: #FFF; /* Fix to make div clickable in IE */
+        opacity: 0; /* Fix to make div clickable in IE */
+        filter: alpha(opacity=1); /* Fix to make div clickable in IE */
+    }
+
+.card-back-hr{
+  -webkit-transform:rotateX(179.9deg);
+  -moz-transform:rotateX(179.9deg);
+  transform:rotateX(179.9deg);
+}
+.card-vertical:hover{
+  -webkit-transform:rotateY(179.9deg);
+  -moz-transform:rotateY(179.9deg);
+  transform:rotateY(179.9deg);
+}
+.card-horizontal:hover{
+  -webkit-transform:rotateX(179.9deg);
+  -moz-transform:rotateX(179.9deg);
+  transform:rotateX(179.9deg);
+}
+
+
+    </style>
+    <form method="get" id="formsearch">
+        <div class="row">   
+            <div class="col-sm-12 col-lg-12 d-flex">
+                <div class="card flex-fill">
+                    <div class="card-header d-flex h-25" id="donneperso">
+                        <h3 class="text-center" dir="ltr">
+                            البحث
+                        </h3>
+                        <hr>
+                    </div>
+                    <hr>
+                    <div class="card-body" id="persocard">
+                        <div class="row mr-2">
+                            <div class="row">
+                                <div class="col-md-10">
+                                    <label class="texts float-right" for="entite"> الوحدة الإدارية :</label>
+                                    <select class="form-control text-center" id="entite" name="entite"  required>
+                                        <option value="" style="display: none"></option>
+                                        {% for entite in entites %}
+                                            <option>{{ entite.libelleentitefr}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <br class="divisiondiv">
+                            <div class="row divisiondiv">
+                                <div class="col-md-10">
+                                    <label class="texts float-right" for="division"> القسم :</label>
+                                    <select class="form-control text-center" id="division" name="division">
+
+                                    </select>
+                                </div>
+                            </div>
+
+                            <br class="districtpashalikdiv">
+                            <div class="row districtpashalikdiv">
+                                <div class="col-md-10">
+                                    <label class="texts float-right" for="districtpashalik"> المقاطعة او الباشوية:</label>
+                                    <select class="form-control text-center" id="districtpashalik" name="districtpashalik">
+                                        <option value="" id="iddps" style="display: none"></option>
+                                        <option>District</option>
+                                        <option>Pashalik</option>
+                                        <option>Cercle</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <br class="cerclediv">
+                            <div class="row cerclediv">
+                                <div class="col-md-10">
+                                    <label class="texts float-right" for="cercle"> الدائرة :</label>
+                                    <select class="form-control text-center" id="cercle" name="cercle">
+                                        <option id="idcercle" style="display: none"></option>
+                                        {% for cercle in cercles %}
+                                            <option value="{{ cercle.idcercle}}">{{ cercle.libellecerclefr }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <br class="caidadiv">
+                            <div class="row caidadiv">
+                                <div class="col-md-10">
+                                    <label class="texts float-right" for="caida"> القيادة :</label>
+                                    <select class="form-control text-center" id="caida" name="caida">
+
+                                    </select>
+                                </div>
+                            </div>
+
+                            <br class="districtdiv">
+                            <div class="row districtdiv">
+                                <div class="col-md-10">
+                                    <label class="texts float-right" for="district"> المقاطعة :</label>
+                                    <select class="form-control text-center" id="district" name="district">
+                                        <option  value="" id="iddistrict" style="display: none"></option>
+                                        {% for district in districts %}
+                                            <option value="{{ district.iddistrict }}">{{ district.libelledistrictfr }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <br class="pashalikdiv">
+                            <div class="row pashalikdiv">
+                                <div class="col-md-10">
+                                    <label class="texts float-right" for="pashalik"> الباشوية :</label>
+                                    <select class="form-control text-center" id="pashalik" name="pashalik">
+                                        <option value="" id="idpashalik" style="display: none"></option>
+                                        {% for pashalik in pashaliks %}
+                                            <option value="{{ pashalik.idpashalik }}">{{ pashalik.libellepashalikfr}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <br class="annexediv">
+                            <div class="row annexediv">
+
+                                <div class="col-md-10">
+                                    <label class="texts float-right" for="annexe"> ملحقة إدارية :</label>
+                                    <select class="form-control text-center" id="annexe" name="annexe">
+
+                                    </select>
+                                </div>
+                            </div>
+
+                            <br class="servicediv">
+                            <div class="row servicediv">
+                                <div class="col-md-10">
+                                    <label class="texts float-right" for="service"> إدارة :</label>
+                                    <select class="form-control text-center" id="service" name="service">
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <hr>
+                        <br>
+                        <div class="row">
+                        <div class="row mr-2">
+                                <div class="col-md-10">
+                                    <label class="texts float-right" for="statutgrade"> حالة الدرجة :</label>
+                                    <select class="form-control text-center" name="statutgrade" id="statutgrade" required>
+                                            <option  id="op1" value="-1" style="display: none"></option>
+                                        {% for statut in statutgrades %}
+                                            <option value="{{ statut.idstatutgrade }}">{{ statut.statutgradear }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <label class="texts float-right" for="grade"> الدرجة :</label>
+                                        <select class="form-control text-center" name="grade" id="grade"  required>
+                                        </select>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <hr>
+                        <br>
+                        <div class="row">
+                            <div class="col-1"><label class="texts form-check-inline">الجنس &nbsp;:</label></div>
+                            <div class="col-3">
+                                <label class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="radioGenre" value="Homme"/>
+                                    <span class="form-check-label"> &nbsp; ذكر </span>
+                                </label>
+                            </div>
+                            <div class="col-3">
+                                <label class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="radioGenre" value="Femme"/>
+                                    <span class="form-check-label">  &nbsp; أنثى </span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-xl-12 ">
+                    <div class="card shadow p-3 ">
+                        <div class="card-header">
+                            <h3 class="text-right" style="font-weight: bold;font-size: 20px;"><strong>الموضفين</strong></h3>
+                            <br>
+                        </div>
+                        <div class="col-12 col-lg-12 col-xxl-12 d-flex ">
+                            <div class="row" id="imglist">
+                                
+                            </div>
+                        </div>
+                    </div>
+            </div>
+         </div>
+    </form>
+<script>
+    var url0 = "{% url 'ajaxajouterloadannexe' %}"
+    var url1 = "{% url 'ajaxajouterloadgrade' %}";
+    var url2 = "{% url 'ajaxajouterloadechellon' %}";
+    var url3 = "{% url 'ajaxajouterloadsevice' %}";
+    const url4 = "{% url 'ajaxajouterloadcaida' %}";
+    const url6 = "{% url 'ajaxajouterloaddivision' %}"
+</script>
+<script type="text/javascript" src="{% static 'js/GestionPersonnel/filterimg.js' %}"></script>
+<script src="{% static 'js/semantic.min.js' %}"></script>
+{% endblock %} 
