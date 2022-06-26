@@ -22,9 +22,49 @@ from dateutil.relativedelta import relativedelta
 @login_required(login_url='/')
 @csrf_exempt
 def tboardavancement(request):
-    """objavancememnt = Avencement.objects.filter(dateechellon__year = datetime.now().year).filter(not idechellon_field__echellon='11')"""
-    return render(request, "GestionAvancement/tboardavancement.html")
+    objavancememnt = Avencement.objects.filter(dateechellon__year = datetime.now().year).filter(~Q(idechellon_field__echellon='11')).count()
+    objavancememntexceptionnel = Avencement.objects.filter(dateechellon__year=datetime.now().year).filter(idechellon_field__echellon='11').count()
+    return render(request, "GestionAvancement/tboardavancement.html", {'objavancememnt': objavancememnt, 'objavancememntexceptionnel':objavancememntexceptionnel})
 
+@login_required(login_url='/')
+@csrf_exempt
+def tboardavancementloadorga(request):
+    i = 0
+    datawarehouse = []
+    if(request.POST.get('anneeorga', None)!= None):
+        if(request.POST.get('anneeorga', None) == 1):
+            while(i<=2):
+                datamart = {'pashalik': Avencement.objects.filter(dateechellon__year=datetime.now().year - i).filter(
+                    idpersonnel_field__organisme="Pashalik").count(),
+                            'service': Avencement.objects.filter(dateechellon__year=datetime.now().year - i).filter(
+                                idpersonnel_field__organisme="Service").count(),
+                            'cercle': Avencement.objects.filter(dateechellon__year=datetime.now().year - i).filter(
+                                idpersonnel_field__organisme="Cercle").count(),
+                            'annexe': Avencement.objects.filter(dateechellon__year=datetime.now().year - i).filter(
+                                idpersonnel_field__organisme="Annexe").count(),
+                            'caidat': Avencement.objects.filter(dateechellon__year=datetime.now().year - i).filter(
+                                idpersonnel_field__organisme="Caidat").count(),
+                            }
+                datawarehouse.append(datamart)
+                i = i +1
+        else:
+            while (i <= 4):
+                datamart = {'pashalik': Avencement.objects.filter(dateechellon__year=datetime.now().year - i).filter(
+                    idpersonnel_field__organisme="Pashalik").count(),
+                    'service': Avencement.objects.filter(dateechellon__year=datetime.now().year - i).filter(
+                        idpersonnel_field__organisme="Service").count(),
+                    'cercle': Avencement.objects.filter(dateechellon__year=datetime.now().year - i).filter(
+                        idpersonnel_field__organisme="Cercle").count(),
+                    'annexe': Avencement.objects.filter(dateechellon__year=datetime.now().year - i).filter(
+                        idpersonnel_field__organisme="Annexe").count(),
+                    'caidat': Avencement.objects.filter(dateechellon__year=datetime.now().year - i).filter(
+                        idpersonnel_field__organisme="Caidat").count(),
+                    'Annee': datetime.now().year - i
+                }
+                datawarehouse.append(datamart)
+                i = i + 1
+
+    return JsonResponse(datawarehouse, safe=False)
 
 @login_required(login_url='/')
 @csrf_exempt

@@ -642,6 +642,7 @@ def filter_stagiaire(request, *args, **kwargs):
                 liststagiaire.append({'stage': stageobj, 'statut': 'Pas commencer'})
     data = json.dumps(liststagiaire)
     return JsonResponse({'data': data})
+
 def ajouter(request):
     divisions = Division.objects.all()
     if request.method == 'POST':
@@ -702,7 +703,7 @@ def modifier(request,id):
 
 def infostage(request, id):
     stagiaire = Stage.objects.get(idstage=id)
-    return render(request,'GestionStagiaire/infostagiaire.html',{'stagiaire':stagiaire})
+    return render(request, 'GestionStagiaire/infostagiaire.html',{'stagiaire': stagiaire})
 
 def tboardstagiaire(request):
     counthommes = Stage.objects.filter(sexe='Homme-ذكر').count()
