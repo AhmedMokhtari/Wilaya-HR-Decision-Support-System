@@ -2,9 +2,7 @@
 {% block content %}
     {% load static %}
     <title>{% block title %}لوحة القيادة{% endblock title %}</title>
-    <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="{% static 'css/all.min.css' %}"/>
-    <link href="assets/css/feather.css" rel="stylesheet" type="text/css">
     <style >
     .shadow{
         box-shadow: 0 0.3rem 0.9rem rgb(5 92 98 / 14%) !important;
@@ -74,37 +72,10 @@
             </div>
         </div>
     </div>
-
-
-     <script type="text/javascript" src="{% static 'js/GestionAvancement/loader.js' %}"></script>
-    <script type="text/javascript">
-      google.charts.load('current', {'packages':['corechart']});
-      google.charts.setOnLoadCallback(drawChart);
-
-      function drawChart() {
-        var data = google.visualization.arrayToDataTable([
-          ['السنة', 'الترقية العادية', 'الترقية الإستثنائية'],
-          ['2018',  60,      40],
-          ['2019',  117,      46],
-          ['2020',  66,       112],
-          ['2021',  103,      54]
-        ]);
-
-        var options = {
-          title: 'عدد المترقين في السنة',
-          hAxis: {title: 'السنة',  titleTextStyle: {color: '#333'}},
-          vAxis: {minValue: 0, title: 'الموضفون'}
-        };
-
-        var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
-        chart.draw(data, options);
-      }
-    </script>
-    <script type="text/javascript">
-
-    </script>
+    <script type="text/javascript" src="{% static 'js/GestionAvancement/loader.js' %}"></script>
     <script>
     var url1= "{% url 'tboardavancementloadorga' %}";
+    var url2= "{% url 'tboardavancementloadannee' %}";
     </script>
     <script type="text/javascript" src="{% static 'js/GestionAvancement/tboard.js' %}"></script>
 {% endblock %}

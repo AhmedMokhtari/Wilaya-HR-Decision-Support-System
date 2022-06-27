@@ -63,7 +63,38 @@ def tboardavancementloadorga(request):
                 }
                 datawarehouse.append(datamart)
                 i = i + 1
+    return JsonResponse(datawarehouse, safe=False)
 
+@login_required(login_url='/')
+@csrf_exempt
+def tboardavancementloadannee(request):
+    i = 0
+    datawarehouse = []
+    print(request.POST.get('annee', None))
+
+    if(request.POST.get('annee', None)!= None):
+        if(request.POST.get('annee', None) == 1):
+            while(i<=2):
+                datamart = {
+                    'countNormal': Avencement.objects.filter(dateechellon__year=datetime.now().year - i).filter(
+                        ~Q(idechellon_field__echellon='11')).count(),
+                    'countExcep': Avencement.objects.filter(dateechellon__year=datetime.now().year - i).filter(
+                        idechellon_field__echellon='11').count(),
+                    'Annee': datetime.now().year - i
+                            }
+                datawarehouse.append(datamart)
+                i = i +1
+        else:
+            while (i <= 4):
+                datamart = {
+                    'countNormal': Avencement.objects.filter(dateechellon__year=datetime.now().year - i).filter(
+                        ~Q(idechellon_field__echellon='11')).count(),
+                    'countExcep': Avencement.objects.filter(dateechellon__year=datetime.now().year - i).filter(
+                        idechellon_field__echellon='11').count(),
+                    'Annee': datetime.now().year - i
+                }
+                datawarehouse.append(datamart)
+                i = i + 1
     return JsonResponse(datawarehouse, safe=False)
 
 @login_required(login_url='/')
@@ -298,7 +329,7 @@ def loadpersonnelavancement(request):
         datawarehouse.append(datamart)
     return JsonResponse(datawarehouse, safe=False)
 
-
+@login_required(login_url='/')
 def avancementexceptionel(request):
     """personnel = Personnel.objects.all()
         for item in personnel:
@@ -382,6 +413,7 @@ def loadpersonnelavancementexeptionnel(request):
     dataw = sorted(dataw, key=lambda x: x['datefin'])
     return JsonResponse({'datawarehouse': dataw, 'calcule': calcule}, safe=False)
 
+@login_required(login_url='/')
 def ajaxannee(req,*args, **kwargs):
     cinPerso=kwargs.get('obj')
     personnel=Personnel.objects.get(cin=cinPerso)
@@ -403,6 +435,7 @@ def ajaxannee(req,*args, **kwargs):
 
 
 # filter -------------------------------.
+@login_required(login_url='/')
 @login_required(login_url='/connexion')
 def filter(request, *args, **kwargs):
     selected_obj = kwargs.get('obj')
@@ -647,6 +680,7 @@ def filter(request, *args, **kwargs):
     data=json.dumps(listPerso)
     return JsonResponse({'data': data})
 
+@login_required(login_url='/')
 @login_required(login_url='/connexion')
 def get_json_perso_year_empty(request, *args, **kwargs):
     selected_obj = kwargs.get('obj')
@@ -894,7 +928,7 @@ def get_json_perso_year_empty(request, *args, **kwargs):
     return JsonResponse({'data': data})
 
 
-
+@login_required(login_url='/')
 def pdfavencement(request, id):
     grade = Grade.objects.get(idgrade=id)
     annee = str(datetime.now().year)
@@ -1046,7 +1080,7 @@ def pdfavencement(request, id):
     return response
 
 
-
+@login_required(login_url='/')
 def pdfavencementexceptionnel(request):
     grade = Grade.objects.get(idgrade=request.GET.get('id', None))
     annee = str(datetime.now().year)

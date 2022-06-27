@@ -22,4 +22,5 @@ urlpatterns = [
     path('ajouteravancementexceptionnel', views.ajouteravancementexceptionnel, name='ajouteravancementexceptionnel'),
     path('tboardavancement', views.tboardavancement, name='tboardavancement'),
     path('tboardavancementloadorga', views.tboardavancementloadorga, name='tboardavancementloadorga'),
+    path('tboardavancementloadannee', views.tboardavancementloadannee, name='tboardavancementloadannee'),
 ]

@@ -1,5 +1,5 @@
 window.onload = function () {
-    selanneeorga = document.getElementById('anneeorga')
+    var selanneeorga = document.getElementById('anneeorga')
      function ajaxload(){
         $.ajax(
             {
@@ -68,5 +68,69 @@ window.onload = function () {
             });
     }
     ajaxload()
-    selanneeorga.addEventListener('click',ajaxload)
+    selanneeorga.addEventListener('change',ajaxload)
+
+
+    var selannee = document.getElementById('annee')
+     function ajaxloadannee()
+     {
+
+        $.ajax(
+            {
+                type: "POST",
+                url: url2,
+                data: {annee: selannee.value},
+                success: function (response) {
+                    console.log(response)
+                    if(selannee.value==2)
+                    {
+                            google.charts.load('current', {'packages':['corechart']});
+                            google.charts.setOnLoadCallback(drawChart);
+                          function drawChart()
+                          {
+                            var data = google.visualization.arrayToDataTable([
+                              ['السنة', 'الترقية العادية', 'الترقية الإستثنائية'],
+                                [response[0].Annee.toString(),response[0].countNormal,response[0].countExcep],
+                                [response[1].Annee.toString(),response[1].countNormal,response[1].countExcep],
+                                [response[2].Annee.toString(),response[2].countNormal,response[2].countExcep],
+                                [response[3].Annee.toString(),response[3].countNormal,response[3].countExcep],
+                            ]);
+
+                            var options = {
+                              title: 'عدد المترقين في السنة',
+                              hAxis: {title: 'السنة',  titleTextStyle: {color: '#333'}},
+                              vAxis: {minValue: 0, title: 'الموضفون'}
+                            };
+
+                            var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
+                            chart.draw(data, options);
+                          }
+                    }
+                    else
+                    {
+                        google.charts.load('current', {'packages':['corechart']});
+                            google.charts.setOnLoadCallback(drawChart);
+                          function drawChart()
+                          {
+                            var data = google.visualization.arrayToDataTable([
+                              ['السنة', 'الترقية العادية', 'الترقية الإستثنائية'],
+                                [response[0].Annee.toString(),response[0].countNormal,response[0].countExcep],
+                                [response[1].Annee.toString(),response[1].countNormal,response[1].countExcep],
+                            ]);
+
+                            var options = {
+                              title: 'عدد المترقين في السنة',
+                              hAxis: {title: 'السنة',  titleTextStyle: {color: '#333'}},
+                              vAxis: {minValue: 0, title: 'الموضفون'}
+                            };
+
+                            var chart = new google.visualization.AreaChart(document.getElementById('chart_div'));
+                            chart.draw(data, options);
+                          }
+                    }
+                }
+            });
+    }
+    ajaxloadannee()
+    selannee.addEventListener('change',ajaxloadannee)
 }
